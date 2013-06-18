@@ -15,6 +15,11 @@ Credits
 	Yang Li () SVGWeb integration
 	Patrick Ruzand (pruzand@gmail.com)
 
+Licensing
+---------
+
+This project is distributed by the Dojo Foundation and licensed under the Dojo dual license BSD/AFLv2 license. All contributions require a Dojo Foundation CLA.
+
 Dependencies and Installation
 -----------------------------
 
