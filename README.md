@@ -30,16 +30,26 @@ So the directory structure should look like the following:
     parentDir
         dijit                    Dojo widgets (for tests/demos)
         dojo                     Dojo core
-        dojox
-            string
-                BidiEngine.js    (for Bidi support)
+        dojox                    (see below)
         gfx                      this repository
         util
             doh                  DOH test framework (for tests/demos)
 
+Uses of legacy DojoX Modules
+----------------------------
+
+The GFX library code has the following dependencies:
+- gfx/_gfxBidiSupport requires dojox/string/BidiEngine,
+- gfx/VectorText (likely to be removed in 2.0) requires dojox/html/metrics and dojox/xml/DomParser.
+
+So, applications not using these 2 modules are already completely independent of legacy dojox code.
+
+In addition, some performance tests require dojox/charting (and, indirectly, the legacy dojox/gfx) to display results.
+
 Current Status
 --------------
 
-The initial code is a copy of the Dojo 1.9 code, with the following changes:
+The current code is a copy of the Dojo 1.9 code, with the following changes:
 - The VML, and Silverlight renderers have been removed, as well as the SVGWeb support in the SVG renderer.
 - The gfx namespace is changed to the toplevel gfx namespace.
+- All demos and tests have been converted to AMD loader syntax and HTML5 compliant attributes (data-dojo-*).

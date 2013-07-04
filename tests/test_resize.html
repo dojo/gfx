@@ -1,42 +1,46 @@
 ﻿<html>
 <head>
-<title>Testing surface resizing</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<style type="text/css">
-	@import "../../dojo/resources/dojo.css";
-	@import "../../dijit/tests/css/dijitTests.css";
-</style>
-<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
-<script type="text/javascript">
-dojo.require("gfx.main");
-dojo.require("gfx.shape");
-dojo.require("gfx.path");
-dojo.require("gfx.arc");
+	<title>Testing surface resizing</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../../dijit/tests/css/dijitTests.css";
+	</style>
+	<script type="text/javascript" src="../../dojo/dojo.js"
+			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+	<script type="text/javascript">
+		require([
+			"dojo/ready",
+			"gfx"
+		], function(ready, gfx){
+			createSurface = function(){
+				surface = gfx.createSurface("test", 500, 500);
+				surface.whenLoaded(makeShapes);
+			};
 
-var surface;
+			makeShapes = function(){
+				surface.createRect({width:300, height:300}).setFill([255, 0, 0, 0.3]).setStroke("red");
+				surface.createRect({x:200, y:200, width:300, height:300}).setFill([0, 0, 255, 0.3]).setStroke("green");
+			};
 
-createSurface = function(){
-	surface = gfx.createSurface("test", 500, 500);
-	surface.whenLoaded(makeShapes);
-};
+			getDim = function(){
+				var t = surface.getDimensions();
+				alert("dimensions: " + t.width + " by " + t.height);
+			};
 
-makeShapes = function(){
-	surface.createRect({width: 300, height: 300}).setFill([255, 0, 0, 0.3]).setStroke("red");
-	surface.createRect({x: 200, y: 200, width: 300, height: 300}).setFill([0, 0, 255, 0.3]).setStroke("green");
-};
+			make500x500 = function(){
+				surface.setDimensions(500, 500);
+			};
+			make400x400 = function(){
+				surface.setDimensions(400, 400);
+			};
+			make300x300 = function(){
+				surface.setDimensions(300, 300);
+			};
 
-getDim = function(){
-	var t = surface.getDimensions();
-	alert("dimensions: " + t.width + " by " + t.height);
-};
-
-make500x500 = function(){ surface.setDimensions(500, 500); };
-make400x400 = function(){ surface.setDimensions(400, 400); };
-make300x300 = function(){ surface.setDimensions(300, 300); };
-
-dojo.addOnLoad(createSurface);
-
-</script>
+			ready(createSurface);
+		});
+	</script>
 </head>
 <body>
 <h1>Testing surface resizing</h1>

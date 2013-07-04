@@ -1,8 +1,7 @@
-dojo.provide("gfx.tests.decompose");
-dojo.require("gfx.decompose");
-
-(function(){
-	var m = gfx.matrix;
+define([
+	"gfx/decompose",
+	"gfx/matrix"
+], function(decompose, m){
 	var eq = function(t, a, b){ t.t(2 * Math.abs(a - b) / ((a < 1 && b < 1) ? 1 : a + b) < 1e-6); };
 	var eqM = function(t, a, b){
 		eq(t, a.xx, b.xx);
@@ -21,7 +20,7 @@ dojo.require("gfx.decompose");
 		]);
 	};
 	var reconstruct = function(a){
-		return compose(gfx.decompose(a));
+		return compose(decompose(a));
 	};
 	var compare = function(t, a){
 		var A = m.normalize(a);
@@ -107,4 +106,4 @@ dojo.require("gfx.decompose");
 			compare(t, [m.rotateAt(35, 13, 27), m.scale(-3, -1), m.rotateAt(-15, 163, -287)]);
 		}
 	]);
-})();
+});

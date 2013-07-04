@@ -208,9 +208,9 @@
 	<!-- you can put any content you want in there -->
 	<li id="warn2">
 		Tooltip + Button
-		<div attachId="warn2" id="warn2tt" dojoType="demo.Tooltip">
+		<div attachId="warn2" id="warn2tt" data-dojo-type="demo.Tooltip">
 			<p style="margin-top:0">Canvas renderer doesn't implement event handling.
-				<button dojoType="dijit/form/Button">
+				<button data-dojo-type="dijit/form/Button">
 					Button
 					<script type="dojo/method" data-dojo-event="onClick">
 						alert(" woo hoo! ");
@@ -224,7 +224,7 @@
 	<!-- a simple tooltip -->
 	<li id="warn1">
 		Hover trigger / persists
-		<div persists="true" attachId="warn1" dojoType="demo.Tooltip">Canvas renderer doesn't implement event
+		<div persists="true" data-dojo-type="demo.Tooltip" data-dojo-props="attachId:'warn1'">Canvas renderer doesn't implement event
 			handling.
 		</div>
 	</li>
@@ -235,14 +235,14 @@
 	<li class="multitip">Trigger two</li>
 
 	<li><a href="#" onclick="var e = arguments[0]; require(['dijit/registry'], function(r){ r.byId('nohover')._show(e); });">show this way
-		<label dojoType="demo.Tooltip" attachParent="true" attachHover="false" id="nohover">some text</label>
+		<label data-dojo-type="demo.Tooltip" data-dojo-props="attachParent:true, attachHover:false, id:'nohover'">some text</label>
 	</a>
 	</li>
 
 	<!-- attachParent makes the tooltip look for domNode.parentNode before moving to body() -->
 	<li>
 		Parent Attached Tooltip
-		<div attachParent="true" persists="true" dojoType="demo.Tooltip">
+		<div attachParent="true" data-dojo-type="demo.Tooltip" data-dojo-props="persists:true" >
 			<form id="fooForm">
 				<p style="margin-top:0;">
 					Name:<br> <input type="text" name="username" style="border:1px solid #ededed"/><br>
@@ -255,7 +255,7 @@
 </ul>
 
 <!-- attach a single tooltip message to a number of nodes at once -->
-<div attachQuery=".multitip" dojoType="demo.Tooltip">Canvas renderer doesn't implement event handling. (shared
+<div data-dojo-type="demo.Tooltip" data-dojo-props="attachQuery:'.multitip'">Canvas renderer doesn't implement event handling. (shared
 	tooltip)
 </div>
 

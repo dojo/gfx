@@ -115,7 +115,8 @@
 
 <h1>Some gfx + ContentPane's</h1>
 
-<div dojoType="my.RoundedContentPane" radius="55" title="Pane 2" style="width:200px; height:400px; float:right">
+<div data-dojo-type="my.RoundedContentPane" data-dojo-props="radius:55, title:'Pane 2'"
+	 style="width:200px; height:400px; float:right">
 	<h3>YO!</h3>
 
 	<p>lorem</p>
@@ -167,7 +168,7 @@
 	<p>lorem</p>
 </div>
 
-<div style="width:400px; height:200px;" dojoType="my.RoundedContentPane">
+<div style="width:400px; height:200px;" data-dojo-type="my.RoundedContentPane">
 	LOREM, ipsum, dollllllllllor:
 	.roundedContent {
 	padding: 31px;
@@ -254,13 +255,14 @@
 </div>
 
 
-<div radius="45" style="width:400px; height:200px;" moveable="true" dojoType="my.RoundedContentPane" handle=".myHandle">
+<div radius="45" style="width:400px; height:200px;"
+	 data-dojo-type="my.RoundedContentPane" data-dojo-props="moveable:true, handle:'.myHandle'">
 	<h4 class="myHandle" style="cursor:move; margin-top:0; border:1px solid #666">Moveable Handle</h4>
 	LOREM, ipsum, dollllllllllor:
 </div>
 
 
-<div dojoType="my.RoundedContentPane" title="Pane 1" moveable="true" style="width:100px; height:100px;">
+<div data-dojo-type="my.RoundedContentPane" data-dojo-props="moveable:true, title:'Pane 1'" style="width:100px; height:100px;">
 	lorem ipsum (small moveable)
 </div>
 

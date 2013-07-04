@@ -1,38 +1,39 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 		"http://www.w3.org/TR/html4/strict.dtd">
 <html>
-	<head>
-		<title>GFX Test: Test the functions defined in _base</title>
-		<style type="text/css">
-			@import "../../dojo/resources/dojo.css";
-			@import "../../dijit/tests/css/dijitTests.css";
-		</style>
-		<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
-		<script type="text/javascript" src="../../util/doh/runner.js"></script>
-		<script type="text/javascript">
-			dojo.require("doh.runner");
-			dojo.require("gfx.main");
-			dojo.require("gfx._base");
-		</script>
-		<script type="text/javascript">
-			dojo.addOnLoad(function(){
+<head>
+	<title>GFX Test: Test the functions defined in _base</title>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../../dijit/tests/css/dijitTests.css";
+	</style>
+	<script type="text/javascript" src="../../dojo/dojo.js"
+			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
+	<script type="text/javascript">
+		require([
+			"doh/runner",
+			"dojo/dom",
+			"dojo/ready",
+			"gfx"
+		], function(doh, dom, ready, gfx){
+			ready(function(){
 				var drawing, t;
 				doh.register("GFX: _base Tests", [
 					{
-						name: "splitFontString",
-						timeout: 1000,
-						setUp: function(){
+						name:"splitFontString",
+						timeout:1000,
+						setUp:function(){
 							if(!drawing){
-								var dn = dojo.byId("gfxObject");
+								var dn = dom.byId("gfxObject");
 								drawing = gfx.createSurface(dn, 300, 300);
-								t = drawing.createText({ 
-									 x: 100,
-									 y: 100,
-									 text:"Hello Gfx!"
+								t = drawing.createText({
+									x:100,
+									y:100,
+									text:"Hello Gfx!"
 								}).setFill("black");
 							}
 						},
-						runTest: function(){
+						runTest:function(){
 							var d = new doh.Deferred();
 							try{
 								var s = "italic small-caps bold 12px arial,sans-serif";
@@ -59,17 +60,18 @@
 								doh.assertEqual("150%", font.size, "Unexpected values for font size.");
 								doh.assertEqual("arial", font.family, "Unexpected values for font family.");
 								t.setFont(s);
-								
+
 								d.callback(true);
 							}catch(e){
 								d.errback(e);
 							}
 							return d;
 						}
-					},{
-						name: "makeFontString",
-						timeout: 1000,
-						runTest: function(){
+					},
+					{
+						name:"makeFontString",
+						timeout:1000,
+						runTest:function(){
 							var d = new doh.Deferred();
 							try{
 								var font = gfx.makeFontString({
@@ -81,23 +83,24 @@
 								});
 								var expected = "italic small-caps bold 12px arial,sans-serif";
 								doh.assertEqual(expected, font, "Unexpected value for font sting.");
-								
+
 								d.callback(true);
 							}catch(e){
 								d.errback(e);
 							}
 							return d;
 						}
-					},{
-						name: "_isRendered",
-						timeout: 1000,
-						setUp: function(){
+					},
+					{
+						name:"_isRendered",
+						timeout:1000,
+						setUp:function(){
 							if(!drawing){
-								var dn = dojo.byId("gfxObject");
+								var dn = dom.byId("gfxObject");
 								drawing = gfx.createSurface(dn, 300, 300);
 							}
 						},
-						runTest: function(t){
+						runTest:function(t){
 							var g = drawing.createGroup();
 							var rect = g.createRect();
 							t.assertTrue(gfx._base._isRendered(rect), "Unexpected value for parented rect.");
@@ -109,9 +112,10 @@
 				]);
 				doh.run();
 			});
-			</script>
-	</head>
-	<body>
-		<div id="gfxObject" style="width: 500px; height: 500px;font-weight:bold;"></div>
-	</body>
+		});
+	</script>
+</head>
+<body>
+<div id="gfxObject" style="width: 500px; height: 500px;font-weight:bold;"></div>
+</body>
 </html>

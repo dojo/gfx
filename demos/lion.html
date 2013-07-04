@@ -212,16 +212,18 @@
 	</tr>
 	<tr>
 		<td>
-			<div id="rotatingSlider" dojoType="dijit/form/HorizontalSlider"
-				 value="0" minimum="-180" maximum="180" discreteValues="72" showButtons="false"
-				 intermediateChanges="true"
+			<div id="rotatingSlider" data-dojo-type="dijit/form/HorizontalSlider"
+				 data-dojo-props="value:0, minimum:-180, maximum:180, discreteValues:72, showButtons:false, intermediateChanges:true"
 				 style="width: 600px;">
-				<div dojoType="dijit/form/HorizontalRule" container="topDecoration" count="73"
+				<div data-dojo-type="dijit/form/HorizontalRule"
+					 data-dojo-props="container:'topDecoration', count:73"
 					 style="height:5px;"></div>
-				<div dojoType="dijit/form/HorizontalRule" container="bottomDecoration" count="9"
+				<div data-dojo-type="dijit/form/HorizontalRule"
+					 data-dojo-props="container:'bottomDecoration', count:9"
 					 style="height:5px;"></div>
-				<div dojoType="dijit/form/HorizontalRuleLabels" container="bottomDecoration"
-					 labels="-180,-135,-90,-45,0,45,90,135,180" style="height:1.2em;font-size:75%;color:gray;"></div>
+				<div data-dojo-type="dijit/form/HorizontalRuleLabels"
+					 data-dojo-props="container:'bottomDecoration', labels:[-180,-135,-90,-45,0,45,90,135,180]"
+					 style="height:1.2em;font-size:75%;color:gray;"></div>
 			</div>
 		</td>
 	</tr>
@@ -230,13 +232,15 @@
 	</tr>
 	<tr>
 		<td>
-			<div id="scalingSlider" dojoType="dijit/form/HorizontalSlider"
-				 value="1" minimum="0" maximum="1" showButtons="false" intermediateChanges="true"
+			<div id="scalingSlider" data-dojo-type="dijit/form/HorizontalSlider"
+				 data-dojo-props="intermediateChanges:true, value:1, minimum:0, maximum:1, showButtons:false"
 				 style="width: 600px;">
-				<div dojoType="dijit/form/HorizontalRule" container="bottomDecoration" count="5"
+				<div data-dojo-type="dijit/form/HorizontalRule"
+					 data-dojo-props="container:'bottomDecoration', count:5"
 					 style="height:5px;"></div>
-				<div dojoType="dijit/form/HorizontalRuleLabels" container="bottomDecoration"
-					 labels="10%,18%,32%,56%,100%" style="height:1.2em;font-size:75%;color:gray;"></div>
+				<div data-dojo-type="dijit/form/HorizontalRuleLabels"
+					 data-dojo-props="container:'bottomDecoration', labels:['10&#37;','18&#37;','32&#37;','56&#37;','100&#37;']"
+					 style="height:1.2em;font-size:75%;color:gray;"></div>
 			</div>
 		</td>
 	</tr>

@@ -1,8 +1,6 @@
-dojo.provide("gfx.tests.matrix");
-dojo.require("gfx.matrix");
-
-(function(){
-	var m = gfx.matrix;
+define([
+	"gfx/matrix"
+], function(m){
 	var eq = function(t, a, b){ t.t(2 * Math.abs(a - b) / ((a < 1 && b < 1) ? 1 : a + b) < 1e-6); };
 	tests.register("gfx.tests.matrix", [
 		function IdentityTest(t){
@@ -258,4 +256,4 @@ dojo.require("gfx.matrix");
 		}
 		
 	]);
-})();
+});

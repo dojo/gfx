@@ -6,12 +6,17 @@
 	@import "../../../dojo/resources/dojo.css";
 	@import "../../../dijit/tests/css/dijitTests.css";
 </style>
-<script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
+<script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
 <script type="text/javascript" src="../../../util/doh/runner.js"></script>
 <script type="text/javascript">
-	dojo.require("doh.runner");
-	dojo.require("gfx.main");
-	
+require([
+	"dojo/ready",
+	"doh/runner",
+	"gfx",
+	"gfx/matrix",
+	"dojo/_base/Color"
+], function(ready, doh, gfx, gfxMatrix, Color){
+
 	var surface;
 	createSurface = function(){
 		surface = gfx.createSurface("test", 700, 700);
@@ -34,7 +39,7 @@
 		}else{
             angle = angle - 180;
 		}
-		if(gfxGroup){ gfxGroup.setTransform([gfx.matrix.rotategAt(angle, 350, 350), matrix]); }
+		if(gfxGroup){ gfxGroup.setTransform([gfxMatrix.rotategAt(angle, 350, 350), matrix]); }
 	};
 
 
@@ -45,7 +50,7 @@
 		}
         scaling = scaling/100;
         scaling = Math.exp(Math.LN10 * (scaling - 1));
-		if(gfxGroup){ gfxGroup.setTransform([gfx.matrix.scaleAt(scaling, 350, 350), matrix]); }
+		if(gfxGroup){ gfxGroup.setTransform([gfxMatrix.scaleAt(scaling, 350, 350), matrix]); }
 	};
 
 	var scaleAndRotateTiger = function(){
@@ -61,11 +66,11 @@
 		}else{
             angle = angle - 180;
 		}
-		if(gfxGroup){ gfxGroup.setTransform([gfx.matrix.rotategAt(angle, 350, 350), gfx.matrix.scaleAt(scaling, 350, 350), matrix]); }
+		if(gfxGroup){ gfxGroup.setTransform([gfxMatrix.rotategAt(angle, 350, 350), gfxMatrix.scaleAt(scaling, 350, 350), matrix]); }
 	};
 
 
-	dojo.addOnLoad(function(){
+	ready(function(){
     	doh.register("gfx.scenes.performance", [
 			{
 				name: "Draw Tiger",
@@ -82,7 +87,7 @@
                 runTest: function(){
 					var f, g;
                     surface.clear();
-					var initial_matrix = gfx.matrix.translate(250, 250);
+					var initial_matrix = gfxMatrix.translate(250, 250);
 					surface.createRect({x: 0, y: 0, width: 700, height: 700}).setFill("#eee");
 					g = surface.createGroup().setTransform(initial_matrix);
 					var s = {color: "black", width: 1};
@@ -583,7 +588,7 @@
                 runTest: function(){
 					var f, g;
                     surface.clear();
-					var m = gfx.matrix;
+					var m = gfxMatrix;
 					var initial_matrix = m.normalize([m.rotateg(10), m.translate(300, 100)]);
 					surface.createRect({x: 0, y: 0, width: 700, height: 700}).setFill("#eee");
 					g = surface.createGroup().setTransform(initial_matrix);
@@ -591,7 +596,7 @@
 					g.createPolyline([142,79,136,74,138,82,133,78,133,84,127,78,128,85,124,80,125,87,119,82,119,90,125,99,125,96,128,100,128,94,131,98,132,93,135,97,136,93,138,97,139,94,141,98,143,94,144,85]).setFill("#e5b27f");
 					g.createPolyline([127,101,132,100,137,99,144,101,143,105,135,110]).setFill("#eb8080");
 					g.createPolyline([178,229,157,248,139,296,126,349,137,356,158,357,183,342,212,332,235,288,235,261,228,252,212,250,188,251]).setFill("#f2cc99");
-					var c = new dojo.Color("#9c826b");
+					var c = new Color("#9c826b");
 					g.createPolyline([56,229,48,241,48,250,57,281,63,325,71,338,81,315,76,321,79,311,83,301,75,308,80,298,73,303,76,296,71,298,74,292,69,293,74,284,78,278,71,278,74,274,68,273,70,268,66,267,68,261,60,266,62,259,65,253,57,258,59,251,55,254,55,248,60,237,54,240,58,234,54,236]).setFill(c);
 					g.createPolyline([74,363,79,368,81,368,85,362,89,363,92,370,96,373,101,372,108,361,110,371,113,373,116,371,120,358,122,363,123,371,126,371,129,367,132,357,135,361,130,376,127,377,94,378,84,376,76,371]).setFill(c);
 					g.createPolyline([212,250,219,251,228,258,236,270,235,287,225,304,205,332,177,343,171,352,158,357,166,352,168,346,168,339,165,333,155,327,155,323,161,320,165,316,169,316,167,312,171,313,168,308,173,309,170,306,177,306,175,308,177,311,174,311,176,316,171,315,174,319,168,320,168,323,175,327,179,332,183,326,184,332,189,323,190,328,194,320,194,325,199,316,201,320,204,313,206,316,208,310,211,305,219,298,226,288,229,279,228,266,224,259,217,253]).setFill(c);
@@ -607,10 +612,10 @@
 					g.createPolyline([147,33,152,35,157,34,153,31,160,31,156,28,161,28,159,24,163,25,163,21,165,22,170,23,167,17,172,21,174,18,175,23,176,22,177,28,177,33,174,37,176,39,174,44,171,49,168,53,164,57,159,68,156,70,154,60,150,51,146,43,144,35]).setFill(c);
 					g.createPolyline([85,72,89,74,93,75,100,76,105,75,102,79,94,79,88,76]).setFill(c);
 					g.createPolyline([86,214,79,221,76,232,82,225,78,239,82,234,78,245,81,243,79,255,84,250,84,267,87,254,90,271,90,257,95,271,93,256,95,249,92,252,93,243,89,253,89,241,86,250,87,236,83,245,87,231,82,231,90,219,84,221]).setFill(c);
-					c = new dojo.Color("#ffcc7f");
+					c = new Color("#ffcc7f");
 					g.createPolyline([93,68,96,72,100,73,106,72,108,66,105,63,100,62]).setFill(c);
 					g.createPolyline([144,64,142,68,142,73,146,74,150,73,154,64,149,62]).setFill(c);
-					c = new dojo.Color("#9c826b");
+					c = new Color("#9c826b");
 					g.createPolyline([57,91,42,111,52,105,41,117,53,112,46,120,53,116,50,124,57,119,55,127,61,122,60,130,67,126,66,134,71,129,72,136,77,130,76,137,80,133,82,138,86,135,96,135,94,129,86,124,83,117,77,123,79,117,73,120,75,112,68,116,71,111,65,114,69,107,63,110,68,102,61,107,66,98,61,103,63,97,57,99]).setFill(c);
 					g.createPolyline([83,79,76,79,67,82,75,83,65,88,76,87,65,92,76,91,68,96,77,95,70,99,80,98,72,104,80,102,76,108,85,103,92,101,87,98,93,96,86,94,91,93,85,91,93,89,99,89,105,93,107,85,102,82,92,80]).setFill(c);
 					g.createPolyline([109,77,111,83,109,89,113,94,117,90,117,81,114,78]).setFill(c);
@@ -627,10 +632,10 @@
 					g.createPolyline([11,226,15,231,25,236,18,227]).setFill(c);
 					g.createPolyline([13,214,19,217,32,227,23,214,16,208,15,190,24,148,31,121,24,137,14,170,8,189]).setFill(c);
 					g.createPolyline([202,254,195,258,199,260,193,263,197,263,190,268,196,268,191,273,188,282,200,272,194,272,201,266,197,265,204,262,200,258,204,256]).setFill(c);
-					c = new dojo.Color("#845433");
+					c = new Color("#845433");
 					g.createPolyline([151,213,165,212,179,225,189,246,187,262,179,275,176,263,177,247,171,233,163,230,165,251,157,264,146,298,145,321,133,326,143,285,154,260,153,240]).setFill(c);
 					g.createPolyline([91,132,95,145,97,154,104,148,107,155,109,150,111,158,115,152,118,159,120,153,125,161,126,155,133,164,132,154,137,163,137,152,142,163,147,186,152,192,148,167,141,143,124,145,105,143]).setFill(c);
-					c = new dojo.Color("#9c826b");
+					c = new Color("#9c826b");
 					g.createPolyline([31,57,23,52,26,51,20,44,23,42,21,36,22,29,25,23,24,32,30,43,26,41,30,50,26,48]).setFill(c);
 					g.createPolyline([147,21,149,28,155,21,161,16,167,14,175,15,173,11,161,9]).setFill(c);
 					g.createPolyline([181,39,175,51,169,57,171,65,165,68,165,75,160,76,162,91,171,71,180,51]).setFill(c);
@@ -640,11 +645,11 @@
 					g.createPolyline([20,347,32,342,45,340,54,345,45,350,42,353,38,350,31,353,29,356,23,350,19,353,15,349]).setFill(c);
 					g.createPolyline([78,344,86,344,92,349,88,358,84,352]).setFill(c);
 					g.createPolyline([93,347,104,344,117,345,124,354,121,357,116,351,112,351,108,355,102,351]).setFill(c);
-					c = new dojo.Color("black");
+					c = new Color("black");
 					g.createPolyline([105,12,111,18,113,24,113,29,119,34,116,23,112,16]).setFill(c);
 					g.createPolyline([122,27,125,34,127,43,128,34,125,29]).setFill(c);
 					g.createPolyline([115,13,122,19,122,15,113,10]).setFill(c);
-					c = new dojo.Color("#ffe5b2");
+					c = new Color("#ffe5b2");
 					g.createPolyline([116,172,107,182,98,193,98,183,90,199,89,189,84,207,88,206,87,215,95,206,93,219,91,230,98,216,97,226,104,214,112,209,104,208,113,202,126,200,139,207,132,198,142,203,134,192,142,195,134,187,140,185,130,181,136,177,126,177,125,171,116,180]).setFill(c);
 					g.createPolyline([74,220,67,230,67,221,59,235,63,233,60,248,70,232,65,249,71,243,67,256,73,250,69,262,73,259,71,267,76,262,72,271,78,270,76,275,82,274,78,290,86,279,86,289,92,274,88,275,87,264,82,270,82,258,77,257,78,247,73,246,77,233,72,236]).setFill(c);
 					g.createPolyline([133,230,147,242,148,250,145,254,138,247,129,246,142,245,138,241,128,237,137,238]).setFill(c);
@@ -675,7 +680,7 @@
 					g.createPolyline([145,48,143,53,147,59,151,59,150,55]).setFill(c);
 					g.createPolyline([26,22,34,15,43,10,52,10,59,16,47,15,32,22]).setFill(c);
 					g.createPolyline([160,19,152,26,149,34,154,33,152,30,157,30,155,26,158,27,157,23,161,23]).setFill(c);
-					c = new dojo.Color("black");
+					c = new Color("black");
 					g.createPolyline([98,117,105,122,109,122,105,117,113,120,121,120,130,112,128,108,123,103,123,99,128,101,132,106,135,109,142,105,142,101,145,101,145,91,148,101,145,105,136,112,135,116,143,124,148,120,150,122,142,128,133,122,121,125,112,126,103,125,100,129,96,124]).setFill(c);
 					g.createPolyline([146,118,152,118,152,115,149,115]).setFill(c);
 					g.createPolyline([148,112,154,111,154,109,149,109]).setFill(c);
@@ -744,7 +749,7 @@
                 runTest: function(){
 					var f, g;
                     surface.clear();
-					var m = gfx.matrix;
+					var m = gfxMatrix;
 					var initial_matrix = m.translate(140, 180);
 					surface.createRect({x: 0, y: 0, width: 700, height: 700}).setFill("#eee");
 					g = surface.createGroup().setTransform(initial_matrix);
@@ -763,7 +768,7 @@
                     createSurface();
 					var f, g;
                     surface.clear();
-					var initial_matrix = gfx.matrix.translate(250, 250);
+					var initial_matrix = gfxMatrix.translate(250, 250);
                     matrix = initial_matrix;
 					surface.createRect({x: 0, y: 0, width: 700, height: 700}).setFill("#eee");
 					g = surface.createGroup().setTransform(initial_matrix);
@@ -1267,7 +1272,7 @@
                     createSurface();
 					var f, g;
                     surface.clear();
-					var initial_matrix = gfx.matrix.translate(250, 250);
+					var initial_matrix = gfxMatrix.translate(250, 250);
                     matrix = initial_matrix;
 					surface.createRect({x: 0, y: 0, width: 700, height: 700}).setFill("#eee");
 					g = surface.createGroup().setTransform(initial_matrix);
@@ -1771,7 +1776,7 @@
                     createSurface();
 					var f, g;
                     surface.clear();
-					var initial_matrix = gfx.matrix.translate(250, 250);
+					var initial_matrix = gfxMatrix.translate(250, 250);
                     matrix = initial_matrix;
 					surface.createRect({x: 0, y: 0, width: 700, height: 700}).setFill("#eee");
 					g = surface.createGroup().setTransform(initial_matrix);
@@ -2268,6 +2273,7 @@
     	]);
 		doh.run();
 	});
+});
 </script>
 </head>
 <body>

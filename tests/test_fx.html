@@ -1,114 +1,122 @@
 <html>
 <head>
-<title>Testing animation</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<style type="text/css">
-	@import "../../dojo/resources/dojo.css";
-	@import "../../dijit/tests/css/dijitTests.css";
-</style>
-<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true"></script>
-<!--
-<script type="text/javascript" src="../_base.js"></script>
-<script type="text/javascript" src="../shape.js"></script>
-<script type="text/javascript" src="../path.js"></script>
-<script type="text/javascript" src="../arc.js"></script>
-<script type="text/javascript" src="../fx.js"></script>
--->
-<!--<script type="text/javascript" src="../svg.js"></script>-->
-<!--<script type="text/javascript" src="../canvas.js"></script>-->
+	<title>Testing animation</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../../dijit/tests/css/dijitTests.css";
+	</style>
+	<script type="text/javascript"
+			src="../../dojo/dojo.js"
+			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
+	<script type="text/javascript">
+		require([
+			"dojo/ready",
+			"dojo/dom",
+			"dojo/aspect",
+			"gfx",
+			"gfx/matrix",
+			"gfx/fx"],
+				function(ready, dom, aspect, gfx, matrix, fx){
+					var rect, text;
 
-<script type="text/javascript">
-dojo.require("gfx.main");
-dojo.require("gfx.fx");
-dojo.require("dojo.colors");
+					function createSurface(){
+						var surface = gfx.createSurface("test", 500, 500);
+						surface.whenLoaded(makeShapes);
+					};
 
-var rect, text;
+					function makeShapes(surface){
+						rect = surface.createRect({x:100, y:100, width:300, height:300}).
+								setFill("yellow").setStroke({
+									color:"green",
+									width:5,
+									join:"round"
+								});
+						text = surface.createText({x:250, y:250, text:"Hello!", align:"middle"})
+								.setFill("black").setFont({family:"serif", size:"10pt"});
+					};
 
-function createSurface(){
-	var surface = gfx.createSurface("test", 500, 500);
-	surface.whenLoaded(makeShapes);
-};
+					ready(createSurface);
 
-function makeShapes(surface){
-	rect = surface.createRect({x: 100, y: 100, width: 300, height: 300}).
-		setFill("yellow").setStroke({
-			color: "green",
-			width: 5,
-			join: "round"
-		});
-	text = surface.createText({x: 250, y: 250, text: "Hello!", align: "middle"})
-		.setFill("black").setFont({family: "serif", size: "10pt"});
-};
+					animateStroke = function(){
+						var anim = fx.animateStroke({
+							duration:5000,
+							shape:rect,
+							color:{start:"green", end:"red"},
+							width:{start:5, end:15},
+							join:{values:["bevel", "round"]}
+						});
+						dom.byId("stroke").disabled = "disabled";
+						aspect.after(anim, "onEnd", function(){
+							dom.byId("stroke").disabled = "";
+						});
+						anim.play();
+					};
 
-dojo.addOnLoad(createSurface);
+					animateFill = function(){
+						var anim = fx.animateFill({
+							duration:5000,
+							shape:rect,
+							color:{start:"yellow", end:"blue"}
+						});
+						dom.byId("fill").disabled = "disabled";
+						aspect.after(anim, "onEnd", function(){
+							dom.byId("fill").disabled = "";
+						});
+						anim.play();
+					};
 
-var animateStroke = function(){
-	var anim = gfx.fx.animateStroke({
-		duration:	5000,
-		shape: 		rect,
-		color:		{start: "green", end: "red"},
-		width:		{start: 5, end: 15},
-		join:		{values: ["bevel", "round"]}
-	});
-	dojo.byId("stroke").disabled = "disabled";
-	dojo.connect(anim, "onEnd", function(){ dojo.byId("stroke").disabled = ""; });
-	anim.play();
-};
+					animateFont = function(){
+						var anim = fx.animateFont({
+							duration:5000,
+							shape:text,
+							variant:{values:["normal", "small-caps"]},
+							size:{start:10, end:50, units:"pt"}
+						});
+						dom.byId("font").disabled = "disabled";
+						aspect.after(anim, "onEnd", function(){
+							dom.byId("font").disabled = "";
+						});
+						anim.play();
+					};
 
-var animateFill = function(){
-	var anim = gfx.fx.animateFill({
-		duration:	5000,
-		shape: 		rect,
-		color:		{start: "yellow", end: "blue"}
-	});
-	dojo.byId("fill").disabled = "disabled";
-	dojo.connect(anim, "onEnd", function(){ dojo.byId("fill").disabled = ""; });
-	anim.play();
-};
+					animateTransform = function(){
+						var anim = fx.animateTransform({
+							duration:5000,
+							shape:text,
+							transform:[
+								{name:"rotategAt", start:[0, 250, 250], end:[360, 350, 350]},
+								{name:"translate", start:[0, 0], end:[100, 100]}
+							]
+						});
+						dom.byId("transform").disabled = "disabled";
+						aspect.after(anim, "onEnd", function(){
+							dom.byId("transform").disabled = "";
+						});
+						anim.play();
+					};
 
-var animateFont = function(){
-	var anim = gfx.fx.animateFont({
-		duration:	5000,
-		shape: 		text,
-		variant:	{values: ["normal", "small-caps"]},
-		size:		{start: 10, end: 50, units: "pt"}
-	});
-	dojo.byId("font").disabled = "disabled";
-	dojo.connect(anim, "onEnd", function(){ dojo.byId("font").disabled = ""; });
-	anim.play();
-};
-
-var animateTransform = function(){
-	var anim = gfx.fx.animateTransform({
-		duration:	5000,
-		shape: 		text,
-		transform:	[
-			{name: "rotategAt", start: [0, 250, 250], end: [360, 350, 350]},
-			{name: "translate", start: [0, 0], end: [100, 100]}
-		]
-	});
-	dojo.byId("transform").disabled = "disabled";
-	dojo.connect(anim, "onEnd", function(){ dojo.byId("transform").disabled = ""; });
-	anim.play();
-};
-
-var animateMatrix = function(){
-	var customMatrix = gfx.matrix.multiply([gfx.matrix.rotategAt(-90,250,250),gfx.matrix.translate(100,100),gfx.matrix.scaleAt(2,250,250)]);
-	var anim = gfx.fx.animateTransform({
-		duration:	5000,
-		shape: 		text,
-		transform:	[
-			{name: "matrix", start: gfx.matrix.identity, end: customMatrix}
-		]
-	});
-	dojo.byId("matrix").disabled = "disabled";
-	dojo.connect(anim, "onEnd", function(){ dojo.byId("matrix").disabled = ""; });
-	anim.play();
-};
-</script>
+					animateMatrix = function(){
+						var customMatrix = matrix.multiply([matrix.rotategAt(-90, 250, 250), matrix.translate(100, 100), matrix.scaleAt(2, 250, 250)]);
+						var anim = fx.animateTransform({
+							duration:5000,
+							shape:text,
+							transform:[
+								{name:"matrix", start:matrix.identity, end:customMatrix}
+							]
+						});
+						dom.byId("matrix").disabled = "disabled";
+						aspect.after(anim, "onEnd", function(){
+							dom.byId("matrix").disabled = "";
+						});
+						anim.play();
+					};
+				});
+	</script>
 </head>
 <body>
 <h1>Testing animation</h1>
+
 <p>
 	<button id="stroke" onclick="animateStroke();">Stroke</button>
 	&nbsp;

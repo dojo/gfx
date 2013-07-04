@@ -1,50 +1,55 @@
 <html>
 <head>
-<title>Testing add/remove shape</title>
-<style type="text/css">
-	@import "../../dojo/resources/dojo.css";
-	@import "../../dijit/tests/css/dijitTests.css";
-	@import "../../dijit/themes/tundra/tundra.css";
-</style>
-<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug: true, parseOnLoad: true"></script>
-<script type="text/javascript">
-dojo.require("gfx.main");
-dojo.require("dijit.form.CheckBox");
-dojo.require("dojo.parser");
+	<title>Testing add/remove shape</title>
+	<style type="text/css">
+		@import "../../dojo/resources/dojo.css";
+		@import "../../dijit/tests/css/dijitTests.css";
+		@import "../../dijit/themes/tundra/tundra.css";
+	</style>
+	<script type="text/javascript" src="../../dojo/dojo.js"
+			data-dojo-config="isDebug: true, parseOnLoad: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+	<script type="text/javascript">
+		require([
+			"dojo/ready",
+			"dijit/registry",
+			"gfx",
+			"dojo/parser",
+			"dijit/form/CheckBox"
+		], function(ready, registry, gfx){
+			var surface = null, shape = null;
 
-var surface = null, shape = null;
+			createSurface = function(){
+				surface = gfx.createSurface("test", 300, 300);
+			};
 
-createSurface = function(){
-	surface = gfx.createSurface("test", 300, 300);
-};
+			flip = function(){
+				if(registry.byId("cb").checked){
+					if(!shape){
+						//shape = surface.createRect({x: 100, y: 100, width: 100, height: 100})
+						shape = surface.createCircle({cx:150, cy:150, r:50})
+								.setFill("yellow").setStroke({color:"red", width:3});
+					}else{
+						surface.add(shape);
+					}
+				}else{
+					surface.clear(); // Shapes removed from the surface can now be added back to it.
+					//surface.remove(shape);
+				}
+			}
 
-flip = function(){
-	if(dijit.byId("cb").checked){
-		if(!shape){
-			//shape = surface.createRect({x: 100, y: 100, width: 100, height: 100})
-			shape = surface.createCircle({cx: 150, cy : 150, r: 50})
-				.setFill("yellow").setStroke({color: "red", width: 3});
-		}else{
-			surface.add(shape);
-		}
-	}else{
-		surface.clear(); // Shapes removed from the surface can now be added back to it.
-		//surface.remove(shape);
-	}
-}
-
-dojo.addOnLoad(createSurface);
-</script>
-
-
+			ready(createSurface);
+		});
+	</script>
 </head>
 
 <body class="tundra">
 <h1>Testing add/remove shape</h1>
+
 <p>
-	<input type="checkbox" dojoType="dijit.form.CheckBox" id="cb" name="cb" onClick="flip()">
+	<input type="checkbox" data-dojo-type="dijit/form/CheckBox" id="cb" name="cb" data-dojo-props="onClick:flip">
 	<label for="cb">Add shape to the surface</label>
 </p>
+
 <div id="test" style="width: 300px; height: 300px;"></div>
 <p>That's all Folks!</p>
 </body>
