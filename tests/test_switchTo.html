@@ -21,7 +21,9 @@
 				
 				ready(function(){
 					var surface, newRenderer;
-					
+
+                    function get(r){ try{ return gfx[r] || require("gfx/"+r);}catch(err){}}
+
 					doh.register("switchTo", [
 						{
 							name: "switchTo(object)",
@@ -30,9 +32,10 @@
 							},
 							runTest: function(t){
 								var r = gfx.renderer == "svg" ? "canvasWithEvents" : "svg";
-								require(["gfx/" + r], function(){});
-								gfx.switchTo(gfx[r]);
-								t.t(gfx.Surface === gfx[r].Surface, "Unexpected Surface type.");
+                                var renderer;
+                                require(["gfx/" + r], function(r){renderer=r;});
+								gfx.switchTo(renderer);
+								t.t(gfx.Surface === get(r).Surface, "Unexpected Surface type.");
 								t.t(gfx.renderer === r, "Unexpected renderer.");
 							}
 						},
@@ -43,9 +46,8 @@
 							},
 							runTest: function(t){
 								var r = gfx.renderer == "svg" ? "canvasWithEvents" : "svg";
-								require(["gfx/" + r], function(){});
 								gfx.switchTo(r);
-								t.t(gfx.Surface === gfx[r].Surface, "Unexpected Surface type.");
+								t.t(gfx.Surface === get(r).Surface, "Unexpected Surface type.");
 								t.t(gfx.renderer === r, "Unexpected renderer.");
 							}
 						}

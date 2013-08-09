@@ -1,11 +1,12 @@
 <html>
     <head>
         <script type="text/javascript">
-    		var dojoConfig = {forceGfxRenderer: "svg"};
+    		var dojoConfig = {};
     	</script>
-        <script type="text/javascript" src="../../dojo/dojo.js" ></script>
+        <script type="text/javascript" src="../../dojo/dojo.js"
+                data-dojo-config="forceGfxRenderer: 'svg', async:1, packages:[{name:'gfx' ,location:'../gfx'}]" ></script>
         <script type="text/javascript">
-		require(['gfx','gfx/utils'], function(gfx, utils){});
+            require(["gfx", "gfx/utils"]);
         </script>
     </head>
     <body>

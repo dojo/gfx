@@ -162,14 +162,16 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 							html.style(node, "height", height);
 						}, this);
 
+						var proxyGfx = gu._gfxSvgProxy.require("gfx"); // will throw exception if not loaded
+
 						//Create temp surface to render object to and render.
-						var ts = gu._gfxSvgProxy[dojox._scopeName].gfx.createSurface(node, width, height);
+						var ts = proxyGfx.createSurface(node, width, height);
 
 						//It's apparently possible that a suface creation is async, so we need to use
 						//the whenLoaded function.  Probably not needed for SVG, but making it common
 						var draw = function(surface) {
 							try{
-								gu._gfxSvgProxy[dojox._scopeName].gfx.utils.fromJson(surface, jsonForm);
+								proxyGfx.utils.fromJson(surface, jsonForm);
 
 								//Get contents and remove temp surface.
 								var svg = gu._cleanSvg(node.innerHTML);
@@ -227,37 +229,27 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 					height: "1em",
 					top: "-10000px"
 				});
-				var intv;
 				if(has("ie")){
 					f.onreadystatechange = function(){
 						if(f.contentWindow.document.readyState == "complete"){
 							f.onreadystatechange = function() {};
-							intv = setInterval(function() {
-								if(f.contentWindow[kernel.scopeMap["dojo"][1]._scopeName] &&
-								   f.contentWindow[kernel.scopeMap["dojox"][1]._scopeName].gfx &&
-								   f.contentWindow[kernel.scopeMap["dojox"][1]._scopeName].gfx.utils){
-									clearInterval(intv);
-									f.contentWindow.parent[kernel.scopeMap["dojox"][1]._scopeName].gfx.utils._gfxSvgProxy = f.contentWindow;
-									f.contentWindow.parent[kernel.scopeMap["dojox"][1]._scopeName].gfx.utils._svgSerializerInitialized();
-								}
-							}, 50);
+							f.contentWindow.require(["gfx/utils"], function(fgu){
+								gu._gfxSvgProxy = f.contentWindow;
+								gu._svgSerializerInitialized();
+							});
 						}
 					};
 				}else{
 					f.onload = function(){
 						f.onload = function() {};
-						intv = setInterval(function() {
-							if(f.contentWindow[kernel.scopeMap["dojo"][1]._scopeName] &&
-							   f.contentWindow[kernel.scopeMap["dojox"][1]._scopeName].gfx &&
-							   f.contentWindow[kernel.scopeMap["dojox"][1]._scopeName].gfx.utils){
-								clearInterval(intv);
-								f.contentWindow.parent[kernel.scopeMap["dojox"][1]._scopeName].gfx.utils._gfxSvgProxy = f.contentWindow;
-								f.contentWindow.parent[kernel.scopeMap["dojox"][1]._scopeName].gfx.utils._svgSerializerInitialized();
-							}
-						}, 50);
+						f.contentWindow.require(["gfx/utils"], function(fgu){
+							console.log("INITED");
+							gu._gfxSvgProxy = f.contentWindow;
+							gu._svgSerializerInitialized();
+						});
 					};
 				}
-				//We have to load the GFX SVG proxy frame.  Default is to use the one packaged in dojox.
+				//We have to load the GFX SVG proxy frame.  Default is to use the one packaged in gfx.
 				var uri = (config["dojoxGfxSvgProxyFrameUrl"]||require.toUrl("gfx/resources/gfxSvgProxyFrame.html"));
 				f.setAttribute("src", uri.toString());
 				win.body().appendChild(f);

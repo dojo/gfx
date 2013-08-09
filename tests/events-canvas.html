@@ -3,7 +3,8 @@
 	<head>
 		<title>gfx: Canvas events bug</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="../../dojo/dojo.js" data-dojo-config="isDebug:true, gfxRenderer:'canvas'">
+		<script type="text/javascript" src="../../dojo/dojo.js"
+                data-dojo-config="isDebug:true, gfxRenderer:'canvas', async:1, packages:[{name:'gfx' ,location:'../gfx'}]">
 		</script>
 		<script type="text/javascript">
 			
@@ -39,7 +40,7 @@
 	<body>
 		<h1>gfx: Canvas events bug (Canvas version)</h1>
 		<p>
-			Click on one of the image below. An alert should pop up displaying the chosen framework name.
+			Click on one of the images below. An alert should pop up displaying the chosen framework name.
 		</p>
 		<div id="gfx_holder" style="width: 600px; height: 100px;">
 		</div>

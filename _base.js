@@ -968,7 +968,8 @@ function(kernel, lang, Color, has, win, arr, dom, domConstruct, domGeom){
 			// renderer:
 			//		Either the string name of a renderer (eg. 'canvas', 'svg, ...) or the renderer
 			//		object to switch to.
-			var ns = typeof renderer == "string" ? g[renderer] : renderer;
+			function get(r){ try{ return gfx[r] || require("gfx/"+r);}catch(err){}}
+			var ns = typeof renderer == "string" ? get(renderer) : renderer;
 			if(ns){
 				// If more options are added, update the docblock at the end of shape.js!
 				arr.forEach(["Group", "Rect", "Ellipse", "Circle", "Line",
@@ -980,7 +981,7 @@ function(kernel, lang, Color, has, win, arr, dom, domConstruct, domGeom){
 					g.renderer = renderer;
 				}else{
 					arr.some(["svg","canvas","canvasWithEvents"], function(r){
-						return (g.renderer = g[r] && g[r].Surface === g.Surface ? r : null);
+						return (g.renderer = get(r) && get(r).Surface === g.Surface ? r : null);
 					});
 				}
 			}
