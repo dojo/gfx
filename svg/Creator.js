@@ -6,6 +6,9 @@ define([
 	return declare([baseCreator], {
 		// summary:
 		//		SVG shape creators
+
+		_prefix:"../svg/",
+
 		createObject: function(shapeType, rawShape){
 			// summary:
 			//		creates an instance of the passed shapeType class

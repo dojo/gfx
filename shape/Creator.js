@@ -1,10 +1,33 @@
 define([
 	"dojo/_base/declare",
-	"../_base"
-], function(declare, g){
+	"../_base",
+	"require"
+], function(declare, g, require){
+
+	// Note:
+	// We now require renderer-specific shape classes dynamically,
+	// to avoid referencing the global gfx.Rect etc classes.
+	// This allows us to make optional the global renderer switch
+	// implemented by the gfx/renderer module and the switchTo method.
+
+	// Since we use require(className) (i.e. simple module fetch, not an async load),
+	// this means that the renderer-specific shape classes must already be required.
+	// If the toplevel renderer module (e.g. gfx/svg) is loaded, all classes will be
+	// required automatically. Otherwise, the application has to explicitly require
+	// each shape class that it uses.
+
+	// Class cache: global hash used to cache renderer shape classes,
+	// keys are relative class names e.g. "../svg/Rect".
+	var cc = {};
+
 	return declare(null, {
 		// summary:
 		//		shape creators
+
+		// The shape class prefix that must be specified by the renderer,
+		// e.g. "../svg";
+		//_prefix: "./",
+
 		createShape: function(shape){
 			// summary:
 			//		creates a shape object based on its type; it is meant to be used
@@ -38,35 +61,40 @@ define([
 		createGroup: function(){
 			// summary:
 			//		creates a group shape
-			return this.createObject(g.Group);	// gfx/Group
+			var n = this._prefix+"Group";
+			return this.createObject(cc[n]||(cc[n]=require(n)));
 		},
 		createRect: function(rect){
 			// summary:
 			//		creates a rectangle shape
 			// rect: Object
 			//		a path object (see gfx.defaultRect)
-			return this.createObject(g.Rect, rect);	// gfx/shape.Rect
+			var n = this._prefix+"Rect";
+			return this.createObject(cc[n]||(cc[n]=require(n)), rect);
 		},
 		createEllipse: function(ellipse){
 			// summary:
 			//		creates an ellipse shape
 			// ellipse: Object
 			//		an ellipse object (see gfx.defaultEllipse)
-			return this.createObject(g.Ellipse, ellipse);	// gfx/shape.Ellipse
+			var n = this._prefix+"Ellipse";
+			return this.createObject(cc[n]||(cc[n]=require(n)), ellipse);
 		},
 		createCircle: function(circle){
 			// summary:
 			//		creates a circle shape
 			// circle: Object
 			//		a circle object (see gfx.defaultCircle)
-			return this.createObject(g.Circle, circle);	// gfx/shape.Circle
+			var n = this._prefix+"Circle";
+			return this.createObject(cc[n]||(cc[n]=require(n)), circle);
 		},
 		createLine: function(line){
 			// summary:
 			//		creates a line shape
 			// line: Object
 			//		a line object (see gfx.defaultLine)
-			return this.createObject(g.Line, line);	// gfx/shape.Line
+			var n = this._prefix+"Line";
+			return this.createObject(cc[n]||(cc[n]=require(n)), line);
 		},
 		createPolyline: function(points){
 			// summary:
@@ -74,35 +102,40 @@ define([
 			// points: Object
 			//		a points object (see gfx.defaultPolyline)
 			//		or an Array of points
-			return this.createObject(g.Polyline, points);	// gfx/shape.Polyline
+			var n = this._prefix+"Polyline";
+			return this.createObject(cc[n]||(cc[n]=require(n)), points);
 		},
 		createImage: function(image){
 			// summary:
 			//		creates a image shape
 			// image: Object
 			//		an image object (see gfx.defaultImage)
-			return this.createObject(g.Image, image);	// gfx/shape.Image
+			var n = this._prefix+"Image";
+			return this.createObject(cc[n]||(cc[n]=require(n)), image);
 		},
 		createText: function(text){
 			// summary:
 			//		creates a text shape
 			// text: Object
 			//		a text object (see gfx.defaultText)
-			return this.createObject(g.Text, text);	// gfx/shape.Text
+			var n = this._prefix+"Text";
+			return this.createObject(cc[n]||(cc[n]=require(n)), text);
 		},
 		createPath: function(path){
 			// summary:
 			//		creates a path shape
 			// path: Object
 			//		a path object (see gfx.defaultPath)
-			return this.createObject(g.Path, path);	// gfx/shape.Path
+			var n = this._prefix+"Path";
+			return this.createObject(cc[n]||(cc[n]=require(n)), path);
 		},
 		createTextPath: function(text){
 			// summary:
 			//		creates a text shape
 			// text: Object
 			//		a textpath object (see gfx.defaultTextPath)
-			return this.createObject(g.TextPath, {}).setText(text);	// gfx/shape.TextPath
+			var n = this._prefix+"TextPath";
+			return this.createObject(cc[n]||(cc[n]=require(n)), {}).setText(text);
 		},
 		createObject: function(shapeType, rawShape){
 			// summary:

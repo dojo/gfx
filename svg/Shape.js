@@ -8,8 +8,9 @@ define([
 	"dojo/_base/Color",
 	"../_base",
 	"./_base",
-	"../shape/Shape"
-], function(lang, dom, declare, arr, domGeom, domAttr, Color, g, svg, baseShape){
+	"../shape/Shape",
+	"./Surface"
+], function(lang, dom, declare, arr, domGeom, domAttr, Color, g, svg, baseShape, svgSurface){
 
 	var clipCount = 0;
 
@@ -154,7 +155,7 @@ define([
 
 		_getParentSurface: function(){
 			var surface = this.parent;
-			for(; surface && !(surface instanceof g.Surface); surface = surface.parent);
+			for(; surface && !(surface instanceof svgSurface); surface = surface.parent);
 			return surface;
 		},
 

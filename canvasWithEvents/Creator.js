@@ -4,6 +4,9 @@ define([
 	"../shape/Creator"
 ], function(declare, aspect, baseCreator){
 	return declare([baseCreator], {
+
+		_prefix:"../canvasWithEvents/",
+
 		createObject: function(){
 			// summary:
 			//		Creates a synthetic, partially-interoperable Element object used to uniquely identify the given

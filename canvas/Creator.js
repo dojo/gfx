@@ -5,6 +5,9 @@ define([
 	return declare([baseCreator], {
 		// summary:
 		//		Canvas shape creators
+
+		_prefix:"../canvas/",
+
 		createObject: function(shapeType, rawShape){
 			// summary:
 			//		creates an instance of the passed shapeType class
