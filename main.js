@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "./_base", "./renderer!"],
-  function(lang, gfx, renderer){
+define(["./_base", "./renderer!"],
+  function(gfx, renderer){
 	// module:
 	//		gfx
 	// summary:
