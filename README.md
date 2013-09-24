@@ -56,3 +56,5 @@ The current code is a copy of the Dojo 1.9 code, with the following changes:
 - Each shape class is now in its own AMD module in the shape/ directory, for example, gfx/shape/Shape.js, gfx/shape/Rect.js etc.
 - Each renderer has its own subdirectory containing the shape subclasses, for example gfx/svg/Shape.js, gfx/svg/Rect.js, etc.
 - The shape.js, svg.js, canvas.js and canvasWithEvents.js modules are still here for compatibility, now they simply require all the corresponding shape classes.
+
+- See Wiki for further changes.
