@@ -1,12 +1,12 @@
-define(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/Color", "dojo/_base/sniff", "dojo/_base/window",
+define(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/Color", "dojo/_base/sniff", "dojo/_base/config", "dojo/_base/window",
 	    "dojo/_base/array","dojo/dom", "dojo/dom-construct","dojo/dom-geometry"],
-function(kernel, lang, Color, has, win, arr, dom, domConstruct, domGeom){
+function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom){
 	// module:
 	//		gfx
 	// summary:
 	//		This module contains common core Graphics API used by different graphics renderers.
 
-	var g = lang.getObject("gfx", true),
+	var g = {},
 		b = g._base = {};
 	
 	// candidates for dojox.style (work on SVG nodes)
@@ -202,6 +202,51 @@ function(kernel, lang, Color, has, win, arr, dom, domConstruct, domGeom){
 		var r = surface.rawNode;
 		if (typeof r.style.msTouchAction != 'undefined')
 			r.style.msTouchAction = "none";
+	};
+
+	b._chooseRenderer = function(){
+
+		// Choose the GFX renderer based on the (deprecated) dojoConfig.gfxRenderer
+		// or the (new) has("gfx-*") flags.
+
+		var forceGfxRenderer = has("gfx-force-renderer");
+		var gfxRenderer = has("gfx-renderer");
+		var canvasEvents = has("gfx-canvas-events");
+
+		// TODO: remove this? Put warning message?
+		forceGfxRenderer = forceGfxRenderer || config.forceGfxRenderer;
+		gfxRenderer = gfxRenderer || config.gfxRenderer;
+		canvasEvents = canvasEvents || config.canvasEvents;
+
+		var renderer = forceGfxRenderer,
+			renderers = !renderer && (lang.isString(gfxRenderer) ?
+				gfxRenderer : "svg,canvas").split(",");
+
+		while(!renderer && renderers.length){
+			switch(renderers.shift()){
+				case "svg":
+					// the next test is from https://github.com/phiggins42/has.js
+					if("SVGAngle" in win.global){
+						renderer = "svg";
+					}
+					break;
+				case "canvas":
+					if(win.global.CanvasRenderingContext2D){
+						renderer = "canvas";
+					}
+					break;
+			}
+		}
+
+		if (renderer === 'canvas' && canvasEvents !== false) {
+			renderer = "canvasWithEvents";
+		}
+
+		if(config.isDebug){
+			console.log("gfx renderer = " + renderer);
+		}
+
+		return renderer;
 	};
 
 	/*=====
@@ -960,31 +1005,6 @@ function(kernel, lang, Color, has, win, arr, dom, domConstruct, domGeom){
 			// returns: Boolean
 			//      true, if objects are truthy and the same
 			return a && b && a === b;
-		},
-
-		switchTo: function(/*String|Object*/ renderer){
-			// summary:
-			//		switch the graphics implementation to the specified renderer.
-			// renderer:
-			//		Either the string name of a renderer (eg. 'canvas', 'svg, ...) or the renderer
-			//		object to switch to.
-			function get(r){ try{ return gfx[r] || require("gfx/"+r);}catch(err){}}
-			var ns = typeof renderer == "string" ? get(renderer) : renderer;
-			if(ns){
-				// If more options are added, update the docblock at the end of shape.js!
-				arr.forEach(["Group", "Rect", "Ellipse", "Circle", "Line",
-						"Polyline", "Image", "Text", "Path", "TextPath",
-						"Surface", "createSurface", "fixTarget"], function(name){
-					g[name] = ns[name];
-				});
-				if(typeof renderer == "string"){
-					g.renderer = renderer;
-				}else{
-					arr.some(["svg","canvas","canvasWithEvents"], function(r){
-						return (g.renderer = get(r) && get(r).Surface === g.Surface ? r : null);
-					});
-				}
-			}
 		}
 	});
 	

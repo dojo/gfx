@@ -41,7 +41,9 @@ define([
 		Text: Text,
 		TextPath: TextPath,
 		Creator: Creator,
-		createSurface: Surface.create,
+		createSurface: function(node, width, height){
+			return new Surface(node, width, height);
+		},
 		fixTarget: canvas.fixTarget
 	};
 });

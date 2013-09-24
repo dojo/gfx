@@ -7,9 +7,39 @@ define([
 	"./Container",
 	"./Creator"
 ], function(declare, dom, g, svg, baseSurface, Container, Creator){
-	var svgSurface = declare([baseSurface, Container, Creator], {
+	return declare([baseSurface, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (SVG)
+
+		constructor: function(parentNode, width, height){
+			// summary:
+			//		creates a surface (SVG)
+			// parentNode: Node
+			//		a parent node
+			// width: String|Number
+			//		width of surface, e.g., "100px" or 100
+			// height: String|Number
+			//		height of surface, e.g., "100px" or 100
+
+			this.rawNode = svg._createElementNS(svg.xmlns.svg, "svg");
+			this.rawNode.setAttribute("overflow", "hidden");
+			if(width){
+				this.rawNode.setAttribute("width", width);
+			}
+			if(height){
+				this.rawNode.setAttribute("height", height);
+			}
+
+			var defNode = svg._createElementNS(svg.xmlns.svg, "defs");
+			this.rawNode.appendChild(defNode);
+			this.defNode = defNode;
+
+			this._parent = dom.byId(parentNode);
+			this._parent.appendChild(this.rawNode);
+
+			g._base._fixMsTouchAction(this);
+		},
+
 		destroy: function(){
 			// no need to call svg.Container.clear to remove the children raw
 			// nodes since the surface raw node will be removed. So, only dispose at gfx level
@@ -41,46 +71,9 @@ define([
 		getDimensions: function(){
 			// summary:
 			//		returns an object with properties "width" and "height"
-			var t = this.rawNode ? {
+			return this.rawNode ? {
 				width:  g.normalizedLength(this.rawNode.getAttribute("width")),
-				height: g.normalizedLength(this.rawNode.getAttribute("height"))} : null;
-			return t;	// Object
+				height: g.normalizedLength(this.rawNode.getAttribute("height"))} : null; // Object
 		}
 	});
-
-	svgSurface.create = function(parentNode, width, height){
-		// summary:
-		//		creates a surface (SVG)
-		// parentNode: Node
-		//		a parent node
-		// width: String|Number
-		//		width of surface, e.g., "100px" or 100
-		// height: String|Number
-		//		height of surface, e.g., "100px" or 100
-		// returns: gfx/shape.Surface
-		//     newly created surface
-
-		var s = new svgSurface();
-		s.rawNode = svg._createElementNS(svg.xmlns.svg, "svg");
-		s.rawNode.setAttribute("overflow", "hidden");
-		if(width){
-			s.rawNode.setAttribute("width",  width);
-		}
-		if(height){
-			s.rawNode.setAttribute("height", height);
-		}
-
-		var defNode = svg._createElementNS(svg.xmlns.svg, "defs");
-		s.rawNode.appendChild(defNode);
-		s.defNode = defNode;
-
-		s._parent = dom.byId(parentNode);
-		s._parent.appendChild(s.rawNode);
-
-		g._base._fixMsTouchAction(s);
-
-		return s;	// gfx.Surface
-	};
-
-	return svgSurface;
 });

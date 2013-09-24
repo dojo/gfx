@@ -54,8 +54,103 @@ define([
 	// The out-of-band data is stored here.
 	var fixedEventData = null;
 
-	var canvasWithEventsSurface = declare([canvasSurface, Creator], {
-		constructor: function(){
+	return declare([canvasSurface, Creator], {
+		constructor: function(parentNode, width, height){
+			// summary:
+			//		creates a surface (Canvas)
+			// parentNode: Node
+			//		a parent node
+			// width: String
+			//		width of surface, e.g., "100px"
+			// height: String
+			//		height of this, e.g., "100px"
+
+			var surface = this,
+				canvas = this.rawNode;
+
+			g._base._fixMsTouchAction(surface);
+
+			// any event handler added to the canvas needs to have its target fixed.
+			var oldAddEventListener = canvas.addEventListener,
+				oldRemoveEventListener = canvas.removeEventListener,
+				listeners = [];
+
+			var addEventListenerImpl = function(type, listener, useCapture){
+				surface._initMirrorCanvas();
+
+				var actualListener = surface.fixTarget(listener);
+				listeners.push({ original: listener, actual: actualListener });
+				oldAddEventListener.call(this, type, actualListener, useCapture);
+			};
+			var removeEventListenerImpl = function(type, listener, useCapture){
+				for(var i = 0, record; (record = listeners[i]); ++i){
+					if(record.original === listener){
+						oldRemoveEventListener.call(this, type, record.actual, useCapture);
+						listeners.splice(i, 1);
+						break;
+					}
+				}
+			};
+			try{
+				Object.defineProperties(canvas, {
+					addEventListener: {
+						value: addEventListenerImpl,
+						enumerable: true,
+						configurable: true
+					},
+					removeEventListener: {
+						value: removeEventListenerImpl
+					}
+				});
+			}catch(e){
+				// Object.defineProperties fails on iOS 4-5. "Not supported on DOM objects").
+				canvas.addEventListener = addEventListenerImpl;
+				canvas.removeEventListener = removeEventListenerImpl;
+			}
+
+			canvas._dojoElementFromPoint = function(x, y){
+				// summary:
+				//		Returns the shape under the given (x, y) coordinate.
+				// evt:
+				//		mouse event
+
+				if(!surface.mirrorCanvas){
+					return this;
+				}
+
+				var surfacePosition = domGeom.position(this, true);
+
+				// use canvas-relative positioning
+				x -= surfacePosition.x;
+				y -= surfacePosition.y;
+
+				var mirror = surface.mirrorCanvas,
+					ctx = mirror.getContext("2d"),
+					children = surface.children;
+
+				ctx.clearRect(0, 0, mirror.width, mirror.height);
+				ctx.save();
+				ctx.strokeStyle = "rgba(127,127,127,1.0)";
+				ctx.fillStyle = "rgba(127,127,127,1.0)";
+				ctx.pickingMode = true;
+
+				// TODO: Make inputs non-array
+				var inputs = [
+					{ x: x, y: y }
+				];
+
+				// process the inputs to find the target.
+				for(var i = children.length - 1; i >= 0; i--){
+					children[i]._testInputs(ctx, inputs);
+
+					if(inputs[0].target){
+						break;
+					}
+				}
+				ctx.restore();
+				return inputs[0] && inputs[0].target ? inputs[0].target.rawNode : this;
+			};
+
 			this._elementUnderPointer = null;
 		},
 
@@ -273,124 +368,4 @@ define([
 			this.inherited(arguments);
 		}
 	});
-
-	canvasWithEventsSurface.create = function(parentNode, width, height){
-		// summary:
-		//		creates a surface (Canvas)
-		// parentNode: Node
-		//		a parent node
-		// width: String
-		//		width of surface, e.g., "100px"
-		// height: String
-		//		height of surface, e.g., "100px"
-
-		if(!width && !height){
-			var pos = domGeom.position(parentNode);
-			width = width || pos.w;
-			height = height || pos.h;
-		}
-		if(typeof width === "number"){
-			width = width + "px";
-		}
-		if(typeof height === "number"){
-			height = height + "px";
-		}
-
-		var surface = new canvasWithEventsSurface(),
-			parent = dom.byId(parentNode),
-			canvas = parent.ownerDocument.createElement("canvas");
-
-		canvas.width = g.normalizedLength(width);	// in pixels
-		canvas.height = g.normalizedLength(height);	// in pixels
-
-		parent.appendChild(canvas);
-		surface.rawNode = canvas;
-		surface._parent = parent;
-		surface.surface = surface;
-
-		g._base._fixMsTouchAction(surface);
-
-		// any event handler added to the canvas needs to have its target fixed.
-		var oldAddEventListener = canvas.addEventListener,
-			oldRemoveEventListener = canvas.removeEventListener,
-			listeners = [];
-
-		var addEventListenerImpl = function(type, listener, useCapture){
-			surface._initMirrorCanvas();
-
-			var actualListener = surface.fixTarget(listener);
-			listeners.push({ original: listener, actual: actualListener });
-			oldAddEventListener.call(this, type, actualListener, useCapture);
-		};
-		var removeEventListenerImpl = function(type, listener, useCapture){
-			for(var i = 0, record; (record = listeners[i]); ++i){
-				if(record.original === listener){
-					oldRemoveEventListener.call(this, type, record.actual, useCapture);
-					listeners.splice(i, 1);
-					break;
-				}
-			}
-		};
-		try{
-			Object.defineProperties(canvas, {
-				addEventListener: {
-					value: addEventListenerImpl,
-					enumerable: true,
-					configurable: true
-				},
-				removeEventListener: {
-					value: removeEventListenerImpl
-				}
-			});
-		}catch(e){
-			// Object.defineProperties fails on iOS 4-5. "Not supported on DOM objects").
-			canvas.addEventListener = addEventListenerImpl;
-			canvas.removeEventListener = removeEventListenerImpl;
-		}
-
-		canvas._dojoElementFromPoint = function(x, y){
-			// summary:
-			//		Returns the shape under the given (x, y) coordinate.
-			// evt:
-			//		mouse event
-
-			if(!surface.mirrorCanvas){
-				return this;
-			}
-
-			var surfacePosition = domGeom.position(this, true);
-
-			// use canvas-relative positioning
-			x -= surfacePosition.x;
-			y -= surfacePosition.y;
-
-			var mirror = surface.mirrorCanvas,
-				ctx = mirror.getContext("2d"),
-				children = surface.children;
-
-			ctx.clearRect(0, 0, mirror.width, mirror.height);
-			ctx.save();
-			ctx.strokeStyle = "rgba(127,127,127,1.0)";
-			ctx.fillStyle = "rgba(127,127,127,1.0)";
-			ctx.pickingMode = true;
-
-			// TODO: Make inputs non-array
-			var inputs = [ { x: x, y: y } ];
-
-			// process the inputs to find the target.
-			for(var i = children.length - 1; i >= 0; i--){
-				children[i]._testInputs(ctx, inputs);
-
-				if(inputs[0].target){
-					break;
-				}
-			}
-			ctx.restore();
-			return inputs[0] && inputs[0].target ? inputs[0].target.rawNode : this;
-		};
-
-		return surface;
-	};
-
-	return canvasWithEventsSurface; // gfx.Surface
 });

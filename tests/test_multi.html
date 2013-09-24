@@ -23,17 +23,18 @@
 
 <!-- required: dojo.js -->
 <script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+		data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}], noGlobals:true"></script>
 <script type="text/javascript">
 require([
 	"dojo/dom",
+     "dojo/_base/Color",
 	"gfx/_base",
 	"gfx/matrix",
     "gfx/svg",
     "gfx/canvas",
     "gfx/canvasWithEvents",
 	"dojo/domReady!"
-], function(dom, gfx, matrix, svg, canvas, canvasWithEvents){
+], function(dom, Color, gfx, matrix, svg, canvas, canvasWithEvents){
 
     var gTestContainer = null;
 	var gTests = {};
@@ -136,15 +137,15 @@ require([
 
 	addTest("skew_rect", function(testName, surface){
 		// anonymous red rectangle
-		surface.createRect(rect).setFill(new dojo.Color([255, 0, 0, 0.5]))
+		surface.createRect(rect).setFill(new Color([255, 0, 0, 0.5]))
 			// skew it around LB point -30d, rotate it around LB point 30d, and move it to (100, 100)
 				.setTransform([matrix.translate(100, 100), matrix.rotategAt(-30, 0, 100), matrix.skewXgAt(30, 0, 100)]);
 		// anonymous blue rectangle
-		surface.createRect(rect).setFill(new dojo.Color([0, 0, 255, 0.5]))
+		surface.createRect(rect).setFill(new Color([0, 0, 255, 0.5]))
 			// skew it around LB point -30d, and move it to (100, 100)
 				.setTransform([matrix.translate(100, 100), matrix.skewXgAt(30, 0, 100)]);
 		// anonymous yellow rectangle
-		surface.createRect(rect).setFill(new dojo.Color([255, 255, 0, 0.25]))
+		surface.createRect(rect).setFill(new Color([255, 255, 0, 0.25]))
 			// move it to (100, 100)
 				.setTransform(matrix.translate(100, 100));
 	});

@@ -13,22 +13,20 @@
 		text-align: left;
 		vertical-align: top;
 	}
-
-	v:group {
-		text-align: left;
-	}
 </style>
 
 <!-- required: dojo.js -->
 <script type="text/javascript" src="../../dojo/dojo.js"
-		data-dojo-config="gfxRenderer:'canvas', isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+		data-dojo-config="noGlobals:true, isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
 <script type="text/javascript">
 require([
+    "dojo/_base/config",
 	"dojo/dom",
 	"gfx",
 	"gfx/matrix",
+    "dojo/_base/Color",
 	"dojo/domReady!"
-], function(dom, gfx, matrix){
+], function(config, dom, gfx, matrix, Color){
 
 	var gTestContainer = null;
 	var gTests = {};
@@ -112,7 +110,7 @@ require([
 		return null; // the success condition
 	}
 
-	var runTest = dojo.config.isDebug ? runTest_debug : runTest_nodebug;
+	var runTest = config.isDebug ? runTest_debug : runTest_nodebug;
 
 	gTestContainer = dom.byId("testcontainer");
 	var rect = { x:0, y:0, width:100, height:100 };
@@ -148,15 +146,15 @@ require([
 
 	addTest("skew_rect", function(testName, surface){
 		// anonymous red rectangle
-		surface.createRect(rect).setFill(new dojo.Color([255, 0, 0, 0.5]))
+		surface.createRect(rect).setFill(new Color([255, 0, 0, 0.5]))
 			// skew it around LB point -30d, rotate it around LB point 30d, and move it to (100, 100)
 				.setTransform([matrix.translate(100, 100), matrix.rotategAt(-30, 0, 100), matrix.skewXgAt(30, 0, 100)]);
 		// anonymous blue rectangle
-		surface.createRect(rect).setFill(new dojo.Color([0, 0, 255, 0.5]))
+		surface.createRect(rect).setFill(new Color([0, 0, 255, 0.5]))
 			// skew it around LB point -30d, and move it to (100, 100)
 				.setTransform([matrix.translate(100, 100), matrix.skewXgAt(30, 0, 100)]);
 		// anonymous yellow rectangle
-		surface.createRect(rect).setFill(new dojo.Color([255, 255, 0, 0.25]))
+		surface.createRect(rect).setFill(new Color([255, 255, 0, 0.25]))
 			// move it to (100, 100)
 				.setTransform(matrix.translate(100, 100));
 	});

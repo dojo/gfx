@@ -46,6 +46,7 @@
 							},
 							runTest: function(t){
 								var r = gfx.renderer == "svg" ? "canvasWithEvents" : "svg";
+                                require(["gfx/" + r], function(r){});
 								gfx.switchTo(r);
 								t.t(gfx.Surface === get(r).Surface, "Unexpected Surface type.");
 								t.t(gfx.renderer === r, "Unexpected renderer.");

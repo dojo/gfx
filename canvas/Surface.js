@@ -8,13 +8,46 @@ define([
 	"./Container",
 	"./Creator"
 ], function(lang, declare, dom, domGeom, g, baseSurface, Container, Creator){
-	var canvasSurface = declare([baseSurface, Container, Creator], {
+	return declare([baseSurface, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (Canvas)
-		constructor: function(){
+		constructor: function(parentNode, width, height){
+			// summary:
+			//		creates a surface (Canvas)
+			// parentNode: Node
+			//		a parent node
+			// width: String
+			//		width of surface, e.g., "100px"
+			// height: String
+			//		height of surface, e.g., "100px"
+
+			if(!width && !height){
+				var pos = domGeom.position(parentNode);
+				width = width || pos.w;
+				height = height || pos.h;
+			}
+			if(typeof width == "number"){
+				width = width + "px";
+			}
+			if(typeof height == "number"){
+				height = height + "px";
+			}
+
+			var p = dom.byId(parentNode),
+				c = p.ownerDocument.createElement("canvas");
+
+			c.width = g.normalizedLength(width);	// in pixels
+			c.height = g.normalizedLength(height);	// in pixels
+
+			p.appendChild(c);
+			this.rawNode = c;
+			this._parent = p;
+			this.surface = this;
+
 			this.pendingImageCount = 0;
 			this.makeDirty();
 		},
+
 		setDimensions: function(width, height){
 			// summary:
 			//		sets the width and height of the rawNode
@@ -123,42 +156,4 @@ define([
 		on: function(){
 		}
 	});
-
-	canvasSurface.create = function(parentNode, width, height){
-		// summary:
-		//		creates a surface (Canvas)
-		// parentNode: Node
-		//		a parent node
-		// width: String
-		//		width of surface, e.g., "100px"
-		// height: String
-		//		height of surface, e.g., "100px"
-
-		if(!width && !height){
-			var pos = domGeom.position(parentNode);
-			width = width || pos.w;
-			height = height || pos.h;
-		}
-		if(typeof width == "number"){
-			width = width + "px";
-		}
-		if(typeof height == "number"){
-			height = height + "px";
-		}
-
-		var s = new canvasSurface(),
-			p = dom.byId(parentNode),
-			c = p.ownerDocument.createElement("canvas");
-
-		c.width = g.normalizedLength(width);	// in pixels
-		c.height = g.normalizedLength(height);	// in pixels
-
-		p.appendChild(c);
-		s.rawNode = c;
-		s._parent = p;
-		s.surface = s;
-		return s;	// gfx.Surface
-	};
-
-	return canvasSurface;
 });
