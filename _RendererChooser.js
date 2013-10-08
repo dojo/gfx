@@ -10,7 +10,7 @@ define(["./_base"], function(g){
 
 			var renderer = g._base._chooseRenderer();
 
-			require(["gfx/" + renderer + "/" + id], function(module){
+			require(["./" + renderer + "/" + id], function(module){
 				load(module);
 			});
 		}

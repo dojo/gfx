@@ -2,10 +2,11 @@ define([
 	"dojo/_base/declare",
 	"./Shape",
 	"../canvas/Group",
+	"./Container",
 	"./Creator",
 	"../matrix"
-], function(declare, canvasWithEventsShape, canvasGroup, Creator, m){
-	return declare([canvasWithEventsShape, canvasGroup, Creator], {
+], function(declare, canvasWithEventsShape, canvasGroup, Container, Creator, m){
+	return declare([canvasWithEventsShape, canvasGroup, Container, Creator], {
 		_testInputs: function(/*Object*/ ctx, /*Array*/ pos){
 			var children = this.children,
 				t = this.getTransform(),

@@ -2,7 +2,7 @@ define([
 	"./canvas",
 	"./canvas/_base",
 	"./canvasWithEvents/Shape",
-	"./canvas/Container",
+	"./canvasWithEvents/Container",
 	"./canvasWithEvents/Surface",
 	"./canvasWithEvents/Group",
 	"./canvasWithEvents/Rect",

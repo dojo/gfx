@@ -3,15 +3,22 @@ define([
 	"dojo/_base/declare",
 	"./Shape"
 ], function(g, declare, Shape){
-	return declare(Shape, {
+	var defaultShape = {
+		// summary:
+		//		Defines the default PolyLine prototype.
+
+		// type: String
+		//		Specifies this object is a PolyLine, default value 'polyline'.
+		type: "polyline",
+
+		// points: Array
+		//		An array of point objects [{x:0,y:0},...] defining the default polyline's line segments. Value is an empty array [].
+		points: []
+	};
+	var Polyline = declare(Shape, {
 		// summary:
 		//		a generic polyline/polygon (do not instantiate it directly)
-		constructor: function(rawNode){
-			// rawNode: Node
-			//		a DOM Node
-			this.shape = g.getDefault("Polyline");
-			this.rawNode = rawNode;
-		},
+		shape: defaultShape,
 		setShape: function(points, closed){
 			// summary:
 			//		sets a polyline/polygon shape object
@@ -66,4 +73,6 @@ define([
 			return this.bbox;	// gfx.Rectangle
 		}
 	});
+	Polyline.defaultShape = defaultShape;
+	return Polyline;
 });

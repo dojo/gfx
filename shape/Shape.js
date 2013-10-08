@@ -20,10 +20,10 @@ define(["../_base", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff",
 			//		a Shape object, which knows how to apply
 			//		graphical attributes and transformations
 
-			constructor: function(){
-				// rawNode: Node
-				//		underlying graphics-renderer-specific implementation object (if applicable)
-				this.rawNode = null;
+			constructor: function(rawShape, rawNode){
+				// summary: Creates a new shape.
+				// rawShape: Object
+				//		The properties of the shape.
 
 				// shape: Object
 				//		an abstract shape object
@@ -34,7 +34,7 @@ define(["../_base", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff",
 				//		gfx.defaultCircle,
 				//		gfx.defaultLine,
 				//		or gfx.defaultImage)
-				this.shape = null;
+				this.shape = this.shape ? lang.clone(this.shape) : null;
 
 				// matrix: gfx/matrix.Matrix2D
 				//		a transformation matrix
@@ -76,6 +76,23 @@ define(["../_base", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff",
 						return uid;
 					}
 				}
+
+				// rawNode: Node
+				//		underlying graphics-renderer-specific implementation object (if applicable)
+				this.rawNode = rawNode || this.createRawNode();
+
+				if(rawShape){
+					this.setShape(rawShape);
+				}
+			},
+
+			createRawNode: function(){
+				// summary:
+				//		Creates the underlying DOM node for this shape.
+				// description:
+				//		This method should be overidden by renderers that actually represent shapes
+				//		using DOM nodes (like SVG).
+				return null;
 			},
 
 			destroy: function(){

@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./_RendererChooser!Surface", "./shapes"],
-	function(lang, arr, g, Surface, shapes){
+define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes", "require"],
+	function(lang, arr, g, Surface, shapes, require){
 		// module:
 		//		gfx/compat
 		// summary:
@@ -10,8 +10,22 @@ define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./_RendererChooser!Su
 		g.Surface = Surface;
 		lang.mixin(g, shapes);
 		g.createSurface = function(parent, width, height){
+			// summary:
+			//		Creates a new drawing surface using the renderer defined by the "gfx-renderer" has flag.
 			return new g.Surface(parent, width, height);
 		};
+		g.renderer = g._base._chooseRenderer();
+
+		// Default shapes are now defined in each shape base class,
+		// for compat copy them to the toplevel gfx object.
+		for(var name in shapes){
+			if(shapes.hasOwnProperty(name)){
+				try{
+					g["default" + name] = require("./shape/" + name).defaultShape;
+				}catch(err){
+				}
+			}
+		}
 
 		g.switchTo = function(/*String|Object*/renderer){
 			// summary:

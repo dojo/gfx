@@ -5,21 +5,30 @@ define([
 	"./Shape",
 	"../matrix"
 ], function(g, declare, lang, Shape, matrix){
-	return declare(Shape, {
+	var defaultShape = {
+		// summary:
+		//		Defines the default Path prototype object.
+
+		// type: String
+		//		Specifies this object is a Path, default value 'path'.
+		type: "path",
+
+		// path: String
+		//		The path commands. See W32C SVG 1.0 specification.
+		//		Defaults to empty string value.
+		path: ""
+	};
+	var Path = declare(Shape, {
 		// summary:
 		//		a generalized path shape
-
-		constructor: function(rawNode){
+		shape: defaultShape,
+		constructor: function(){
 			// summary:
 			//		a path constructor
-			// rawNode: Node
-			//		a DOM node to be used by this path object
-			this.shape = lang.clone(g.defaultPath);
 			this.segments = [];
 			this.tbbox = null;
 			this.absolute = true;
 			this.last = {};
-			this.rawNode = rawNode;
 			this.segmented = false;
 		},
 
@@ -415,4 +424,6 @@ define([
 		// useful constant for descendants
 		_2PI: Math.PI * 2
 	});
+	Path.defaultShape = defaultShape;
+	return Path;
 });

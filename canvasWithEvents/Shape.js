@@ -1,13 +1,52 @@
 define([
 	"dojo/_base/lang",
 	"dojo/_base/declare",
+	"dojo/aspect",
 	"dojo/dom",
 	"dojo/on",
 	"dojo/_base/Color",
 	"../canvas/Shape",
 	"../matrix"
-], function(lang, declare, dom, on, Color, canvasShape, m){
+], function(lang, declare, aspect, dom, on, Color, canvasShape, m){
 	return declare(canvasShape, {
+
+		createRawNode: function(){
+
+			var listeners = {};
+
+			return {
+				shape: this,
+				ownerDocument: null, // will be set in Container.add
+				parentNode: null,    // will be set in Container.add
+				addEventListener: function(type, listener){
+					var listenersOfType = listeners[type] = (listeners[type] || []);
+					for(var i = 0, record; (record = listenersOfType[i]); ++i){
+						if(record.listener === listener){
+							return;
+						}
+					}
+
+					listenersOfType.push({
+						listener: listener,
+						handle: aspect.after(this, "on" + type, this.surface.fixTarget(listener), true)
+					});
+				},
+				removeEventListener: function(type, listener){
+					var listenersOfType = listeners[type];
+					if(!listenersOfType){
+						return;
+					}
+					for(var i = 0, record; (record = listenersOfType[i]); ++i){
+						if(record.listener === listener){
+							record.handle.remove();
+							listenersOfType.splice(i, 1);
+							return;
+						}
+					}
+				}
+			};
+		},
+
 		_testInputs: function(/* Object */ ctx, /* Array */ pos){
 			if(this.clip || (!this.canvasFill && this.strokeStyle)){
 				// pixel-based until a getStrokedPath-like api is available on the path

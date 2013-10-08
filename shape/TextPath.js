@@ -4,17 +4,43 @@ define([
 	"dojo/_base/lang",
 	"./Path"
 ], function(g, declare, lang, Path){
-	return declare(Path, {
+	var defaultShape = {
+		// summary:
+		//		Defines the default TextPath prototype.
+
+		// type: String
+		//		Specifies this is a TextPath, value 'textpath'.
+		type: "textpath",
+
+		// text: String
+		//		The text to be displayed, default value empty string.
+		text: "",
+
+		// align: String
+		//		The horizontal text alignment, one of 'start', 'end', 'center'. Default value 'start'.
+		align: "start",
+
+		// decoration: String
+		//		The text decoration , one of 'none', ... . Default value 'none'.
+		decoration: "none",
+
+		// rotated: Boolean
+		//		Whether the text is rotated, boolean default value false.
+		rotated: false,
+
+		// kerning: Boolean
+		//		Whether kerning is used on the text, boolean default value true.
+		kerning: true
+	};
+	var TextPath = declare(Path, {
 		// summary:
 		//		a generalized TextPath shape
-
-		constructor: function(rawNode){
+		shape: defaultShape,
+		constructor: function(){
 			// summary:
 			//		a TextPath shape constructor
-			// rawNode: Node
-			//		a DOM node to be used by this TextPath object
 			if(!("text" in this)){
-				this.text = lang.clone(g.defaultTextPath);
+				this.text = lang.clone(TextPath.defaultShape);
 			}
 			if(!("fontStyle" in this)){
 				this.fontStyle = lang.clone(g.defaultFont);
@@ -48,4 +74,6 @@ define([
 			return this;	// self
 		}
 	});
+	TextPath.defaultShape = defaultShape;
+	return TextPath;
 });

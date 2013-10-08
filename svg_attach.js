@@ -14,41 +14,41 @@ define(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/array","dojo/_base/C
 		var s = null;
 		switch(node.tagName.toLowerCase()){
 			case svg.Rect.nodeType:
-				s = new svg.Rect(node);
+				s = new svg.Rect(null, node);
 				attachRect(s);
 				break;
 			case svg.Ellipse.nodeType:
-				s = new svg.Ellipse(node);
+				s = new svg.Ellipse(null, node);
 				attachShape(s, g.defaultEllipse);
 				break;
 			case svg.Polyline.nodeType:
-				s = new svg.Polyline(node);
+				s = new svg.Polyline(null, node);
 				attachShape(s, g.defaultPolyline);
 				break;
 			case svg.Path.nodeType:
-				s = new svg.Path(node);
+				s = new svg.Path(null, node);
 				attachShape(s, g.defaultPath);
 				break;
 			case svg.Circle.nodeType:
-				s = new svg.Circle(node);
+				s = new svg.Circle(null, node);
 				attachShape(s, g.defaultCircle);
 				break;
 			case svg.Line.nodeType:
-				s = new svg.Line(node);
+				s = new svg.Line(null, node);
 				attachShape(s, g.defaultLine);
 				break;
 			case svg.Image.nodeType:
-				s = new svg.Image(node);
+				s = new svg.Image(null, node);
 				attachShape(s, g.defaultImage);
 				break;
 			case svg.Text.nodeType:
 				var t = node.getElementsByTagName("textPath");
 				if(t && t.length){
-					s = new svg.TextPath(node);
+					s = new svg.TextPath(null, node);
 					attachShape(s, g.defaultPath);
 					attachTextPath(s);
 				}else{
-					s = new svg.Text(node);
+					s = new svg.Text(null, node);
 					attachText(s);
 				}
 				attachFont(s);

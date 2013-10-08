@@ -143,10 +143,10 @@ define([
 			// shapeType: Function
 			//		a class constructor to create an instance of
 			// rawShape: Object
-			//		properties to be passed in to the classes 'setShape' method
-
-			// SHOULD BE RE-IMPLEMENTED BY THE RENDERER!
-			return null;	// gfx/shape.Shape
+			//		properties to be passed in to the classes "setShape" method
+			var shape = new shapeType(rawShape);
+			this.add(shape);
+			return shape;	// gfx/shape/Shape
 		}
 	});
 });

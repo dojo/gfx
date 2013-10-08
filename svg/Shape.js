@@ -18,6 +18,13 @@ define([
 		// summary:
 		//		SVG-specific implementation of gfx/shape.Shape methods
 
+		createRawNode: function(){
+			// summary: Creates a new SVG shape.
+			var node = svg._createElementNS(svg.xmlns.svg, this.constructor.nodeType);
+			this.setRawNode(node);
+			return node;
+		},
+
 		destroy: function(){
 			if(this.fillStyle && "type" in this.fillStyle){
 				var fill = this.rawNode.getAttribute("fill"),
@@ -163,7 +170,7 @@ define([
 			var svgns = svg.xmlns.svg;
 			this.fillStyle = f;
 			var surface = this._getParentSurface(),
-				defs = surface.defNode,
+				defs = surface&&surface.defNode,
 				fill = this.rawNode.getAttribute("fill"),
 				ref = svg.getRef(fill);
 			if(ref){
@@ -173,7 +180,11 @@ define([
 					fill.parentNode.removeChild(fill);
 					fill = svg._createElementNS(svgns, nodeType);
 					fill.setAttribute("id", id);
-					defs.appendChild(fill);
+					if(defs){
+						defs.appendChild(fill);
+					}else{
+						this._pendingFill = fill;
+					}
 				}else{
 					while(fill.childNodes.length){
 						fill.removeChild(fill.lastChild);
@@ -182,7 +193,11 @@ define([
 			}else{
 				fill = svg._createElementNS(svgns, nodeType);
 				fill.setAttribute("id", g._base._getUniqueId());
-				defs.appendChild(fill);
+				if(defs){
+					defs.appendChild(fill);
+				}else{
+					this._pendingFill = fill;
+				}
 			}
 			if(nodeType == "pattern"){
 				fill.setAttribute("patternUnits", "userSpaceOnUse");
@@ -208,6 +223,17 @@ define([
 			this.rawNode.removeAttribute("fill-opacity");
 			this.rawNode.setAttribute("fill-rule", "evenodd");
 			return fill;
+		},
+
+		_setParent: function(){
+			this.inherited(arguments);
+			if(this._pendingFill){
+				var surface = this._getParentSurface();
+				if(surface){
+					surface.defNode.appendChild(this._pendingFill);
+					this._pendingFill = null;
+				}
+			}
 		},
 
 		_applyTransform: function(){

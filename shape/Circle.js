@@ -3,15 +3,29 @@ define([
 	"dojo/_base/declare",
 	"./Shape"
 ], function(g, declare, Shape){
-	return declare(Shape, {
+	var defaultShape = {
+		// summary:
+		//		An object defining the default Circle prototype.
+
+		// type: String
+		//		Specifies this object is a circle, value 'circle'
+		type: "circle",
+
+		// cx: Number
+		//		The X coordinate of the center of the circle, default value 0.
+		cx: 0,
+		// cy: Number
+		//		The Y coordinate of the center of the circle, default value 0.
+		cy: 0,
+
+		// r: Number
+		//		The radius, default value 100.
+		r: 100
+	};
+	var Circle = declare(Shape, {
 		// summary:
 		//		a generic circle
-		constructor: function(rawNode){
-			// rawNode: Node
-			//		a DOM Node
-			this.shape = g.getDefault("Circle");
-			this.rawNode = rawNode;
-		},
+		shape: defaultShape,
 		getBoundingBox: function(){
 			// summary:
 			//		returns the bounding box
@@ -23,4 +37,6 @@ define([
 			return this.bbox;	// gfx.Rectangle
 		}
 	});
+	Circle.defaultShape = defaultShape;
+	return Circle;
 });

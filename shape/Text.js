@@ -3,15 +3,48 @@ define([
 	"dojo/_base/declare",
 	"./Shape"
 ], function(g, declare, Shape){
-	return declare(Shape, {
+	var defaultShape = {
+		// summary:
+		//		Defines the default Text prototype.
+
+		// type: String
+		//		Specifies this is a Text shape, value 'text'.
+		type: "text",
+
+		// x: Number
+		//		The X coordinate of the text position, default value 0.
+		x: 0,
+
+		// y: Number
+		//		The Y coordinate of the text position, default value 0.
+		y: 0,
+
+		// text: String
+		//		The text to be displayed, default value empty string.
+		text: "",
+
+		// align:	String
+		//		The horizontal text alignment, one of 'start', 'end', 'center'. Default value 'start'.
+		align: "start",
+
+		// decoration: String
+		//		The text decoration , one of 'none', ... . Default value 'none'.
+		decoration: "none",
+
+		// rotated: Boolean
+		//		Whether the text is rotated, boolean default value false.
+		rotated: false,
+
+		// kerning: Boolean
+		//		Whether kerning is used on the text, boolean default value true.
+		kerning: true
+	};
+	var Text = declare(Shape, {
 		// summary:
 		//		a generic text (do not instantiate it directly)
-		constructor: function(rawNode){
-			// rawNode: Node
-			//		a DOM Node
+		shape: defaultShape,
+		constructor: function(){
 			this.fontStyle = null;
-			this.shape = g.getDefault("Text");
-			this.rawNode = rawNode;
 		},
 		getFont: function(){
 			// summary:
@@ -36,4 +69,6 @@ define([
 			return bbox;
 		}
 	});
+	Text.defaultShape = defaultShape;
+	return Text;
 });

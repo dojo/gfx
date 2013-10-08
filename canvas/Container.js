@@ -32,6 +32,7 @@ define([
 			}
 		},
 		add: function(shape){
+			shape.surface = this.surface;
 			this._makeDirty();
 			this.inherited(arguments);
 		},
