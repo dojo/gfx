@@ -6,7 +6,7 @@ define([
 	"./Shape",
 	"../shape/Path",
 	"../arc"
-], function(lang, arr, declare, canvas, canvasShape, basePath, ga){
+], function(lang, arr, declare, canvas, CanvasShape, BasePath, ga){
 
 	var hasNativeDash = canvas.hasNativeDash;
 
@@ -45,7 +45,7 @@ define([
 		return residue;
 	}
 
-	return declare([canvasShape, basePath], {
+	return declare([CanvasShape, BasePath], {
 		// summary:
 		//		a path shape (Canvas)
 		constructor: function(){

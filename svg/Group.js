@@ -4,9 +4,9 @@ define([
 	"../shape/Group",
 	"./Container",
 	"./Creator"
-], function(declare, svgShape, baseGroup, svgContainer, svgCreator){
+], function(declare, SvgShape, BaseGroup, SvgContainer, SvgCreator){
 
-		var Group = declare([svgShape, baseGroup, svgContainer, svgCreator], {
+		var Group = declare([SvgShape, BaseGroup, SvgContainer, SvgCreator], {
 			// summary:
 			//		a group shape (SVG), which can be used
 			//		to logically group shapes (e.g, to propagate matricies)

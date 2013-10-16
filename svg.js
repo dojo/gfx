@@ -35,7 +35,6 @@ define([
 		Creator: Creator,
 		createSurface: function(node, width, height){
 			return new Surface(node, width, height);
-		},
-		fixTarget: svg.fixTarget
+		}
 	};
 });

@@ -1,8 +1,8 @@
 define([
 	"dojo/_base/declare",
 	"../shape/Container"
-], function(declare, baseContainer){
-	return declare([baseContainer], {
+], function(declare, BaseContainer){
+	return declare([BaseContainer], {
 		openBatch: function(){
 			// summary:
 			//		starts a new batch, subsequent new child shapes will be held in

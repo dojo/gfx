@@ -3,6 +3,7 @@ define([
 	"dojo/dom",
 	"dojo/_base/declare",
 	"dojo/_base/array",
+	"dojo/sniff",
 	"dojo/dom-geometry",
 	"dojo/dom-attr",
 	"dojo/_base/Color",
@@ -10,11 +11,11 @@ define([
 	"./_base",
 	"../shape/Shape",
 	"./Surface"
-], function(lang, dom, declare, arr, domGeom, domAttr, Color, g, svg, baseShape, svgSurface){
+], function(lang, dom, declare, arr, has, domGeom, domAttr, Color, g, svg, BaseShape, SvgSurface){
 
 	var clipCount = 0;
 
-	return declare(baseShape, {
+	return declare(BaseShape, {
 		// summary:
 		//		SVG-specific implementation of gfx/shape.Shape methods
 
@@ -162,7 +163,7 @@ define([
 
 		_getParentSurface: function(){
 			var surface = this.parent;
-			for(; surface && !(surface instanceof svgSurface); surface = surface.parent);
+			for(; surface && !(surface instanceof SvgSurface); surface = surface.parent);
 			return surface;
 		},
 
@@ -367,6 +368,26 @@ define([
 				}
 			}
 			return clipNode;
+		},
+
+		// Mouse/Touch event
+		_fixTarget: function(event, gfxElement){
+			// summary:
+			//		Adds the gfxElement to event.gfxTarget if none exists. This new
+			//		property will carry the GFX element associated with this event.
+			// event: Object
+			//		The current input event (MouseEvent or TouchEvent)
+			// gfxElement: Object
+			//		The GFX target element
+			if(!event.gfxTarget){
+				if(has("ios") && event.target.wholeText){
+					// Workaround iOS bug when touching text nodes
+					event.gfxTarget = event.target.parentElement.__gfxObject__;
+				}else{
+					event.gfxTarget = event.target.__gfxObject__;
+				}
+			}
+			return true;
 		}
 	});
 });

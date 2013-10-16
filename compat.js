@@ -46,7 +46,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes
 				// If more options are added, update the docblock at the end of shape.js!
 				arr.forEach(["Group", "Rect", "Ellipse", "Circle", "Line",
 					"Polyline", "Image", "Text", "Path", "TextPath",
-					"Surface", "fixTarget"], function(name){
+					"Surface"], function(name){
 					g[name] = ns[name];
 				});
 

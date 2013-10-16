@@ -81,9 +81,7 @@ define(["../_base", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff",
 				//		underlying graphics-renderer-specific implementation object (if applicable)
 				this.rawNode = rawNode || this.createRawNode();
 
-				if(rawShape){
-					this.setShape(rawShape);
-				}
+				this.setShape(rawShape);
 			},
 
 			createRawNode: function(){
@@ -446,6 +444,12 @@ define(["../_base", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff",
 					p = p.parent;
 				}
 				return m;	// gfx/matrix.Matrix2D
+			},
+
+			_fixTarget: function(){
+				// tags:
+				//		private
+				return true;
 			}
-		});
+	});
 	});

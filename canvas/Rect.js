@@ -3,7 +3,7 @@ define([
 	"./_base",
 	"./Shape",
 	"../shape/Rect"
-], function(declare, canvas, canvasShape, baseRect){
+], function(declare, canvas, CanvasShape, BaseRect){
 
 	function drawDashedArc(/*CanvasRenderingContext2D*/ctx, /*Number[]*/dash,  /*int*/cx,  /*int*/cy,  /*int*/r, /*Number*/sa, /*Number*/ea, /*Boolean*/ccw, /*Boolean?*/apply, prevResidue){
 		var residue, angle, l = dash.length, i= 0;
@@ -34,7 +34,7 @@ define([
 
 	var pi = Math.PI, halfPI = pi / 2;
 
-	return declare([canvasShape, baseRect], {
+	return declare([CanvasShape, BaseRect], {
 		// summary:
 		//		a rectangle shape (Canvas)
 		_renderShape: function(/* Object */ ctx){

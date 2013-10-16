@@ -6,7 +6,7 @@ define([
 	"./_base",
 	"../shape/Shape",
 	"../decompose"
-], function(lang, arr, declare, g, canvas, baseShape){
+], function(lang, arr, declare, g, canvas, BaseShape){
 	var pattrnbuffer = null;
 
 	var hasNativeDash = canvas.hasNativeDash;
@@ -72,7 +72,7 @@ define([
 		return p;
 	};
 
-	return declare([baseShape], {
+	return declare([BaseShape], {
 
 		setShape: function(shape){
 			if(this.parent){

@@ -9,7 +9,7 @@ define([
 	"../canvas/Surface",
 	"./Container",
 	"./Creator"
-], function(lang, declare, has, on, dom, domGeom, g, canvasSurface, Container, Creator){
+], function(lang, declare, has, on, dom, domGeom, g, CanvasSurface, Container, Creator){
 
 	function makeFakeEvent(event){
 		// summary:
@@ -55,7 +55,7 @@ define([
 	// The out-of-band data is stored here.
 	var fixedEventData = null;
 
-	return declare([canvasSurface, Container, Creator], {
+	return declare([CanvasSurface, Container, Creator], {
 		constructor: function(parentNode, width, height){
 			// summary:
 			//		creates a surface (Canvas)

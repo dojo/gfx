@@ -2,8 +2,8 @@ define([
 	"dojo/_base/declare",
 	"./Shape",
 	"../shape/Circle"
-], function(declare, svgShape, baseCircle){
-	var Circle = declare([svgShape, baseCircle], {
+], function(declare, SvgShape, BaseCircle){
+	var Circle = declare([SvgShape, BaseCircle], {
 		// summary:
 		//		a circle shape (SVG)
 	});

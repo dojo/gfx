@@ -47,16 +47,9 @@ define([
 		return residue;
 	}
 
-	var fixTarget = function(){
-		// tags:
-		//		private
-		return true;
-	};
-
 	return {
 		hasNativeDash: hasNativeDash,
 		hasFillText: hasFillText,
-		toDashedLineTo:toDashedLineTo,
-		fixTarget: fixTarget
+		toDashedLineTo:toDashedLineTo
 	}
 });

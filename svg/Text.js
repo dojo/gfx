@@ -6,11 +6,11 @@ define([
 	"./Shape",
 	"../shape/Text",
 	"./Font"
-], function(declare, has, g, svg, svgShape, baseText, Font){
+], function(declare, has, g, svg, SvgShape, BaseText, Font){
 	var android = has("android"),
 		textRenderingFix = has("chrome") || (android && android>=4) ? "auto" : "optimizeLegibility";// #16099, #16461
 
-	var Text = declare([svgShape, baseText, Font], {
+	var Text = declare([SvgShape, BaseText, Font], {
 		// summary:
 		//		an anchored text (SVG)
 		setShape: function(newShape){

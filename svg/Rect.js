@@ -3,8 +3,8 @@ define([
 	"../_base",
 	"./Shape",
 	"../shape/Rect"
-], function(declare, g, svgShape, baseRect){
-	var Rect = declare([svgShape, baseRect], {
+], function(declare, g, SvgShape, BaseRect){
+	var Rect = declare([SvgShape, BaseRect], {
 		// summary:
 		//		a rectangle shape (SVG)
 		setShape: function(newShape){

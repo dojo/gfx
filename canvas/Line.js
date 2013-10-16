@@ -3,8 +3,8 @@ define([
 	"./_base",
 	"./Shape",
 	"../shape/Line"
-], function(declare, canvas, canvasShape, baseLine){
-	return declare([canvasShape, baseLine], {
+], function(declare, canvas, CanvasShape, BaseLine){
+	return declare([CanvasShape, BaseLine], {
 		// summary:
 		//		a line shape (Canvas)
 		_renderShape: function(/* Object */ ctx){

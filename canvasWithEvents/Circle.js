@@ -2,6 +2,6 @@ define([
 	"dojo/_base/declare",
 	"./Shape",
 	"../canvas/Circle"
-], function(declare, canvasWithEventsShape, canvasCircle){
-	return declare([canvasWithEventsShape, canvasCircle], {});
+], function(declare, CanvasWithEventsShape, CanvasCircle){
+	return declare([CanvasWithEventsShape, CanvasCircle], {});
 });

@@ -2,8 +2,8 @@ define([
 	"dojo/_base/declare",
 	"./Shape",
 	"../shape/Ellipse"
-], function(declare, svgShape, baseEllipse){
-	var Ellipse = declare([svgShape, baseEllipse], {
+], function(declare, SvgShape, BaseEllipse){
+	var Ellipse = declare([SvgShape, BaseEllipse], {
 		// summary:
 		//		an ellipse shape (SVG)
 	});

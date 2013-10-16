@@ -3,8 +3,8 @@ define([
 	"./_base",
 	"./Shape",
 	"../shape/Polyline"
-], function(declare, canvas, canvasShape, basePolyline){
-	return declare([canvasShape, basePolyline], {
+], function(declare, canvas, CanvasShape, BasePolyline){
+	return declare([CanvasShape, BasePolyline], {
 		// summary:
 		//		a polyline/polygon shape (Canvas)
 		setShape: function(){

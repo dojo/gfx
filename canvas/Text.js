@@ -4,11 +4,11 @@ define([
 	"./_base",
 	"./Shape",
 	"../shape/Text"
-], function(declare, g, canvas, canvasShape, baseText){
+], function(declare, g, canvas, CanvasShape, BaseText){
 
 	var hasFillText = canvas.hasFillText;
 
-	return declare([canvasShape, baseText], {
+	return declare([CanvasShape, BaseText], {
 		_setFont: function(){
 			if(this.parent){
 				this.parent._makeDirty();

@@ -4,7 +4,7 @@ define([
 	"../shape/Ellipse",
 	"../arc",
 	"../matrix"
-], function(declare, canvasShape, baseEllipse, ga, m){
+], function(declare, CanvasShape, BaseEllipse, ga, m){
 
 	var mp = m.multiplyPoint;
 
@@ -43,7 +43,7 @@ define([
 		return r;
 	};
 
-	var Ellipse = declare([canvasShape, baseEllipse], {
+	var Ellipse = declare([CanvasShape, BaseEllipse], {
 		// summary:
 		//		an ellipse shape (Canvas)
 		setShape: function(){

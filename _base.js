@@ -807,10 +807,6 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 			// returns: gfx.Surface
 			//     newly created surface
 		};
-		g.fixTarget = function(){
-			// tags:
-			//		private
-		};
 	=====*/
 	
 	return g; // defaults object api

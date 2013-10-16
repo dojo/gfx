@@ -5,8 +5,8 @@ define([
 	"./Shape",
 	"../shape/TextPath",
 	"./Font"
-], function(declare, g, svg, svgShape, baseTextPath, Font){
-	var TextPath = declare([svgShape, baseTextPath, Font], {
+], function(declare, g, svg, SvgShape, BaseTextPath, Font){
+	var TextPath = declare([SvgShape, BaseTextPath, Font], {
 		// summary:
 		//		a textpath shape (SVG)
 		_updateWithSegment: function(segment){

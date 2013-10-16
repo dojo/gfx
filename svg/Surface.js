@@ -6,8 +6,8 @@ define([
 	"../shape/Surface",
 	"./Container",
 	"./Creator"
-], function(declare, dom, g, svg, baseSurface, Container, Creator){
-	return declare([baseSurface, Container, Creator], {
+], function(declare, dom, g, svg, BaseSurface, Container, Creator){
+	return declare([BaseSurface, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (SVG)
 

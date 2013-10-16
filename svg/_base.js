@@ -69,26 +69,6 @@ define([
 			dashdot: [4, 3, 1, 3],
 			longdashdot: [8, 3, 1, 3],
 			longdashdotdot: [8, 3, 1, 3, 1, 3]
-		},
-
-		// Mouse/Touch event
-		fixTarget: function(event, gfxElement){
-			// summary:
-			//		Adds the gfxElement to event.gfxTarget if none exists. This new
-			//		property will carry the GFX element associated with this event.
-			// event: Object
-			//		The current input event (MouseEvent or TouchEvent)
-			// gfxElement: Object
-			//		The GFX target element
-			if(!event.gfxTarget){
-				if(has("ios") && event.target.wholeText){
-					// Workaround iOS bug when touching text nodes
-					event.gfxTarget = event.target.parentElement.__gfxObject__;
-				}else{
-					event.gfxTarget = event.target.__gfxObject__;
-				}
-			}
-			return true;
 		}
 	};
 });

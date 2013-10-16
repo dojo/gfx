@@ -7,8 +7,8 @@ define([
 	"dojo/_base/Color",
 	"../canvas/Shape",
 	"../matrix"
-], function(lang, declare, aspect, dom, on, Color, canvasShape, m){
-	return declare(canvasShape, {
+], function(lang, declare, aspect, dom, on, Color, CanvasShape, m){
+	return declare(CanvasShape, {
 
 		createRawNode: function(){
 

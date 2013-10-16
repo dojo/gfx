@@ -9,7 +9,7 @@
 		window.onerror = function(){
 			document.writeln("Test has failed: canvas.js cannot be loaded.");
 		}
-		require(["gfx/canvas", "dojo/ready", "dojo/dom"], function(canvas, ready, dom){
+		require(["gfx", "gfx/canvas", "dojo/ready", "dojo/dom"], function(gfx, canvas, ready, dom){
 			ready(function(){
 				gfx.switchTo("canvas");
 				dom.byId("test").innerHTML = "Test is successful.";

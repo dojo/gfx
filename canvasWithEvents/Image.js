@@ -2,8 +2,8 @@ define([
 	"dojo/_base/declare",
 	"./Shape",
 	"../canvas/Image"
-], function(declare, canvasWithEventsShape, canvasImage){
-	return declare([canvasWithEventsShape, canvasImage], {
+], function(declare, CanvasWithEventsShape, CanvasImage){
+	return declare([CanvasWithEventsShape, CanvasImage], {
 		_renderShape: function(/* Object */ ctx){
 			// summary:
 			//		render image

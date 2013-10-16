@@ -3,8 +3,8 @@ define([
 	"../_base",
 	"./Shape",
 	"../shape/Polyline"
-], function(declare, g, svgShape, basePolyline){
-	var Polyline = declare([svgShape, basePolyline], {
+], function(declare, g, SvgShape, BasePolyline){
+	var Polyline = declare([SvgShape, BasePolyline], {
 		// summary:
 		//		a polyline shape (SVG)
 		setShape: function(points, closed){

@@ -5,8 +5,8 @@ define([
 	"./Container",
 	"./Creator",
 	"../matrix"
-], function(declare, canvasWithEventsShape, canvasGroup, Container, Creator, m){
-	return declare([canvasWithEventsShape, canvasGroup, Container, Creator], {
+], function(declare, CanvasWithEventsShape, CanvasGroup, Container, Creator, m){
+	return declare([CanvasWithEventsShape, CanvasGroup, Container, Creator], {
 		_testInputs: function(/*Object*/ ctx, /*Array*/ pos){
 			var children = this.children,
 				t = this.getTransform(),

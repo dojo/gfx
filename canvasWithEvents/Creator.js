@@ -1,8 +1,8 @@
 define([
 	"dojo/_base/declare",
 	"../shape/Creator"
-], function(declare, baseCreator){
-	return declare([baseCreator], {
+], function(declare, BaseCreator){
+	return declare([BaseCreator], {
 
 		_prefix:"../canvasWithEvents/"
 	});

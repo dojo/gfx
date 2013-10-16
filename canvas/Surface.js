@@ -7,8 +7,8 @@ define([
 	"../shape/Surface",
 	"./Container",
 	"./Creator"
-], function(lang, declare, dom, domGeom, g, baseSurface, Container, Creator){
-	return declare([baseSurface, Container, Creator], {
+], function(lang, declare, dom, domGeom, g, BaseSurface, Container, Creator){
+	return declare([BaseSurface, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (Canvas)
 		constructor: function(parentNode, width, height){

@@ -3,8 +3,9 @@ define([
 	"dojo/_base/array",
 	"dojo/_base/window",
 	"./_base",
-	"./svg"], 
-	function(dom, array, win, gfx, svg){
+	"./svg",
+	"./svg/_base"],
+	function(dom, array, win, gfx, svg, svgUtils){
 
 	/*=====
 	return {
@@ -22,7 +23,7 @@ define([
 	};
 
 	function buildFilterPrimitivesDOM(primitive, parentNode){
-		var node =  parentNode.ownerDocument.createElementNS(svg.xmlns.svg, primitive.tag);
+		var node =  parentNode.ownerDocument.createElementNS(svgUtils.xmlns.svg, primitive.tag);
 		parentNode.appendChild(node);
 		for(var p in primitive){
 			if(!(p in toIgnore)){
@@ -195,7 +196,7 @@ define([
 			filter.id = filter.id || gfx._base._getUniqueId();
 			var filterNode = dom.byId(filter.id);
 			if(!filterNode){
-				filterNode = this.rawNode.ownerDocument.createElementNS(svg.xmlns.svg, "filter");
+				filterNode = this.rawNode.ownerDocument.createElementNS(svgUtils.xmlns.svg, "filter");
 				filterNode.setAttribute("filterUnits", "userSpaceOnUse");
 				for(var p in filter){
 					if(!(p in toIgnore)){

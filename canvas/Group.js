@@ -4,8 +4,8 @@ define([
 	"../shape/Group",
 	"./Container",
 	"./Creator"
-], function(declare, canvasShape, baseGroup, canvasContainer, canvasCreator){
-	return declare([canvasShape, baseGroup, canvasContainer, canvasCreator], {
+], function(declare, CanvasShape, BaseGroup, CanvasContainer, CanvasCreator){
+	return declare([CanvasShape, BaseGroup, CanvasContainer, CanvasCreator], {
 		// summary:
 		//		a group shape (Canvas), which can be used
 		//		to logically group shapes (e.g, to propagate matricies)
