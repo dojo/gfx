@@ -193,7 +193,7 @@ define([
 				return this;
 			}
 			this.filter = filter;
-			filter.id = filter.id || gfx._base._getUniqueId();
+			filter.id = filter.id || gfx._getUniqueId();
 			var filterNode = dom.byId(filter.id);
 			if(!filterNode){
 				filterNode = this.rawNode.ownerDocument.createElementNS(svgUtils.xmlns.svg, "filter");

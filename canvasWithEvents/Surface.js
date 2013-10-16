@@ -69,7 +69,7 @@ define([
 			var surface = this,
 				canvas = this.rawNode;
 
-			g._base._fixMsTouchAction(surface);
+			g._fixMsTouchAction(surface);
 
 			// any event handler added to the canvas needs to have its target fixed.
 			var oldAddEventListener = canvas.addEventListener,

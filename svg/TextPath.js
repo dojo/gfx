@@ -42,7 +42,7 @@ define([
 				if(surface){
 					var defs = surface.defNode;
 					path = svg._createElementNS(svg.xmlns.svg, "path");
-					var id = g._base._getUniqueId();
+					var id = g._getUniqueId();
 					path.setAttribute("id", id);
 					defs.appendChild(path);
 					svg._setAttributeNS(r.firstChild, svg.xmlns.xlink, "xlink:href", "#" + id);

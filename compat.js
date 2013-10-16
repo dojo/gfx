@@ -14,7 +14,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes
 			//		Creates a new drawing surface using the renderer defined by the "gfx-renderer" has flag.
 			return new g.Surface(parent, width, height);
 		};
-		g.renderer = g._base._chooseRenderer();
+		g.renderer = g._chooseRenderer();
 
 		// Default shapes are now defined in each shape base class,
 		// for compat copy them to the toplevel gfx object.

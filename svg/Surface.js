@@ -37,7 +37,7 @@ define([
 			this._parent = dom.byId(parentNode);
 			this._parent.appendChild(this.rawNode);
 
-			g._base._fixMsTouchAction(this);
+			g._fixMsTouchAction(this);
 		},
 
 		destroy: function(){

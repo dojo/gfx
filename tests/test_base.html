@@ -103,10 +103,10 @@
 						runTest:function(t){
 							var g = drawing.createGroup();
 							var rect = g.createRect();
-							t.assertTrue(gfx._base._isRendered(rect), "Unexpected value for parented rect.");
+							t.assertTrue(gfx._isRendered(rect), "Unexpected value for parented rect.");
 							g.removeShape();
-							t.assertFalse(gfx._base._isRendered(rect), "Unexpected value for unparented rect.");
-							t.assertFalse(gfx._base._isRendered(g), "Unexpected value for unparented g.");
+							t.assertFalse(gfx._isRendered(rect), "Unexpected value for unparented rect.");
+							t.assertFalse(gfx._isRendered(g), "Unexpected value for unparented g.");
 						}
 					}
 				]);

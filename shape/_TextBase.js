@@ -64,7 +64,7 @@ define([
 		getBoundingBox: function(){
 			var bbox = null, s = this.getShape();
 			if(s.text){
-				bbox = g._base._computeTextBoundingBox(this);
+				bbox = g._computeTextBoundingBox(this);
 			}
 			return bbox;
 		}

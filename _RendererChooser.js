@@ -8,7 +8,7 @@ define(["./_base"], function(g){
 			// tags:
 			//      private
 
-			var renderer = g._base._chooseRenderer();
+			var renderer = g._chooseRenderer();
 
 			require(["./" + renderer + "/" + id], function(module){
 				load(module);

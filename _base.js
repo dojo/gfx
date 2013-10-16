@@ -6,9 +6,8 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 	// summary:
 	//		This module contains common core Graphics API used by different graphics renderers.
 
-	var g = {},
-		b = g._base = {};
-	
+	var g = {};
+
 	// candidates for dojox.style (work on SVG nodes)
 	g._hasClass = function(/*DomNode*/node, /*String*/classStr){
 		// summary:
@@ -43,7 +42,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 	// candidate for dojox.html.metrics (dynamic font resize handler is not implemented here)
 
 	//		derived from Morris John's emResized measurer
-	b._getFontMeasurements = function(){
+	g._getFontMeasurements = function(){
 		// summary:
 		//		Returns an object that has pixel equivilents of standard font
 		//		size values.
@@ -87,9 +86,9 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 
 	var fontMeasurements = null;
 
-	b._getCachedFontMeasurements = function(recalculate){
+	g._getCachedFontMeasurements = function(recalculate){
 		if(recalculate || !fontMeasurements){
-			fontMeasurements = b._getFontMeasurements();
+			fontMeasurements = g._getFontMeasurements();
 		}
 		return fontMeasurements;
 	};
@@ -97,7 +96,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 	// candidate for dojox.html.metrics
 
 	var measuringNode = null, empty = {};
-	b._getTextBox = function(	/*String*/ text,
+	g._getTextBox = function(	/*String*/ text,
 								/*Object*/ style,
 								/*String?*/ className){
 		var m, s, al = arguments.length;
@@ -139,7 +138,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 		}
 	};
 
-	b._computeTextLocation = function(/*g.defaultTextShape*/textShape, /*Number*/width, /*Number*/height, /*Boolean*/fixHeight) {
+	g._computeTextLocation = function(/*g.defaultTextShape*/textShape, /*Number*/width, /*Number*/height, /*Boolean*/fixHeight) {
 		var loc = {}, align = textShape.align;
 		switch (align) {
 			case 'end':
@@ -156,18 +155,18 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 		loc.y = textShape.y - height*c; // **rough** approximation of the ascent...
 		return loc;
 	};
-	b._computeTextBoundingBox = function(/*shape.Text*/s){
+	g._computeTextBoundingBox = function(/*shape.Text*/s){
 		// summary:
 		//		Compute the bbox of the given shape.Text instance. Note that this method returns an
 		//		approximation of the bbox, and should be used when the underlying renderer cannot provide precise metrics.
-		if(!g._base._isRendered(s)){
+		if(!g._isRendered(s)){
 			return {x:0, y:0, width:0, height:0};
 		}
 		var loc, textShape = s.getShape(),
 			font = s.getFont() || g.defaultFont,
 			w = s.getTextWidth(),
 			h = g.normalizedLength(font.size);
-		loc = b._computeTextLocation(textShape, w, h, true);
+		loc = g._computeTextLocation(textShape, w, h, true);
 		return {
 			x: loc.x,
 			y: loc.y,
@@ -175,7 +174,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 			height: h
 		};
 	};
-	b._isRendered = function(/*Shape*/s){
+	g._isRendered = function(/*Shape*/s){
 		var p = s.parent;
 		while(p && p.getParent){
 			p = p.parent;
@@ -186,7 +185,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 	// candidate for dojo.dom
 
 	var uniqueId = 0;
-	b._getUniqueId = function(){
+	g._getUniqueId = function(){
 		// summary:
 		//		returns a unique string for use with any DOM element
 		var id;
@@ -198,13 +197,13 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 
 	// IE10
 
-	b._fixMsTouchAction = function(/*gfx/shape.Surface*/surface){
+	g._fixMsTouchAction = function(/*gfx/shape.Surface*/surface){
 		var r = surface.rawNode;
 		if (typeof r.style.msTouchAction != 'undefined')
 			r.style.msTouchAction = "none";
 	};
 
-	b._chooseRenderer = function(){
+	g._chooseRenderer = function(){
 
 		// Choose the GFX renderer based on the (deprecated) dojoConfig.gfxRenderer
 		// or the (new) has("gfx-*") flags.
@@ -733,7 +732,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 		px_in_pt: function(){
 			// summary:
 			//		returns the current number of pixels per point.
-			return g._base._getCachedFontMeasurements()["12pt"] / 12;	// Number
+			return g._getCachedFontMeasurements()["12pt"] / 12;	// Number
 		},
 
 		pt2px: function(len){

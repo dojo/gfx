@@ -193,7 +193,7 @@ define([
 				}
 			}else{
 				fill = svg._createElementNS(svgns, nodeType);
-				fill.setAttribute("id", g._base._getUniqueId());
+				fill.setAttribute("id", g._getUniqueId());
 				if(defs){
 					defs.appendChild(fill);
 				}else{
