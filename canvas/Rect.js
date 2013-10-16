@@ -2,8 +2,8 @@ define([
 	"dojo/_base/declare",
 	"./_base",
 	"./Shape",
-	"../shape/Rect"
-], function(declare, canvas, CanvasShape, BaseRect){
+	"../shape/_RectBase"
+], function(declare, canvas, CanvasShape, RectBase){
 
 	function drawDashedArc(/*CanvasRenderingContext2D*/ctx, /*Number[]*/dash,  /*int*/cx,  /*int*/cy,  /*int*/r, /*Number*/sa, /*Number*/ea, /*Boolean*/ccw, /*Boolean?*/apply, prevResidue){
 		var residue, angle, l = dash.length, i= 0;
@@ -34,7 +34,7 @@ define([
 
 	var pi = Math.PI, halfPI = pi / 2;
 
-	return declare([CanvasShape, BaseRect], {
+	return declare([CanvasShape, RectBase], {
 		// summary:
 		//		a rectangle shape (Canvas)
 		_renderShape: function(/* Object */ ctx){
