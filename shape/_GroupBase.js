@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "./Shape", "./Container"],
+define(["dojo/_base/declare", "./_ShapeBase", "./_ContainerBase"],
 	function(declare, Shape, Container){
 		return declare([Shape, Container], {
 			// summary:

@@ -1,18 +1,18 @@
 define([
-	"./shape/Shape",
-	"./shape/Container",
-	"./shape/Surface",
-	"./shape/Group",
-	"./shape/Rect",
-	"./shape/Ellipse",
-	"./shape/Circle",
-	"./shape/Line",
-	"./shape/Polyline",
-	"./shape/Image",
-	"./shape/Path",
-	"./shape/Text",
-	"./shape/TextPath",
-	"./shape/Creator"
+	"./shape/_ShapeBase",
+	"./shape/_ContainerBase",
+	"./shape/_SurfaceBase",
+	"./shape/_GroupBase",
+	"./shape/_RectBase",
+	"./shape/_EllipseBase",
+	"./shape/_CircleBase",
+	"./shape/_LineBase",
+	"./shape/_PolylineBase",
+	"./shape/_ImageBase",
+	"./shape/_PathBase",
+	"./shape/_TextBase",
+	"./shape/_TextPathBase",
+	"./shape/_CreatorBase"
 ], function(Shape, Container, Surface, Group, Rect, Ellipse, Circle, Line, Polyline, Image, Path, Text, TextPath, Creator){
 	return {
 		// summary:

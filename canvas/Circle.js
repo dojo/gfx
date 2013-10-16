@@ -1,12 +1,12 @@
 define([
 	"dojo/_base/declare",
 	"./Shape",
-	"../shape/Circle"
-], function(declare, CanvasShape, BaseCircle){
+	"../shape/_CircleBase"
+], function(declare, CanvasShape, CircleBase){
 
 	var twoPI = Math.PI * 2;
 
-	return declare([CanvasShape, BaseCircle], {
+	return declare([CanvasShape, CircleBase], {
 		// summary:
 		//		a circle shape (Canvas)
 		_renderShape: function(/* Object */ ctx){

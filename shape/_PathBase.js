@@ -2,7 +2,7 @@ define([
 	"../_base",
 	"dojo/_base/declare",
 	"dojo/_base/lang",
-	"./Shape",
+	"./_ShapeBase",
 	"../matrix"
 ], function(g, declare, lang, Shape, matrix){
 	var defaultShape = {

@@ -1,8 +1,8 @@
 define([
 	"dojo/_base/declare",
-	"../shape/Creator"
-], function(declare, BaseCreator){
-	return declare([BaseCreator], {
+	"../shape/_CreatorBase"
+], function(declare, CreatorBase){
+	return declare([CreatorBase], {
 		// summary:
 		//		SVG shape creators
 

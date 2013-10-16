@@ -4,9 +4,9 @@ define([
 	"dojo/_base/declare",
 	"./_base",
 	"./Shape",
-	"../shape/Path",
+	"../shape/_PathBase",
 	"../arc"
-], function(lang, arr, declare, canvas, CanvasShape, BasePath, ga){
+], function(lang, arr, declare, canvas, CanvasShape, PathBase, ga){
 
 	var hasNativeDash = canvas.hasNativeDash;
 
@@ -45,7 +45,7 @@ define([
 		return residue;
 	}
 
-	return declare([CanvasShape, BasePath], {
+	return declare([CanvasShape, PathBase], {
 		// summary:
 		//		a path shape (Canvas)
 		constructor: function(){

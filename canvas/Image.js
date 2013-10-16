@@ -1,9 +1,9 @@
 define([
 	"dojo/_base/declare",
 	"./Shape",
-	"../shape/Image"
-], function(declare, CanvasShape, BaseImage){
-	return declare([CanvasShape, BaseImage], {
+	"../shape/_ImageBase"
+], function(declare, CanvasShape, ImageBase){
+	return declare([CanvasShape, ImageBase], {
 		// summary:
 		//		an image shape (Canvas)
 		setShape: function(){

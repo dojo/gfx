@@ -3,11 +3,11 @@ define([
 	"dojo/dom",
 	"../_base",
 	"./_base",
-	"../shape/Surface",
+	"../shape/_SurfaceBase",
 	"./Container",
 	"./Creator"
-], function(declare, dom, g, svg, BaseSurface, Container, Creator){
-	return declare([BaseSurface, Container, Creator], {
+], function(declare, dom, g, svg, SurfaceBase, Container, Creator){
+	return declare([SurfaceBase, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (SVG)
 

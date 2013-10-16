@@ -4,11 +4,11 @@ define([
 	"dojo/dom",
 	"dojo/dom-geometry",
 	"../_base",
-	"../shape/Surface",
+	"../shape/_SurfaceBase",
 	"./Container",
 	"./Creator"
-], function(lang, declare, dom, domGeom, g, BaseSurface, Container, Creator){
-	return declare([BaseSurface, Container, Creator], {
+], function(lang, declare, dom, domGeom, g, SurfaceBase, Container, Creator){
+	return declare([SurfaceBase, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (Canvas)
 		constructor: function(parentNode, width, height){

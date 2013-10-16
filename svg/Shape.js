@@ -9,13 +9,13 @@ define([
 	"dojo/_base/Color",
 	"../_base",
 	"./_base",
-	"../shape/Shape",
+	"../shape/_ShapeBase",
 	"./Surface"
-], function(lang, dom, declare, arr, has, domGeom, domAttr, Color, g, svg, BaseShape, SvgSurface){
+], function(lang, dom, declare, arr, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface){
 
 	var clipCount = 0;
 
-	return declare(BaseShape, {
+	return declare(ShapeBase, {
 		// summary:
 		//		SVG-specific implementation of gfx/shape.Shape methods
 

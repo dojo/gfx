@@ -4,9 +4,9 @@ define([
 	"dojo/_base/declare",
 	"../_base",
 	"./_base",
-	"../shape/Shape",
+	"../shape/_ShapeBase",
 	"../decompose"
-], function(lang, arr, declare, g, canvas, BaseShape){
+], function(lang, arr, declare, g, canvas, ShapeBase){
 	var pattrnbuffer = null;
 
 	var hasNativeDash = canvas.hasNativeDash;
@@ -72,7 +72,7 @@ define([
 		return p;
 	};
 
-	return declare([BaseShape], {
+	return declare([ShapeBase], {
 
 		setShape: function(shape){
 			if(this.parent){

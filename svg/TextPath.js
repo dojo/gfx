@@ -3,10 +3,10 @@ define([
 	"../_base",
 	"./_base",
 	"./Shape",
-	"../shape/TextPath",
+	"../shape/_TextPathBase",
 	"./Font"
-], function(declare, g, svg, SvgShape, BaseTextPath, Font){
-	var TextPath = declare([SvgShape, BaseTextPath, Font], {
+], function(declare, g, svg, SvgShape, TextPathBase, Font){
+	var TextPath = declare([SvgShape, TextPathBase, Font], {
 		// summary:
 		//		a textpath shape (SVG)
 		_updateWithSegment: function(segment){
@@ -61,7 +61,7 @@ define([
 				r.appendChild(tp);
 			}
 			r = r.firstChild;
-			var t = this.textPath;
+			var t = this.text;
 			r.setAttribute("alignment-baseline", "middle");
 			switch(t.align){
 				case "middle":

@@ -1,9 +1,9 @@
 define([
 	"dojo/_base/declare",
 	"./Shape",
-	"../shape/Path"
-], function(declare, SvgShape, BasePath){
-	var Path = declare([SvgShape, BasePath], {
+	"../shape/_PathBase"
+], function(declare, SvgShape, PathBase){
+	var Path = declare([SvgShape, PathBase], {
 		// summary:
 		//		a path shape (SVG)
 		_updateWithSegment: function(segment){

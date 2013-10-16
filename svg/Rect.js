@@ -2,9 +2,9 @@ define([
 	"dojo/_base/declare",
 	"../_base",
 	"./Shape",
-	"../shape/Rect"
-], function(declare, g, SvgShape, BaseRect){
-	var Rect = declare([SvgShape, BaseRect], {
+	"../shape/_RectBase"
+], function(declare, g, SvgShape, RectBase){
+	var Rect = declare([SvgShape, RectBase], {
 		// summary:
 		//		a rectangle shape (SVG)
 		setShape: function(newShape){

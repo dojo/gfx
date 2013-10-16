@@ -2,7 +2,7 @@ define([
 	"../_base",
 	"dojo/_base/declare",
 	"dojo/_base/lang",
-	"./Path"
+	"./_PathBase"
 ], function(g, declare, lang, Path){
 	var defaultShape = {
 		// summary:
@@ -11,6 +11,11 @@ define([
 		// type: String
 		//		Specifies this is a TextPath, value 'textpath'.
 		type: "textpath",
+
+		// path: String
+		//		The path commands. See W32C SVG 1.0 specification.
+		//		Defaults to empty string value.
+		path: "",
 
 		// text: String
 		//		The text to be displayed, default value empty string.

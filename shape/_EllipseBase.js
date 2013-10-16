@@ -1,7 +1,7 @@
 define([
 	"../_base",
 	"dojo/_base/declare",
-	"./Shape"
+	"./_ShapeBase"
 ], function(g, declare, Shape){
 	var defaultShape = {
 		// summary:

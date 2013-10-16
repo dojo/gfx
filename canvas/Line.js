@@ -2,9 +2,9 @@ define([
 	"dojo/_base/declare",
 	"./_base",
 	"./Shape",
-	"../shape/Line"
-], function(declare, canvas, CanvasShape, BaseLine){
-	return declare([CanvasShape, BaseLine], {
+	"../shape/_LineBase"
+], function(declare, canvas, CanvasShape, LineBase){
+	return declare([CanvasShape, LineBase], {
 		// summary:
 		//		a line shape (Canvas)
 		_renderShape: function(/* Object */ ctx){

@@ -3,9 +3,9 @@ define([
 	"../_base",
 	"./_base",
 	"./Shape",
-	"../shape/Image"
-], function(declare, g, svg, SvgShape, BaseImage){
-	var Image = declare([SvgShape, BaseImage], {
+	"../shape/_ImageBase"
+], function(declare, g, svg, SvgShape, ImageBase){
+	var Image = declare([SvgShape, ImageBase], {
 		// summary:
 		//		an image shape (SVG)
 		setShape: function(newShape){

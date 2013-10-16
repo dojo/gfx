@@ -1,10 +1,10 @@
 define([
 	"dojo/_base/declare",
 	"./Shape",
-	"../shape/Ellipse",
+	"../shape/_EllipseBase",
 	"../arc",
 	"../matrix"
-], function(declare, CanvasShape, BaseEllipse, ga, m){
+], function(declare, CanvasShape, EllipseBase, ga, m){
 
 	var mp = m.multiplyPoint;
 
@@ -43,7 +43,7 @@ define([
 		return r;
 	};
 
-	var Ellipse = declare([CanvasShape, BaseEllipse], {
+	var Ellipse = declare([CanvasShape, EllipseBase], {
 		// summary:
 		//		an ellipse shape (Canvas)
 		setShape: function(){

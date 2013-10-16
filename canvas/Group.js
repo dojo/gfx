@@ -1,11 +1,11 @@
 define([
 	"dojo/_base/declare",
 	"./Shape",
-	"../shape/Group",
+	"../shape/_GroupBase",
 	"./Container",
 	"./Creator"
-], function(declare, CanvasShape, BaseGroup, CanvasContainer, CanvasCreator){
-	return declare([CanvasShape, BaseGroup, CanvasContainer, CanvasCreator], {
+], function(declare, CanvasShape, GroupBase, CanvasContainer, CanvasCreator){
+	return declare([CanvasShape, GroupBase, CanvasContainer, CanvasCreator], {
 		// summary:
 		//		a group shape (Canvas), which can be used
 		//		to logically group shapes (e.g, to propagate matricies)

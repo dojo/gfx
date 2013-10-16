@@ -1,9 +1,9 @@
 define([
 	"dojo/_base/declare",
 	"./Shape",
-	"../shape/Line"
-], function(declare, SvgShape, BaseLine){
-	var Line = declare([SvgShape, BaseLine], {
+	"../shape/_LineBase"
+], function(declare, SvgShape, LineBase){
+	var Line = declare([SvgShape, LineBase], {
 		// summary:
 		//		a line shape (SVG)
 	});

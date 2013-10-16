@@ -2,9 +2,9 @@ define([
 	"dojo/_base/declare",
 	"../_base",
 	"./Shape",
-	"../shape/Polyline"
-], function(declare, g, SvgShape, BasePolyline){
-	var Polyline = declare([SvgShape, BasePolyline], {
+	"../shape/_PolylineBase"
+], function(declare, g, SvgShape, PolylineBase){
+	var Polyline = declare([SvgShape, PolylineBase], {
 		// summary:
 		//		a polyline shape (SVG)
 		setShape: function(points, closed){

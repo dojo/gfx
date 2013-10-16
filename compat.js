@@ -21,7 +21,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes
 		for(var name in shapes){
 			if(shapes.hasOwnProperty(name)){
 				try{
-					g["default" + name] = require("./shape/" + name).defaultShape;
+					g["default" + name] = require("./shape/_" + name + "Base").defaultShape;
 				}catch(err){
 				}
 			}

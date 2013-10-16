@@ -2,9 +2,9 @@ define([
 	"dojo/_base/declare",
 	"./_base",
 	"./Shape",
-	"../shape/Polyline"
-], function(declare, canvas, CanvasShape, BasePolyline){
-	return declare([CanvasShape, BasePolyline], {
+	"../shape/_PolylineBase"
+], function(declare, canvas, CanvasShape, PolylineBase){
+	return declare([CanvasShape, PolylineBase], {
 		// summary:
 		//		a polyline/polygon shape (Canvas)
 		setShape: function(){

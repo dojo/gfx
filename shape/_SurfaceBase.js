@@ -1,5 +1,5 @@
 define(["dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff",
-	"dojo/on", "dojo/_base/array", "dojo/dom-construct", "./_EventsProcessing", "./Container", "./Creator"],
+	"dojo/on", "dojo/_base/array", "dojo/dom-construct", "./_EventsProcessing", "./_ContainerBase", "./_CreatorBase"],
 	function(lang, declare, has, on, arr, domConstruct, EventsProcessing, Container, Creator){
 		return declare([EventsProcessing, Container, Creator], {
 			// summary:
