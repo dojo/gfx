@@ -19,6 +19,7 @@ define([
 		// summary:
 		//		This the graphics rendering bridge for browsers compliant with W3C SVG1.0.
 		//		This is the preferred renderer to use for interactive and accessible graphics.
+		id: "svg",
 		Shape: Shape,
 		Container: Container,
 		Surface: Surface,

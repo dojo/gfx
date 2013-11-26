@@ -13,7 +13,6 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 			g.isSvg = true;
 			break;
 		case 'canvas':
-		case 'canvasWithEvents':
 			g.isCanvas = true;
 			break;
 	}
@@ -31,7 +30,7 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 	// the object that performs text transformations.
 	var bidiEngine = new BidiEngine();
 
-	lang.extend(g.shape.Surface, {
+	lang.extend(shapeLib.Surface, {
 		// textDir: String
 		//		Will be used as default for Text/TextPath/Group objects that created by this surface
 		//		and textDir wasn't directly specified for them, though the bidi support was loaded.
@@ -55,7 +54,7 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 		}
 	});
 
-	lang.extend(g.Group, {                          
+	lang.extend(shapeLib.Group, {
 		// textDir: String
 		//		Will be used for inheritance, or as default for text objects
 		//		that textDir wasn't directly specified for them but the bidi support was required.
@@ -73,7 +72,7 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 		}	
 	});
 	
-	lang.extend(g.Text, {  
+	lang.extend(shapeLib.Text, {
 		// summary:
 		//		Overrides some of gfx.Text properties, and adds some
 		//		for bidi support.
@@ -143,7 +142,7 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 		}
 	});
 
-	lang.extend(g.TextPath, {
+	lang.extend(shapeLib.TextPath, {
 		// textDir: String
 		//		Used for displaying bidi scripts in right layout.
 		//		Defines the base direction of text that displayed, can have 3 values:
@@ -255,8 +254,8 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 	// Instead of adding bidiPreprocess to all renders one by one
 	// use the extendMethod, at first there's a need for bidi transformation 
 	// on text then call to original setShape.
-	extendMethod(g.Text,"setShape", bidiPreprocess, null);
-	extendMethod(g.TextPath,"setText", bidiPreprocess, null);
+	extendMethod(shapeLib.Text,"setShape", bidiPreprocess, null);
+	extendMethod(shapeLib.TextPath,"setText", bidiPreprocess, null);
 	
 	var restoreText = function(origObj){
 		var obj = lang.clone(origObj);
@@ -269,8 +268,8 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 	// Instead of adding restoreText to all renders one by one
 	// use the extendMethod, at first get the shape by calling the original getShape,
 	// than resrore original text (without the text transformations).
-	extendMethod(g.Text, "getShape", null, restoreText);
-	extendMethod(g.TextPath, "getText", null, restoreText);
+	extendMethod(shapeLib.Text, "getShape", null, restoreText);
+	extendMethod(shapeLib.TextPath, "getText", null, restoreText);
 
 	var groupTextDir = function(group, args){
 		var textDir;
@@ -286,8 +285,8 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 	// use the extendMethod, at first the original createGroup is applied, the
 	// groupTextDir which is setts Group's textDir as it's father's or if was defined
 	// by user by this value.
-	extendMethod(g.Surface, "createGroup", null, groupTextDir);
-	extendMethod(g.Group, "createGroup", null, groupTextDir);
+	extendMethod(shapeLib.Surface, "createGroup", null, groupTextDir);
+	extendMethod(shapeLib.Group, "createGroup", null, groupTextDir);
 
 	var textDirPreprocess =  function(text){
 		// inherit from surface / group  if textDir is defined there
@@ -304,28 +303,26 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 	// so instead of doing it in renders one by one
 	// use the extendMethod, at first the textDirPreprocess function handles the input
 	// then the original createXXXXXX is applied.
-	extendMethod(g.Surface,"createText", textDirPreprocess, null);
-	extendMethod(g.Surface,"createTextPath", textDirPreprocess, null);
-	extendMethod(g.Group,"createText", textDirPreprocess, null);
-	extendMethod(g.Group,"createTextPath", textDirPreprocess, null);
+	extendMethod(shapeLib.Surface,"createText", textDirPreprocess, null);
+	extendMethod(shapeLib.Surface,"createTextPath", textDirPreprocess, null);
+	extendMethod(shapeLib.Group,"createText", textDirPreprocess, null);
+	extendMethod(shapeLib.Group,"createTextPath", textDirPreprocess, null);
 
 	/*=====
 	// don't mask definition of original createSurface() function from doc parser
 	g = {};
 	=====*/
 
-	g.createSurface = function(parentNode, width, height, textDir) {
-		var s = g[g.renderer].createSurface(parentNode, width, height);
+	extendMethod(shapeLib.Surface, "createRawNode", function() {
+		var s = this;
 		var tDir = validateTextDir(textDir);
 		
 		// if textDir was defined use it, else get default value.
 		//s.textDir = tDir ? tDir : html.style(s.rawNode,"direction");
-		if(g.isSvg || g.isCanvas){
-			s.textDir = tDir ? tDir : html.style(s.rawNode,"direction");
-		}
+		s.textDir = tDir ? tDir : html.style(s.rawNode,"direction");
 
 		return s;
-	};
+	}, null);
 	/*===== g = origG; =====*/
 
 	// some helper functions

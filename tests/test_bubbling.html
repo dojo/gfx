@@ -10,11 +10,11 @@
 	<script type="text/javascript">
 		var dojoConfig = {
 			isDebug: true,
-			gfxRenderer: 'canvas'
+            async: 1,
+            packages:[{name:'gfx',location:'../gfx'}]
 		}
 	</script>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, packages:[{name:'gfx',location:'../gfx'}]"></script>
+	<script type="text/javascript" src="../../dojo/dojo.js"></script>
 	<script type="text/javascript">
 		require([
 			"dojo/_base/array",
@@ -95,29 +95,8 @@
 				log("renderer:"+gfx.renderer);
 			}
 
-			var switchRenderer = function(){
-				var select = dom.byId("selectGfx");
-				var r = select.options[select.selectedIndex].value;
-				require(["gfx/"+r], function(r){
-					for(var i=0; i<surfaces.length; ++i){
-						surfaces[i].destroy();
-					}
-					gfx.switchTo(r);
-					buildScenes();
-				});
-			};
-
 			ready(function(){
 				buildScenes();
-				var select = dom.byId("selectGfx");
-				on(select,"change",function(e){
-					switchRenderer();
-				});
-				array.forEach(select.options, function(opt,i){
-					if (gfx.renderer.indexOf(opt.value) !== -1){
-						select.selectedIndex = i;
-					}
-				});
 			});
 		});
 
@@ -135,13 +114,9 @@
 </head>
 <body>
 <h1>Test bubbling with canvas.</h1>
-<p>This page shows two canvas-based gfx surfaces: the surface on the left connects its shapes to input events via the dojo/touch API.
+<p>This page shows two SVG-based gfx surfaces: the surface on the left connects its shapes to input events via the dojo/touch API.
 The surface on the right connects its shapes using native input event types (e.g. 'touchstart' or 'mousedown' depending
 on the device).</p>
-GFX Renderer: <select id="selectGfx">
-	<option value="svg">SVG</option>
-	<option value="canvasWithEvents">Canvas</option>
-</select>
 </p>
 <div id="testDojoTouch" class="drawing"></div>
 <div id="testNative" class="drawing"></div>

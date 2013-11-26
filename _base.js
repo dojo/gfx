@@ -208,44 +208,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 		// Choose the GFX renderer based on the (deprecated) dojoConfig.gfxRenderer
 		// or the (new) has("gfx-*") flags.
 
-		var forceGfxRenderer = has("gfx-force-renderer");
-		var gfxRenderer = has("gfx-renderer");
-		var canvasEvents = has("gfx-canvas-events");
-
-		// TODO: remove this? Put warning message?
-		forceGfxRenderer = forceGfxRenderer || config.forceGfxRenderer;
-		gfxRenderer = gfxRenderer || config.gfxRenderer;
-		canvasEvents = canvasEvents || config.canvasEvents;
-
-		var renderer = forceGfxRenderer,
-			renderers = !renderer && (lang.isString(gfxRenderer) ?
-				gfxRenderer : "svg,canvas").split(",");
-
-		while(!renderer && renderers.length){
-			switch(renderers.shift()){
-				case "svg":
-					// the next test is from https://github.com/phiggins42/has.js
-					if("SVGAngle" in win.global){
-						renderer = "svg";
-					}
-					break;
-				case "canvas":
-					if(win.global.CanvasRenderingContext2D){
-						renderer = "canvas";
-					}
-					break;
-			}
-		}
-
-		if (renderer === 'canvas' && canvasEvents !== false) {
-			renderer = "canvasWithEvents";
-		}
-
-		if(config.isDebug){
-			console.log("gfx renderer = " + renderer);
-		}
-
-		return renderer;
+		return (has("gfx-renderer") || config.gfxRenderer || "svg").split(",")[0];
 	};
 
 	/*=====

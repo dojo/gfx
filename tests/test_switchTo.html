@@ -31,7 +31,7 @@
 							setUp: function(){
 							},
 							runTest: function(t){
-								var r = gfx.renderer == "svg" ? "canvasWithEvents" : "svg";
+								var r = gfx.renderer == "svg" ? "canvas" : "svg";
                                 var renderer;
                                 require(["gfx/" + r], function(r){renderer=r;});
 								gfx.switchTo(renderer);
@@ -45,7 +45,7 @@
 							setUp: function(){
 							},
 							runTest: function(t){
-								var r = gfx.renderer == "svg" ? "canvasWithEvents" : "svg";
+								var r = gfx.renderer == "svg" ? "canvas" : "svg";
                                 require(["gfx/" + r], function(r){});
 								gfx.switchTo(r);
 								t.t(gfx.Surface === get(r).Surface, "Unexpected Surface type.");

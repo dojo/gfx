@@ -31,17 +31,24 @@ define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes
 			// summary:
 			//		switch the graphics implementation to the specified renderer.
 			// renderer:
-			//		Either the string name of a renderer (eg. 'canvas', 'svg, ...) or the renderer
+			//		Either the string name of a renderer (eg. 'canvas', 'svg', ...) or the renderer
 			//		object to switch to.
 
-			function get(r){
-				try{
-					return g[r] || require("gfx/" + r);
-				}catch(err){
-				}
-			}
+			var ns;
 
-			var ns = typeof renderer == "string" ? get(renderer) : renderer;
+			if(typeof renderer == "string"){
+				ns = g[renderer];
+				if(!ns){
+					try{
+						// e.g. "canvas" -> gfx/canvas
+						// e.g. gfxext/canvasWithEvents
+						ns = require((renderer.indexOf("/") > 0 ? "" : "./") + renderer);
+					}catch(err){
+					}
+				}
+			}else{
+				ns = renderer;
+			};
 			if(ns){
 				// If more options are added, update the docblock at the end of shape.js!
 				arr.forEach(["Group", "Rect", "Ellipse", "Circle", "Line",
@@ -53,9 +60,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes
 				if(typeof renderer == "string"){
 					g.renderer = renderer;
 				}else{
-					arr.some(["svg", "canvas", "canvasWithEvents"], function(r){
-						return (g.renderer = get(r) && get(r).Surface === g.Surface ? r : null);
-					});
+					g.renderer = ns.id;
 				}
 			}
 		};

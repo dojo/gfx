@@ -20,13 +20,9 @@ define([
 		//		This the graphics rendering bridge for W3C Canvas compliant browsers.
 		//		Since Canvas is an immediate mode graphics api, with no object graph or
 		//		eventing capabilities, use of this module alone will only add in drawing support.
-		//		The additional module, canvasWithEvents extends this module with additional support
-		//		for handling events on Canvas.  By default, the support for events is now included
-		//		however, if only drawing capabilities are needed, canvas event module can be disabled
-		//		using the dojoConfig option, canvasEvents:true|false.
-		//		The id of the Canvas renderer is 'canvas'.  This id can be used when switch Dojo's
-		//		graphics context between renderer implementations.  See gfx/_base.switchRenderer
-		//		API.
+		//		(An experimental canvasWithEvents module, which extends this module with additional support
+		//		for handling events, is available separately in the gfx-experimental project.)
+		id: "canvas",
 		Shape: Shape,
 		Container: Container,
 		Surface: Surface,

@@ -32,9 +32,8 @@ require([
 	"gfx/matrix",
     "gfx/svg",
     "gfx/canvas",
-    "gfx/canvasWithEvents",
 	"dojo/domReady!"
-], function(dom, Color, gfx, matrix, svg, canvas, canvasWithEvents){
+], function(dom, Color, gfx, matrix, svg, canvas){
 
     var gTestContainer = null;
 	var gTests = {};
@@ -77,7 +76,6 @@ require([
 
         runRendererTest(testName, t, testRow, descRow, width, height, svg);
         runRendererTest(testName, t, testRow, descRow, width, height, canvas);
-        runRendererTest(testName, t, testRow, descRow, width, height, canvasWithEvents);
 
         gTestContainer.appendChild(testRow);
         gTestContainer.appendChild(descRow);
@@ -410,7 +408,6 @@ require([
     <tr>
         <th>SVG</th>
         <th>Canvas</th>
-        <th>Canvas with events</th>
     </tr>
     </tbody>
 </table>
