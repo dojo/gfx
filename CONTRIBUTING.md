@@ -196,7 +196,7 @@ request.
 
 
 [help documentation]: http://help.github.com/send-pull-requests
-[bugdatabase]: ../../issues
+[bug database]: ../../issues
 [ml-users]: http://dojotoolkit.org/community/
 [ml-dev]: http://mail.dojotoolkit.org/mailman/listinfo/dojo-contributors
 [cla]: http://dojofoundation.org/about/cla
