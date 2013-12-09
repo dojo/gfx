@@ -206,7 +206,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 	g._chooseRenderer = function(){
 
 		// Choose the GFX renderer based on the (deprecated) dojoConfig.gfxRenderer
-		// or the (new) has("gfx-*") flags.
+		// or the has("gfx-renderer") flag.
 
 		return (has("gfx-renderer") || config.gfxRenderer || "svg").split(",")[0];
 	};
