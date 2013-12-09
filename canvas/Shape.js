@@ -1,28 +1,28 @@
 define([
 	"dojo/_base/lang",
 	"dojo/_base/array",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"../_base",
 	"./_base",
 	"../shape/_ShapeBase",
 	"../decompose"
-], function(lang, arr, declare, g, canvas, ShapeBase){
+], function(lang, arr, dcl, g, canvas, ShapeBase){
 	var pattrnbuffer = null;
 
 	var hasNativeDash = canvas.hasNativeDash;
 
 	var dasharray = {
-		solid:				"none",
-		shortdash:			[4, 1],
-		shortdot:			[1, 1],
-		shortdashdot:		[4, 1, 1, 1],
-		shortdashdotdot:	[4, 1, 1, 1, 1, 1],
-		dot:				[1, 3],
-		dash:				[4, 3],
-		longdash:			[8, 3],
-		dashdot:			[4, 3, 1, 3],
-		longdashdot:		[8, 3, 1, 3],
-		longdashdotdot:		[8, 3, 1, 3, 1, 3]
+		solid: "none",
+		shortdash: [4, 1],
+		shortdot: [1, 1],
+		shortdashdot: [4, 1, 1, 1],
+		shortdashdotdot: [4, 1, 1, 1, 1, 1],
+		dot: [1, 3],
+		dash: [4, 3],
+		longdash: [8, 3],
+		dashdot: [4, 3, 1, 3],
+		longdashdot: [8, 3, 1, 3],
+		longdashdotdot: [8, 3, 1, 3, 1, 3]
 	};
 
 	var Rect, Ellipse, Polyline, Path;
@@ -30,7 +30,7 @@ define([
 	var makeClip = function(clipType, geometry){
 		switch(clipType){
 			case "ellipse":
-				Ellipse = Ellipse||require("./Ellipse");
+				Ellipse = Ellipse || require("./Ellipse");
 				return {
 					canvasEllipse: Ellipse.makeEllipse({shape: geometry}),
 					render: function(ctx){
@@ -38,7 +38,7 @@ define([
 					}
 				};
 			case "rect":
-				Rect = Rect||require("./Rect");
+				Rect = Rect || require("./Rect");
 				return {
 					shape: lang.delegate(geometry, {r: 0}),
 					render: function(ctx){
@@ -46,7 +46,7 @@ define([
 					}
 				};
 			case "path":
-				Path = Path||require("./Path");
+				Path = Path || require("./Path");
 				return {
 					canvasPath: makeClipPath(geometry),
 					render: function(ctx){
@@ -54,7 +54,7 @@ define([
 					}
 				};
 			case "polyline":
-				Polyline = Polyline||require("./Polyline");
+				Polyline = Polyline || require("./Polyline");
 				return {
 					canvasPolyline: geometry.points,
 					render: function(ctx){
@@ -72,110 +72,118 @@ define([
 		return p;
 	};
 
-	return declare([ShapeBase], {
+	return dcl([ShapeBase], {
 
-		setShape: function(shape){
-			if(this.parent){
-				this.parent._makeDirty();
+		setShape: dcl.superCall(function(sup){
+			return function(shape){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
+		}),
 
-		setTransform: function(matrix){
-			if(this.parent){
-				this.parent._makeDirty();
-			}
-			this.inherited(arguments);
-			// prepare Canvas-specific structures
-			if(this.matrix){
-				this.canvasTransform = g.decompose(this.matrix);
-			}else{
-				delete this.canvasTransform;
-			}
-			return this;
-		},
-
-		setFill: function(fill){
-			if(this.parent){
-				this.parent._makeDirty();
-			}
-			this.inherited(arguments);
-			// prepare Canvas-specific structures
-			var fs = this.fillStyle, f;
-			if(fs){
-				if(typeof(fs) == "object" && "type" in fs){
-					var ctx = this.surface.rawNode.getContext("2d");
-					//noinspection FallthroughInSwitchStatementJS
-					switch(fs.type){
-						case "linear":
-						case "radial":
-							f = fs.type == "linear" ?
-								ctx.createLinearGradient(fs.x1, fs.y1, fs.x2, fs.y2) :
-								ctx.createRadialGradient(fs.cx, fs.cy, 0, fs.cx, fs.cy, fs.r);
-							arr.forEach(fs.colors, function(step){
-								f.addColorStop(step.offset, g.normalizeColor(step.color).toString());
-							});
-							break;
-						case "pattern":
-							if(!pattrnbuffer){
-								pattrnbuffer = document.createElement("canvas");
-							}
-							// no need to scale the image since the canvas.createPattern uses
-							// the original image data and not the scaled ones (see spec.)
-							// the scaling needs to be done at rendering time in a context buffer
-							var img = new Image();
-							this.surface.downloadImage(img, fs.src);
-							this.canvasFillImage = img;
-					}
+		setTransform: dcl.superCall(function(sup){
+			return function(matrix){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				sup.apply(this, arguments);
+				// prepare Canvas-specific structures
+				if(this.matrix){
+					this.canvasTransform = g.decompose(this.matrix);
 				}else{
-					// Set fill color using CSS RGBA func style
-					f = fs.toString();
+					delete this.canvasTransform;
 				}
-				this.canvasFill = f;
-			}else{
-				delete this.canvasFill;
+				return this;
 			}
-			return this;
-		},
+		}),
 
-		setStroke: function(stroke){
-			if(this.parent){
-				this.parent._makeDirty();
-			}
-			this.inherited(arguments);
-			var st = this.strokeStyle;
-			if(st){
-				var da = this.strokeStyle.style.toLowerCase();
-				if(da in dasharray){
-					da = dasharray[da];
+		setFill: dcl.superCall(function(sup){
+			return function(fill){
+				if(this.parent){
+					this.parent._makeDirty();
 				}
-				if(da instanceof Array){
-					da = da.slice();
-					this.canvasDash = da;
-					var i;
-					for(i = 0; i < da.length; ++i){
-						da[i] *= st.width;
+				sup.apply(this, arguments);
+				// prepare Canvas-specific structures
+				var fs = this.fillStyle, f;
+				if(fs){
+					if(typeof(fs) == "object" && "type" in fs){
+						var ctx = this.surface.rawNode.getContext("2d");
+						//noinspection FallthroughInSwitchStatementJS
+						switch(fs.type){
+							case "linear":
+							case "radial":
+								f = fs.type == "linear" ?
+									ctx.createLinearGradient(fs.x1, fs.y1, fs.x2, fs.y2) :
+									ctx.createRadialGradient(fs.cx, fs.cy, 0, fs.cx, fs.cy, fs.r);
+								arr.forEach(fs.colors, function(step){
+									f.addColorStop(step.offset, g.normalizeColor(step.color).toString());
+								});
+								break;
+							case "pattern":
+								if(!pattrnbuffer){
+									pattrnbuffer = document.createElement("canvas");
+								}
+								// no need to scale the image since the canvas.createPattern uses
+								// the original image data and not the scaled ones (see spec.)
+								// the scaling needs to be done at rendering time in a context buffer
+								var img = new Image();
+								this.surface.downloadImage(img, fs.src);
+								this.canvasFillImage = img;
+						}
+					}else{
+						// Set fill color using CSS RGBA func style
+						f = fs.toString();
 					}
-					if(st.cap != "butt"){
-						for(i = 0; i < da.length; i += 2){
-							da[i] -= st.width;
-							if(da[i] < 1){
-								da[i] = 1;
+					this.canvasFill = f;
+				}else{
+					delete this.canvasFill;
+				}
+				return this;
+			}
+		}),
+
+		setStroke: dcl.superCall(function(sup){
+			return function(stroke){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				sup.apply(this, arguments);
+				var st = this.strokeStyle;
+				if(st){
+					var da = this.strokeStyle.style.toLowerCase();
+					if(da in dasharray){
+						da = dasharray[da];
+					}
+					if(da instanceof Array){
+						da = da.slice();
+						this.canvasDash = da;
+						var i;
+						for(i = 0; i < da.length; ++i){
+							da[i] *= st.width;
+						}
+						if(st.cap != "butt"){
+							for(i = 0; i < da.length; i += 2){
+								da[i] -= st.width;
+								if(da[i] < 1){
+									da[i] = 1;
+								}
+							}
+							for(i = 1; i < da.length; i += 2){
+								da[i] += st.width;
 							}
 						}
-						for(i = 1; i < da.length; i += 2){
-							da[i] += st.width;
-						}
+					}else{
+						delete this.canvasDash;
 					}
 				}else{
 					delete this.canvasDash;
 				}
-			}else{
-				delete this.canvasDash;
+				this._needsDash = !hasNativeDash && !!this.canvasDash;
+				return this;
 			}
-			this._needsDash = !hasNativeDash && !!this.canvasDash;
-			return this;
-		},
+		}),
 
 		_render: function(/* Object */ ctx){
 			// summary:
@@ -287,19 +295,21 @@ define([
 		},
 
 		canvasClip: null,
-		setClip: function(/*Object*/clip){
-			this.inherited(arguments);
-			var clipType = clip ? "width" in clip ? "rect" :
-				"cx" in clip ? "ellipse" :
-					"points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
-			if(clip && !clipType){
+		setClip: dcl.superCall(function(sup){
+			return function(/*Object*/clip){
+				sup.apply(this, arguments);
+				var clipType = clip ? "width" in clip ? "rect" :
+					"cx" in clip ? "ellipse" :
+						"points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
+				if(clip && !clipType){
+					return this;
+				}
+				this.canvasClip = clip ? makeClip(clipType, clip) : null;
+				if(this.parent){
+					this.parent._makeDirty();
+				}
 				return this;
 			}
-			this.canvasClip = clip ? makeClip(clipType, clip) : null;
-			if(this.parent){
-				this.parent._makeDirty();
-			}
-			return this;
-		}
+		})
 	});
 });

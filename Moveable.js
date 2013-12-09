@@ -1,11 +1,13 @@
-define(["dojo/_base/lang","dojo/_base/declare","dojo/_base/array","dojo/_base/event","dojo/topic","dojo/touch",
+define(["dojo/_base/lang","dcl/dcl","dojo/_base/array","dojo/_base/event","dojo/topic","dojo/touch",
 	"dojo/dom-class","dojo/_base/window","./Mover"],
-  function(lang,declare,arr,event,topic,touch,domClass,win,Mover){
+  function(lang, dcl,arr,event,topic,touch,domClass,win,Mover){
 
 	/*=====
-	var __MoveableCtorArgs = declare("gfx.__MoveableCtorArgs", null, {
+	var __MoveableCtorArgs = dcl(null, {
 		// summary:
 		//		The arguments used for gfx/Moveable constructor.
+
+	    declaredClass:"gfx.__MoveableCtorArgs",
 
 		// delay: Number
 		//		delay move by this number of pixels
@@ -17,7 +19,7 @@ define(["dojo/_base/lang","dojo/_base/declare","dojo/_base/array","dojo/_base/ev
 	});
 	=====*/
 
-	return declare("gfx.Moveable", null, {
+	return dcl(null, {
 		constructor: function(shape, params){
 			// summary:
 			//		an object, which makes a shape moveable

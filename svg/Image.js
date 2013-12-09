@@ -1,11 +1,11 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"../_base",
 	"./_base",
 	"./Shape",
 	"../shape/_ImageBase"
-], function(declare, g, svg, SvgShape, ImageBase){
-	var Image = declare([SvgShape, ImageBase], {
+], function(dcl, g, svg, SvgShape, ImageBase){
+	var Image = dcl([SvgShape, ImageBase], {
 		// summary:
 		//		an image shape (SVG)
 		setShape: function(newShape){

@@ -1,12 +1,12 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./Shape",
 	"../shape/_GroupBase",
 	"./Container",
 	"./Creator"
-], function(declare, SvgShape, GroupBase, SvgContainer, SvgCreator){
+], function(dcl, SvgShape, GroupBase, SvgContainer, SvgCreator){
 
-		var Group = declare([SvgShape, GroupBase, SvgContainer, SvgCreator], {
+		var Group = dcl([SvgShape, GroupBase, SvgContainer, SvgCreator], {
 			// summary:
 			//		a group shape (SVG), which can be used
 			//		to logically group shapes (e.g, to propagate matricies)

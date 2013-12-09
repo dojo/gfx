@@ -1,9 +1,9 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"dojo/_base/array",
 	"../matrix"
-], function(declare, arr, matrixLib){
-	return declare(null, {
+], function(dcl, arr, matrixLib){
+	return dcl(null, {
 		// summary:
 		//		a container of shapes, which can be used
 		//		as a foundation for renderer-specific groups, or as a way

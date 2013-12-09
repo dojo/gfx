@@ -1,7 +1,7 @@
 define([
 	"dojo/_base/lang",
 	"dojo/dom",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"dojo/_base/array",
 	"dojo/sniff",
 	"dojo/dom-geometry",
@@ -11,11 +11,11 @@ define([
 	"./_base",
 	"../shape/_ShapeBase",
 	"./Surface"
-], function(lang, dom, declare, arr, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface){
+], function(lang, dom, dcl, arr, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface){
 
 	var clipCount = 0;
 
-	return declare(ShapeBase, {
+	return dcl(ShapeBase, {
 		// summary:
 		//		SVG-specific implementation of gfx/shape.Shape methods
 
@@ -26,25 +26,27 @@ define([
 			return node;
 		},
 
-		destroy: function(){
-			if(this.fillStyle && "type" in this.fillStyle){
-				var fill = this.rawNode.getAttribute("fill"),
-					ref = svg.getRef(fill);
-				if(ref){
-					ref.parentNode.removeChild(ref);
-				}
-			}
-			if(this.clip){
-				var clipPathProp = this.rawNode.getAttribute("clip-path");
-				if(clipPathProp){
-					var clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
-					if(clipNode){
-						clipNode.parentNode.removeChild(clipNode);
+		destroy: dcl.superCall(function(sup){
+			return function(){
+				if(this.fillStyle && "type" in this.fillStyle){
+					var fill = this.rawNode.getAttribute("fill"),
+						ref = svg.getRef(fill);
+					if(ref){
+						ref.parentNode.removeChild(ref);
 					}
 				}
+				if(this.clip){
+					var clipPathProp = this.rawNode.getAttribute("clip-path");
+					if(clipPathProp){
+						var clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
+						if(clipNode){
+							clipNode.parentNode.removeChild(clipNode);
+						}
+					}
+				}
+				sup.apply(this, arguments);
 			}
-			this.inherited(arguments);
-		},
+		}),
 
 		setFill: function(fill){
 			// summary:
@@ -171,7 +173,7 @@ define([
 			var svgns = svg.xmlns.svg;
 			this.fillStyle = f;
 			var surface = this._getParentSurface(),
-				defs = surface&&surface.defNode,
+				defs = surface && surface.defNode,
 				fill = this.rawNode.getAttribute("fill"),
 				ref = svg.getRef(fill);
 			if(ref){
@@ -226,16 +228,18 @@ define([
 			return fill;
 		},
 
-		_setParent: function(){
-			this.inherited(arguments);
-			if(this._pendingFill){
-				var surface = this._getParentSurface();
-				if(surface){
-					surface.defNode.appendChild(this._pendingFill);
-					this._pendingFill = null;
+		_setParent: dcl.superCall(function(sup){
+			return function(){
+				sup.apply(this, arguments);
+				if(this._pendingFill){
+					var surface = this._getParentSurface();
+					if(surface){
+						surface.defNode.appendChild(this._pendingFill);
+						this._pendingFill = null;
+					}
 				}
 			}
-		},
+		}),
 
 		_applyTransform: function(){
 			var matrix = this.matrix;
@@ -308,57 +312,59 @@ define([
 			this.rawNode.parentNode.insertBefore(this.rawNode, this.rawNode.parentNode.firstChild);
 			return this;	// self
 		},
-		setClip: function(clip){
-			// summary:
-			//		sets the clipping area of this shape.
-			// description:
-			//		This method overrides the gfx/shape.Shape.setClip() method.
-			// clip: Object
-			//		an object that defines the clipping geometry, or null to remove clip.
-			this.inherited(arguments);
-			var clipType = clip ? "width" in clip ? "rect" :
-				"cx" in clip ? "ellipse" :
-					"points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
-			if(clip && !clipType){
+		setClip: dcl.superCall(function(sup){
+			return function(clip){
+				// summary:
+				//		sets the clipping area of this shape.
+				// description:
+				//		This method overrides the gfx/shape.Shape.setClip() method.
+				// clip: Object
+				//		an object that defines the clipping geometry, or null to remove clip.
+				sup.apply(this, arguments);
+				var clipType = clip ? "width" in clip ? "rect" :
+					"cx" in clip ? "ellipse" :
+						"points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
+				if(clip && !clipType){
+					return this;
+				}
+				if(clipType === "polyline"){
+					clip = lang.clone(clip);
+					clip.points = clip.points.join(",");
+				}
+				var clipNode, clipShape,
+					clipPathProp = domAttr.get(this.rawNode, "clip-path");
+				if(clipPathProp){
+					clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
+					if(clipNode){ // may be null if not in the DOM anymore
+						clipNode.removeChild(clipNode.childNodes[0]);
+					}
+				}
+				if(clip){
+					if(clipNode){
+						clipShape = svg._createElementNS(svg.xmlns.svg, clipType);
+						clipNode.appendChild(clipShape);
+					}else{
+						var idIndex = ++clipCount;
+						var clipId = "gfx_clip" + idIndex;
+						var clipUrl = "url(#" + clipId + ")";
+						this.rawNode.setAttribute("clip-path", clipUrl);
+						clipNode = svg._createElementNS(svg.xmlns.svg, "clipPath");
+						clipShape = svg._createElementNS(svg.xmlns.svg, clipType);
+						clipNode.appendChild(clipShape);
+						this.rawNode.parentNode.insertBefore(clipNode, this.rawNode);
+						domAttr.set(clipNode, "id", clipId);
+					}
+					domAttr.set(clipShape, clip);
+				}else{
+					//remove clip-path
+					this.rawNode.removeAttribute("clip-path");
+					if(clipNode){
+						clipNode.parentNode.removeChild(clipNode);
+					}
+				}
 				return this;
 			}
-			if(clipType === "polyline"){
-				clip = lang.clone(clip);
-				clip.points = clip.points.join(",");
-			}
-			var clipNode, clipShape,
-				clipPathProp = domAttr.get(this.rawNode, "clip-path");
-			if(clipPathProp){
-				clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
-				if(clipNode){ // may be null if not in the DOM anymore
-					clipNode.removeChild(clipNode.childNodes[0]);
-				}
-			}
-			if(clip){
-				if(clipNode){
-					clipShape = svg._createElementNS(svg.xmlns.svg, clipType);
-					clipNode.appendChild(clipShape);
-				}else{
-					var idIndex = ++clipCount;
-					var clipId = "gfx_clip" + idIndex;
-					var clipUrl = "url(#" + clipId + ")";
-					this.rawNode.setAttribute("clip-path", clipUrl);
-					clipNode = svg._createElementNS(svg.xmlns.svg, "clipPath");
-					clipShape = svg._createElementNS(svg.xmlns.svg, clipType);
-					clipNode.appendChild(clipShape);
-					this.rawNode.parentNode.insertBefore(clipNode, this.rawNode);
-					domAttr.set(clipNode, "id", clipId);
-				}
-				domAttr.set(clipShape, clip);
-			}else{
-				//remove clip-path
-				this.rawNode.removeAttribute("clip-path");
-				if(clipNode){
-					clipNode.parentNode.removeChild(clipNode);
-				}
-			}
-			return this;
-		},
+		}),
 		_removeClipNode: function(){
 			var clipNode, clipPathProp = domAttr.get(this.rawNode, "clip-path");
 			if(clipPathProp){

@@ -1,9 +1,9 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./Shape",
 	"../shape/_EllipseBase"
-], function(declare, SvgShape, EllipseBase){
-	var Ellipse = declare([SvgShape, EllipseBase], {
+], function(dcl, SvgShape, EllipseBase){
+	var Ellipse = dcl([SvgShape, EllipseBase], {
 		// summary:
 		//		an ellipse shape (SVG)
 	});

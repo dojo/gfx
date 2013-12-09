@@ -1,7 +1,8 @@
 define([
+	"dojo/_base/lang",
 	"./_base",
 	"./canvas"],
-	function(gfx, canvas){
+	function(lang, gfx, canvas){
 
 	/*=====
 	 return {
@@ -13,7 +14,7 @@ define([
 	
 	var ext = gfx.canvasext = {};
 	
-	canvas.Surface.extend({
+	lang.extend(canvas.Surface, {
 		
 		getImageData: function(rect){
 			// summary:

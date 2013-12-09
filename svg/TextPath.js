@@ -1,33 +1,39 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"../_base",
 	"./_base",
 	"./Shape",
 	"../shape/_TextPathBase",
 	"./Font"
-], function(declare, g, svg, SvgShape, TextPathBase, Font){
-	var TextPath = declare([SvgShape, TextPathBase, Font], {
+], function(dcl, g, svg, SvgShape, TextPathBase, Font){
+	var TextPath = dcl([SvgShape, TextPathBase, Font], {
 		// summary:
 		//		a textpath shape (SVG)
-		_updateWithSegment: function(segment){
-			// summary:
-			//		updates the bounding box of path with new segment
-			// segment: Object
-			//		a segment
-			this.inherited(arguments);
-			this._setTextPath();
-		},
-		setShape: function(newShape){
-			// summary:
-			//		forms a path using a shape (SVG)
-			// newShape: Object
-			//		an SVG path string or a path object (see gfx.defaultPath)
-			this.inherited(arguments);
-			this._setTextPath();
-			return this;	// self
-		},
+		_updateWithSegment: dcl.superCall(function(sup){
+			return function(segment){
+				// summary:
+				//		updates the bounding box of path with new segment
+				// segment: Object
+				//		a segment
+				sup.apply(this, arguments);
+				this._setTextPath();
+			}
+		}),
+		setShape: dcl.superCall(function(sup){
+			return function(newShape){
+				// summary:
+				//		forms a path using a shape (SVG)
+				// newShape: Object
+				//		an SVG path string or a path object (see gfx.defaultPath)
+				sup.apply(this, arguments);
+				this._setTextPath();
+				return this;	// self
+			}
+		}),
 		_setTextPath: function(){
-			if(typeof this.shape.path != "string"){ return; }
+			if(typeof this.shape.path != "string"){
+				return;
+			}
 			var r = this.rawNode;
 			if(!r.firstChild){
 				var tp = svg._createElementNS(svg.xmlns.svg, "textPath"),
@@ -35,7 +41,7 @@ define([
 				tp.appendChild(tx);
 				r.appendChild(tp);
 			}
-			var ref  = r.firstChild.getAttributeNS(svg.xmlns.xlink, "href"),
+			var ref = r.firstChild.getAttributeNS(svg.xmlns.xlink, "href"),
 				path = ref && svg.getRef(ref);
 			if(!path){
 				var surface = this._getParentSurface();

@@ -1,9 +1,8 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"dojo/_base/lang",
-	"dojo/on",
-	"../_base",
-], function(declare, lang, on, g){
+	"dojo/on"
+], function(dcl, lang, on){
 	var fixCallback = function(gfxElement, fixFunction, scope, method){
 		// summary:
 		//		Wraps the callback to allow for tests and event normalization
@@ -45,7 +44,7 @@ define([
 			return fixFunction(e, gfxElement) ? method.apply(scope, arguments || []) : undefined;
 		}; // Function
 	};
-	return declare(null, {
+	return dcl(null, {
 		on: function(type, listener){
 			//	summary:
 			//		Connects an event to this shape.

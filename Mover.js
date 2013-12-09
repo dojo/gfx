@@ -1,6 +1,6 @@
-define(["dojo/_base/lang","dojo/_base/array", "dojo/_base/declare", "dojo/on", "dojo/touch", "dojo/_base/event"],
-  function(lang, arr, declare, on, touch, event){
-	return declare("gfx.Mover", null, {
+define(["dojo/_base/lang","dojo/_base/array", "dcl/dcl", "dojo/on", "dojo/touch", "dojo/_base/event"],
+  function(lang, arr, dcl, on, touch, event){
+	return dcl(null, {
 		constructor: function(shape, e, host){
 			// summary:
 			//		an object, which makes a shape follow the mouse,

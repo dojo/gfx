@@ -1,14 +1,14 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"../_base",
 	"./_base",
 	"./Shape",
 	"../shape/_TextBase"
-], function(declare, g, canvas, CanvasShape, TextBase){
+], function(dcl, g, canvas, CanvasShape, TextBase){
 
 	var hasFillText = canvas.hasFillText;
 
-	return declare([CanvasShape, TextBase], {
+	return dcl([CanvasShape, TextBase], {
 		_setFont: function(){
 			if(this.parent){
 				this.parent._makeDirty();
@@ -41,12 +41,14 @@ define([
 			return w;
 		},
 
-		getBoundingBox: function(){
-			if(!hasFillText){
-				return null;
+		getBoundingBox: dcl.superCall(function(sup){
+			return function(){
+				if(!hasFillText){
+					return null;
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
+		}),
 
 		// override to apply first fill and stroke (
 		// the base implementation is for path-based shape that needs to first define the path then to fill/stroke it.

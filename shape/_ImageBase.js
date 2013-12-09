@@ -1,8 +1,8 @@
 define([
 	"../_base",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./_ShapeBase"
-], function(g, declare, Shape){
+], function(g, dcl, Shape){
 	var defaultShape = {
 		// summary:
 		//		Defines the default Image prototype.
@@ -31,7 +31,7 @@ define([
 			//		The src url of the image, defaults to empty string.
 			src: ""
 	};
-	var Image = declare(Shape, {
+	var Image = dcl(Shape, {
 		// summary:
 		//		a generic image (do not instantiate it directly)
 		shape: defaultShape,

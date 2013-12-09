@@ -1,8 +1,8 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"../shape/_ContainerBase"
-], function(declare, ContainerBase){
-	return declare([ContainerBase], {
+], function(dcl, ContainerBase){
+	return dcl([ContainerBase], {
 		openBatch: function(){
 			// summary:
 			//		starts a new batch, subsequent new child shapes will be held in
@@ -13,10 +13,12 @@ define([
 			++this._batch;
 			return this;
 		},
-		destroy: function(){
-			this._beingDestroyed = true; // prevent _makeDirty in clear()
-			this.inherited(arguments);
-		},
+		destroy: dcl.superCall(function(sup){
+			return function(){
+				this._beingDestroyed = true; // prevent _makeDirty in clear()
+				sup.apply(this, arguments);
+			}
+		}),
 		closeBatch: function(){
 			// summary:
 			//		submits the current batch.
@@ -31,28 +33,38 @@ define([
 				this.surface.makeDirty();
 			}
 		},
-		add: function(shape){
-			shape.surface = this.surface;
-			this._makeDirty();
-			this.inherited(arguments);
-		},
-		remove: function(shape, silently){
-			this._makeDirty();
-			this.inherited(arguments);
-		},
-		clear: function(){
-			if(!this._beingDestroyed){
+		add: dcl.superCall(function(sup){
+			return function(shape){
+				shape.surface = this.surface;
 				this._makeDirty();
+				sup.apply(this, arguments);
 			}
-			this.inherited(arguments);
-		},
-		_moveChildToFront: function(shape){
-			this._makeDirty();
-			this.inherited(arguments);
-		},
-		_moveChildToBack: function(shape){
-			this._makeDirty();
-			this.inherited(arguments);
-		}
+		}),
+		remove: dcl.superCall(function(sup){
+			return function(shape, silently){
+				this._makeDirty();
+				sup.apply(this, arguments);
+			}
+		}),
+		clear: dcl.superCall(function(sup){
+			return function(){
+				if(!this._beingDestroyed){
+					this._makeDirty();
+				}
+				sup.apply(this, arguments);
+			}
+		}),
+		_moveChildToFront: dcl.superCall(function(sup){
+			return function(shape){
+				this._makeDirty();
+				sup.apply(this, arguments);
+			}
+		}),
+		_moveChildToBack: dcl.superCall(function(sup){
+			return function(shape){
+				this._makeDirty();
+				sup.apply(this, arguments);
+			}
+		})
 	});
 });

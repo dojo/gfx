@@ -2,10 +2,11 @@ define([
 	"dojo/dom",
 	"dojo/_base/array",
 	"dojo/_base/window",
+	"dojo/_base/lang",
 	"./_base",
 	"./svg",
 	"./svg/_base"],
-	function(dom, array, win, gfx, svg, svgUtils){
+	function(dom, array, win, lang, gfx, svg, svgUtils){
 
 	/*=====
 	return {
@@ -37,7 +38,7 @@ define([
 	}
 
 	/*=====
-	declare("gfx.svgext.__FilterPrimitiveArgs", null, {
+	dcl(null, {
 		// summary:
 		//		Represents an SVG filter primitive.
 		// description:
@@ -70,6 +71,8 @@ define([
 		//	|		]
 		//	|	};
 
+	    declaredClass: "gfx.svgext.__FilterPrimitiveArgs",
+
 		// tag: String?
 		//		The type of the primitive, as specified by the SVG spec (http://www.w3.org/TR/SVG/filters.html)
 		tag: null,
@@ -82,7 +85,7 @@ define([
 
 
 	/*=====
-	declare("gfx.svgext.__FilterArgs", null, {
+	dcl(null, {
 		// summary:
 		//		The filter arguments passed to the gfx/svgext/Shape.setFilter method.
 		// description:
@@ -118,6 +121,7 @@ define([
 		//	|		}]
 		//	|	};
 
+        declaredClass: "gfx.svgext.__FilterArgs",
 
 		// id: String?
 		//		The filter identifier. If none is provided, a generated id will be used.
@@ -133,7 +137,7 @@ define([
 	});
 	=====*/
 
-	svg.Shape.extend({
+	lang.extend(svg.Shape, {
 		addRenderingOption: function(/*String*/option, /*String*/value){
 			// summary:
 			//		Adds the specified SVG rendering option on this shape.

@@ -1,16 +1,16 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"dojo/_base/sniff",
 	"../_base",
 	"./_base",
 	"./Shape",
 	"../shape/_TextBase",
 	"./Font"
-], function(declare, has, g, svg, SvgShape, TextBase, Font){
+], function(dcl, has, g, svg, SvgShape, TextBase, Font){
 	var android = has("android"),
 		textRenderingFix = has("chrome") || (android && android>=4) ? "auto" : "optimizeLegibility";// #16099, #16461
 
-	var Text = declare([SvgShape, TextBase, Font], {
+	var Text = dcl([SvgShape, TextBase, Font], {
 		// summary:
 		//		an anchored text (SVG)
 		setShape: function(newShape){

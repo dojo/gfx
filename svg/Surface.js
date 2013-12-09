@@ -1,13 +1,13 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"dojo/dom",
 	"../_base",
 	"./_base",
 	"../shape/_SurfaceBase",
 	"./Container",
 	"./Creator"
-], function(declare, dom, g, svg, SurfaceBase, Container, Creator){
-	return declare([SurfaceBase, Container, Creator], {
+], function(dcl, dom, g, svg, SurfaceBase, Container, Creator){
+	return dcl([SurfaceBase, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (SVG)
 
@@ -40,13 +40,15 @@ define([
 			g._fixMsTouchAction(this);
 		},
 
-		destroy: function(){
-			// no need to call svg.Container.clear to remove the children raw
-			// nodes since the surface raw node will be removed. So, only dispose at gfx level
-			this.clear(true);
-			this.defNode = null;	// release the external reference
-			this.inherited(arguments);
-		},
+		destroy: dcl.superCall(function(sup){
+			return function(){
+				// no need to call svg.Container.clear to remove the children raw
+				// nodes since the surface raw node will be removed. So, only dispose at gfx level
+				this.clear(true);
+				this.defNode = null;	// release the external reference
+				sup.apply(this, arguments);
+			}
+		}),
 		setDimensions: function(width, height){
 			// summary:
 			//		sets the width and height of the rawNode
@@ -54,17 +56,22 @@ define([
 			//		width of surface, e.g., "100px"
 			// height: String
 			//		height of surface, e.g., "100px"
-			if(!this.rawNode){ return this; }
-			this.rawNode.setAttribute("width",  width);
+			if(!this.rawNode){
+				return this;
+			}
+			this.rawNode.setAttribute("width", width);
 			this.rawNode.setAttribute("height", height);
 			// Fix for setDimension bug:
 			// http://bugs.dojotoolkit.org/ticket/16100
 			// (https://code.google.com/p/chromium/issues/detail?id=162628)
 			var uagent = navigator.userAgent;
-			var hasSvgSetAttributeBug = (function(){ var matches = /WebKit\/(\d*)/.exec(uagent); return matches ? matches[1] : 0})() > 534;
+			var hasSvgSetAttributeBug = (function(){
+				var matches = /WebKit\/(\d*)/.exec(uagent);
+				return matches ? matches[1] : 0
+			})() > 534;
 			if(hasSvgSetAttributeBug){
-				this.rawNode.style.width =  width;
-				this.rawNode.style.height =  height;
+				this.rawNode.style.width = width;
+				this.rawNode.style.height = height;
 			}
 			return this;	// self
 		},
@@ -72,7 +79,7 @@ define([
 			// summary:
 			//		returns an object with properties "width" and "height"
 			return this.rawNode ? {
-				width:  g.normalizedLength(this.rawNode.getAttribute("width")),
+				width: g.normalizedLength(this.rawNode.getAttribute("width")),
 				height: g.normalizedLength(this.rawNode.getAttribute("height"))} : null; // Object
 		}
 	});

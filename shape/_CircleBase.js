@@ -1,8 +1,8 @@
 define([
 	"../_base",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./_ShapeBase"
-], function(g, declare, Shape){
+], function(g, dcl, Shape){
 	var defaultShape = {
 		// summary:
 		//		An object defining the default Circle prototype.
@@ -22,7 +22,7 @@ define([
 		//		The radius, default value 100.
 		r: 100
 	};
-	var Circle = declare(Shape, {
+	var Circle = dcl(Shape, {
 		// summary:
 		//		a generic circle
 		shape: defaultShape,

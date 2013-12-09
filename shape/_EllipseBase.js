@@ -1,8 +1,8 @@
 define([
 	"../_base",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./_ShapeBase"
-], function(g, declare, Shape){
+], function(g, dcl, Shape){
 	var defaultShape = {
 		// summary:
 		//		Defines the default Ellipse prototype.
@@ -27,7 +27,7 @@ define([
 		//		The radius of the ellipse in the Y direction, default value 200.
 		ry: 100
 	};
-	var Ellipse = declare(Shape, {
+	var Ellipse = dcl(Shape, {
 		// summary:
 		//		a generic ellipse
 		shape: defaultShape,

@@ -1,8 +1,8 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"../_base",
 	"require"
-], function(declare, g, require){
+], function(dcl, g, require){
 
 	// Note:
 	// We now require renderer-specific shape classes dynamically,
@@ -20,7 +20,7 @@ define([
 	// keys are relative class names e.g. "../svg/Rect".
 	var cc = {};
 
-	return declare(null, {
+	return dcl(null, {
 		// summary:
 		//		shape creators
 

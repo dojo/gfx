@@ -1,8 +1,8 @@
 define([
 	"../_base",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./_ShapeBase"
-], function(g, declare, Shape){
+], function(g, dcl, Shape){
 	var defaultShape = {
 		// summary:
 		//		Defines the default Rect prototype.
@@ -31,7 +31,7 @@ define([
 		//		The corner radius for the default rectangle, value 0.
 		r: 0
 	};
-	var Rect = declare(Shape, {
+	var Rect = dcl(Shape, {
 		// summary:
 		//		a generic rectangle
 		shape: defaultShape,

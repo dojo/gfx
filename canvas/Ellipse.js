@@ -1,10 +1,10 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./Shape",
 	"../shape/_EllipseBase",
 	"../arc",
 	"../matrix"
-], function(declare, CanvasShape, EllipseBase, ga, m){
+], function(dcl, CanvasShape, EllipseBase, ga, m){
 
 	var mp = m.multiplyPoint;
 
@@ -27,7 +27,7 @@ define([
 		for(var i = 1; i < bezierCircle.length; i += 3){
 			c1 = mp(M, bezierCircle[i]);
 			c2 = mp(M, bezierCircle[i + 1]);
-			t  = mp(M, bezierCircle[i + 2]);
+			t = mp(M, bezierCircle[i + 2]);
 			r.push([c1.x, c1.y, c2.x, c2.y, t.x, t.y]);
 		}
 		if(shape._needsDash){
@@ -35,7 +35,7 @@ define([
 			for(i = 1; i < r.length; ++i){
 				var curves = [];
 				splitToDashedBezier(p1.concat(r[i]), shape.canvasDash, curves);
-				p1 = [r[i][4],r[i][5]];
+				p1 = [r[i][4], r[i][5]];
 				points.push(curves);
 			}
 			shape._dashedPoints = points;
@@ -43,21 +43,25 @@ define([
 		return r;
 	};
 
-	var Ellipse = declare([CanvasShape, EllipseBase], {
+	var Ellipse = dcl([CanvasShape, EllipseBase], {
 		// summary:
 		//		an ellipse shape (Canvas)
-		setShape: function(){
-			this.inherited(arguments);
-			this.canvasEllipse = makeEllipse(this);
-			return this;
-		},
-		setStroke: function(){
-			this.inherited(arguments);
-			if(!hasNativeDash){
+		setShape: dcl.superCall(function(sup){
+			return function(){
+				sup.apply(this, arguments);
 				this.canvasEllipse = makeEllipse(this);
+				return this;
 			}
-			return this;
-		},
+		}),
+		setStroke: dcl.superCall(function(sup){
+			return function(){
+				sup.apply(this, arguments);
+				if(!hasNativeDash){
+					this.canvasEllipse = makeEllipse(this);
+				}
+				return this;
+			}
+		}),
 		_renderShape: function(/* Object */ ctx){
 			var r = this.canvasEllipse, i;
 			ctx.beginPath();
@@ -72,10 +76,10 @@ define([
 			ctx.beginPath();
 			for(var i = 0; i < r.length; ++i){
 				var curves = r[i];
-				for(var j=0;j<curves.length;++j){
+				for(var j = 0; j < curves.length; ++j){
 					var curve = curves[j];
 					ctx.moveTo(curve[0], curve[1]);
-					ctx.bezierCurveTo(curve[2],curve[3],curve[4],curve[5],curve[6],curve[7]);
+					ctx.bezierCurveTo(curve[2], curve[3], curve[4], curve[5], curve[6], curve[7]);
 				}
 			}
 			if(apply) ctx.stroke();

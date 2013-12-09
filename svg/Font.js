@@ -1,7 +1,7 @@
 define([
-	"dojo/_base/declare"
-], function(declare){
-	return declare(null, {
+	"dcl/dcl"
+], function(dcl){
+	return dcl(null, {
 		_setFont: function(){
 			// summary:
 			//		sets a font object (SVG)

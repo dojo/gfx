@@ -18,7 +18,8 @@ define(["dojo/has","./shape"], function(has, shapeLib){
 		//		The unique id associated with this shape.
 
 		// the id pattern : type+number (ex: Rect0,Rect1,etc)
-		var t = s.declaredClass.split('.').pop();
+		// declaredClass is now optional with dcl
+		var t = s.declaredClass ? s.declaredClass.split('.').pop() : "Shape";
 		var i = t in _ids ? ++_ids[t] : ((_ids[t] = 0));
 		var uid = t+i;
 		hash[uid] = s;

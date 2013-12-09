@@ -1,12 +1,12 @@
 define([
 	"dojo/_base/lang",
 	"dojo/_base/array",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./_base",
 	"./Shape",
 	"../shape/_PathBase",
 	"../arc"
-], function(lang, arr, declare, canvas, CanvasShape, PathBase, ga){
+], function(lang, arr, dcl, canvas, CanvasShape, PathBase, ga){
 
 	var hasNativeDash = canvas.hasNativeDash;
 
@@ -32,7 +32,7 @@ define([
 			api = quadratic ? "quadraticCurveTo" : "bezierCurveTo",
 			curves = [];
 		var residue = splitToDashedBezier(pts, shape.canvasDash, curves, prevResidue);
-		for(var c=0; c<curves.length;++c){
+		for(var c = 0; c < curves.length; ++c){
 			var curve = curves[c];
 			if(ctx2d){
 				ctx.moveTo(curve[0], curve[1]);
@@ -45,35 +45,43 @@ define([
 		return residue;
 	}
 
-	return declare([CanvasShape, PathBase], {
+	return dcl([CanvasShape, PathBase], {
 		// summary:
 		//		a path shape (Canvas)
 		constructor: function(){
 			this.lastControl = {};
 		},
-		setShape: function(){
-			this.canvasPath = [];
-			this._dashedPath= [];
-			return this.inherited(arguments);
-		},
-		setStroke:function(){
-			this.inherited(arguments);
-			if(!hasNativeDash){
-				this.segmented = false;
-				this._confirmSegmented();
+		setShape: dcl.superCall(function(sup){
+			return function(){
+				this.canvasPath = [];
+				this._dashedPath = [];
+				return sup.apply(this, arguments);
 			}
-			return this;
-		},
-		_setPath: function(){
-			this._dashResidue = null;
-			this.inherited(arguments);
-		},
-		_updateWithSegment: function(segment){
-			var last = lang.clone(this.last);
-			this[pathRenderers[segment.action]](this.canvasPath, segment.action, segment.args, this._needsDash ? this._dashedPath : null);
-			this.last = last;
-			this.inherited(arguments);
-		},
+		}),
+		setStroke: dcl.superCall(function(sup){
+			return function(){
+				sup.apply(this, arguments);
+				if(!hasNativeDash){
+					this.segmented = false;
+					this._confirmSegmented();
+				}
+				return this;
+			}
+		}),
+		_setPath: dcl.superCall(function(sup){
+			return function(){
+				this._dashResidue = null;
+				sup.apply(this, arguments);
+			}
+		}),
+		_updateWithSegment: dcl.superCall(function(sup){
+			return function(segment){
+				var last = lang.clone(this.last);
+				this[pathRenderers[segment.action]](this.canvasPath, segment.action, segment.args, this._needsDash ? this._dashedPath : null);
+				this.last = last;
+				sup.apply(this, arguments);
+			}
+		}),
 		_renderShape: function(/* Object */ ctx){
 			var r = this.canvasPath;
 			ctx.beginPath();
@@ -81,7 +89,8 @@ define([
 				ctx[r[i]].apply(ctx, r[i + 1]);
 			}
 		},
-		_renderDashedStroke: hasNativeDash ? function(){} : function(ctx, apply){
+		_renderDashedStroke: hasNativeDash ? function(){
+		} : function(ctx, apply){
 			var r = this._dashedPath;
 			ctx.beginPath();
 			for(var i = 0; i < r.length; i += 2){
@@ -175,7 +184,7 @@ define([
 			for(var i = 0; i < args.length; i += 6){
 				result.push("bezierCurveTo", args.slice(i, i + 6));
 				if(doDash)
-					this._dashResidue = toDashedCurveTo(doDash, this, result[result.length-1], this._dashResidue);
+					this._dashResidue = toDashedCurveTo(doDash, this, result[result.length - 1], this._dashResidue);
 			}
 			this.last.x = args[args.length - 2];
 			this.last.y = args[args.length - 1];
@@ -194,7 +203,7 @@ define([
 					this.last.y + args[i + 5]
 				]);
 				if(doDash)
-					this._dashResidue = toDashedCurveTo(doDash, this, result[result.length-1], this._dashResidue);
+					this._dashResidue = toDashedCurveTo(doDash, this, result[result.length - 1], this._dashResidue);
 				this.last.x += args[i + 4];
 				this.last.y += args[i + 5];
 			}
@@ -212,7 +221,7 @@ define([
 					args[i + 3]
 				]);
 				if(doDash)
-					this._dashResidue = toDashedCurveTo(doDash, this, result[result.length-1], this._dashResidue);
+					this._dashResidue = toDashedCurveTo(doDash, this, result[result.length - 1], this._dashResidue);
 				this.lastControl.x = args[i];
 				this.lastControl.y = args[i + 1];
 				this.lastControl.type = "C";
@@ -232,7 +241,7 @@ define([
 					this.last.y + args[i + 3]
 				]);
 				if(doDash)
-					this._dashResidue = toDashedCurveTo(doDash, this, result[result.length-1], this._dashResidue);
+					this._dashResidue = toDashedCurveTo(doDash, this, result[result.length - 1], this._dashResidue);
 				this.lastControl.x = this.last.x + args[i];
 				this.lastControl.y = this.last.y + args[i + 1];
 				this.lastControl.type = "C";
@@ -328,65 +337,85 @@ define([
 				this._dashResidue = canvas.toDashedLineTo(doDash, this, this.last.x, this.last.y, doDash[1][0], doDash[1][1], this._dashResidue);
 			this.lastControl = {};
 		},
-		moveTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		moveTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		lineTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		lineTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		hLineTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		hLineTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		vLineTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		vLineTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		curveTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		curveTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		smoothCurveTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		smoothCurveTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		qCurveTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		qCurveTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		qSmoothCurveTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		qSmoothCurveTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		arcTo: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		arcTo: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		},
-		closePath: function(){
-			if(this.parent){
-				this.parent._makeDirty();
+		}),
+		closePath: dcl.superCall(function(sup){
+			return function(){
+				if(this.parent){
+					this.parent._makeDirty();
+				}
+				return sup.apply(this, arguments);
 			}
-			return this.inherited(arguments);
-		}
+		})
 	});
 });

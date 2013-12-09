@@ -1,8 +1,8 @@
 define([
 	"../_base",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./_ShapeBase"
-], function(g, declare, Shape){
+], function(g, dcl, Shape){
 	var defaultShape = {
 		// summary:
 		//		Defines the default PolyLine prototype.
@@ -15,27 +15,33 @@ define([
 		//		An array of point objects [{x:0,y:0},...] defining the default polyline's line segments. Value is an empty array [].
 		points: []
 	};
-	var Polyline = declare(Shape, {
+	var Polyline = dcl(Shape, {
 		// summary:
 		//		a generic polyline/polygon (do not instantiate it directly)
 		shape: defaultShape,
-		setShape: function(points, closed){
-			// summary:
-			//		sets a polyline/polygon shape object
-			// points: Object|Array
-			//		a polyline/polygon shape object, or an array of points
-			// closed: Boolean
-			//		close the polyline to make a polygon
-			if(points && points instanceof Array){
-				this.inherited(arguments, [{points: points}]);
-				if(closed && this.shape.points.length){
-					this.shape.points.push(this.shape.points[0]);
+		setShape: dcl.superCall(function(sup){
+				return function(points, closed){
+					// summary:
+					//		sets a polyline/polygon shape object
+					// points: Object|Array
+					//		a polyline/polygon shape object, or an array of points
+					// closed: Boolean
+					//		close the polyline to make a polygon
+					if(points && points instanceof Array){
+						if(sup){
+							sup.call(this, {points: points});
+						}
+						if(closed && this.shape.points.length){
+							this.shape.points.push(this.shape.points[0]);
+						}
+					}else{
+						if(sup){
+							sup.call(this, points);
+						}
+					}
+					return this;	// self
 				}
-			}else{
-				this.inherited(arguments, [points]);
-			}
-			return this;	// self
-		},
+			}),
 		_normalizePoints: function(){
 			// summary:
 			//		normalize points to array of {x:number, y:number}

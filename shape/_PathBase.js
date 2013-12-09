@@ -1,10 +1,10 @@
 define([
 	"../_base",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"dojo/_base/lang",
 	"./_ShapeBase",
 	"../matrix"
-], function(g, declare, lang, Shape, matrix){
+], function(g, dcl, lang, Shape, matrix){
 	var defaultShape = {
 		// summary:
 		//		Defines the default Path prototype object.
@@ -18,7 +18,7 @@ define([
 		//		Defaults to empty string value.
 		path: ""
 	};
-	var Path = declare(Shape, {
+	var Path = dcl(Shape, {
 		// summary:
 		//		a generalized path shape
 		shape: defaultShape,
@@ -87,10 +87,12 @@ define([
 			return "x" in this.last ? this.last : null; // Object
 		},
 
-		_applyTransform: function(){
-			this.tbbox = null;
-			return this.inherited(arguments);
-		},
+		_applyTransform: dcl.superCall(function(sup){
+			return function(){
+				this.tbbox = null;
+				return sup.apply(this, arguments);
+			};
+		}),
 
 		// segment interpretation
 		_updateBBox: function(x, y, m){
@@ -363,8 +365,8 @@ define([
 			return this; // self
 		},
 
-		_confirmSegmented: function() {
-			if (!this.segmented) {
+		_confirmSegmented: function(){
+			if(!this.segmented){
 				var path = this.shape.path;
 				// switch to non-updating version of path building
 				this.shape.path = [];
@@ -406,20 +408,24 @@ define([
 			}
 			this._pushSegment(action, args);
 		},
-		setShape: function(newShape){
-			// summary:
-			//		forms a path using a shape
-			// newShape: Object
-			//		an SVG path string or a path object (see gfx.defaultPath)
-			this.inherited(arguments, [typeof newShape == "string" ? {path: newShape} : newShape]);
+		setShape: dcl.superCall(function(sup){
+			return function(newShape){
+				// summary:
+				//		forms a path using a shape
+				// newShape: Object
+				//		an SVG path string or a path object (see gfx.defaultPath)
+				if(sup){
+					sup.call(this, typeof newShape == "string" ? {path: newShape} : newShape);
+				}
 
-			this.segmented = false;
-			this.segments = [];
-			if(!g.lazyPathSegmentation){
-				this._confirmSegmented();
+				this.segmented = false;
+				this.segments = [];
+				if(!g.lazyPathSegmentation){
+					this._confirmSegmented();
+				}
+				return this; // self
 			}
-			return this; // self
-		},
+		}),
 
 		// useful constant for descendants
 		_2PI: Math.PI * 2

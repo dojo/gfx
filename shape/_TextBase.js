@@ -1,8 +1,8 @@
 define([
 	"../_base",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./_ShapeBase"
-], function(g, declare, Shape){
+], function(g, dcl, Shape){
 	var defaultShape = {
 		// summary:
 		//		Defines the default Text prototype.
@@ -39,7 +39,7 @@ define([
 		//		Whether kerning is used on the text, boolean default value true.
 		kerning: true
 	};
-	var Text = declare(Shape, {
+	var Text = dcl(Shape, {
 		// summary:
 		//		a generic text (do not instantiate it directly)
 		shape: defaultShape,

@@ -1,9 +1,9 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"../shape/_ContainerBase",
 	"./_base"
-], function(declare, ContainerBase, svg){
-	return declare([ContainerBase], {
+], function(dcl, ContainerBase, svg){
+	return dcl([ContainerBase], {
 		openBatch: function(){
 			// summary:
 			//		starts a new batch, subsequent new child shapes will be held in
@@ -24,58 +24,64 @@ define([
 			}
 			return this;
 		},
-		add: function(shape){
-			// summary:
-			//		adds a shape to a group/surface
-			// shape: gfx/shape.Shape
-			//		an SVG shape object
-			if(this != shape.getParent()){
-				if(this.fragment){
-					this.fragment.appendChild(shape.rawNode);
-				}else{
-					this.rawNode.appendChild(shape.rawNode);
+		add: dcl.superCall(function(sup){
+			return function(shape){
+				// summary:
+				//		adds a shape to a group/surface
+				// shape: gfx/shape.Shape
+				//		an SVG shape object
+				if(this != shape.getParent()){
+					if(this.fragment){
+						this.fragment.appendChild(shape.rawNode);
+					}else{
+						this.rawNode.appendChild(shape.rawNode);
+					}
+					sup.apply(this, arguments);
+					// update clipnode with new parent
+					shape.setClip(shape.clip);
 				}
-				this.inherited(arguments);
-				// update clipnode with new parent
-				shape.setClip(shape.clip);
+				return this;	// self
 			}
-			return this;	// self
-		},
-		remove: function(shape, silently){
-			// summary:
-			//		remove a shape from a group/surface
-			// shape: gfx/shape.Shape
-			//		an SVG shape object
-			// silently: Boolean?
-			//		if true, regenerate a picture
-			if(this == shape.getParent()){
-				if(this.rawNode == shape.rawNode.parentNode){
-					this.rawNode.removeChild(shape.rawNode);
+		}),
+		remove: dcl.superCall(function(sup){
+			return function(shape, silently){
+				// summary:
+				//		remove a shape from a group/surface
+				// shape: gfx/shape.Shape
+				//		an SVG shape object
+				// silently: Boolean?
+				//		if true, regenerate a picture
+				if(this == shape.getParent()){
+					if(this.rawNode == shape.rawNode.parentNode){
+						this.rawNode.removeChild(shape.rawNode);
+					}
+					if(this.fragment && this.fragment == shape.rawNode.parentNode){
+						this.fragment.removeChild(shape.rawNode);
+					}
+					// remove clip node from parent
+					shape._removeClipNode();
+					sup.apply(this, arguments);
 				}
-				if(this.fragment && this.fragment == shape.rawNode.parentNode){
-					this.fragment.removeChild(shape.rawNode);
+				return this;	// self
+			}
+		}),
+		clear: dcl.superCall(function(sup){
+			return function(){
+				// summary:
+				//		removes all shapes from a group/surface
+				var r = this.rawNode;
+				while(r.lastChild){
+					r.removeChild(r.lastChild);
 				}
-				// remove clip node from parent
-				shape._removeClipNode();
-				this.inherited(arguments);
-			}
-			return this;	// self
-		},
-		clear: function(){
-			// summary:
-			//		removes all shapes from a group/surface
-			var r = this.rawNode;
-			while(r.lastChild){
-				r.removeChild(r.lastChild);
-			}
-			var defNode = this.defNode;
-			if(defNode){
-				while(defNode.lastChild){
-					defNode.removeChild(defNode.lastChild);
+				var defNode = this.defNode;
+				if(defNode){
+					while(defNode.lastChild){
+						defNode.removeChild(defNode.lastChild);
+					}
+					r.appendChild(defNode);
 				}
-				r.appendChild(defNode);
+				sup.apply(this, arguments);
 			}
-			this.inherited(arguments);
-		}
+		})
 	});
 });

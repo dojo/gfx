@@ -1,9 +1,9 @@
 define([
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"./Shape",
 	"../shape/_TextPathBase"
-], function(declare, CanvasShape, TextPathBase){
-	return declare([CanvasShape, TextPathBase], {
+], function(dcl, CanvasShape, TextPathBase){
+	return dcl([CanvasShape, TextPathBase], {
 		// summary:
 		//		a text shape (Canvas) - NOT YET IMPLEMENTED
 		_renderShape: function(/* Object */ ctx){

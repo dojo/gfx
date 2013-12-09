@@ -1,9 +1,9 @@
 define([
 	"../_base",
-	"dojo/_base/declare",
+	"dcl/dcl",
 	"dojo/_base/lang",
 	"./_PathBase"
-], function(g, declare, lang, Path){
+], function(g, dcl, lang, Path){
 	var defaultShape = {
 		// summary:
 		//		Defines the default TextPath prototype.
@@ -37,7 +37,7 @@ define([
 		//		Whether kerning is used on the text, boolean default value true.
 		kerning: true
 	};
-	var TextPath = declare(Path, {
+	var TextPath = dcl(Path, {
 		// summary:
 		//		a generalized TextPath shape
 		shape: defaultShape,

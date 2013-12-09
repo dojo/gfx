@@ -1,6 +1,6 @@
-define(["../_base", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff",
+define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 	"dojo/_base/array", "dojo/_base/Color", "../matrix", "./_EventsProcessing" ],
-	function(g, lang, declare, has, arr, Color, matrixLib, EventsProcessing){
+	function(g, lang, dcl, has, arr, Color, matrixLib, EventsProcessing){
 
 		var registry;
 
@@ -15,7 +15,7 @@ define(["../_base", "dojo/_base/lang", "dojo/_base/declare", "dojo/_base/sniff",
 			return registry;
 		}
 
-		return declare([EventsProcessing], {
+		return dcl([EventsProcessing], {
 			// summary:
 			//		a Shape object, which knows how to apply
 			//		graphical attributes and transformations
