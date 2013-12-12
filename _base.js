@@ -130,7 +130,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 		// take a measure
 		m.innerHTML = text;
 
-		if(m["getBoundingClientRect"]){
+		if(m.getBoundingClientRect){
 			var bcr = m.getBoundingClientRect();
 			return {l: bcr.left, t: bcr.top, w: bcr.width || (bcr.right - bcr.left), h: bcr.height || (bcr.bottom - bcr.top)};
 		}else{
