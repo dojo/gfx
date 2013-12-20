@@ -74,7 +74,7 @@ define([
 
 	return dcl([ShapeBase], {
 
-		setShape: dcl.superCall(function(sup){
+		_setShapeAttr: dcl.superCall(function(sup){
 			return function(shape){
 				if(this.parent){
 					this.parent._makeDirty();
@@ -99,7 +99,7 @@ define([
 			}
 		}),
 
-		setFill: dcl.superCall(function(sup){
+		_setFillStyleAttr: dcl.superCall(function(sup){
 			return function(fill){
 				if(this.parent){
 					this.parent._makeDirty();
@@ -144,7 +144,7 @@ define([
 			}
 		}),
 
-		setStroke: dcl.superCall(function(sup){
+		_setStrokeStyleAttr: dcl.superCall(function(sup){
 			return function(stroke){
 				if(this.parent){
 					this.parent._makeDirty();

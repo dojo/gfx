@@ -30,12 +30,14 @@
 							if(!drawing){
 								var dn = dom.byId("gfxObject");
 								drawing = gfx.createSurface(dn, 300, 300);
-								drawing.createRect({
+								var r = drawing.createRect({
 									width:100,
 									height:100,
 									x:100,
 									y:100
-								}).setFill("blue").setStroke("black");
+								});
+                                r.fillStyle = "blue";
+                                r.strokeStyle = "black";
 								drawing.createImage({width:200, height:200, src:'http://demos.dojotoolkit.org/demos/resources/images/no_thumb.gif'});
 							}
 							if(!ta){
@@ -68,12 +70,14 @@
 							if(!drawing){
 								var dn = dom.byId("gfxObject");
 								drawing = gfx.createSurface(dn, 300, 300);
-								drawing.createRect({
+								var r = drawing.createRect({
 									width:100,
 									height:100,
 									x:100,
 									y:100
-								}).setFill("blue").setStroke("black");
+								});
+                                r.fillStyle = "blue";
+                                r.strokeStyle = "black";
 								drawing.createImage({width:200, height:200, src:'http://demos.dojotoolkit.org/demos/resources/images/no_thumb.gif'});
 							}
 							if(!ta){
@@ -112,12 +116,14 @@
 							if(!drawing){
 								var dn = dom.byId("gfxObject");
 								drawing = gfx.createSurface(dn, 300, 300);
-								drawing.createRect({
+								var r = drawing.createRect({
 									width:100,
 									height:100,
 									x:100,
 									y:100
-								}).setFill("blue").setStroke("black");
+								});
+                                r.fillStyle = "blue";
+                                r.strokeStyle = "black";
 								drawing.createImage({width:200, height:200, src:'http://demos.dojotoolkit.org/demos/resources/images/no_thumb.gif'});
 							}
 							if(!ta){
@@ -157,12 +163,14 @@
 							if(!drawing){
 								var dn = dom.byId("gfxObject");
 								drawing = gfx.createSurface(dn, 300, 300);
-								drawing.createRect({
+								var r = drawing.createRect({
 									width:100,
 									height:100,
 									x:100,
 									y:100
-								}).setFill("blue").setStroke("black");
+								});
+                                r.fillStyle = "blue";
+                                r.strokeStyle = "black";
 							}
 							if(!ta){
 								ta = dom.byId("outputArea");

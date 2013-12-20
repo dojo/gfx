@@ -58,7 +58,7 @@
 
 				// get old heights
 				var oldHeights = array.map(rects, function(rect){
-					return rect.getShape().height;
+					return rect.shape.height;
 				});
 
 				// generate new heights
@@ -80,10 +80,10 @@
 					});
 					// update the rectangle on every tick
 					aspect.after(anim, "onAnimate", function(height){
-						var shape = rect.getShape();
+						var shape = rect.shape;
 						shape.y = HEIGHT - height;
 						shape.height = height;
-						rect.setShape(shape);
+						rect.shape = shape;
 					}, true);
 					return anim;
 				});
@@ -101,9 +101,12 @@
 			var init = function(surface){
 				// create rectangles
 				for(var w = BAR_GAP; w < WIDTH - BAR_WIDTH; w += BAR_WIDTH + BAR_GAP){
-					rects.push(surface.createRect({
-						x:w, y:HEIGHT, width:BAR_WIDTH, height:1
-					}).setFill(BAR_FILL).setStroke(BAR_STROKE));
+                    var rect = surface.createRect({
+                        x:w, y:HEIGHT, width:BAR_WIDTH, height:1
+                    });
+                    rect.fillStyle = BAR_FILL;
+                    rect.strokeStyle = BAR_STROKE;
+					rects.push(rect);
 				}
 
 				// prepare and enable controls

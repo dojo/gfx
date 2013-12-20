@@ -32,7 +32,7 @@
 				var startAngle = -30;
 				var arcAngle = -90;
 				var axisAngle = -30;
-				var e = g.createEllipse({rx:rx, ry:ry}).setStroke({});
+				var e = g.createEllipse({rx:rx, ry:ry}); e.strokeStyle = {};
 
 				// calculate a bezier
 				var alpha = matrix._degToRad(arcAngle) / 2; // half of our angle
@@ -54,7 +54,7 @@
 				p3 = matrix.multiplyPoint(s, p3);
 				p4 = matrix.multiplyPoint(s, p4);
 				// draw control trapezoid
-				var t = g.createPath().setStroke({color:"blue"});
+				var t = g.createPath(); t.strokeStyle = {color:"blue"};
 				t.moveTo(p1.x, p1.y);
 				t.lineTo(p2.x, p2.y);
 				t.lineTo(p3.x, p3.y);
@@ -65,7 +65,7 @@
 				t.moveTo((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 				t.lineTo((p3.x + p4.x) / 2, (p3.y + p4.y) / 2);
 				// draw a bezier
-				var b = g.createPath().setStroke({color:"red"});
+				var b = g.createPath(); b.strokeStyle = {color:"red"};
 				b.moveTo(p1.x, p1.y);
 				b.curveTo(p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
 				// move everything in a middle

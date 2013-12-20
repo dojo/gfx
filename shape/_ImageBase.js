@@ -40,12 +40,12 @@ define([
 			//		returns the bounding box (its shape in this case)
 			return this.shape;	// gfx.Rectangle
 		},
-		setStroke: function(){
+		_setStrokeStyleAttr: function(){
 			// summary:
 			//		ignore setting a stroke style
 			return this;	// self
 		},
-		setFill: function(){
+		_setFillStyleAttr: function(){
 			// summary:
 			//		ignore setting a fill style
 			return this;	// self

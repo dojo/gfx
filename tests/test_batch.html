@@ -86,9 +86,9 @@
 							},
 							runTest: function(){
 								surface.openBatch();
-								var rect = surface.createRect().setFill("red");
+								var rect = surface.createRect(); rect.fillStyle = "red";
 								surface.openBatch();
-								var rect2 = surface.createRect({x:200}).setFill("green");
+								var rect2 = surface.createRect({x:200}); rect2.fillStyle = "green";
 								doh.assertTrue(rect.rawNode.parentNode === rect2.rawNode.parentNode, "Unexpected parent nodes for rects.");
 								surface.closeBatch();
 								var p = rect2.rawNode.parentNode;
@@ -118,7 +118,7 @@
 							runTest: function(){
 								var g = surface.createGroup();
 								g.openBatch();
-								var rect = g.createRect().setFill("red");
+								var rect = g.createRect(); rect.fillStyle = "red";
 								doh.assertTrue(rect.rawNode.parentNode !== g.rawNode, "Unexpected parent node for rect.");
 								var rect2 = surface.createRect();
 								doh.assertTrue(rect2.rawNode.parentNode === surface.rawNode, "Unexpected parent node for rect2.");
@@ -144,7 +144,7 @@
 								var g = surface.createGroup();
 								doh.assertTrue(g.rawNode.parentNode !== surface.rawNode, "Unexpected parent node for g.");
 								g.openBatch();
-								var rect = g.createRect().setFill("red");
+								var rect = g.createRect(); rect.fillStyle = "red";
 								doh.assertTrue(rect.rawNode.parentNode !== g.rawNode, "Unexpected parent node for rect.");
 								g.closeBatch();
 								doh.assertTrue(rect.rawNode.parentNode === g.rawNode, "Unexpected parent node for rect after closeBatch.");
@@ -223,13 +223,13 @@
 							},
 							runTest: function(){
 								surface.openBatch();
-								var rect = surface.createRect().setFill("red");
+								var rect = surface.createRect(); rect.fillStyle = "red";
 								var called = false;
 								aspect.after(surface,"makeDirty",function(){
 									called = true;
 								});
 								surface.openBatch();
-								var rect2 = surface.createRect({x:200}).setFill("green");
+								var rect2 = surface.createRect({x:200}); rect2.fillStyle = "green";
 								doh.assertTrue(!called, "Unexpected surface.render() call in nested batch [0].");
 								surface.closeBatch();
 								doh.assertTrue(!called, "Unexpected surface.render() call in nested batch [1].");
@@ -259,7 +259,7 @@
 								aspect.after(surface,"makeDirty", function(){
 									called = true;
 								});
-								var rect = g.createRect().setFill("red");
+								var rect = g.createRect(); rect.fillStyle = "red";
 								doh.assertTrue(!called, "Unexpected surface.render called.");
 								g.closeBatch();
 								doh.assertTrue(called, "surface.render not called after group.closeBatch().");
@@ -287,7 +287,7 @@
 								aspect.after(surface,"makeDirty", function(){
 									called = true;
 								});
-								var rect = g.createRect().setFill("red");
+								var rect = g.createRect(); rect.fillStyle = "red";
 								doh.assertTrue(!called, "Unexpected surface.render called.");
 								g.closeBatch();
 								doh.assertTrue(!surface.pendingRender, "Unexpected surface.render called.");

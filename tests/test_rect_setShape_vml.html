@@ -20,8 +20,13 @@
 			};
 
 			makeShapes = function(surface){
-				surface.createRect({x:10, y:10, width:"100%", height:100}).setFill("red").setStroke("black");
-				surface.createRect({x:10, y:130, width:100, height:"100%"}).setFill("red").setStroke("black");
+                var rect;
+				rect = surface.createRect({x:10, y:10, width:"100%", height:100});
+                rect.fillStyle = "red";
+                rect.strokeStyle = "black";
+				rect = surface.createRect({x:10, y:130, width:100, height:"100%"});
+                rect.fillStyle = "red";
+                rect.strokeStyle = "black";
 			};
 
 			ready(createSurface);

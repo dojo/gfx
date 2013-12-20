@@ -20,17 +20,17 @@
 						gridStep = 50;
 
 				for(var i = 0; i <= gridSize; i += gridStep){
-					surface.createLine({ x1:0, x2:gridSize, y1:i, y2:i }).setStroke("gray");
-					surface.createLine({ y1:0, y2:gridSize, x1:i, x2:i }).setStroke("gray");
+					surface.createLine({ x1:0, x2:gridSize, y1:i, y2:i }).strokeStyle = "gray";
+					surface.createLine({ y1:0, y2:gridSize, x1:i, x2:i }).strokeStyle = "gray";
 				}
 
-				var rect1 = surface.createRect({ x:0, y:0, width:300, height:200, r:5 }).setFill("red").setStroke("black");
+				var rect1 = surface.createRect({ x:0, y:0, width:300, height:200, r:5 }); rect1.fillStyle = "red"; rect1.strokeStyle = "black";
 				var img1 = surface.createImage({ width:300, height:200, src:"images/eugene-sm.jpg"}).setTransform({ dx:50, dy:50 });
-				var rect2 = surface.createRect({ x:100, y:100, width:300, height:200, r:5 }).setFill("yellow").setStroke("black");
+				var rect2 = surface.createRect({ x:100, y:100, width:300, height:200, r:5 }); rect2.fillStyle = "yellow"; rect2.strokeStyle = "black";
 				var img2 = surface.createImage({ width:300, height:200, src:"images/eugene-sm.gif"}).setTransform({ dx:150, dy:150 });
-				var rect3 = surface.createRect({ x:200, y:200, width:300, height:200, r:5 }).setFill("green").setStroke("black");
+				var rect3 = surface.createRect({ x:200, y:200, width:300, height:200, r:5 }); rect3.fillStyle = "green"; rect3.strokeStyle = "black";
 				var img3 = surface.createImage({ width:300, height:200, src:"images/eugene-sm.png"}).setTransform({ dx:250, dy:250 });
-				var rect4 = surface.createRect({ x:300, y:300, width:300, height:200, r:5 }).setFill("blue").setStroke("black");
+				var rect4 = surface.createRect({ x:300, y:300, width:300, height:200, r:5 }); rect4.fillStyle = "blue"; rect4.strokeStyle = "black";
 
 				new Moveable(rect1);
 				new Moveable(rect2);

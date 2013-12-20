@@ -27,15 +27,15 @@
 			var makeText = function(surface, text, font, fill, stroke){
 				var t = surface.createText(text);
 				if(font)   t.setFont(font);
-				if(fill)   t.setFill(fill);
-				if(stroke) t.setStroke(stroke);
+				if(fill)   t.fillStyle = fill;
+				if(stroke) t.strokeStyle = stroke;
 				placeAnchor(surface, text.x, text.y);
 				return t;
 			};
 
 			makeShapes = function(){
 				surface = gfx.createSurface("test", 700, 500);
-				//surface.createLine({x1: 250, y1: 0, x2: 250, y2: 500}).setStroke("green");
+				//surface.createLine({x1: 250, y1: 0, x2: 250, y2: 500}).strokeStyle = "green";
 				t1 = makeText(surface, {id:"t1", x:250, y:50, text:"1.) \u05e9\u05dc\u05d5\u05dd world LTR!", textDir:"ltr"},
 						{family:"Times", size:"24pt"}, "black", "red")
 						.setTransform(m.rotategAt(0, 250, 50));

@@ -19,8 +19,13 @@
 			};
 
 			makeShapes = function(){
-				surface.createRect({width:300, height:300}).setFill([255, 0, 0, 0.3]).setStroke("red");
-				surface.createRect({x:200, y:200, width:300, height:300}).setFill([0, 0, 255, 0.3]).setStroke("green");
+				var rect;
+                rect = surface.createRect({width:300, height:300});
+                rect.fillStyle = [255, 0, 0, 0.3];
+                rect.strokeStyle = "red";
+				rect = surface.createRect({x:200, y:200, width:300, height:300});
+                rect.fillStyle = [0, 0, 255, 0.3];
+                rect.strokeStyle = "green";
 			};
 
 			getDim = function(){

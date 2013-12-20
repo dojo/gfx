@@ -13,12 +13,12 @@ define([
 	var Text = dcl([SvgShape, TextBase, Font], {
 		// summary:
 		//		an anchored text (SVG)
-		setShape: function(newShape){
+		_setShapeAttr: function(newShape){
 			// summary:
 			//		sets a text shape object (SVG)
 			// newShape: Object
 			//		a text shape object
-			this.shape = g.makeParameters(this.shape, newShape);
+			this._set("shape", g.makeParameters(this.shape, newShape));
 			this.bbox = null;
 			var r = this.rawNode, s = this.shape;
 			r.setAttribute("x", s.x);
@@ -60,7 +60,7 @@ define([
 			return _width;
 		},
 		getBoundingBox: function(){
-			var s = this.getShape(), bbox = null;
+			var s = this.shape, bbox = null;
 			if(s.text){
 				// try/catch the FF native getBBox error.
 				try {

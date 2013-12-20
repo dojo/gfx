@@ -26,8 +26,8 @@
 				var y_offset = gfx.normalizedLength("4pt");
 				for(var i = 0; i < styles.length; ++i){
 					var y = 20 + i * 20;
-					surface.createText({x:140, y:y + y_offset, text:styles[i], align:"end"}).setFont(font).setFill("black");
-					surface.createLine({x1:150, y1:y, x2:490, y2:y}).setStroke({style:styles[i], width:3, cap:"round"});
+					surface.createText({x:140, y:y + y_offset, text:styles[i], align:"end"}).setFont(font).fillStyle = "black";
+					surface.createLine({x1:150, y1:y, x2:490, y2:y}).strokeStyle = {style:styles[i], width:3, cap:"round"};
 				}
 			};
 

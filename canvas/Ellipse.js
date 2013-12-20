@@ -1,10 +1,11 @@
 define([
 	"dcl/dcl",
+	"./_base",
 	"./Shape",
 	"../shape/_EllipseBase",
 	"../arc",
 	"../matrix"
-], function(dcl, CanvasShape, EllipseBase, ga, m){
+], function(dcl, canvas, CanvasShape, EllipseBase, ga, m){
 
 	var mp = m.multiplyPoint;
 
@@ -46,17 +47,17 @@ define([
 	var Ellipse = dcl([CanvasShape, EllipseBase], {
 		// summary:
 		//		an ellipse shape (Canvas)
-		setShape: dcl.superCall(function(sup){
+		_setShapeAttr: dcl.superCall(function(sup){
 			return function(){
 				sup.apply(this, arguments);
 				this.canvasEllipse = makeEllipse(this);
 				return this;
 			}
 		}),
-		setStroke: dcl.superCall(function(sup){
+		_setStrokeStyleAttr: dcl.superCall(function(sup){
 			return function(){
 				sup.apply(this, arguments);
-				if(!hasNativeDash){
+				if(!canvas.hasNativeDash){
 					this.canvasEllipse = makeEllipse(this);
 				}
 				return this;

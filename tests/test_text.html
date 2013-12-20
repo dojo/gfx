@@ -16,26 +16,26 @@
 			var bbox = shape.getBoundingBox();
 			var t = shape.getTransform();//shape._getRealMatrix();
 			var tbbox = matrix.multiplyRectangle(t, bbox);
-			var rect = surface.createRect(tbbox).setStroke("red");
+			var rect = surface.createRect(tbbox); rect.strokeStyle = "red";
 		}
 
 		function placeAnchor(surface, x, y){
-			surface.createLine({x1: x - 2, y1: y, x2: x + 2, y2: y}).setStroke("blue");
-			surface.createLine({x1: x, y1: y - 2, x2: x, y2: y + 2}).setStroke("blue");
+			surface.createLine({x1: x - 2, y1: y, x2: x + 2, y2: y}).strokeStyle = "blue";
+			surface.createLine({x1: x, y1: y - 2, x2: x, y2: y + 2}).strokeStyle = "blue";
 		}
 
 		function makeText(surface, text, font, fill, stroke){
 			var t = surface.createText(text);
 			if(font)   t.setFont(font);
-			if(fill)   t.setFill(fill);
-			if(stroke) t.setStroke(stroke);
+			if(fill)   t.fillStyle = fill;
+			if(stroke) t.strokeStyle = stroke;
 			placeAnchor(surface, text.x, text.y);
 			return t;
 		}
 
 		function makeShapes(){
 			var m = matrix;
-			surface.createLine({x1: 250, y1: 0, x2: 250, y2: 500}).setStroke("green");
+			surface.createLine({x1: 250, y1: 0, x2: 250, y2: 500}).strokeStyle = "green";
 			t1 = makeText(surface, {x: 250, y: 50, text: "Start", align: "start"},
 				{family: "Times", size: "36pt", weight: "bold"}, "black", "red")
 				.setTransform(m.rotategAt(ROTATION, 250, 50));
@@ -82,7 +82,7 @@
 			var t = [];
 			array.forEach(["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"], function(name){
 				var node = eval("(" + name + ")");
-				t.push(node.getShape().text + " = " + node.getTextWidth());
+				t.push(node.shape.text + " = " + node.getTextWidth());
 			});
 			dom.byId("sizes").innerHTML = t.join("<br/>");
 		}

@@ -40,18 +40,18 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 					return t.children;	// Array
 				}
 			}else{
-				t.shape = object.getShape();
+				t.shape = object.shape;
 			}
 			if(object.getTransform){
 				v = object.getTransform();
 				if(v){ t.transform = v; }
 			}
 			if(object.getStroke){
-				v = object.getStroke();
+				v = object.strokeStyle;
 				if(v){ t.stroke = v; }
 			}
 			if(object.getFill){
-				v = object.getFill();
+				v = object.fillStyle;
 				if(v){ t.fill = v; }
 			}
 			if(object.getFont){
@@ -89,10 +89,10 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 				shape.setTransform(object.transform);
 			}
 			if("stroke" in object){
-				shape.setStroke(object.stroke);
+				shape.strokeStyle = object.stroke;
 			}
 			if("fill" in object){
-				shape.setFill(object.fill);
+				shape.fillStyle = object.fill;
 			}
 			if("font" in object){
 				shape.setFont(object.font);

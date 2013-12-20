@@ -34,31 +34,32 @@
 				// create a background
 				for(var i = 0; i < 300; i += SIDE){
 					for(var j = 0; j < 300; j += SIDE){
-						surface.
-								createRect({x:j, y:i, width:10, height:10}).
-								setFill((Math.floor(i / SIDE) + Math.floor(j / SIDE)) % 2 ? "lightgrey" : "white");
+						var rect = surface.createRect({x:j, y:i, width:10, height:10});
+						rect.fillStyle = (Math.floor(i / SIDE) + Math.floor(j / SIDE)) % 2 ? "lightgrey" : "white";
 					}
 				}
 				// create a rect
-				surface.createRect({
+				var rect = surface.createRect({
 					width:300,
 					height:100
-				}).setFill(lang.mixin({
+				});
+                ret.fillStyle = lang.mixin({
 							type:"linear",
 							x1:0, y1:0,
 							x2:300, y2:0
-						}, fillObj));
+						}, fillObj);
 				// create a circle
-				surface.createEllipse({
+				var circle = surface.createEllipse({
 					cx:150,
 					cy:200,
 					rx:100,
 					ry:100
-				}).setFill(lang.mixin({
+				});
+                circle.fillStyle = lang.mixin({
 							type:"radial",
 							cx:150,
 							cy:200
-						}, fillObj));
+						}, fillObj);
 			};
 			ready(createSurface);
 		});

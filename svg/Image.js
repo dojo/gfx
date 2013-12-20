@@ -8,12 +8,12 @@ define([
 	var Image = dcl([SvgShape, ImageBase], {
 		// summary:
 		//		an image shape (SVG)
-		setShape: function(newShape){
+		_setShapeAttr: function(newShape){
 			// summary:
 			//		sets an image shape object (SVG)
 			// newShape: Object
 			//		an image shape object
-			this.shape = g.makeParameters(this.shape, newShape);
+			this._set("shape", g.makeParameters(this.shape, newShape));
 			this.bbox = null;
 			var rawNode = this.rawNode;
 			for(var i in this.shape){

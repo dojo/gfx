@@ -22,20 +22,22 @@
 
 			makeShapes = function(s){
 				for(var i = 0; i <= grid_size; i += grid_step){
-					s.createLine({x1:0, x2:grid_size, y1:i, y2:i}).setStroke("black");
-					s.createLine({y1:0, y2:grid_size, x1:i, x2:i}).setStroke("black");
+					s.createLine({x1:0, x2:grid_size, y1:i, y2:i}).strokeStyle = "black";
+					s.createLine({y1:0, y2:grid_size, x1:i, x2:i}).strokeStyle = "black";
 				}
 
 				main = s.createGroup();
-				rect = main.createRect({x:0, y:0, width:200, height:200}).setStroke("black").setFill(new Color([255, 0, 255, 0.5]));
+				rect = main.createRect({x:0, y:0, width:200, height:200});
+                rect.strokeStyle = "black";
+                rect.fillStyle = new Color([255, 0, 255, 0.5]);
 				rect.connect("onclick", function(){
 					alert("rect");
-				})
+				});
 
 				image = s.createImage({width:150, height:100, src:"images/eugene-sm.jpg"});
 				image.connect("onclick", function(){
 					alert("image");
-				})
+				});
 
 				main.add(image);
 

@@ -19,7 +19,7 @@ define([
 		// summary:
 		//		a generic polyline/polygon (do not instantiate it directly)
 		shape: defaultShape,
-		setShape: dcl.superCall(function(sup){
+		_setShapeAttr: dcl.superCall(function(sup){
 				return function(points, closed){
 					// summary:
 					//		sets a polyline/polygon shape object

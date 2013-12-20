@@ -33,7 +33,8 @@
 							path.moveTo(start).arcTo(r, r, 0, true, true, end).arcTo(r, r, 0, true, true, start).closePath();
 						}
 						// set visual attributes
-						path.setFill("red").setStroke("black");
+						path.fillStyle = "red";
+                        path.strokeStyle = "black";
 					};
 
 					cleanUp = function(){

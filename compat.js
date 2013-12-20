@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes", "require"],
-	function(lang, arr, g, Surface, shapes, require){
+define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes", "require", "./shape/_ShapeBase"],
+	function(lang, arr, g, Surface, shapes, require, ShapeBase){
 		// module:
 		//		gfx/compat
 		// summary:

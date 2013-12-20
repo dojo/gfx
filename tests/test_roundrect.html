@@ -21,9 +21,15 @@
 			};
 
 			makeShapes = function(surface){
-				rect1 = surface.createRect({x:20, y:100, width:300, height:200, r:50}).setFill("red").setStroke("black");
+				rect1 = surface.createRect({x:20, y:100, width:300, height:200, r:50});
+                rect1.fillStyle = "red";
+                rect1.strokeStyle = "black";
 				new Moveable(rect1);
-				rect1 = surface.createRect({x:0, y:100, width:300, height:200, r:50}).setFill("red").setStroke("black").setTransform(matrix.translate(350, 0)).setShape({r:0});
+				rect1 = surface.createRect({x:0, y:100, width:300, height:200, r:50});
+                rect1.fillStyle = "red";
+                rect1.strokeStyle = "black";
+                rect1.setTransform(matrix.translate(350, 0));
+                rect1.shape = {r:0};
 			};
 
 			ready(createSurface);

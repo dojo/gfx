@@ -70,10 +70,10 @@
                         r: this.radius,
                         width: s.w,
                         height: s.h
-                    })
-                            .setFill([0, 0, 0, 0.5]) // black, 50% transparency
-                            .setStroke({ color: [255, 255, 255, 1], width: stroke }) // solid white
-                    ;
+                    });
+                    this.roundedShape.fillStyle = [0, 0, 0, 0.5]; // black, 50% transparency
+                    this.roundedShape.strokeStyle = { color: [255, 255, 255, 1], width: stroke }; // solid white
+
                     this.resize(s);
 
                 },
@@ -85,10 +85,10 @@
                     }
 
                     this.surface.setDimensions(size.w, size.h);
-                    this.roundedShape.setShape({
+                    this.roundedShape.shape = {
                         width: size.w,
                         height: size.h
-                    });
+                    };
 
                     var _offset = Math.floor(this.radius / 2);
                     domStyle.set(this.containerNode, {

@@ -215,29 +215,30 @@ require([
 		];
 
 		// create shapes
-		hour_shadow = surface.createPolyline(hour_hand_points)
-				.setFill([0, 0, 0, 0.1])
-		;
-		hour_hand = surface.createPolyline(hour_hand_points)
-				.setStroke({color:"black", width:2})
-				.setFill("#889")
-		;
-		minute_shadow = surface.createPolyline(minute_hand_points)
-				.setFill([0, 0, 0, 0.1])
-		;
-		minute_hand = surface.createPolyline(minute_hand_points)
-				.setStroke({color:"black", width:2})
-				.setFill("#ccd")
-		;
-		second_shadow = surface.createPolyline(second_hand_points)
-				.setFill([0, 0, 0, 0.1])
-		;
-		second_hand = surface.createPolyline(second_hand_points)
-				.setStroke({color:"#800", width:1})
-				.setFill("#d00")
-		;
+		hour_shadow = surface.createPolyline(hour_hand_points);
+        hour_shadow.fillStyle = [0, 0, 0, 0.1];
 
-		surface.createCircle({r:1}).setFill("black").setTransform({dx:192.5, dy:192.5});
+		hour_hand = surface.createPolyline(hour_hand_points);
+        hour_hand.strokeStyle = {color:"black", width:2};
+        hour_hand.fillStyle = "#889";
+
+		minute_shadow = surface.createPolyline(minute_hand_points);
+        minute_shadow.fillStyle = [0, 0, 0, 0.1];
+
+		minute_hand = surface.createPolyline(minute_hand_points);
+        minute_hand.strokeStyle = {color:"black", width:2};
+        minute_hand.fillStyle = "#ccd";
+
+		second_shadow = surface.createPolyline(second_hand_points);
+        second_shadow.fillStyle = [0, 0, 0, 0.1];
+
+		second_hand = surface.createPolyline(second_hand_points)
+        second_hand.strokeStyle = {color:"#800", width:2};
+        second_hand.fillStyle = "#d00";
+
+		var circle = surface.createCircle({r:1});
+        circle.fillStyle = "black";
+        circle.setTransform({dx:192.5, dy:192.5});
 
 		// attach events
 		hour_hand.connect("onmousedown", onMouseDown);

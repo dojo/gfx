@@ -7,18 +7,18 @@ define([
 	var Polyline = dcl([SvgShape, PolylineBase], {
 		// summary:
 		//		a polyline shape (SVG)
-		setShape: function(points, closed){
+		_setShapeAttr: function(points, closed){
 			// summary:
 			//		sets a polyline/polygon shape object (SVG)
 			// points: Object|Array
 			//		a polyline/polygon shape object, or an array of points
 			if(points && points instanceof Array){
-				this.shape = g.makeParameters(this.shape, { points: points });
+				this._set("shape", g.makeParameters(this.shape, { points: points }));
 				if(closed && this.shape.points.length){
 					this.shape.points.push(this.shape.points[0]);
 				}
 			}else{
-				this.shape = g.makeParameters(this.shape, points);
+				this._set("shape", g.makeParameters(this.shape, points));
 			}
 			this.bbox = null;
 			this._normalizePoints();

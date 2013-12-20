@@ -162,7 +162,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 		if(!g._isRendered(s)){
 			return {x:0, y:0, width:0, height:0};
 		}
-		var loc, textShape = s.getShape(),
+		var loc, textShape = s.shape,
 			font = s.getFont() || g.defaultFont,
 			w = s.getTextWidth(),
 			h = g.normalizedLength(font.size);

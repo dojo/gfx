@@ -7,12 +7,12 @@ define([
 	var Rect = dcl([SvgShape, RectBase], {
 		// summary:
 		//		a rectangle shape (SVG)
-		setShape: function(newShape){
+		_setShapeAttr: function(newShape){
 			// summary:
 			//		sets a rectangle shape object (SVG)
 			// newShape: Object
 			//		a rectangle shape object
-			this.shape = g.makeParameters(this.shape, newShape);
+			this._set("shape", g.makeParameters(this.shape, newShape));
 			this.bbox = null;
 			for(var i in this.shape){
 				if(i != "type" && i != "r"){

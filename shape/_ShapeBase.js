@@ -1,6 +1,7 @@
 define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
-	"dojo/_base/array", "dojo/_base/Color", "../matrix", "./_EventsProcessing" ],
-	function(g, lang, dcl, has, arr, Color, matrixLib, EventsProcessing){
+	"dojo/_base/array", "dojo/_base/Color", "../matrix", "./_EventsProcessing",
+	"dui/Stateful" ],
+	function(g, lang, dcl, has, arr, Color, matrixLib, EventsProcessing, Stateful){
 
 		var registry;
 
@@ -15,43 +16,48 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 			return registry;
 		}
 
-		return dcl([EventsProcessing], {
+		return dcl([EventsProcessing, Stateful], {
 			// summary:
 			//		a Shape object, which knows how to apply
 			//		graphical attributes and transformations
+
+			// shape: Object
+			//		an abstract shape object
+			//		(see gfx.defaultPath,
+			//		gfx.defaultPolyline,
+			//		gfx.defaultRect,
+			//		gfx.defaultEllipse,
+			//		gfx.defaultCircle,
+			//		gfx.defaultLine,
+			//		or gfx.defaultImage)
+			shape: null,
+
+			// fillStyle: gfx.Fill
+			//		a fill object
+			//		(see gfx.defaultLinearGradient,
+			//		gfx.defaultRadialGradient,
+			//		gfx.defaultPattern,
+			//		or dojo/Color)
+			fillStyle: null,
+
+			// strokeStyle: gfx.Stroke
+			//		a stroke object
+			//		(see gfx.defaultStroke)
+			strokeStyle: null,
 
 			constructor: function(rawShape, rawNode){
 				// summary: Creates a new shape.
 				// rawShape: Object
 				//		The properties of the shape.
 
-				// shape: Object
-				//		an abstract shape object
-				//		(see gfx.defaultPath,
-				//		gfx.defaultPolyline,
-				//		gfx.defaultRect,
-				//		gfx.defaultEllipse,
-				//		gfx.defaultCircle,
-				//		gfx.defaultLine,
-				//		or gfx.defaultImage)
-				this.shape = this.shape ? lang.clone(this.shape) : null;
+			    var shape = this._get("shape");
+			    if(shape){
+					this._set("shape", lang.clone(shape));
+				}
 
 				// matrix: gfx/matrix.Matrix2D
 				//		a transformation matrix
 				this.matrix = null;
-
-				// fillStyle: gfx.Fill
-				//		a fill object
-				//		(see gfx.defaultLinearGradient,
-				//		gfx.defaultRadialGradient,
-				//		gfx.defaultPattern,
-				//		or dojo/Color)
-				this.fillStyle = null;
-
-				// strokeStyle: gfx.Stroke
-				//		a stroke object
-				//		(see gfx.defaultStroke)
-				this.strokeStyle = null;
 
 				// bbox: gfx.Rectangle
 				//		a bounding box of this shape
@@ -81,7 +87,7 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				//		underlying graphics-renderer-specific implementation object (if applicable)
 				this.rawNode = rawNode || this.createRawNode();
 
-				this.setShape(rawShape);
+				this.shape = rawShape;
 			},
 
 			createRawNode: function(){
@@ -117,37 +123,10 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				//		Returns the underlying graphics Node, or null if no underlying graphics node is used by this shape.
 				return this.rawNode; // Node
 			},
-			getShape: function(){
-				// summary:
-				//		returns the current Shape object or null
-				//		(see gfx.defaultPath,
-				//		gfx.defaultPolyline,
-				//		gfx.defaultRect,
-				//		gfx.defaultEllipse,
-				//		gfx.defaultCircle,
-				//		gfx.defaultLine,
-				//		or gfx.defaultImage)
-				return this.shape; // Object
-			},
 			getTransform: function(){
 				// summary:
 				//		Returns the current transformation matrix applied to this Shape or null
 				return this.matrix;	// gfx/matrix.Matrix2D
-			},
-			getFill: function(){
-				// summary:
-				//		Returns the current fill object or null
-				//		(see gfx.defaultLinearGradient,
-				//		gfx.defaultRadialGradient,
-				//		gfx.defaultPattern,
-				//		or dojo/Color)
-				return this.fillStyle;	// Object
-			},
-			getStroke: function(){
-				// summary:
-				//		Returns the current stroke object or null
-				//		(see gfx.defaultStroke)
-				return this.strokeStyle;	// Object
 			},
 			getParent: function(){
 				// summary:
@@ -232,7 +211,7 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				return this.clip;
 			},
 
-			setShape: function(shape){
+			_setShapeAttr: function(shape){
 				// summary:
 				//		sets a shape object
 				//		(the default implementation simply ignores it)
@@ -247,11 +226,11 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				//		or gfx.defaultImage)
 
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
-				this.shape = g.makeParameters(this.shape, shape);
+				this._set("shape", g.makeParameters(this.shape, shape));
 				this.bbox = null;
 				return this;	// self
 			},
-			setFill: function(fill){
+			_setFillStyleAttr: function(fill){
 				// summary:
 				//		sets a fill object
 				//		(the default implementation simply ignores it)
@@ -265,7 +244,7 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
 				if(!fill){
 					// don't fill
-					this.fillStyle = null;
+					this._set("fillStyle", null);
 					return this;	// self
 				}
 				var f = null;
@@ -286,10 +265,10 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 					// color object
 					f = g.normalizeColor(fill);
 				}
-				this.fillStyle = f;
+				this._set("fillStyle", f);
 				return this;	// self
 			},
-			setStroke: function(stroke){
+			_setStrokeStyleAttr: function(stroke){
 				// summary:
 				//		sets a stroke object
 				//		(the default implementation simply ignores it)
@@ -300,15 +279,16 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
 				if(!stroke){
 					// don't stroke
-					this.strokeStyle = null;
+					this._set("strokeStyle", null);
 					return this;	// self
 				}
 				// normalize the stroke
 				if(typeof stroke == "string" || lang.isArray(stroke) || stroke instanceof Color){
 					stroke = {color: stroke};
 				}
-				var s = this.strokeStyle = g.makeParameters(g.defaultStroke, stroke);
+				var s = g.makeParameters(g.defaultStroke, stroke);
 				s.color = g.normalizeColor(s.color);
+				this._set("strokeStyle", s);
 				return this;	// self
 			},
 			setTransform: function(matrix){

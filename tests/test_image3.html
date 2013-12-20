@@ -27,8 +27,8 @@
 
 			makeShapes = function(surface){
 				for(var i = 0; i <= grid_size; i += grid_step){
-					surface.createLine({x1:0, x2:grid_size, y1:i, y2:i}).setStroke("black");
-					surface.createLine({y1:0, y2:grid_size, x1:i, x2:i}).setStroke("black");
+					surface.createLine({x1:0, x2:grid_size, y1:i, y2:i}).strokeStyle = "black";
+					surface.createLine({y1:0, y2:grid_size, x1:i, x2:i}).strokeStyle = "black";
 				}
 				image = surface.createImage({width:150, height:100, src:"images/eugene-sm.jpg"});
 				image.connect("onclick", function(){

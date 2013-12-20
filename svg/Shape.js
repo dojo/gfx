@@ -48,7 +48,7 @@ define([
 			}
 		}),
 
-		setFill: function(fill){
+		_setFillStyleAttr: function(fill){
 			// summary:
 			//		sets a fill object (SVG)
 			// fill: Object
@@ -60,7 +60,7 @@ define([
 
 			if(!fill){
 				// don't fill
-				this.fillStyle = null;
+				this._set("fillStyle", null);
 				this.rawNode.setAttribute("fill", "none");
 				this.rawNode.setAttribute("fill-opacity", 0);
 				return this;
@@ -90,19 +90,19 @@ define([
 						arr.forEach(["x", "y", "width", "height"], setter, pattern);
 						break;
 				}
-				this.fillStyle = f;
+				this._set("fillStyle", f);
 				return this;
 			}
 			// color object
 			f = g.normalizeColor(fill);
-			this.fillStyle = f;
+			this._set("fillStyle", f);
 			this.rawNode.setAttribute("fill", f.toCss());
 			this.rawNode.setAttribute("fill-opacity", f.a);
 			this.rawNode.setAttribute("fill-rule", "evenodd");
 			return this;	// self
 		},
 
-		setStroke: function(stroke){
+		_setStrokeStyleAttr: function(stroke){
 			// summary:
 			//		sets a stroke object (SVG)
 			// stroke: Object
@@ -111,7 +111,7 @@ define([
 			var rn = this.rawNode;
 			if(!stroke){
 				// don't stroke
-				this.strokeStyle = null;
+				this._set("strokeStyle", null);
 				rn.setAttribute("stroke", "none");
 				rn.setAttribute("stroke-opacity", 0);
 				return this;
@@ -120,8 +120,9 @@ define([
 			if(typeof stroke == "string" || lang.isArray(stroke) || stroke instanceof Color){
 				stroke = { color: stroke };
 			}
-			var s = this.strokeStyle = g.makeParameters(g.defaultStroke, stroke);
+			var s =  g.makeParameters(g.defaultStroke, stroke);
 			s.color = g.normalizeColor(s.color);
+			this._set("strokeStyle", s);
 			// generate attributes
 			if(s){
 				rn.setAttribute("stroke", s.color.toCss());
@@ -171,7 +172,7 @@ define([
 
 		_setFillObject: function(f, nodeType){
 			var svgns = svg.xmlns.svg;
-			this.fillStyle = f;
+			this._set("fillStyle", f);
 			var surface = this._getParentSurface(),
 				defs = surface && surface.defNode,
 				fill = this.rawNode.getAttribute("fill"),
@@ -276,7 +277,7 @@ define([
 			r.__gfxObject__ = this;
 		},
 
-		setShape: function(newShape){
+		_setShapeAttr: function(newShape){
 			// summary:
 			//		sets a shape object (SVG)
 			// newShape: Object
@@ -288,7 +289,7 @@ define([
 			//		gfx.defaultCircle,
 			//		gfx.defaultLine,
 			//		or gfx.defaultImage)
-			this.shape = g.makeParameters(this.shape, newShape);
+			this._set("shape", g.makeParameters(this.shape, newShape));
 			for(var i in this.shape){
 				if(i != "type"){
 					this.rawNode.setAttribute(i, this.shape[i]);

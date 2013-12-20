@@ -51,14 +51,14 @@ define([
 		constructor: function(){
 			this.lastControl = {};
 		},
-		setShape: dcl.superCall(function(sup){
+		_setShapeAttr: dcl.superCall(function(sup){
 			return function(){
 				this.canvasPath = [];
 				this._dashedPath = [];
 				return sup.apply(this, arguments);
 			}
 		}),
-		setStroke: dcl.superCall(function(sup){
+		_setStrokeStyleAttr: dcl.superCall(function(sup){
 			return function(){
 				sup.apply(this, arguments);
 				if(!hasNativeDash){

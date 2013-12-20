@@ -25,147 +25,139 @@
 			var makeText = function(surface, text, font, fill, stroke){
 				var t = surface.createText(text);
 				if(font)   t.setFont(font);
-				if(fill)   t.setFill(fill);
-				if(stroke) t.setStroke(stroke);
+				if(fill)   t.fillStyle = fill;
+				if(stroke) t.strokeStyle = stroke;
 				placeAnchor(surface, text.x, text.y);
 				return t;
 			};
 
-			makeShapes = function(){
-				var m = gfx.matrix;
-				surfaceLTR = gfx.createSurface("testLTR", 500, 170, "ltr");
-				console.debug("surfaceLTR created");
-				var p = surfaceLTR.createPath({})
-					.moveTo(0, 15)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 0,  0, 50,  0)
-					;
-				console.debug("p created");
-				tp1 = surfaceLTR.createTextPath({
-						text: "\u05d4\u05ea\u05d7\u05dc\u05d4 end. "
-						, align: "start"
-					})
-					.moveTo(0, 15)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 0,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("blue")
-					;
-				console.debug("tp1 created");
-				tp2 = surfaceLTR.createTextPath({
-						text: "Beginning \u05e1\u05d5\u05e3."
-						, align: "start"
-						
-					})
-					.moveTo(0, 50)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 0,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("blue")
-					;
-				console.debug("tp2 created");
-				g1 = surfaceLTR.createGroup();
-				t1 = makeText(surfaceLTR, {id: "t1",x: 0, y: 100, text: "1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"}, 
-					{family: "Times", size: "18pt"}, "black", "blue")
-					.setTransform(m.rotategAt(0, 250, 150));
+            makeShapes = function(){
+                surfaceLTR = gfx.createSurface("testLTR", 500, 170, "ltr");
+                console.debug("surfaceLTR created");
+                var p = surfaceLTR.createPath({})
+                                .moveTo(0, 15)
+                                .setAbsoluteMode(false)
+                                .curveTo(CPD, 0, 0, 0, 50, 0)
+                        ;
+                console.debug("p created");
+                tp1 = surfaceLTR.createTextPath({
+                    text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align:"start"
+                })
+                        .moveTo(0, 15)
+                        .setAbsoluteMode(false)
+                        .curveTo(CPD, 0, 0, 0, 100, 0);
+                tp1.setFont({family:"times", size:"12pt"});
+                tp1.fillStyle = "blue";
+                ;
+                console.debug("tp1 created");
+                tp2 = surfaceLTR.createTextPath({
+                    text:"Beginning \u05e1\u05d5\u05e3.", align:"start"
 
-				t2 = makeText(surfaceLTR, {x: 0, y: 140, text: "1.) Beginning \u05e1\u05d5\u05e3!"}, 
-					{family: "Times", size: "18pt"}, "black", "blue")
-					.setTransform(m.rotategAt(0, 250, 100));
-				
-				surfaceRTL = gfx.createSurface("testRTL", 500, 170, "rtl");
-				console.debug("surfaceRTL created");
-				var p2 = surfaceRTL.createPath({})
-					.moveTo(0, 15)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 0,  0, 100,  0)
-					;
-				console.debug("p2 created");
-				tp3 = surfaceRTL.createTextPath({
-						text: "\u05d4\u05ea\u05d7\u05dc\u05d4 end. "
-						, align: "start"
-						//, rotated: true
-					})
-					.moveTo(0, 15)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("red")
-					;
-				console.debug("tp3 created");
-				tp4 = surfaceRTL.createTextPath({
-						text: "Beginning \u05e1\u05d5\u05e3."
-						, align: "start"
-						
-						//, rotated: true
-					})
-					//.setShape(p.shape)
-					.moveTo(0, 50)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("red")
-					;				
-				console.debug("tp4 created");
+                })
+                        .moveTo(0, 50)
+                        .setAbsoluteMode(false)
+                        .curveTo(CPD, 0, 0, 0, 100, 0);
+                tp2.setFont({family:"times", size:"12pt"});
+                tp2.fillStyle = "blue";
+                ;
+                console.debug("tp2 created");
+                g1 = surfaceLTR.createGroup();
+                t1 = makeText(surfaceLTR, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
+                        {family:"Times", size:"18pt"}, "black", "blue");
+                t1.setTransform(m.rotategAt(0, 250, 150));
 
-				t3 = makeText(surfaceRTL, {id: "t1",x: 0, y: 100, text: "1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"}, 
-					{family: "Times", size: "18pt"}, "black", "red")
-					.setTransform(m.rotategAt(0, 250, 150));
+                t2 = makeText(surfaceLTR, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
+                        {family:"Times", size:"18pt"}, "black", "blue");
+                t2.setTransform(m.rotategAt(0, 250, 100));
 
-				t4 = makeText(surfaceRTL, {x: 0, y: 140, text: "1.) Beginning \u05e1\u05d5\u05e3!"}, 
-					{family: "Times", size: "18pt"}, "black", "red")
-					.setTransform(m.rotategAt(0, 250, 100));
-				
-				surfaceAUTO = gfx.createSurface("testAUTO", 500, 170,"auto");
-				console.debug("surfaceAUTO created");
-				var p3 = surfaceAUTO.createPath({})
-					.moveTo(0, 15)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 0,  0, 100,  0)
-					;
-				console.debug("p3 created");
+                surfaceRTL = gfx.createSurface("testRTL", 500, 170);
+                console.debug("surfaceRTL created");
+                var p2 = surfaceRTL.createPath({})
+                                .moveTo(0, 15)
+                                .setAbsoluteMode(false)
+                                .curveTo(CPD, 0, 0, 0, 100, 0)
+                        ;
+                console.debug("p2 created");
+                tp3 = surfaceRTL.createTextPath({
+                    text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align:"start"
+                    //, rotated: true
+                })
+                        .moveTo(0, 15)
+                        .setAbsoluteMode(false)
+                        .curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+                tp3.setFont({family:"times", size:"12pt"});
+                tp3.fillStyle = "red";
+                ;
+                console.debug("tp3 created");
+                tp4 = surfaceRTL.createTextPath({
+                    text:"Beginning \u05e1\u05d5\u05e3.", align:"start"
 
-				var tp5 = surfaceAUTO.createTextPath({
-						text: "\u05d4\u05ea\u05d7\u05dc\u05d4 end. "
-						, align: "start"
-						
-						//, rotated: true
-					})
-					//.setShape(p.shape)
-					.moveTo(0, 15)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0)
+                    //, rotated: true
+                })
+                    //.setShape(p.shape)
+                        .moveTo(0, 50)
+                        .setAbsoluteMode(false)
+                        .curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+                tp4.setFont({family:"times", size:"12pt"});
+                tp4.fillStyle = "red";
+                ;
+                console.debug("tp4 created");
 
-					.setFont({family: "times", size: "12pt"})
-					.setFill("red")
-					;
-				console.debug("tp5 created");
-				var tp6 = surfaceAUTO.createTextPath({
-						text: "Beginning \u05e1\u05d5\u05e3."
-						, align: "start"
-						
-						//, rotated: true
-					})
-					//.setShape(p.shape)
-					.moveTo(0, 50)
-					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("blue")
-					;				
-				console.debug("tp6 created");
+                t3 = makeText(surfaceRTL, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
+                        {family:"Times", size:"18pt"}, "black", "red");
+                t3.setTransform(m.rotategAt(0, 250, 150));
 
-				t3 = makeText(surfaceAUTO, {id: "t1",x: 0, y: 100, text: "1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"}, 
-					{family: "Times", size: "18pt"}, "black", "red")
-					.setTransform(m.rotategAt(0, 250, 150));
+                t4 = makeText(surfaceRTL, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
+                        {family:"Times", size:"18pt"}, "black", "red")
+                        .setTransform(m.rotategAt(0, 250, 100));
 
-				t4 = makeText(surfaceAUTO, {x: 0, y: 140, text: "1.) Beginning \u05e1\u05d5\u05e3!"}, 
-					{family: "Times", size: "18pt"}, "black", "blue")
-					.setTransform(m.rotategAt(0, 250, 100));
+                surfaceAUTO = gfx.createSurface("testAUTO", 500, 170, "auto");
+                console.debug("surfaceAUTO created");
+                var p3 = surfaceAUTO.createPath({})
+                                .moveTo(0, 15)
+                                .setAbsoluteMode(false)
+                                .curveTo(CPD, 0, 0, 0, 100, 0)
+                        ;
+                console.debug("p3 created");
 
-				};
+                var tp5 = surfaceAUTO.createTextPath({
+                    text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align:"start"
 
-				
+                    //, rotated: true
+                })
+                    //.setShape(p.shape)
+                        .moveTo(0, 15)
+                        .setAbsoluteMode(false)
+                        .curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+
+                tp5.setFont({family:"times", size:"12pt"});
+                tp5.fillStyle = "red";
+                ;
+                console.debug("tp5 created");
+                var tp6 = surfaceAUTO.createTextPath({
+                    text:"Beginning \u05e1\u05d5\u05e3.", align:"start"
+
+                    //, rotated: true
+                })
+                    //.setShape(p.shape)
+                        .moveTo(0, 50)
+                        .setAbsoluteMode(false)
+                        .curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+                tp6.setFont({family:"times", size:"12pt"});
+                tp6.fillStyle = "blue";
+                ;
+                console.debug("tp6 created");
+
+                t3 = makeText(surfaceAUTO, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
+                        {family:"Times", size:"18pt"}, "black", "red");
+                t3.setTransform(m.rotategAt(0, 250, 150));
+
+                t4 = makeText(surfaceAUTO, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
+                        {family:"Times", size:"18pt"}, "black", "blue");
+                t4.setTransform(m.rotategAt(0, 250, 100));
+
+            };
+
 			dojo.addOnLoad(makeShapes);
 
 		</script>

@@ -67,11 +67,11 @@
 			function makeShapes(surface, useDojoTouch){
 				var g   = surface.createGroup();
 				g.id = "g";
-				var rect = g.createRect({x:50,y:10,width:180,height:220}).setFill('red');
+				var rect = g.createRect({x:50,y:10,width:180,height:220}); rect.fillStyle = 'red';
 				rect.id='rect1';
-				var rect2 = g.createRect({x:10,y:150,width:110,height:175}).setFill('blue');
+				var rect2 = g.createRect({x:10,y:150,width:110,height:175}); rect2.fillStyle = 'blue';
 				rect2.id='rect2';
-				var rect3 = g.createRect({x:50,y:360,width:50,height:50}).setFill('green');
+				var rect3 = g.createRect({x:50,y:360,width:50,height:50}); rect3.fillStyle = 'green';
 				rect3.id='rect3';
 
 				wireEvents(rect, ["press", "release", "move", "over", "out"], useDojoTouch);

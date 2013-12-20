@@ -21,8 +21,8 @@
 			var makeText = function(surface, text, font, fill, stroke){
 				var t = surface.createText(text);
 				if(font)   t.setFont(font);
-				if(fill)   t.setFill(fill);
-				if(stroke) t.setStroke(stroke);
+				if(fill)   t.fillStyle = fill;
+				if(stroke) t.strokeStyle = stroke;
 				placeAnchor(surface, text.x, text.y);
 				return t;
 			};
@@ -34,31 +34,29 @@
 
 			makeShapes = function(){
 				var p = surface.createPath({})
-								.setStroke("green")
 								.moveTo(0, 100)
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 300, 100, 300)
 								.curveTo(CPD, 0, 100 - CPD, -300, 100, -300)
 								.curveTo(CPD, 0, 100 - CPD, 300, 100, 300)
 								.curveTo(CPD, 0, 100 - CPD, -300, 100, -300)
-								.curveTo(CPD, 0, 100 - CPD, 300, 100, 300)
-						;
+								.curveTo(CPD, 0, 100 - CPD, 300, 100, 300);
+                p.strokeStyle = "green";
 				var t = surface.createTextPath({
 							text:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent erat. " +
 									"In malesuada ultricies velit. Vestibulum tempor odio vitae diam. " +
 									"Morbi arcu lectus, laoreet eget, nonummy at, elementum a, quam.", align:"middle"
 							//, rotated: true
 						})
-							//.setShape(p.shape)
 								.moveTo(0, 100)
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 300, 100, 300)
 								.curveTo(CPD, 0, 100 - CPD, -300, 100, -300)
 								.curveTo(CPD, 0, 100 - CPD, 300, 100, 300)
 								.curveTo(CPD, 0, 100 - CPD, -300, 100, -300)
-								.curveTo(CPD, 0, 100 - CPD, 300, 100, 300)
-								.setFont({family:"times", size:"12pt"})
-								.setFill("blue")
+								.curveTo(CPD, 0, 100 - CPD, 300, 100, 300);
+								t.setFont({family:"times", size:"12pt"});
+								t.fillStyle = "blue";
 						;
 			};
 

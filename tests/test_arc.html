@@ -32,24 +32,20 @@
 
 				var re1 = g1.createPath()
 								.moveTo(startPoint)
-								.arcTo(rx, ry, xRotg, true, false, endPoint)
-								.setStroke({color:"red", width:3})
-						;
+								.arcTo(rx, ry, xRotg, true, false, endPoint);
+				re1.strokeStyle = {color:"red", width:3};
 				var ge1 = g1.createPath()
 								.moveTo(re1.getLastPosition())
-								.arcTo(rx, ry, xRotg, false, false, startPoint)
-								.setStroke({color:"black"})
-						;
+								.arcTo(rx, ry, xRotg, false, false, startPoint);
+				ge1.strokeStyle = {color:"black"};
 				var re2 = g2.createPath()
 								.moveTo(startPoint)
-								.arcTo(rx, ry, xRotg, false, true, endPoint)
-								.setStroke({color:"green", width:3})
-						;
+								.arcTo(rx, ry, xRotg, false, true, endPoint);
+				re2.strokeStyle = {color:"green", width:3};
 				var ge2 = g2.createPath()
 								.moveTo(re2.getLastPosition())
-								.arcTo(rx, ry, xRotg, true, true, startPoint)
-								.setStroke({color:"black"})
-						;
+								.arcTo(rx, ry, xRotg, true, true, startPoint);
+				ge2.strokeStyle = {color:"black"}
 
 				g1.setTransform({dx:200, dy:200});
 				g2.setTransform({dx:10, dy:10});

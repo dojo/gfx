@@ -7,7 +7,7 @@
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../../dojo/dojo.js"
-		data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+        data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
 <script type="text/javascript">
 require([
 	"doh/runner",
@@ -29,8 +29,8 @@ require([
 	var makeText = function(surface, text, font, fill, stroke){
 		var t = surface.createText(text);
 		if(font)   t.setFont(font);
-		if(fill)   t.setFill(fill);
-		if(stroke) t.setStroke(stroke);
+		if(fill)   t.fillStyle = fill;
+		if(stroke) t.strokeStyle = stroke;
 		placeAnchor(surface, text.x, text.y);
 		return t;
 	};
@@ -49,9 +49,9 @@ require([
 		})
 				.moveTo(0, 15)
 				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 0, 0, 100, 0)
-				.setFont({family:"times", size:"12pt"})
-				.setFill("blue")
+				.curveTo(CPD, 0, 0, 0, 100, 0);
+				tp1.setFont({family:"times", size:"12pt"});
+				tp1.fillStyle = "blue";
 		;
 		console.debug("tp1 created");
 		tp2 = surfaceLTR.createTextPath({
@@ -60,29 +60,29 @@ require([
 		})
 				.moveTo(0, 50)
 				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 0, 0, 100, 0)
-				.setFont({family:"times", size:"12pt"})
-				.setFill("blue")
-		;
+				.curveTo(CPD, 0, 0, 0, 100, 0);
+				tp2.setFont({family:"times", size:"12pt"});
+				tp2.fillStyle = "blue";
+
 		console.debug("tp2 created");
 		g1 = surfaceLTR.createGroup();
 		g1.setTextDir("rtl");
 		//		surfaceLTR.setTextDir("ltr");
 		t1 = makeText(g1, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
-				{family:"Times", size:"18pt"}, "black", "blue")
-				.setTransform(m.rotategAt(0, 250, 150));
+				{family:"Times", size:"18pt"}, "black", "blue");
+				t1.setTransform(m.rotategAt(0, 250, 150));
 
 		t2 = makeText(surfaceLTR, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
-				{family:"Times", size:"18pt"}, "black", "blue")
-				.setTransform(m.rotategAt(0, 250, 100));
+				{family:"Times", size:"18pt"}, "black", "blue");
+				t2.setTransform(m.rotategAt(0, 250, 100));
 
 		surfaceRTL = gfx.createSurface("testRTL", 500, 170);
 		console.debug("surfaceRTL created");
 		var p2 = surfaceRTL.createPath({})
 						.moveTo(0, 15)
 						.setAbsoluteMode(false)
-						.curveTo(CPD, 0, 0, 0, 100, 0)
-				;
+						.curveTo(CPD, 0, 0, 0, 100, 0);
+
 		console.debug("p2 created");
 		tp3 = surfaceRTL.createTextPath({
 			text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align:"start"
@@ -90,10 +90,10 @@ require([
 		})
 				.moveTo(0, 15)
 				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-				.setFont({family:"times", size:"12pt"})
-				.setFill("red")
-		;
+				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+				tp3.setFont({family:"times", size:"12pt"})
+				tp3.fillStyle = "red";
+
 		g2 = surfaceRTL.createGroup();
 		g2.add(tp3);
 		g2.setTextDir("ltr");
@@ -112,7 +112,7 @@ require([
 				.setAbsoluteMode(false)
 				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
 				.setFont({family:"times", size:"12pt"})
-				.setFill("red")
+				.fillStyle = "red"
 		;
 		console.debug("tp4 created");
 
@@ -144,7 +144,7 @@ require([
 				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
 
 				.setFont({family:"times", size:"12pt"})
-				.setFill("red")
+				.fillStyle = "red"
 		;
 		console.debug("tp5 created");
 		tp6 = surfaceAUTO.createTextPath({
@@ -157,7 +157,7 @@ require([
 				.setAbsoluteMode(false)
 				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
 				.setFont({family:"times", size:"12pt"})
-				.setFill("blue")
+				.fillStyle = "blue"
 		;
 		console.debug("tp6 created");
 

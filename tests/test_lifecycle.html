@@ -39,7 +39,8 @@
 								r = drawing.createRect({ 
 									 x: 100,
 									 y: 100
-								}).setFill("black");
+								});
+                                r.fillStyle = "black";
 							},
 							runTest: function(){
 								var uid = r.getUID();
@@ -59,7 +60,8 @@
 								r.createRect({ 
 										 x: 100,
 										 y: 100
-									}).setFill("black");
+									});
+                                r.fillStyle = "black";
 							},
 							runTest: function(){
 								var c = r.children[0];
@@ -76,7 +78,8 @@
 								r.createRect({ 
 										 x: 100,
 										 y: 100
-									}).setFill("black");
+									});
+                                r.fillStyle = "black";
 							},
 							runTest: function(){
 								var uid = r.getUID();
@@ -117,7 +120,9 @@
 										{ offset: 0.8, color: "yellow" }
 									]
 								};
-								r = drawing.createRect().setFill(grad).setClip({x:0,y:0,width:300,height:300});
+								r = drawing.createRect();
+                                r.fillStyle = grad;
+                                r.setClip({x:0,y:0,width:300,height:300});
 							},
 							runTest: function(){								
 								var defs = drawing.defNode;
@@ -152,7 +157,9 @@
 									var r = Math.floor(i/10), offs=4,
 										cc = r%2 == 0 ? -offs : offs,
 										x = (i%10)*60+cc, y = r*60+5, w = 50, h = 50;
-									sub1.createRect({x:x, y:y, width:w, height:h}).setFill(grad).setClip({cx:x+w/2, cy:y+w/2, rx:20, ry:20});
+									var rect = sub1.createRect({x:x, y:y, width:w, height:h});
+                                rect.fillStyle = grad;
+                                rect.setClip({cx:x+w/2, cy:y+w/2, rx:20, ry:20});
 								}
 							},
 							runTest: function(){								

@@ -33,28 +33,25 @@
 						})
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 0, 0, 100, 0)
-								.setFont({family:"times", size:"12pt"})
-								.setFill("blue")
-						;
+								.curveTo(CPD, 0, 0, 0, 100, 0);
+								t.setFont({family:"times", size:"12pt"});
+								t.fillStyle = "blue";
 				console.debug("t created");
 				var t2 = surfaceLTR.createTextPath({
 							text:"Beginning \u05e1\u05d5\u05e3.", align:"start", textDir:"ltr"
 						})
 								.moveTo(0, 50)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 0, 0, 100, 0)
-								.setFont({family:"times", size:"12pt"})
-								.setFill("blue")
-						;
+								.curveTo(CPD, 0, 0, 0, 100, 0);
+								t2.setFont({family:"times", size:"12pt"});
+								t2.fillStyle = "blue";
 				console.debug("t2 created");
 				surfaceRTL = gfx.createSurface("testRTL", 500, 60);
 				console.debug("surfaceRTL created");
 				var p2 = surfaceRTL.createPath({})
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 0, 0, 100, 0)
-						;
+								.curveTo(CPD, 0, 0, 0, 100, 0);
 				console.debug("p2 created");
 
 				var t3 = surfaceRTL.createTextPath({
@@ -63,22 +60,19 @@
 						})
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-								.setFont({family:"times", size:"12pt"})
-								.setFill("red")
-						;
+								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+								t3.setFont({family:"times", size:"12pt"});
+								t3.fillStyle = "red";
 				console.debug("t3 created");
 				var t4 = surfaceRTL.createTextPath({
 							text:"Beginning \u05e1\u05d5\u05e3.", align:"start", textDir:"rtl"
 							//, rotated: true
 						})
-							//.setShape(p.shape)
 								.moveTo(0, 50)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-								.setFont({family:"times", size:"12pt"})
-								.setFill("red")
-						;
+								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+								t4.setFont({family:"times", size:"12pt"});
+								t4.fillStyle = "red";
 				console.debug("t4 created");
 
 				surfaceAUTO = gfx.createSurface("testAUTO", 500, 60);
@@ -86,34 +80,28 @@
 				var p3 = surfaceAUTO.createPath({})
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 0, 0, 100, 0)
-						;
+								.curveTo(CPD, 0, 0, 0, 100, 0);
 				console.debug("p3 created");
 
 				var t5 = surfaceAUTO.createTextPath({
 							text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align:"start", textDir:"auto"
 							//, rotated: true
 						})
-							//.setShape(p.shape)
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-
-								.setFont({family:"times", size:"12pt"})
-								.setFill("red")
-						;
+								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+								t5.setFont({family:"times", size:"12pt"});
+								t5.fillStyle = "red";
 				console.debug("t5 created");
 				var t6 = surfaceAUTO.createTextPath({
 							text:"Beginning \u05e1\u05d5\u05e3.", align:"start", textDir:"auto"
 							//, rotated: true
 						})
-							//.setShape(p.shape)
 								.moveTo(0, 50)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-								.setFont({family:"times", size:"12pt"})
-								.setFill("blue")
-						;
+								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+								t6.setFont({family:"times", size:"12pt"});
+								t6.fillStyle = "blue";
 				console.debug("t6 created");
 			};
 

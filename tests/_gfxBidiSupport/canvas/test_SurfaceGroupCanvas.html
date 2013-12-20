@@ -6,13 +6,16 @@
 			@import "../../../../dijit/tests/css/dijitTests.css";
 		</style>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="../../../../dojo/dojo.js" data-dojo-config="isDebug: true, gfxRenderer:'canvas'"></script>
+        <script type="text/javascript" src="../../../../dojo/dojo.js"
+                data-dojo-config="isDebug: true, fxRenderer:'canvas', async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
 		<script type="text/javascript">
 
-			dojo.require("gfx.main");
-			dojo.require("gfx._gfxBidiSupport");
-			dojo.require("doh.runner");
-
+        require([
+            "doh/runner",
+            "dojo/ready",
+            "gfx",
+            "gfx/_gfxBidiSupport"
+        ], function(doh, ready, gfx){
 
 			var CPD = 30, tp1, tp2, tp3, tp4, tp5, tp6, t1, t2, t3, t4, t5, t6;
 			var g1 = null, g2 = null, g3, g4;
@@ -26,8 +29,8 @@
 			var makeText = function(surface, text, font, fill, stroke){
 				var t = surface.createText(text);
 				if(font)   t.setFont(font);
-				if(fill)   t.setFill(fill);
-				if(stroke) t.setStroke(stroke);
+				if(fill)   t.fillStyle = fill;
+				if(stroke) t.strokeStyle = stroke;
 				placeAnchor(surface, text.x, text.y);
 				return t;
 			};
@@ -48,9 +51,9 @@
 					})
 					.moveTo(0, 15)
 					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 0,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("blue")
+					.curveTo(CPD, 0, 0,  0, 100,  0);
+					tp1.setFont({family: "times", size: "12pt"});
+					tp1.fillStyle = "blue"
 					;
 				console.debug("tp1 created");
 				tp2 = surfaceLTR.createTextPath({
@@ -60,21 +63,21 @@
 					})
 					.moveTo(0, 50)
 					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 0,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("blue")
+					.curveTo(CPD, 0, 0,  0, 100,  0);
+					tp2.setFont({family: "times", size: "12pt"});
+					tp2.fillStyle = "blue"
 					;
 				console.debug("tp2 created");
 				g1 = surfaceLTR.createGroup();
 				g1.setTextDir("rtl");
 		//		surfaceLTR.setTextDir("ltr");
 				t1 = makeText(g1, {id: "t1",x: 0, y: 100, text: "1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"}, 
-					{family: "Times", size: "18pt"}, "black", "blue")
-					.setTransform(m.rotategAt(0, 250, 150));
+					{family: "Times", size: "18pt"}, "black", "blue");
+					t1.setTransform(m.rotategAt(0, 250, 150));
 
 				t2 = makeText(surfaceLTR, {x: 0, y: 140, text: "1.) Beginning \u05e1\u05d5\u05e3!"}, 
-					{family: "Times", size: "18pt"}, "black", "blue")
-					.setTransform(m.rotategAt(0, 250, 100));
+					{family: "Times", size: "18pt"}, "black", "blue");
+					t2.setTransform(m.rotategAt(0, 250, 100));
 				
 				surfaceRTL = gfx.createSurface("testRTL", 500, 170);
 				console.debug("surfaceRTL created");
@@ -91,9 +94,9 @@
 					})
 					.moveTo(0, 15)
 					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("red")
+					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0);
+					tp3.setFont({family: "times", size: "12pt"})
+					tp3.fillStyle = "red"
 					;
 				g2 = surfaceRTL.createGroup();
 				g2.add(tp3);
@@ -112,9 +115,9 @@
 					//.setShape(p.shape)
 					.moveTo(0, 50)
 					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("red")
+					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0);
+					tp4.setFont({family: "times", size: "12pt"})
+					tp4.fillStyle = "red"
 					;				
 				console.debug("tp4 created");
 
@@ -144,10 +147,10 @@
 					//.setShape(p.shape)
 					.moveTo(0, 15)
 					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0)
+					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0);
 
-					.setFont({family: "times", size: "12pt"})
-					.setFill("red")
+					tp5.setFont({family: "times", size: "12pt"})
+					tp5.fillStyle = "red"
 					;
 				console.debug("tp5 created");
 				tp6 = surfaceAUTO.createTextPath({
@@ -159,19 +162,19 @@
 					//.setShape(p.shape)
 					.moveTo(0, 50)
 					.setAbsoluteMode(false)
-					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0)
-					.setFont({family: "times", size: "12pt"})
-					.setFill("blue")
+					.curveTo(CPD, 0, 100 - CPD,  0, 100,  0);
+					tp6.setFont({family: "times", size: "12pt"})
+					tp6.fillStyle = "blue"
 					;				
 				console.debug("tp6 created");
 
 				t5 = makeText(surfaceAUTO, {id: "t1",x: 0, y: 100, text: "1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"}, 
-					{family: "Times", size: "18pt"}, "black", "red")
-					.setTransform(m.rotategAt(0, 250, 150));
+					{family: "Times", size: "18pt"}, "black", "red");
+					t5.setTransform(m.rotategAt(0, 250, 150));
 
 				t6 = makeText(surfaceAUTO, {x: 0, y: 140, text: "1.) Beginning \u05e1\u05d5\u05e3!"}, 
-					{family: "Times", size: "18pt"}, "black", "blue")
-					.setTransform(m.rotategAt(0, 250, 100));
+					{family: "Times", size: "18pt"}, "black", "blue");
+					t6.setTransform(m.rotategAt(0, 250, 100));
 					
 				};
 
@@ -245,7 +248,7 @@
 				doh.run();
 				
 			});
-
+        });
 		</script>
 	</head>
 	<body>

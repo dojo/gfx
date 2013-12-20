@@ -25,8 +25,8 @@
 			var makeText = function(surface, text, font, fill, stroke){
 				var t = surface.createText(text);
 				if(font)   t.setFont(font);
-				if(fill)   t.setFill(fill);
-				if(stroke) t.setStroke(stroke);
+				if(fill)   t.fillStyle = fill;
+				if(stroke) t.strokeStyle = stroke;
 				placeAnchor(surface, text.x, text.y);
 				return t;
 			};
@@ -45,9 +45,9 @@
 				})
 						.moveTo(0, 15)
 						.setAbsoluteMode(false)
-						.curveTo(CPD, 0, 0, 0, 100, 0)
-						.setFont({family:"times", size:"12pt"})
-						.setFill("blue")
+						.curveTo(CPD, 0, 0, 0, 100, 0);
+						tp1.setFont({family:"times", size:"12pt"});
+						tp1.fillStyle = "blue";
 				;
 				console.debug("tp1 created");
 				tp2 = surfaceLTR.createTextPath({
@@ -56,19 +56,19 @@
 				})
 						.moveTo(0, 50)
 						.setAbsoluteMode(false)
-						.curveTo(CPD, 0, 0, 0, 100, 0)
-						.setFont({family:"times", size:"12pt"})
-						.setFill("blue")
+						.curveTo(CPD, 0, 0, 0, 100, 0);
+						tp2.setFont({family:"times", size:"12pt"});
+						tp2.fillStyle = "blue";
 				;
 				console.debug("tp2 created");
 				g1 = surfaceLTR.createGroup();
 				t1 = makeText(surfaceLTR, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
-						{family:"Times", size:"18pt"}, "black", "blue")
-						.setTransform(m.rotategAt(0, 250, 150));
+						{family:"Times", size:"18pt"}, "black", "blue");
+						t1.setTransform(m.rotategAt(0, 250, 150));
 
 				t2 = makeText(surfaceLTR, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
-						{family:"Times", size:"18pt"}, "black", "blue")
-						.setTransform(m.rotategAt(0, 250, 100));
+						{family:"Times", size:"18pt"}, "black", "blue");
+						t2.setTransform(m.rotategAt(0, 250, 100));
 
 				surfaceRTL = gfx.createSurface("testRTL", 500, 170);
 				console.debug("surfaceRTL created");
@@ -84,9 +84,9 @@
 				})
 						.moveTo(0, 15)
 						.setAbsoluteMode(false)
-						.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-						.setFont({family:"times", size:"12pt"})
-						.setFill("red")
+						.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+						tp3.setFont({family:"times", size:"12pt"});
+						tp3.fillStyle = "red";
 				;
 				console.debug("tp3 created");
 				tp4 = surfaceRTL.createTextPath({
@@ -97,15 +97,15 @@
 					//.setShape(p.shape)
 						.moveTo(0, 50)
 						.setAbsoluteMode(false)
-						.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-						.setFont({family:"times", size:"12pt"})
-						.setFill("red")
+						.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+						tp4.setFont({family:"times", size:"12pt"});
+						tp4.fillStyle = "red";
 				;
 				console.debug("tp4 created");
 
 				t3 = makeText(surfaceRTL, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
-						{family:"Times", size:"18pt"}, "black", "red")
-						.setTransform(m.rotategAt(0, 250, 150));
+						{family:"Times", size:"18pt"}, "black", "red");
+						t3.setTransform(m.rotategAt(0, 250, 150));
 
 				t4 = makeText(surfaceRTL, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
 						{family:"Times", size:"18pt"}, "black", "red")
@@ -128,10 +128,10 @@
 							//.setShape(p.shape)
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
+								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
 
-								.setFont({family:"times", size:"12pt"})
-								.setFill("red")
+								tp5.setFont({family:"times", size:"12pt"});
+								tp5.fillStyle = "red";
 						;
 				console.debug("tp5 created");
 				var tp6 = surfaceAUTO.createTextPath({
@@ -142,19 +142,19 @@
 							//.setShape(p.shape)
 								.moveTo(0, 50)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-								.setFont({family:"times", size:"12pt"})
-								.setFill("blue")
+								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+								tp6.setFont({family:"times", size:"12pt"});
+								tp6.fillStyle = "blue";
 						;
 				console.debug("tp6 created");
 
 				t3 = makeText(surfaceAUTO, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
-						{family:"Times", size:"18pt"}, "black", "red")
-						.setTransform(m.rotategAt(0, 250, 150));
+						{family:"Times", size:"18pt"}, "black", "red");
+						t3.setTransform(m.rotategAt(0, 250, 150));
 
 				t4 = makeText(surfaceAUTO, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
-						{family:"Times", size:"18pt"}, "black", "blue")
-						.setTransform(m.rotategAt(0, 250, 100));
+						{family:"Times", size:"18pt"}, "black", "blue");
+						t4.setTransform(m.rotategAt(0, 250, 100));
 
 			};
 

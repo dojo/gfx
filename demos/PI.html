@@ -32,8 +32,9 @@
 					pointColor = "green";
 				}
 
-				surface.createCircle({cx:pointX, cy:pointY, r:3}).
-						setFill(pointColor).setStroke({color:pointColor, width:2});
+				var circle = surface.createCircle({cx:pointX, cy:pointY, r:3});
+				circle.fillStyle = pointColor;
+                circle.strokeStyle = {color:pointColor, width:2};
 
 				totalCounter++;
 

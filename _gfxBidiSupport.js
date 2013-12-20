@@ -335,7 +335,7 @@ function(g, lang, has, dom, html, arr, utils, shapeLib, BidiEngine){
 					e.textDir = tDir;
 				}		
 				if(e instanceof g.Text){
-					e.setShape({textDir: tDir});
+					e.shape = {textDir: tDir};
 				}
 				if(e instanceof g.TextPath){
 					e.setText({textDir: tDir})

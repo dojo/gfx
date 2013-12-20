@@ -6,7 +6,7 @@ define([
 	return dcl([CanvasShape, ImageBase], {
 		// summary:
 		//		an image shape (Canvas)
-		setShape: dcl.superCall(function(sup){
+		_setShapeAttr: dcl.superCall(function(sup){
 			return function(){
 				sup.apply(this, arguments);
 				// prepare Canvas-specific structures

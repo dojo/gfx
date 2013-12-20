@@ -1,215 +1,216 @@
 <html>
 <head>
-    <title>A Sample ToolTip using dijit and gfx</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <style type="text/css">
-        @import "../../dojo/resources/dojo.css";
-        @import "../../dijit/tests/css/dijitTests.css";
-        @import "../../dijit/themes/tundra/tundra.css";
+<title>A Sample ToolTip using dijit and gfx</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<style type="text/css">
+    @import "../../dojo/resources/dojo.css";
+    @import "../../dijit/tests/css/dijitTests.css";
+    @import "../../dijit/themes/tundra/tundra.css";
 
-        .tooltipBody {
-            color: #fff;
-        }
-    </style>
-    <script type="text/javascript" src="../../dojo/dojo.js"
-            data-dojo-config="parseOnLoad: true, isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
-    <script type="text/javascript">
-        require([
-            "dcl/dcl",
-            "dojo/_base/lang",
-            "dojo/_base/window",
-            "dojo/_base/fx",
-            "dojo/parser",
-            "dojo/dom",
-            "dojo/dom-style",
-            "dojo/dom-geometry",
-            "dojo/query",
-            "dojo/on",
-            "dojo/aspect",
-            "dojo/mouse",
-            "dijit/_Widget",
-            "dijit/_TemplatedMixin",
-            "dijit/registry",
-            "gfx",
-            "dijit/form/Button"
-        ], function(dcl, lang, win, fx, parser, dom, domStyle, domGeometry, query, on, aspect, mouse, Widget, TemplatedMixin, registry, gfx){
+    .tooltipBody {
+        color: #fff;
+    }
+</style>
+<script type="text/javascript" src="../../dojo/dojo.js"
+        data-dojo-config="parseOnLoad: true, isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
+<script type="text/javascript">
+    require([
+        "dojo/_base/declare",
+        "dojo/_base/lang",
+        "dojo/_base/window",
+        "dojo/_base/fx",
+        "dojo/parser",
+        "dojo/dom",
+        "dojo/dom-style",
+        "dojo/dom-geometry",
+        "dojo/query",
+        "dojo/on",
+        "dojo/aspect",
+        "dojo/mouse",
+        "dijit/_Widget",
+        "dijit/_TemplatedMixin",
+        "dijit/registry",
+        "gfx",
+        "dijit/form/Button"
+    ], function(declare, lang, win, fx, parser, dom, domStyle, domGeometry, query, on, aspect, mouse, Widget, TemplatedMixin, registry, gfx){
 
-            dcl([Widget, TemplatedMixin], {
+        // TODO: convert to DCL when dijit/dui is ready (TemplatedMixin will not work yet with DCL).
 
-                // attachId: String|DomNode?
-                // 		the Id or domNode to attach this tooltip to
-                attachId: "",
+        declare("demo.Tooltip", [Widget, TemplatedMixin], {
 
-                // attachHover: Boolean
-                // 		disable hover behavior for the target
-                attachHover: true,
+            // attachId: String|DomNode?
+            // 		the Id or domNode to attach this tooltip to
+            attachId: "",
 
-                // attachParent: Boolean
-                //		automatically attach to our parentnode rather than byId or query
-                attachParent: false,
+            // attachHover: Boolean
+            // 		disable hover behavior for the target
+            attachHover: true,
 
-                // attachQuery: String?
-                //		an optional selector query to attach this tooltip to
-                attachQuery: "",
+            // attachParent: Boolean
+            //		automatically attach to our parentnode rather than byId or query
+            attachParent: false,
 
-                // attachScope: String|DomNode?
-                //		and optional scope to run the query against, passed as the
-                //		second arg to query()
-                queryScope: "",
+            // attachQuery: String?
+            //		an optional selector query to attach this tooltip to
+            attachQuery: "",
 
-                // hideDelay: Int
-                // 		time in my to delay automatically closing the node
-                hideDelay: 123, // ms
+            // attachScope: String|DomNode?
+            //		and optional scope to run the query against, passed as the
+            //		second arg to query()
+            queryScope: "",
 
-                // persists: Boolean
-                //		if true, the node will stay visible until explicitly closed
-                //		via _hide() or click on closeIcon
-                persists: false,
+            // hideDelay: Int
+            // 		time in my to delay automatically closing the node
+            hideDelay: 123, // ms
 
-                templateString: '<div class="foo">'
-                        + '<div style="position:relative;">'
-                        + '<div dojoAttachPoint="surfaceNode"></div>'
-                        + '<div class="tooltipBody" dojoAttachPoint="containerNode"></div>'
-                        + '</div>'
-                        + '</div>',
+            // persists: Boolean
+            //		if true, the node will stay visible until explicitly closed
+            //		via _hide() or click on closeIcon
+            persists: false,
 
-                postCreate: dcl.superCall(function(sup){
-                    return function(){
-                        // call _Widget postCreate first
-                        sup.apply(this, arguments);
-                        // gfx version of "_Templated" idea:
-                        this._initSurface();
+            templateString: '<div class="foo">'
+                    + '<div style="position:relative;">'
+                    + '<div dojoAttachPoint="surfaceNode"></div>'
+                    + '<div class="tooltipBody" dojoAttachPoint="containerNode"></div>'
+                    + '</div>'
+                    + '</div>',
 
-                        if(this.attachParent){
-                            // over-ride and reuse attachId as domNode from now on
-                            this.attachId = this.domNode.parentNode;
-                        }
-                        var _this = this;
-                        if(this.attachId){
-                            // domNode again. setup connections
-                            this.attachId = dom.byId(this.attachId);
-                            if(this.attachHover){
-                                this.own(on(this.attachId, mouse.enter, function(e){
-                                    _this._show(e);
-                                }));
-                            }
-                            if(!this.persists){
-                                this.own(on(this.attachId, mouse.leave, function(e){
-                                    _this._initHide(e);
-                                }));
-                            }
-                        }else if(this.attachQuery){
-                            // setup connections via query for multi-tooltips
-                            var nl = query(this.attachQuery, this.queryScope);
-                            if(this.attachHover){
-                                nl.on(mouse.enter, function(e){
-                                    _this._show(e);
-                                });
-                            }
-                            if(!this.persists){
-                                nl.on(mouse.leave, function(e){
-                                    _this._initHide(e);
-                                });
-                            }
-                        }
-                        // place the tooltip
-                        win.body().appendChild(this.domNode);
-                        domStyle.set(this.domNode, {
-                            position: "absolute"
+            postCreate: function(){
+                // call _Widget postCreate first
+                this.inherited(arguments);
+                // gfx version of "_Templated" idea:
+                this._initSurface();
+
+                if(this.attachParent){
+                    // over-ride and reuse attachId as domNode from now on
+                    this.attachId = this.domNode.parentNode;
+                }
+                var _this = this;
+                if(this.attachId){
+                    // domNode again. setup connections
+                    this.attachId = dom.byId(this.attachId);
+                    if(this.attachHover){
+                        this.own(on(this.attachId, mouse.enter, function(e){
+                            _this._show(e);
+                        }));
+                    }
+                    if(!this.persists){
+                        this.own(on(this.attachId, mouse.leave, function(e){
+                            _this._initHide(e);
+                        }));
+                    }
+                }else if(this.attachQuery){
+                    // setup connections via query for multi-tooltips
+                    var nl = query(this.attachQuery, this.queryScope);
+                    if(this.attachHover){
+                        nl.on(mouse.enter, function(e){
+                            _this._show(e);
                         });
-                        // could do this in css:
-                        domStyle.set(this.containerNode, {
-                            position: "absolute",
-                            top: "15px",
-                            left: "12px",
-                            height: "83px",
-                            width: "190px"
+                    }
+                    if(!this.persists){
+                        nl.on(mouse.leave, function(e){
+                            _this._initHide(e);
                         });
-                        // setup our animations
-                        this._hideAnim = fx.fadeOut({ node: this.domNode, duration: 150 });
-                        this._showAnim = fx.fadeIn({ node: this.domNode, duration: 75 });
-                        this.own(aspect.after(this._hideAnim, "onEnd", function(){
-                            _this._postHide();
-                        }, true));
-                        if(!this.persists){
-                            this.on("mouseleave", function(e){
-                                _this._initHide(e);
-                            });
-                        }
-                        // hide quickly
-                        this._postHide();
-                    }
-                }),
-
-                _initHide: function(e){
-                    // summary: start the timer for the hideDelay
-                    if(!this.persists && this.hideDelay){
-                        this._delay = setTimeout(lang.hitch(this, "_hide", e || null), this.hideDelay);
-                    }
-                },
-
-                _clearDelay: function(){
-                    // summary: clear our hide delay timeout
-                    if(this._delay){
-                        clearTimeout(this._delay);
-                    }
-                },
-
-                _show: function(e){
-                    // summary: show the widget
-                    this._clearDelay();
-                    var pos = domGeometry.position(e.target || this.attachId, true);
-                    // we need to more accurately position the domNode:
-                    domStyle.set(this.domNode, {
-                        top: pos.y - (pos.h / 2) - 50,
-                        left: pos.x + pos.w - 25,
-                        display: "block"
-                    });
-                    fx.fadeIn({ node: this.domNode, duration: 75 }).play();
-                },
-
-                _hide: function(e){
-                    // summary: hide the tooltip
-                    this._hideAnim.play();
-                },
-
-                _postHide: function(){
-                    // summary: after hide animation cleanup
-                    domStyle.set(this.domNode, "display", "none");
-                },
-
-                _initSurface: function(){
-                    // made generally from an SVG file:
-                    this.surface = gfx.createSurface(this.surfaceNode, 220, 120);
-                    this.tooltip = this.surface.createGroup();
-                    this.tooltip.createPath("M213,101.072c0,6.675-5.411,12.086-12.086,12.086H13.586 c-6.675,0-12.086-5.411-12.086-12.086V21.004c0-6.675,5.411-12.086,12.086-12.086h187.328c6.675,0,12.086,5.411,12.086,12.086 V101.072z")
-                            .setFill("rgba(0,0,0,0.25)");
-
-                    this.tooltip.createPath("M211.5,97.418c0,6.627-5.373,12-12,12 h-186c-6.627,0-12-5.373-12-12v-79.5c0-6.627,5.373-12,12-12h186c6.627,0,12,5.373,12,12V97.418z")
-                            .setStroke({ width: 2, color: "#FFF" })
-                            .setFill("rgba(0,0,0,0.5)")
-                            .connect("onmouseover", lang.hitch(this, "_clearDelay"));
-
-                    if(this.persists){
-                        // make the close icon
-                        this._toolButton = this.surface.createGroup();
-                        this._toolButton.createEllipse({ cx: 207.25, cy: 12.32, rx: 7.866, ry: 7.099 })
-                                .setFill("#ededed");
-                        this._toolButton.createCircle({ cx: 207.25, cy: 9.25, r: 8.25 })
-                                .setStroke({ width: 2, color: "#FFF" })
-                                .setFill("#000")
-                        ;
-                        this._toolButton.connect("onclick", lang.hitch(this, "_hide"));
-                        // the X
-                        this._toolButton.createLine({ x1: 203.618, y1: 5.04, x2: 210.89, y2: 12.979 })
-                                .setStroke({ width: 2, color: "#d6d6d6" });
-                        this._toolButton.createLine({ x1: 203.539, y1: 12.979, x2: 210.89, y2: 5.04 })
-                                .setStroke({ width: 2, color: "#d6d6d6" });
                     }
                 }
-            });
+                // place the tooltip
+                win.body().appendChild(this.domNode);
+                domStyle.set(this.domNode, {
+                    position: "absolute"
+                });
+                // could do this in css:
+                domStyle.set(this.containerNode, {
+                    position: "absolute",
+                    top: "15px",
+                    left: "12px",
+                    height: "83px",
+                    width: "190px"
+                });
+                // setup our animations
+                this._hideAnim = fx.fadeOut({ node: this.domNode, duration: 150 });
+                this._showAnim = fx.fadeIn({ node: this.domNode, duration: 75 });
+                this.own(aspect.after(this._hideAnim, "onEnd", function(){
+                    _this._postHide();
+                }, true));
+                if(!this.persists){
+                    this.on("mouseleave", function(e){
+                        _this._initHide(e);
+                    });
+                }
+                // hide quickly
+                this._postHide();
+            },
+
+            _initHide: function(e){
+                // summary: start the timer for the hideDelay
+                if(!this.persists && this.hideDelay){
+                    this._delay = setTimeout(lang.hitch(this, "_hide", e || null), this.hideDelay);
+                }
+            },
+
+            _clearDelay: function(){
+                // summary: clear our hide delay timeout
+                if(this._delay){
+                    clearTimeout(this._delay);
+                }
+            },
+
+            _show: function(e){
+                // summary: show the widget
+                this._clearDelay();
+                var pos = domGeometry.position(e.target || this.attachId, true);
+                // we need to more accurately position the domNode:
+                domStyle.set(this.domNode, {
+                    top: pos.y - (pos.h / 2) - 50,
+                    left: pos.x + pos.w - 25,
+                    display: "block"
+                });
+                fx.fadeIn({ node: this.domNode, duration: 75 }).play();
+            },
+
+            _hide: function(e){
+                // summary: hide the tooltip
+                this._hideAnim.play();
+            },
+
+            _postHide: function(){
+                // summary: after hide animation cleanup
+                domStyle.set(this.domNode, "display", "none");
+            },
+
+            _initSurface: function(){
+                // made generally from an SVG file:
+                this.surface = gfx.createSurface(this.surfaceNode, 220, 120);
+                this.tooltip = this.surface.createGroup();
+                var path;
+                path = this.tooltip.createPath("M213,101.072c0,6.675-5.411,12.086-12.086,12.086H13.586 c-6.675,0-12.086-5.411-12.086-12.086V21.004c0-6.675,5.411-12.086,12.086-12.086h187.328c6.675,0,12.086,5.411,12.086,12.086 V101.072z");
+                path.fillStyle = "rgba(0,0,0,0.25)";
+
+                path = this.tooltip.createPath("M211.5,97.418c0,6.627-5.373,12-12,12 h-186c-6.627,0-12-5.373-12-12v-79.5c0-6.627,5.373-12,12-12h186c6.627,0,12,5.373,12,12V97.418z");
+                path.strokeStyle = { width: 2, color: "#FFF" };
+                path.fillStyle = "rgba(0,0,0,0.5)";
+                path.connect("onmouseover", lang.hitch(this, "_clearDelay"));
+
+                if(this.persists){
+                    // make the close icon
+                    this._toolButton = this.surface.createGroup();
+                    this._toolButton.createEllipse({ cx: 207.25, cy: 12.32, rx: 7.866, ry: 7.099 })
+                            .fillStyle = "#ededed";
+                    var circle = this._toolButton.createCircle({ cx: 207.25, cy: 9.25, r: 8.25 });
+                    circle.strokeStyle = { width: 2, color: "#FFF" };
+                    circle.fillStyle = "#000";
+                    ;
+                    this._toolButton.connect("onclick", lang.hitch(this, "_hide"));
+                    // the X
+                    this._toolButton.createLine({ x1: 203.618, y1: 5.04, x2: 210.89, y2: 12.979 })
+                            .strokeStyle = { width: 2, color: "#d6d6d6" };
+                    this._toolButton.createLine({ x1: 203.539, y1: 12.979, x2: 210.89, y2: 5.04 })
+                            .strokeStyle = { width: 2, color: "#d6d6d6" };
+                }
+            }
         });
-    </script>
+    });
+</script>
 
 </head>
 <body class="tundra">

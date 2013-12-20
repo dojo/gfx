@@ -7,7 +7,7 @@ define([
 	return dcl([CanvasShape, PolylineBase], {
 		// summary:
 		//		a polyline/polygon shape (Canvas)
-		setShape: dcl.superCall(function(sup){
+		_setShapeAttr: dcl.superCall(function(sup){
 			return function(){
 				sup.apply(this, arguments);
 				var p = this.shape.points, f = p[0], r, c, i;

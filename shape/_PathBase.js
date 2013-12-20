@@ -408,7 +408,7 @@ define([
 			}
 			this._pushSegment(action, args);
 		},
-		setShape: dcl.superCall(function(sup){
+		_setShapeAttr: dcl.superCall(function(sup){
 			return function(newShape){
 				// summary:
 				//		forms a path using a shape

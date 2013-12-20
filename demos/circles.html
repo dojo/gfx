@@ -51,10 +51,9 @@
 					var r = getRandSkewed(minR, maxR),
 							cx = getRand(r, surface_size.width - r),
 							cy = getRand(r, surface_size.height - r),
-							shape = surface.createCircle({cx:cx, cy:cy, r:r})
-									.setFill(randColor(true))
-									.setStroke({color:randColor(true), width:getRand(0, 3)})
-							;
+							shape = surface.createCircle({cx:cx, cy:cy, r:r});
+					shape.fillStyle = randColor(true);
+					shape.strokeStyle = {color:randColor(true), width:getRand(0, 3)};
 					new Moveable(shape);
 				}
 			}
