@@ -21,7 +21,7 @@
 
 			makeShapes = function(surface){
 				var line = surface.createLine({x1:250, y1:50, x2:250, y2:250});
-				line.strokeStyle = {color:"blue"};
+				line.stroke = {color:"blue"};
 				var poly = surface.createPolyline([
 									{x:250, y:250},
 									{x:300, y:300},
@@ -29,7 +29,7 @@
 									{x:200, y:300},
 									{x:250, y:250}
 								]);
-				poly.strokeStyle = {color:"blue"};
+				poly.stroke = {color:"blue"};
                 
 				var rotate = matrix.rotategAt(5, 250, 250);
 

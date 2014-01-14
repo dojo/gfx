@@ -17,35 +17,36 @@
 
 		var surface;
 
-		function makeShape(filter, title){
+		function makeShape(filter, title, transform){
 			var topg = surface.createGroup();
 			var g = topg.createGroup();
-			g.createPath({path:"M50,90 C0,90 0,30 50,30 L150,30 C200,30 200,90 150,90 z"}).strokeStyle = {color:"#0000D9",width:10};
-			g.createPath({path:"M60,80 C30,80 30,40 60,40 L140,40 C170,40 170,80 140,80 z"}).fillStyle = "#D90000";
+			g.createPath({path:"M50,90 C0,90 0,30 50,30 L150,30 C200,30 200,90 150,90 z"}).stroke = {color:"#0000D9",width:10};
+			g.createPath({path:"M60,80 C30,80 30,40 60,40 L140,40 C170,40 170,80 140,80 z"}).fill = "#D90000";
 			var text = g.createGroup().createText({x:52, y:76, text:"SVG"});
-            text.fillStyle = "white";
+            text.fill = "white";
             text.setFont({family:"verdana", size:45});
 			if(filter){
 				g.setFilter(filter);
 			}
 			text = topg.createText({x:100, y:140, text: title, align:"middle"});
-            text.fillStyle = "black"; text.setFont({family:"verdana", size:20});
+            text.fill = "black"; text.setFont({family:"verdana", size:20});
 			var tooltip = document.createElementNS("http://www.w3.org/2000/svg", "title");
 			tooltip.appendChild(document.createTextNode(title));
 			topg.rawNode.appendChild(tooltip);
+            topg.transform = transform;
 			return topg;
 		}
 
 		ready(function(){
 			surface = gfx.createSurface("canvas", 800, 900);
 			var count = 0;
-			makeShape(null, "none").setTransform(matrix.scale(.65,.65));
+			makeShape(null, "none", matrix.scale(.65,.65));
 			array.forEach(["convolutions", "blurs", "colors", "miscs", "shadows", "textures", "reliefs"], function(lib){
 				for(var func in filters[lib]){
 					++count;
 					var f = filters[lib][func];
 					var s = makeShape(f(), func);
-					s.setTransform([matrix.translate((count%6)*132, Math.floor(count/6)*90), matrix.scale(.65,.65)]);
+					s.transform = [matrix.translate((count%6)*132, Math.floor(count/6)*90), matrix.scale(.65,.65)];
 				}
 			});
 
@@ -95,9 +96,9 @@
 				filters.feMerge("offsetBlur","litPaint")
 			]);
 			++count;
-			makeShape(customFilter,"custom").setTransform([matrix.translate((count%6)*132, Math.floor(count/6)*90), matrix.scale(.65,.65)]);
+			makeShape(customFilter,"custom", [matrix.translate((count%6)*132, Math.floor(count/6)*90), matrix.scale(.65,.65)]);
 			++count;
-			makeShape(customFilter,"none").setTransform([matrix.translate((count%6)*132, Math.floor(count/6)*90), matrix.scale(.65,.65)])
+			makeShape(customFilter,"none", [matrix.translate((count%6)*132, Math.floor(count/6)*90), matrix.scale(.65,.65)])
 				.children[0].setFilter(null);
 
 		});

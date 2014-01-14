@@ -35,7 +35,7 @@
 									checkSurface();
 								},
 								runTest: function(t){
-									var text = surface.createText(textShape); text.fillStyle = "black";
+									var text = surface.createText(textShape); text.fill = "black";
 									var bbox = text.getBoundingBox();
 									t.assertTrue(bbox !== null, "Unexpected null bbox.");
 									// it's impossible to test for bbox coordinates as it varies depending on the browser...
@@ -54,7 +54,7 @@
 									checkSurface();
 								},
 								runTest: function(t){
-									var text = surface.createText(); text.fillStyle = "black";
+									var text = surface.createText(); text.fill = "black";
 									var bbox = text.getBoundingBox();
 									t.assertTrue(bbox == null, "Unexpected non-null bbox.");
 								},
@@ -72,7 +72,7 @@
 									checkSurface();
 								},
 								runTest: function(t){
-									var text = surface.createText(textShape); text.fillStyle = "black";
+									var text = surface.createText(textShape); text.fill = "black";
 									text.removeShape();
 									var bbox = text.getBoundingBox();
 									t.assertTrue(bbox != null, "Unexpected bbox.");

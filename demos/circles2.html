@@ -30,11 +30,11 @@
 				var line = surface.createLine({x1:x1, y1:y1, x2:x2, y2:y2}),
 						circle1 = surface.createCircle({cx:x1, cy:y1, r:r}),
 						circle2 = surface.createCircle({cx:x2, cy:y2, r:r});
-                line.strokeStyle = "red";
-                circle1.strokeStyle = "red";
-                circle2.strokeStyle = "red";
-                circle1.fillStyle = "white";
-                circle2.fillStyle = "white";
+                line.stroke = "red";
+                circle1.stroke = "red";
+                circle2.stroke = "red";
+                circle1.fill = "white";
+                circle2.fill = "white";
 
 				// circle movers
 				var m1 = new Moveable(circle1),

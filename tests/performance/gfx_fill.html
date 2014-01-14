@@ -52,8 +52,8 @@
 								path.moveTo(start).arcTo(r, r, 0, true, true, end).arcTo(r, r, 0, true, true, start).closePath();
 							}
 							// set visual attributes
-							path.fillStyle = "red";
-                            path.strokeStyle = "black";
+							path.fill = "red";
+                            path.stroke = "black";
 						}
 					},
 					{
@@ -76,8 +76,8 @@
 								x:100,
 								y:100
 							});
-                            rect.fillStyle = "blue";
-                            rect.strokeStyle = "black";
+                            rect.fill = "blue";
+                            rect.stroke = "black";
 						}
 					},
 					{
@@ -101,8 +101,8 @@
 								x:100,
 								y:100
 							});
-                            rect.fillStyle = "red";
-                            rect.strokeStyle = "black";
+                            rect.fill = "red";
+                            rect.stroke = "black";
 						}
 					},
 					{
@@ -125,8 +125,8 @@
 								rx:100,
 								ry:100
 							});
-                            ellipse.fillStyle = "green";
-                            ellipse.strokeStyle = "black";
+                            ellipse.fill = "green";
+                            ellipse.stroke = "black";
 						}
 					},
 					{
@@ -148,7 +148,7 @@
 								height:75,
 								x:100,
 								y:100
-							}).fillStyle = {
+							}).fill = {
 										colors:[
 											{ offset:0, color:[255, 255, 0, 0] },
 											{ offset:0.5, color:"red" },
@@ -182,7 +182,7 @@
 								rx:100,
 								ry:100
 							});
-                            ellipse.fillStyle = {
+                            ellipse.fill = {
 										colors:[
 											{ offset:0, color:[255, 255, 0, 0] },
 											{ offset:0.5, color:"red" },
@@ -194,7 +194,7 @@
 										x2:200,
 										y2:0
 									};
-                            ellipse.strokeStyle = "black";
+                            ellipse.stroke = "black";
 						}
 					}
 				]);

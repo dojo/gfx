@@ -43,15 +43,15 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 				t.shape = object.shape;
 			}
 			if(object.getTransform){
-				v = object.getTransform();
+				v = object.transform;
 				if(v){ t.transform = v; }
 			}
 			if(object.getStroke){
-				v = object.strokeStyle;
+				v = object.stroke;
 				if(v){ t.stroke = v; }
 			}
 			if(object.getFill){
-				v = object.fillStyle;
+				v = object.fill;
 				if(v){ t.fill = v; }
 			}
 			if(object.getFont){
@@ -86,13 +86,13 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 			}
 			var shape = ("shape" in object) ? parent.createShape(object.shape) : parent.createGroup();
 			if("transform" in object){
-				shape.setTransform(object.transform);
+				shape.transform = object.transform;
 			}
 			if("stroke" in object){
-				shape.strokeStyle = object.stroke;
+				shape.stroke = object.stroke;
 			}
 			if("fill" in object){
-				shape.fillStyle = object.fill;
+				shape.fill = object.fill;
 			}
 			if("font" in object){
 				shape.setFont(object.font);

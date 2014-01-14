@@ -22,14 +22,14 @@
 
 			makeShapes = function(s){
 				for(var i = 0; i <= grid_size; i += grid_step){
-					s.createLine({x1:0, x2:grid_size, y1:i, y2:i}).strokeStyle = "black";
-					s.createLine({y1:0, y2:grid_size, x1:i, x2:i}).strokeStyle = "black";
+					s.createLine({x1:0, x2:grid_size, y1:i, y2:i}).stroke = "black";
+					s.createLine({y1:0, y2:grid_size, x1:i, x2:i}).stroke = "black";
 				}
 
 				main = s.createGroup();
 				rect = main.createRect({x:0, y:0, width:200, height:200});
-                rect.strokeStyle = "black";
-                rect.fillStyle = new Color([255, 0, 255, 0.5]);
+                rect.stroke = "black";
+                rect.fill = new Color([255, 0, 255, 0.5]);
 				rect.connect("onclick", function(){
 					alert("rect");
 				});
@@ -52,7 +52,7 @@
 
 			trans = function(){
 				var x = 1;
-				main.setTransform([gfx.matrix.rotategAt(45, 200, 200), {dx:200, dy:200}]);
+				main.transform = [gfx.matrix.rotategAt(45, 200, 200), {dx:200, dy:200}];
 			};
 
 			ready(createSurface);

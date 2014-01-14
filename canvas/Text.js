@@ -87,7 +87,7 @@ define([
 			if(this.canvasFill){
 				ctx.fillText(s.text, s.x, s.y);
 			}
-			if(this.strokeStyle){
+			if(this.stroke){
 				ctx.beginPath(); // fix bug in FF3.6. Fixed in FF4b8
 				ctx.strokeText(s.text, s.x, s.y);
 				ctx.closePath();

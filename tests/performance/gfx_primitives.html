@@ -51,7 +51,7 @@ require([
 								y:100,
 								x1:200,
 								y1:200
-							}); path.strokeStyle = {color:"black"};
+							}); path.stroke = {color:"black"};
 						}
 					},
 					{
@@ -85,7 +85,7 @@ require([
 									x:150,
 									y:100
 								}
-							]); path.strokeStyle = {color:"black"};
+							]); path.stroke = {color:"black"};
 						}
 					},
 					{
@@ -107,7 +107,7 @@ require([
 							path.lineTo(200, 200);
 							path.lineTo(150, 200);
 							path.lineTo(150, 100);
-							path.strokeStyle = {color:"black"};
+							path.stroke = {color:"black"};
 						}
 					},
 					{
@@ -127,7 +127,7 @@ require([
 							var path = surface.createPath();
 							path.moveTo(100, 100);
 							path.hLineTo(200);
-							path.strokeStyle = {color:"black"};
+							path.stroke = {color:"black"};
 						}
 					},
 					{
@@ -147,7 +147,7 @@ require([
 							var path = surface.createPath();
 							path.moveTo(100, 100);
 							path.vLineTo(200);
-							path.strokeStyle = {color:"black"};
+							path.stroke = {color:"black"};
 						}
 					},
 					{
@@ -167,7 +167,7 @@ require([
 							var path = surface.createPath();
 							path.moveTo(50, 50);
 							path.qCurveTo(175, 150, 200, 200);
-							path.strokeStyle = {color:"black"};
+							path.stroke = {color:"black"};
 						}
 					},
 					{
@@ -188,7 +188,7 @@ require([
 							path.moveTo(50, 50);
 							path.qCurveTo(175, 150, 200, 200);
 							path.qSmoothCurveTo(100, 300);
-							path.strokeStyle = {color:"black"};
+							path.stroke = {color:"black"};
 						}
 					},
 					{
@@ -208,7 +208,7 @@ require([
 							var path = surface.createPath();
 							path.moveTo(50, 50);
 							path.arcTo(75, 60, -30, false, true, 200, 200);
-							path.strokeStyle = {color:"black"};
+							path.stroke = {color:"black"};
 						}
 					},
 					{
@@ -252,8 +252,8 @@ require([
 								x:50,
 								y:50,
 								text:"I'm a bunch of text!"
-							}).strokeStyle = {color:"black"};
-							;
+							}).stroke = {color:"black"};
+
 						}
 					},
 					{
@@ -275,7 +275,7 @@ require([
 							});
 							tp.moveTo(50, 100);
 							tp.arcTo(75, 60, -30, false, true, 200, 200);
-							tp.strokeStyle = {color:"black"};
+							tp.stroke = {color:"black"};
 						}
 					},
 					{
@@ -297,7 +297,7 @@ require([
 								y:100,
 								width:200,
 								height:50
-							}).strokeStyle = {color:"black"};
+							}).stroke = {color:"black"};
 						}
 					},
 					{
@@ -318,7 +318,7 @@ require([
 								cx:150,
 								cy:150,
 								r:100
-							}).strokeStyle = {color:"black"};
+							}).stroke = {color:"black"};
 						}
 					},
 					{
@@ -340,7 +340,7 @@ require([
 								cy:150,
 								rx:100,
 								ry:50
-							}).strokeStyle = {color:"black"};
+							}).stroke = {color:"black"};
 						}
 					}
 				]);

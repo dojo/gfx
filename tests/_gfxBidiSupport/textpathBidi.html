@@ -25,8 +25,8 @@
 				var p = surfaceLTR.createPath({})
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
-								.curveTo(CPD, 0, 0, 0, 50, 0)
-						;
+								.curveTo(CPD, 0, 0, 0, 50, 0);
+
 				console.debug("p created");
 				var t = surfaceLTR.createTextPath({
 							text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end.", align:"start", textDir:"ltr"
@@ -35,7 +35,7 @@
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 0, 0, 100, 0);
 								t.setFont({family:"times", size:"12pt"});
-								t.fillStyle = "blue";
+								t.fill = "blue";
 				console.debug("t created");
 				var t2 = surfaceLTR.createTextPath({
 							text:"Beginning \u05e1\u05d5\u05e3.", align:"start", textDir:"ltr"
@@ -44,7 +44,7 @@
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 0, 0, 100, 0);
 								t2.setFont({family:"times", size:"12pt"});
-								t2.fillStyle = "blue";
+								t2.fill = "blue";
 				console.debug("t2 created");
 				surfaceRTL = gfx.createSurface("testRTL", 500, 60);
 				console.debug("surfaceRTL created");
@@ -62,7 +62,7 @@
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
 								t3.setFont({family:"times", size:"12pt"});
-								t3.fillStyle = "red";
+								t3.fill = "red";
 				console.debug("t3 created");
 				var t4 = surfaceRTL.createTextPath({
 							text:"Beginning \u05e1\u05d5\u05e3.", align:"start", textDir:"rtl"
@@ -72,7 +72,7 @@
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
 								t4.setFont({family:"times", size:"12pt"});
-								t4.fillStyle = "red";
+								t4.fill = "red";
 				console.debug("t4 created");
 
 				surfaceAUTO = gfx.createSurface("testAUTO", 500, 60);
@@ -91,7 +91,7 @@
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
 								t5.setFont({family:"times", size:"12pt"});
-								t5.fillStyle = "red";
+								t5.fill = "red";
 				console.debug("t5 created");
 				var t6 = surfaceAUTO.createTextPath({
 							text:"Beginning \u05e1\u05d5\u05e3.", align:"start", textDir:"auto"
@@ -101,7 +101,7 @@
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
 								t6.setFont({family:"times", size:"12pt"});
-								t6.fillStyle = "blue";
+								t6.fill = "blue";
 				console.debug("t6 created");
 			};
 

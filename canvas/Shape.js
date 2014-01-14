@@ -83,30 +83,29 @@ define([
 			}
 		}),
 
-		setTransform: dcl.superCall(function(sup){
+		_setTransformAttr: dcl.superCall(function(sup){
 			return function(matrix){
 				if(this.parent){
 					this.parent._makeDirty();
 				}
 				sup.apply(this, arguments);
 				// prepare Canvas-specific structures
-				if(this.matrix){
-					this.canvasTransform = g.decompose(this.matrix);
+				if(this.transform){
+					this.canvasTransform = g.decompose(this.transform);
 				}else{
 					delete this.canvasTransform;
 				}
-				return this;
 			}
 		}),
 
-		_setFillStyleAttr: dcl.superCall(function(sup){
+		_setFillAttr: dcl.superCall(function(sup){
 			return function(fill){
 				if(this.parent){
 					this.parent._makeDirty();
 				}
 				sup.apply(this, arguments);
 				// prepare Canvas-specific structures
-				var fs = this.fillStyle, f;
+				var fs = this.fill, f;
 				if(fs){
 					if(typeof(fs) == "object" && "type" in fs){
 						var ctx = this.surface.rawNode.getContext("2d");
@@ -144,15 +143,15 @@ define([
 			}
 		}),
 
-		_setStrokeStyleAttr: dcl.superCall(function(sup){
+		_setStrokeAttr: dcl.superCall(function(sup){
 			return function(stroke){
 				if(this.parent){
 					this.parent._makeDirty();
 				}
 				sup.apply(this, arguments);
-				var st = this.strokeStyle;
+				var st = this.stroke;
 				if(st){
-					var da = this.strokeStyle.style.toLowerCase();
+					var da = this.stroke.style.toLowerCase();
 					if(da in dasharray){
 						da = dasharray[da];
 					}
@@ -210,7 +209,7 @@ define([
 				ctx.scale(t.sx, t.sy);
 				ctx.rotate(t.angle1);
 				// The future implementation when vendors catch up with the spec:
-				// var t = this.matrix;
+				// var t = this.transform;
 				// ctx.transform(t.xx, t.yx, t.xy, t.yy, t.dx, t.dy);
 			}
 		},
@@ -219,7 +218,7 @@ define([
 		},
 		_renderFill: function(/* Object */ ctx, /* Boolean */ apply){
 			if("canvasFill" in this){
-				var fs = this.fillStyle;
+				var fs = this.fill;
 				if("canvasFillImage" in this){
 					var w = fs.width, h = fs.height,
 						iw = this.canvasFillImage.width, ih = this.canvasFillImage.height,
@@ -251,7 +250,7 @@ define([
 			}
 		},
 		_renderStroke: function(/* Object */ ctx, /* Boolean */ apply){
-			var s = this.strokeStyle;
+			var s = this.stroke;
 			if(s){
 				ctx.strokeStyle = s.color.toString();
 				ctx.lineWidth = s.width;

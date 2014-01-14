@@ -9,7 +9,7 @@
 
     <script type="text/javascript">
         require([
-            "dcl/dcl",
+            "dojo/_base/declare",
             "dojo/ready",
             "dojo/dom-geometry",
             "dojo/dom-style",
@@ -18,9 +18,9 @@
             "dijit/_TemplatedMixin",
             "gfx",
             "dojo/dnd/TimedMoveable"
-        ], function(dcl, ready, domGeometry, domStyle, query, ContentPane, Templated, gfx, TimedMoveable){
+        ], function(declare, ready, domGeometry, domStyle, query, ContentPane, Templated, gfx, TimedMoveable){
 
-            dcl([ContentPane, Templated], {
+            declare("my.RoundedContentPane", [ContentPane, Templated], {
                 // radius: Integer
                 //		radius of the corners
                 radius: 15,
@@ -38,10 +38,9 @@
                         '<div dojoAttachPoint="containerNode"></div>' +
                         '</div></div>',
 
-                startup: dcl.superCall(function(sup){
-                    return function(){
+                startup: function(){
 
-                        sup.apply(this, arguments);
+                        this.inherited(arguments);
 
                         this._initSurface();
                         domStyle.set(this.surfaceNode, {
@@ -57,8 +56,7 @@
                             });
                         }
 
-                    }
-                }),
+                    },
 
                 _initSurface: function(){
 
@@ -71,8 +69,8 @@
                         width: s.w,
                         height: s.h
                     });
-                    this.roundedShape.fillStyle = [0, 0, 0, 0.5]; // black, 50% transparency
-                    this.roundedShape.strokeStyle = { color: [255, 255, 255, 1], width: stroke }; // solid white
+                    this.roundedShape.fill = [0, 0, 0, 0.5]; // black, 50% transparency
+                    this.roundedShape.stroke = { color: [255, 255, 255, 1], width: stroke }; // solid white
 
                     this.resize(s);
 

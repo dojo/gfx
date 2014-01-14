@@ -52,7 +52,7 @@ require([
 	}
 
 	function getCenter(circle){
-		var shape = circle.shape, matrix = circle.getTransform();
+		var shape = circle.shape, matrix = circle.transform;
 		return m.multiplyPoint(matrix ? matrix : m.identity, shape.cx, shape.cy);
 	}
 
@@ -121,7 +121,7 @@ require([
 		var c = getCenter(circle),
 				status = surface.createText({});
 		status.moveToBack();
-        status.fillStyle = new Color([0, 0, 0, 0.5]);
+        status.fill = new Color([0, 0, 0, 0.5]);
 		status.setFont({family:"serif", variant:"small-caps", weight:"bold"});
 		status.shape = {x:c.x, y:c.y, text:text, align:"middle"};
 		var anim = coreFx.combine([
@@ -151,7 +151,7 @@ require([
 			delete shape.moveable;
 		}
 
-		var oldColor = shape.fillStyle, c = getCenter(shape),
+		var oldColor = shape.fill, c = getCenter(shape),
 				newX = 80 + (bad ? badItems++ : goodItems++) * 2.25 * 10,
 				newY = bad ? 445 : 415,
 				duration = getDuration(newX, newY, c.x, c.y, fastRate),
@@ -206,7 +206,7 @@ require([
 
 	function repeatFrost(){
 		this.status = "frozen";
-		this.strokeStyle = {color:"orange", width:3};
+		this.stroke = {color:"orange", width:3};
 		showStatus(this, "Ready");
 		this.anim = gfxFx.animateFill({
 			duration:frostTime,
@@ -229,7 +229,7 @@ require([
 
 	function repeatFreeze(){
 		this.status = "freezing";
-		this.strokeStyle = {color:"black", width:3};
+		this.stroke = {color:"black", width:3};
 		this.anim = gfxFx.animateFill({
 			duration:freezeTime,
 			shape:this,
@@ -248,7 +248,7 @@ require([
 
 	function repeatBurn(){
 		this.status = "burnt";
-		this.strokeStyle = {color:"orange", width:3};
+		this.stroke = {color:"orange", width:3};
 		showStatus(this, "Done");
 		var anim1 = gfxFx.animateFill({
 			duration:burnTime,
@@ -259,10 +259,10 @@ require([
 			duration:freezeTime,
 			curve:[0, freezeTime]
 		});
-		var matrix = this.getTransform(), c = getCenter(this);
+		var matrix = this.transform, c = getCenter(this);
 		aspect.after(anim2, "onAnimate", lang.hitch(this, function(val){
 			var scale = (val % pulseTime) / pulseTime / 4 + 1;
-			this.setTransform([m.scaleAt(scale, c), matrix]);
+			this.transform = [m.scaleAt(scale, c), matrix];
 		}), true);
 		this.anim = coreFx.combine([anim1, anim2]);
 		aspect.after(this.anim, "onEnd", lang.hitch(this, function(){
@@ -274,7 +274,7 @@ require([
 
 	function repeatBroil(){
 		this.status = "broiling";
-		this.strokeStyle = {color:"black", width:3};
+		this.stroke = {color:"black", width:3};
 		var anim1 = gfxFx.animateFill({
 			duration:broilTime,
 			shape:this,
@@ -284,10 +284,10 @@ require([
 			duration:freezeTime,
 			curve:[0, freezeTime]
 		});
-		var matrix = this.getTransform(), c = getCenter(this);
+		var matrix = this.transform, c = getCenter(this);
 		aspect.after(anim2, "onAnimate", lang.hitch(this, function(val){
 			var scale = (val % pulseTime) / pulseTime / 4 + 1;
-			this.setTransform([m.scaleAt(scale, c), matrix]);
+			this.transform = [m.scaleAt(scale, c), matrix];
 		}), true);
 		this.anim = coreFx.combine([anim1, anim2]);
 		aspect.after(this.anim, "onEnd", lang.hitch(this, repeatBurn));
@@ -340,8 +340,8 @@ require([
 					patty = surface.createCircle({
 						cx:cx, cy:cy, r:radius
 					});
-        patty.fillStyle = "green";
-        patty.strokeStyle = {
+        patty.fill = "green";
+        patty.stroke = {
 								color:"black",
 								width:3
 							};
@@ -356,37 +356,37 @@ require([
 		surface = g.createSurface(container, 500, 500);
 		surface_size = {width:500, height:500};
 
-		vat = surface.createRect({x:10, y:210, width:480, height:180})
-				.strokeStyle = {color:"black", width:7, join:"round"};
+		vat = surface.createRect({x:10, y:210, width:480, height:180});
+		vat.stroke = {color:"black", width:7, join:"round"};
 		surface.createText({x:15, y:230, text:"Ye Olde Vat v3.2"})
-				.fillStyle = "black";
+				.fill = "black";
 
-		freezer = surface.createRect({x:10, y:10, width:230, height:180})
-				.strokeStyle = {color:"blue", width:7, join:"round"};
+		freezer = surface.createRect({x:10, y:10, width:230, height:180});
+		freezer.stroke = {color:"blue", width:7, join:"round"};
 		surface.createText({x:15, y:30, text:"Deep Freeze 7000"})
-				.fillStyle = "blue";
+				.fill = "blue";
 
 		broiler = surface.createRect({x:260, y:10, width:230, height:180})
-				.strokeStyle = {color:"red", width:7, join:"round"};
+        broiler.stroke = {color:"red", width:7, join:"round"};
 		surface.createText({x:265, y:30, text:"Hellfire Broiler A4"})
-				.fillStyle = "red";
+				.fill = "red";
 
         var t;
 		t = surface.createText({x:15, y:420, text:"Good:"});
 		t.setFont({weight:"bold"});
-        t.fillStyle = "green";
+        t.fill = "green";
 		t = surface.createText({x:15, y:450, text:"Bad:"});
 		t.setFont({weight:"bold"});
-        t.fillStyle = "red";
+        t.fill = "red";
 		t = surface.createText({x:15, y:480, text:"Total:"});
 		t.setFont({weight:"bold"});
-        t.fillStyle = "black";
+        t.fill = "black";
 		score = surface.createText({x:80, y:485, text:"0"});
 		score.setFont({weight:"bold", size:"24pt"});
-        score.fillStyle = "black";
+        score.fill = "black";
 		t = surface.createText({x:120, y:460, text:"DROP HERE!"});
 		t.setFont({size:"50px"});
-		t.fillStyle = new Color([0, 0, 0, 0.1]);
+		t.fill = new Color([0, 0, 0, 0.1]);
         t.moveToBack();
 
 		topic.subscribe("/gfx/move/start", drag);

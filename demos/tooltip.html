@@ -184,28 +184,28 @@
                 this.tooltip = this.surface.createGroup();
                 var path;
                 path = this.tooltip.createPath("M213,101.072c0,6.675-5.411,12.086-12.086,12.086H13.586 c-6.675,0-12.086-5.411-12.086-12.086V21.004c0-6.675,5.411-12.086,12.086-12.086h187.328c6.675,0,12.086,5.411,12.086,12.086 V101.072z");
-                path.fillStyle = "rgba(0,0,0,0.25)";
+                path.fill = "rgba(0,0,0,0.25)";
 
                 path = this.tooltip.createPath("M211.5,97.418c0,6.627-5.373,12-12,12 h-186c-6.627,0-12-5.373-12-12v-79.5c0-6.627,5.373-12,12-12h186c6.627,0,12,5.373,12,12V97.418z");
-                path.strokeStyle = { width: 2, color: "#FFF" };
-                path.fillStyle = "rgba(0,0,0,0.5)";
+                path.stroke = { width: 2, color: "#FFF" };
+                path.fill = "rgba(0,0,0,0.5)";
                 path.connect("onmouseover", lang.hitch(this, "_clearDelay"));
 
                 if(this.persists){
                     // make the close icon
                     this._toolButton = this.surface.createGroup();
                     this._toolButton.createEllipse({ cx: 207.25, cy: 12.32, rx: 7.866, ry: 7.099 })
-                            .fillStyle = "#ededed";
+                            .fill = "#ededed";
                     var circle = this._toolButton.createCircle({ cx: 207.25, cy: 9.25, r: 8.25 });
-                    circle.strokeStyle = { width: 2, color: "#FFF" };
-                    circle.fillStyle = "#000";
-                    ;
+                    circle.stroke = { width: 2, color: "#FFF" };
+                    circle.fill = "#000";
+
                     this._toolButton.connect("onclick", lang.hitch(this, "_hide"));
                     // the X
                     this._toolButton.createLine({ x1: 203.618, y1: 5.04, x2: 210.89, y2: 12.979 })
-                            .strokeStyle = { width: 2, color: "#d6d6d6" };
+                            .stroke = { width: 2, color: "#d6d6d6" };
                     this._toolButton.createLine({ x1: 203.539, y1: 12.979, x2: 210.89, y2: 5.04 })
-                            .strokeStyle = { width: 2, color: "#d6d6d6" };
+                            .stroke = { width: 2, color: "#d6d6d6" };
                 }
             }
         });

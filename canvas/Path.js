@@ -58,7 +58,7 @@ define([
 				return sup.apply(this, arguments);
 			}
 		}),
-		_setStrokeStyleAttr: dcl.superCall(function(sup){
+		_setStrokeAttr: dcl.superCall(function(sup){
 			return function(){
 				sup.apply(this, arguments);
 				if(!hasNativeDash){

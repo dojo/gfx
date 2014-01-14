@@ -43,7 +43,8 @@ require([
 
 	placeHand = function(shape, angle, shift){
 		var move = {dx:center.x + (shift ? shift.dx : 0), dy:center.y + (shift ? shift.dy : 0)};
-		return shape.setTransform([move, gfx.matrix.rotateg(angle)]);
+		shape.transform = [move, gfx.matrix.rotateg(angle)];
+        return shape;
 	};
 
 	placeHourHand = function(h, m, s){
@@ -216,29 +217,29 @@ require([
 
 		// create shapes
         hour_shadow = surface.createPolyline(hour_hand_points);
-        hour_shadow.fillStyle = [0, 0, 0, 0.1];
+        hour_shadow.fill = [0, 0, 0, 0.1];
 
         hour_hand = surface.createPolyline(hour_hand_points);
-        hour_hand.strokeStyle = {color:"black", width:2};
-        hour_hand.fillStyle = "#889";
+        hour_hand.stroke = {color:"black", width:2};
+        hour_hand.fill = "#889";
 
         minute_shadow = surface.createPolyline(minute_hand_points);
-        minute_shadow.fillStyle = [0, 0, 0, 0.1];
+        minute_shadow.fill = [0, 0, 0, 0.1];
 
         minute_hand = surface.createPolyline(minute_hand_points);
-        minute_hand.strokeStyle = {color:"black", width:2};
-        minute_hand.fillStyle = "#ccd";
+        minute_hand.stroke = {color:"black", width:2};
+        minute_hand.fill = "#ccd";
 
         second_shadow = surface.createPolyline(second_hand_points);
-        second_shadow.fillStyle = [0, 0, 0, 0.1];
+        second_shadow.fill = [0, 0, 0, 0.1];
 
         second_hand = surface.createPolyline(second_hand_points)
-        second_hand.strokeStyle = {color:"#800", width:2};
-        second_hand.fillStyle = "#d00";
+        second_hand.stroke = {color:"#800", width:2};
+        second_hand.fill = "#d00";
 
         var circle = surface.createCircle({r:1});
-        circle.fillStyle = "black";
-        circle.setTransform({dx:192.5, dy:192.5});
+        circle.fill = "black";
+        circle.transform = {dx:192.5, dy:192.5};
 
 		// attach events
 		hour_hand.connect("onmousedown", onMouseDown);

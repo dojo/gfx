@@ -27,14 +27,14 @@
 
 					function makeShapes(surface){
 						rect = surface.createRect({x:100, y:100, width:300, height:300});
-						rect.fillStyle = "yellow";
-                        rect.strokeStyle = {
+						rect.fill = "yellow";
+                        rect.stroke = {
 									color:"green",
 									width:5,
 									join:"round"
 								};
 						text = surface.createText({x:250, y:250, text:"Hello!", align:"middle"});
-						text.fillStyle = "black";
+						text.fill = "black";
                         text.setFont({family:"serif", size:"10pt"});
 					};
 

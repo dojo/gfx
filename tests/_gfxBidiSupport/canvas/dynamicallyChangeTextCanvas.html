@@ -24,8 +24,8 @@
 			var makeText = function(surface, text, font, fill, stroke){
 				var t = surface.createText(text);
 				if(font)   t.setFont(font);
-				if(fill)   t.fillStyle = fill;
-				if(stroke) t.strokeStyle = stroke;
+				if(fill)   t.fill = fill;
+				if(stroke) t.stroke = stroke;
 				placeAnchor(surface, text.x, text.y);
 				return t;
 			};
@@ -33,10 +33,10 @@
 			makeShapes = function(){
 				surface = gfx.createSurface("test", 500, 200);
 				var m = gfx.matrix;
-				//surface.createLine({x1: 250, y1: 0, x2: 250, y2: 500}).strokeStyle = "green";
+				//surface.createLine({x1: 250, y1: 0, x2: 250, y2: 500}).stroke = "green";
 				t1 = makeText(surface, {id: "t1",x: 250, y: 50, text:"Hello!", textDir:"ltr"}, 
-					{family: "Times", size: "24pt"}, "black", "red")
-					.setTransform(m.rotategAt(0, 250, 50));
+					{family: "Times", size: "24pt"}, "black", "red");
+					 t1.transform = m.rotategAt(0, 250, 50);
 			
 		
 			}

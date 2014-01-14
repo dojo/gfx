@@ -32,18 +32,22 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 			//		or gfx.defaultImage)
 			shape: null,
 
-			// fillStyle: gfx.Fill
+			// fill: gfx.Fill
 			//		a fill object
 			//		(see gfx.defaultLinearGradient,
 			//		gfx.defaultRadialGradient,
 			//		gfx.defaultPattern,
 			//		or dojo/Color)
-			fillStyle: null,
+			fill: null,
 
-			// strokeStyle: gfx.Stroke
+			// stroke: gfx.Stroke
 			//		a stroke object
 			//		(see gfx.defaultStroke)
-			strokeStyle: null,
+			stroke: null,
+
+			// transform: gfx/matrix.Matrix2D
+			//		a transformation matrix
+			transform: null,
 
 			constructor: function(rawShape, rawNode){
 				// summary: Creates a new shape.
@@ -54,10 +58,6 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 			    if(shape){
 					this._set("shape", lang.clone(shape));
 				}
-
-				// matrix: gfx/matrix.Matrix2D
-				//		a transformation matrix
-				this.matrix = null;
 
 				// bbox: gfx.Rectangle
 				//		a bounding box of this shape
@@ -122,11 +122,6 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				//		in a general way across renderer implementation.
 				//		Returns the underlying graphics Node, or null if no underlying graphics node is used by this shape.
 				return this.rawNode; // Node
-			},
-			getTransform: function(){
-				// summary:
-				//		Returns the current transformation matrix applied to this Shape or null
-				return this.matrix;	// gfx/matrix.Matrix2D
 			},
 			getParent: function(){
 				// summary:
@@ -230,7 +225,7 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				this.bbox = null;
 				return this;	// self
 			},
-			_setFillStyleAttr: function(fill){
+			_setFillAttr: function(fill){
 				// summary:
 				//		sets a fill object
 				//		(the default implementation simply ignores it)
@@ -244,7 +239,7 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
 				if(!fill){
 					// don't fill
-					this._set("fillStyle", null);
+					this._set("fill", null);
 					return this;	// self
 				}
 				var f = null;
@@ -265,10 +260,10 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 					// color object
 					f = g.normalizeColor(fill);
 				}
-				this._set("fillStyle", f);
+				this._set("fill", f);
 				return this;	// self
 			},
-			_setStrokeStyleAttr: function(stroke){
+			_setStrokeAttr: function(stroke){
 				// summary:
 				//		sets a stroke object
 				//		(the default implementation simply ignores it)
@@ -279,7 +274,7 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
 				if(!stroke){
 					// don't stroke
-					this._set("strokeStyle", null);
+					this._set("stroke", null);
 					return this;	// self
 				}
 				// normalize the stroke
@@ -288,10 +283,10 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				}
 				var s = g.makeParameters(g.defaultStroke, stroke);
 				s.color = g.normalizeColor(s.color);
-				this._set("strokeStyle", s);
+				this._set("stroke", s);
 				return this;	// self
 			},
-			setTransform: function(matrix){
+			_setTransformAttr: function(matrix){
 				// summary:
 				//		sets a transformation matrix
 				// matrix: gfx/matrix.Matrix2D
@@ -300,8 +295,8 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				//		constructor for a list of acceptable arguments)
 
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
-				this.matrix = matrixLib.clone(matrix ? matrixLib.normalize(matrix) : matrixLib.identity);
-				return this._applyTransform();	// self
+				this._set("transform", matrixLib.clone(matrix ? matrixLib.normalize(matrix) : matrixLib.identity));
+				this._applyTransform();
 			},
 
 			_applyTransform: function(){
@@ -309,7 +304,6 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				//		physically sets a matrix
 
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
-				return this;	// self
 			},
 
 			// z-index
@@ -352,22 +346,28 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 			applyRightTransform: function(matrix){
 				// summary:
 				//		multiplies the existing matrix with an argument on right side
-				//		(this.matrix * matrix)
+				//		(this.transform * matrix)
 				// matrix: gfx/matrix.Matrix2D
 				//		a matrix or a matrix-like object
 				//		(see an argument of gfx/matrix.Matrix2D
 				//		constructor for a list of acceptable arguments)
-				return matrix ? this.setTransform([this.matrix, matrix]) : this;	// self
+				if(matrix){
+					this.transform = [this.transform, matrix];
+				}
+				return this;
 			},
 			applyLeftTransform: function(matrix){
 				// summary:
 				//		multiplies the existing matrix with an argument on left side
-				//		(matrix * this.matrix)
+				//		(matrix * this.transform)
 				// matrix: gfx/matrix.Matrix2D
 				//		a matrix or a matrix-like object
 				//		(see an argument of gfx/matrix.Matrix2D
 				//		constructor for a list of acceptable arguments)
-				return matrix ? this.setTransform([matrix, this.matrix]) : this;	// self
+				if(matrix){
+					this.transform = [matrix, this.transform];
+				}
+				return this;
 			},
 			applyTransform: function(matrix){
 				// summary:
@@ -376,7 +376,10 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				//		a matrix or a matrix-like object
 				//		(see an argument of gfx/matrix.Matrix2D
 				//		constructor for a list of acceptable arguments)
-				return matrix ? this.setTransform([this.matrix, matrix]) : this;	// self
+				if(matrix){
+					this.transform = [this.transform, matrix];
+				}
+				return this;
 			},
 
 			// virtual group methods
@@ -415,11 +418,11 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				// summary:
 				//		returns the cumulative ('real') transformation matrix
 				//		by combining the shape's matrix with its parent's matrix
-				var m = this.matrix;
+				var m = this.transform;
 				var p = this.parent;
 				while(p){
-					if(p.matrix){
-						m = matrixLib.multiply(p.matrix, m);
+					if(p.transform){
+						m = matrixLib.multiply(p.transform, m);
 					}
 					p = p.parent;
 				}

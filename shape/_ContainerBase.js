@@ -99,7 +99,7 @@ define([
 				arr.forEach(this.children, function(shape){
 					var bb = shape.getBoundingBox();
 					if(bb){
-						var ct = shape.getTransform();
+						var ct = shape.transform;
 						if(ct){
 							bb = matrixLib.multiplyRectangle(ct, bb);
 						}

@@ -23,7 +23,7 @@
 			};
 
 			logBBox = function(shape, msg){
-				var bbox = shape.getBoundingBox(), t = shape.getTransform();
+				var bbox = shape.getBoundingBox(), t = shape.transform;
 				if(bbox){
 					var text = surface.createText({
 						text:msg + " bbox: [" + bbox.x + "," + bbox.y + "," + bbox.width + "," + bbox.height + "]",
@@ -31,8 +31,8 @@
 						x:bbox.x + bbox.width / 2,
 						y:bbox.y + bbox.height + 20
 					});
-                    text.fillStyle = "black";
-                    text.setTransform(t);
+                    text.fill = "black";
+                    text.transform = t;
                 }else{
 					dom.byId("o1").innerHTML = msg + " bbox: null";
                 }
@@ -47,12 +47,12 @@
 									{x:100, y:100},
 									{x:150, y:50}
 								]);
-                poly1.strokeStyle = {color:"blue"};
+                poly1.stroke = {color:"blue"};
 				var bbox1 = logBBox(poly1, "Polyline1");
 
 				var poly2 = surface.createPolyline([150, 50, 200, 100, 150, 150, 100, 100, 150, 50]);
-								poly2.strokeStyle = {color:"blue"};
-								poly2.setTransform(gfx.matrix.translate(200, 0));
+								poly2.stroke = {color:"blue"};
+								poly2.transform = gfx.matrix.translate(200, 0);
 				var bbox2 = logBBox(poly2, "Polyline2");
 
 				var poly3 = surface.createPolyline(),

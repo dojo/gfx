@@ -28,7 +28,7 @@ define([
 
 		destroy: dcl.superCall(function(sup){
 			return function(){
-				if(this.fillStyle && "type" in this.fillStyle){
+				if(this.fill && "type" in this.fill){
 					var fill = this.rawNode.getAttribute("fill"),
 						ref = svg.getRef(fill);
 					if(ref){
@@ -48,7 +48,7 @@ define([
 			}
 		}),
 
-		_setFillStyleAttr: function(fill){
+		_setFillAttr: function(fill){
 			// summary:
 			//		sets a fill object (SVG)
 			// fill: Object
@@ -60,7 +60,7 @@ define([
 
 			if(!fill){
 				// don't fill
-				this._set("fillStyle", null);
+				this._set("fill", null);
 				this.rawNode.setAttribute("fill", "none");
 				this.rawNode.setAttribute("fill-opacity", 0);
 				return this;
@@ -90,19 +90,19 @@ define([
 						arr.forEach(["x", "y", "width", "height"], setter, pattern);
 						break;
 				}
-				this._set("fillStyle", f);
+				this._set("fill", f);
 				return this;
 			}
 			// color object
 			f = g.normalizeColor(fill);
-			this._set("fillStyle", f);
+			this._set("fill", f);
 			this.rawNode.setAttribute("fill", f.toCss());
 			this.rawNode.setAttribute("fill-opacity", f.a);
 			this.rawNode.setAttribute("fill-rule", "evenodd");
 			return this;	// self
 		},
 
-		_setStrokeStyleAttr: function(stroke){
+		_setStrokeAttr: function(stroke){
 			// summary:
 			//		sets a stroke object (SVG)
 			// stroke: Object
@@ -111,7 +111,7 @@ define([
 			var rn = this.rawNode;
 			if(!stroke){
 				// don't stroke
-				this._set("strokeStyle", null);
+				this._set("stroke", null);
 				rn.setAttribute("stroke", "none");
 				rn.setAttribute("stroke-opacity", 0);
 				return this;
@@ -122,7 +122,7 @@ define([
 			}
 			var s =  g.makeParameters(g.defaultStroke, stroke);
 			s.color = g.normalizeColor(s.color);
-			this._set("strokeStyle", s);
+			this._set("stroke", s);
 			// generate attributes
 			if(s){
 				rn.setAttribute("stroke", s.color.toCss());
@@ -172,7 +172,7 @@ define([
 
 		_setFillObject: function(f, nodeType){
 			var svgns = svg.xmlns.svg;
-			this._set("fillStyle", f);
+			this._set("fill", f);
 			var surface = this._getParentSurface(),
 				defs = surface && surface.defNode,
 				fill = this.rawNode.getAttribute("fill"),
@@ -243,9 +243,9 @@ define([
 		}),
 
 		_applyTransform: function(){
-			var matrix = this.matrix;
+			var matrix = this.transform;
 			if(matrix){
-				var tm = this.matrix;
+				var tm = this.transform;
 				this.rawNode.setAttribute("transform", "matrix(" +
 					tm.xx.toFixed(8) + "," + tm.yx.toFixed(8) + "," +
 					tm.xy.toFixed(8) + "," + tm.yy.toFixed(8) + "," +

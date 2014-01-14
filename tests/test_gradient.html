@@ -35,7 +35,7 @@
 				for(var i = 0; i < 300; i += SIDE){
 					for(var j = 0; j < 300; j += SIDE){
 						var rect = surface.createRect({x:j, y:i, width:10, height:10});
-						rect.fillStyle = (Math.floor(i / SIDE) + Math.floor(j / SIDE)) % 2 ? "lightgrey" : "white";
+						rect.fill = (Math.floor(i / SIDE) + Math.floor(j / SIDE)) % 2 ? "lightgrey" : "white";
 					}
 				}
 				// create a rect
@@ -43,7 +43,7 @@
 					width:300,
 					height:100
 				});
-                ret.fillStyle = lang.mixin({
+                rect.fill = lang.mixin({
 							type:"linear",
 							x1:0, y1:0,
 							x2:300, y2:0
@@ -55,7 +55,7 @@
 					rx:100,
 					ry:100
 				});
-                circle.fillStyle = lang.mixin({
+                circle.fill = lang.mixin({
 							type:"radial",
 							cx:150,
 							cy:200

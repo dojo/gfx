@@ -27,8 +27,8 @@
 					if(!shape){
 						//shape = surface.createRect({x: 100, y: 100, width: 100, height: 100})
 						shape = surface.createCircle({cx:150, cy:150, r:50});
-						shape.fillStyle = "yellow";
-                        shape.strokeStyle = {color:"red", width:3};
+						shape.fill = "yellow";
+                        shape.stroke = {color:"red", width:3};
 					}else{
 						surface.add(shape);
 					}

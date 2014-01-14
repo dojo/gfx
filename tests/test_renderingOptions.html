@@ -14,49 +14,49 @@
 
 				var surface = gfx.createSurface("slideTarget", 700, 500), g, parent = surface, s;
 				array.forEach(["auto","optimizeSpeed","crispEdges","geometricPrecision"], function(opt,idx){
-					g = parent.createGroup().setTransform(matrix.translate(0, 20*idx));
+					g = parent.createGroup(); g.transform = matrix.translate(0, 20*idx);
 					s = g.createLine({
 						x1 : 10,
 						y1 : 10,
 						x2 : 490,
 						y2 : 100
 					});
-                    s.strokeStyle = "blue";
+                    s.stroke = "blue";
                     s.addRenderingOption("shape-rendering", opt);
 					s = g.createText({
 						x : 490,
 						y : 100,
 						text :opt
 					});
-                    s.fillStyle = "black";
+                    s.fill = "black";
 				});
-				parent = surface.createGroup().setTransform(matrix.translate(0, 80));
+				parent = surface.createGroup(); parent.transform = matrix.translate(0, 80);
 				array.forEach(["auto","optimizeSpeed","crispEdges","geometricPrecision"], function(opt,idx){
-					g = parent.createGroup().setTransform(matrix.translate(0, 20*idx));
+					g = parent.createGroup(); g.transform = matrix.translate(0, 20*idx);
 					s = g.createLine({
 						x1 : 10,
 						y1 : 100,
 						x2 : 490,
 						y2 : 100
 					});
-                    s.strokeStyle = "blue";
+                    s.stroke = "blue";
                     s.addRenderingOption("shape-rendering", opt);
 					s = g.createText({
 						x : 490,
 						y : 100,
 						text :opt
 					});
-                    s.fillStyle = "black";
+                    s.fill = "black";
 				});
-				parent = surface.createGroup().setTransform(matrix.translate(0, 160));
+				parent = surface.createGroup(); parent.transform = matrix.translate(0, 160);
 				array.forEach(["auto","optimizeSpeed","optimizeLegibility","geometricPrecision"], function(opt,idx){
-					g = parent.createGroup().setTransform(matrix.translate(0, 20*idx));
+					g = parent.createGroup(); g.transform = matrix.translate(0, 20*idx);
 					s = g.createText({
 						x : 50,
 						y : 100,
 						text : "LYoWAT	ff fi fl ffl  ("+ opt +")"
 					});
-                    s.fillStyle = "black";
+                    s.fill = "black";
                     s.setFont({size:"23px", family:"Calibri, Constantia"});
                     s.addRenderingOption("text-rendering" , opt);
 				});

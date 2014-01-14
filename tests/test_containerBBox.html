@@ -97,11 +97,11 @@
 								var bbox = g.getBoundingBox();
 								doh.assertTrue(bbox.x === 0 && bbox.y === 0 && bbox.width === 100 && bbox.height === 100, "Unexpected bbox value.");
 								// child with transform
-								r.setTransform(matrix.translate(10,0));
+								r.transform = matrix.translate(10,0);
 								bbox = g.getBoundingBox();
 								doh.assertTrue(bbox.x === 10 && bbox.y === 0 && bbox.width === 100 && bbox.height === 100, "Unexpected bbox value with child transform.");
 								// the group has a transform -> getBoundingBox should not be modified
-								g.setTransform(matrix.translate(10,20));
+								g.transform = matrix.translate(10,20);
 								bbox = g.getBoundingBox();
 								doh.assertTrue(bbox.x === 10 && bbox.y === 0 && bbox.width === 100 && bbox.height === 100, "Unexpected bbox value with Group transform.");
 								// surface
@@ -125,7 +125,7 @@
 								var g2 = g.createGroup();
 								g2.createRect();
 								g2.createRect({x:500});
-								g2.setTransform(matrix.translate(100,200));
+								g2.transform = matrix.translate(100,200);
 								bbox = g.getBoundingBox();
 								doh.assertTrue(bbox.x === 0 && bbox.y === 0 && bbox.width === 700 && bbox.height === 400, "Unexpected composite bbox value.");
 							}

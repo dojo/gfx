@@ -22,17 +22,17 @@ makeShapes = function(surface){
     var g = gfx, m = g.matrix;
     
 	for(var i = 0; i <= grid_size; i += grid_step){
-		surface.createLine({x1: 0, x2: grid_size, y1: i, y2: i}).strokeStyle = "grey";
-		surface.createLine({y1: 0, y2: grid_size, x1: i, x2: i}).strokeStyle = "grey";
+		surface.createLine({x1: 0, x2: grid_size, y1: i, y2: i}).stroke = "grey";
+		surface.createLine({y1: 0, y2: grid_size, x1: i, x2: i}).stroke = "grey";
 	}
     
-    var rect1 = surface.createRect({x: 50, y: 50, width: 100, height: 100, r: 5}); rect1.fillStyle = "red"; rect1.strokeStyle = "black";
-    var img1  = surface.createImage({width: 75, height: 50, src: "images/eugene-sm.jpg"}).
-                    setTransform([m.translate(50, 0), m.rotateg(45)]);
-    var rect2 = surface.createRect({x: 75, y: 25, width: 50, height: 150, r: 5}); rect2.fillStyle = "yellow"; rect2.strokeStyle = "black";
-    var img2  = surface.createImage({width: 75, height: 50, src: "images/eugene-sm.jpg"}).
-                    setTransform([m.translate(50, 120), m.rotateg(-45)]);
-    var rect3 = surface.createRect({x: 25, y: 75, width: 150, height: 50, r: 5}); rect3.fillStyle = "green"; rect3.strokeStyle = "black";
+    var rect1 = surface.createRect({x: 50, y: 50, width: 100, height: 100, r: 5}); rect1.fill = "red"; rect1.stroke = "black";
+    var img1  = surface.createImage({width: 75, height: 50, src: "images/eugene-sm.jpg"});
+    img1.transform = [m.translate(50, 0), m.rotateg(45)];
+    var rect2 = surface.createRect({x: 75, y: 25, width: 50, height: 150, r: 5}); rect2.fill = "yellow"; rect2.stroke = "black";
+    var img2  = surface.createImage({width: 75, height: 50, src: "images/eugene-sm.jpg"});
+    img2.transform = [m.translate(50, 120), m.rotateg(-45)];
+    var rect3 = surface.createRect({x: 25, y: 75, width: 150, height: 50, r: 5}); rect3.fill = "green"; rect3.stroke = "black";
 
     img1.connect("onclick", function(){ alert("image #1"); });
     img2.connect("onclick", function(){ alert("image #2"); });

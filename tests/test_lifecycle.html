@@ -40,7 +40,7 @@
 									 x: 100,
 									 y: 100
 								});
-                                r.fillStyle = "black";
+                                r.fill = "black";
 							},
 							runTest: function(){
 								var uid = r.getUID();
@@ -61,7 +61,7 @@
 										 x: 100,
 										 y: 100
 									});
-                                r.fillStyle = "black";
+                                r.fill = "black";
 							},
 							runTest: function(){
 								var c = r.children[0];
@@ -79,7 +79,7 @@
 										 x: 100,
 										 y: 100
 									});
-                                r.fillStyle = "black";
+                                r.fill = "black";
 							},
 							runTest: function(){
 								var uid = r.getUID();
@@ -121,7 +121,7 @@
 									]
 								};
 								r = drawing.createRect();
-                                r.fillStyle = grad;
+                                r.fill = grad;
                                 r.setClip({x:0,y:0,width:300,height:300});
 							},
 							runTest: function(){								
@@ -158,7 +158,7 @@
 										cc = r%2 == 0 ? -offs : offs,
 										x = (i%10)*60+cc, y = r*60+5, w = 50, h = 50;
 									var rect = sub1.createRect({x:x, y:y, width:w, height:h});
-                                rect.fillStyle = grad;
+                                rect.fill = grad;
                                 rect.setClip({cx:x+w/2, cy:y+w/2, rx:20, ry:20});
 								}
 							},

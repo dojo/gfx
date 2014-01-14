@@ -118,9 +118,9 @@ require([
 
     addTest("rect", function(testName, surface){
         var red_rect = s = surface.createRect(rect);
-        red_rect.fillStyle = [255, 0, 0, 0.5];
-        red_rect.strokeStyle = {color: "blue", width: 10, join: "round" };
-        red_rect.setTransform({dx: 100, dy: 100});
+        red_rect.fill = [255, 0, 0, 0.5];
+        red_rect.stroke = {color: "blue", width: 10, join: "round" };
+        red_rect.transform = {dx: 100, dy: 100};
         //dojo.connect(red_rect.getNode(), "onclick", function(){ alert("red"); });
         red_rect.connect("onclick", function(){
             alert("red");
@@ -129,8 +129,8 @@ require([
 
     addTest("straight_rect", function(testName, surface){
         var blue_rect = s = surface.createRect(rect);
-        blue_rect.fillStyle = [0, 255, 0, 0.5];
-        blue_rect.setTransform({ dx: 100, dy: 100 });
+        blue_rect.fill = [0, 255, 0, 0.5];
+        blue_rect.transform = { dx: 100, dy: 100 };
         //dojo.connect( blue_rect.getNode(), "onclick", function(){ blue_rect.setShape({width: blue_rect.shape.width + 20}); });
         blue_rect.connect("onclick", function(){
             blue_rect.shape = {width: blue_rect.shape.width + 20};
@@ -141,138 +141,113 @@ require([
         console.debug("rotated_rect");
         // anonymous 30 degree CCW rotated green rectangle
         s = surface.createRect({r: 20});
-        s.fillStyle = [0, 0, 255, 0.5];
+        s.fill = [0, 0, 255, 0.5];
         // rotate it around its center and move to (100, 100)
-        s.setTransform([matrix.translate(100, 100), matrix.rotategAt(-30, 0, 0)])
+        s.transform = [matrix.translate(100, 100), matrix.rotategAt(-30, 0, 0)];
     });
 
     addTest("skew_rect", function(testName, surface){
         // anonymous red rectangle
         s = surface.createRect(rect);
-        s.fillStyle = new Color([255, 0, 0, 0.5]);
+        s.fill = new Color([255, 0, 0, 0.5]);
         // skew it around LB point -30d, rotate it around LB point 30d, and move it to (100, 100)
-        s.setTransform([matrix.translate(100, 100), matrix.rotategAt(-30, 0, 100), matrix.skewXgAt(30, 0, 100)]);
+        s.transform = [matrix.translate(100, 100), matrix.rotategAt(-30, 0, 100), matrix.skewXgAt(30, 0, 100)];
         // anonymous blue rectangle
         s = surface.createRect(rect);
-        s.fillStyle = new Color([0, 0, 255, 0.5]);
+        s.fill = new Color([0, 0, 255, 0.5]);
         // skew it around LB point -30d, and move it to (100, 100)
-        s.setTransform([matrix.translate(100, 100), matrix.skewXgAt(30, 0, 100)]);
+        s.transform = [matrix.translate(100, 100), matrix.skewXgAt(30, 0, 100)];
         // anonymous yellow rectangle
         s = surface.createRect(rect);
-        s.fillStyle = new Color([255, 255, 0, 0.25]);
+        s.fill = new Color([255, 255, 0, 0.25]);
         // move it to (100, 100)
-        s.setTransform(matrix.translate(100, 100));
+        s.transform = matrix.translate(100, 100);
     });
 
     addTest("matrix_rect", function(testName, surface){
         var group = s = surface.createGroup();
 
         var blue_rect = s = group.createRect(rect);
-        s.fillStyle = [0, 0, 255, 0.5];
+        s.fill = [0, 0, 255, 0.5];
         s.applyTransform(matrix.identity);
         console.debug("blue_rect: rect with identity");
 
         s = group.createRect(rect);
-        s.fillStyle = [0, 255, 0, 0.5];
+        s.fill = [0, 255, 0, 0.5];
         s.applyTransform(matrix.translate(30, 40));
         console.debug("lime_rect: translate(30,40) ");
 
         s = group.createRect(rect);
-        s.fillStyle = [255, 0, 0, 0.5];
+        s.fill = [255, 0, 0, 0.5];
         s.applyTransform(matrix.rotateg(-30));
         console.debug("red_rect: rotate 30 degree counterclockwise ");
 
         s = group.createRect(rect);
-        s.fillStyle = [0, 255, 255, 0.5];
+        s.fill = [0, 255, 255, 0.5];
         s.applyTransform(matrix.scale({x: 1.5, y: 0.5}));
         s.applyTransform(matrix.translate(-40, 220));
 
         console.debug("lightblue_rect: scale(1.5, 0.5)");
 
         s = group.createRect(rect);
-        s.fillStyle = [0, 0, 255, 0.5];
-        s.fillStyle = [255, 0, 255, 0.5];
+        s.fill = [0, 0, 255, 0.5];
+        s.fill = [255, 0, 255, 0.5];
         s.applyTransform(matrix.flipX);
         console.debug("pink_rect: flipX");
 
         s = group.createRect(rect);
-        s.fillStyle = [0, 0, 255, 0.5];
-        s.fillStyle = [255, 255, 0, 0.5];
+        s.fill = [0, 0, 255, 0.5];
+        s.fill = [255, 255, 0, 0.5];
         s.applyTransform(matrix.flipY);
         console.debug("yellow_rect: flipY");
 
         s = group.createRect(rect);
-        s.fillStyle = [0, 0, 255, 0.5];
-        s.fillStyle = [128, 0, 128, 0.5];
+        s.fill = [0, 0, 255, 0.5];
+        s.fill = [128, 0, 128, 0.5];
         s.applyTransform(matrix.flipXY);
         console.debug("purple_rect: flipXY");
 
         s = group.createRect(rect);
-        s.fillStyle = [0, 0, 255, 0.5];
-        s.fillStyle = [255, 128, 0, 0.5];
+        s.fill = [0, 0, 255, 0.5];
+        s.fill = [255, 128, 0, 0.5];
         s.applyTransform(matrix.skewXg(-15));
         console.debug("purple_rect: skewXg 15 degree");
 
         s = group.createRect(rect);
-        s.fillStyle = [0, 0, 255, 0.5];
-        s.fillStyle = [0, 0, 0, 0.5];
+        s.fill = [0, 0, 255, 0.5];
+        s.fill = [0, 0, 0, 0.5];
         s.applyTransform(matrix.skewYg(-50));
         console.debug("black_rect: skewXg 50 degree");
 
         // move
-        group
-        s.setTransform({ xx: 1.5, yy: 0.5, dx: 100, dy: 100 })
-                .applyTransform(matrix.rotateg(-30))
+        group.transform = { xx: 1.5, yy: 0.5, dx: 100, dy: 100 };
+        group.applyTransform(matrix.rotateg(-30));
 
-    });
-
-    addTest("attach", function(testName, surface){
-        var red_rect = s = surface.createRect(rect);
-        red_rect.shape = { width: 75 };
-        red_rects.fillStyle = [255, 0, 0, 0.5];
-        s.strokeStyle = { color: "blue", width: 1 };
-        s.setTransform({ dx: 50, dy: 50, xx: 1, xy: 0.5, yx: 0.7, yy: 1.1 })
-
-
-        console.debug("attaching !");
-        // now attach it!
-        var ar = gfx.attachNode(red_rect.rawNode);
-        console.assert(ar.rawNode == red_rect.rawNode);
-
-        // FIXME: more generic method to compare two dictionary?
-        console.debug("attach shape: ");
-        isEqual(ar.shape, red_rect.shape, "rect.shape");
-        console.debug("attach matrix: ");
-        isEqual(ar.matrix, red_rect.matrix, "rect.matrix");
-        console.debug("attach strokeStyle: ");
-        isEqual(ar.strokeStyle, red_rect.strokeStyle, "rect.strokeStyle");
-        console.debug("attach fillStyle: ");
-        isEqual(ar.fillStyle, red_rect.fillStyle, "rect.fillStyle");
     });
 
     // test circle
     addTest("circle", function(testName, surface){
         var circle = { cx: 130, cy: 130, r: 50 };
         s = surface.createCircle(circle);
-        s.fillStyle = [0, 255, 0, 0.5];
-        s.setTransform({ dx: 20, dy: 20 });
+        s.fill = [0, 255, 0, 0.5];
+        s.transform = { dx: 20, dy: 20 };
     });
 
     // test line
     addTest("line", function(testName, surface){
         var line = { x1: 20, y1: 20, x2: 100, y2: 120 };
         s = surface.createLine(line);
-        s.fillStyle = [255, 0, 0, 0.5];
-        s.strokeStyle = {color: "red", width: 1};
-        s.setTransform({ dx: 70, dy: 100 });
+        s.fill = [255, 0, 0, 0.5];
+        s.stroke = {color: "red", width: 1};
+        s.transform = { dx: 70, dy: 100 };
     });
 
     // test ellipse
     addTest("ellipse", function(testName, surface){
         var ellipse = { cx: 50, cy: 80, rx: 50, ry: 80 };
         s = surface.createEllipse(ellipse);
-        s.fillStyle = [0, 255, 255, 0.5];
-        s.setTransform({ dx: 30, dy: 70 });
+        s.fill = [0, 255, 255, 0.5];
+        s.transform = { dx: 30, dy: 70 };
     });
 
     // test polyline
@@ -284,9 +259,9 @@ require([
             {x: 90, y: 90}
         ];
         s = surface.createPolyline(points);
-        s.fillStyle = null;
-        s.strokeStyle = { color: "blue", width: 1 };
-        s.setTransform({ dx: 15, dy: 0 });
+        s.fill = null;
+        s.stroke = { color: "blue", width: 1 };
+        s.transform = { dx: 15, dy: 0 };
     });
 
     // test polygon
@@ -299,8 +274,8 @@ require([
             {x: 20, y: 100}
         ];
         s = surface.createPolyline(points2);
-        s.fillStyle = [0, 128, 255, 0.6];
-        s.setTransform({dx: 30, dy: 20});
+        s.fill = [0, 128, 255, 0.6];
+        s.transform = {dx: 30, dy: 20};
     });
 
     // test path: lineTo, moveTo, closePath
@@ -311,9 +286,9 @@ require([
                 .setAbsoluteMode(true).lineTo(180, 100)
                 .setAbsoluteMode(false).lineTo(0, -30).lineTo(-30, -50)
                 .closePath();
-        s.strokeStyle = { color: "red", width: 1 };
-        s.fillStyle = null;
-        s.setTransform({ dx: 10, dy: 18 });
+        s.stroke = { color: "red", width: 1 };
+        s.fill = null;
+        s.transform = { dx: 10, dy: 18 };
     });
 
     addTest("setPath", function(testName, surface){
@@ -324,14 +299,14 @@ require([
                 .setAbsoluteMode(false).lineTo(0, -30).lineTo(-30, -50)
                 .curveTo(10, -80, -150, -10, -90, -10)
                 .closePath();
-        s.strokeStyle = { color: "red", width: 1 };
-        s.fillStyle = null;
-        s.setTransform({ dx: 10, dy: 58 });
+        s.stroke = { color: "red", width: 1 };
+        s.fill = null;
+        s.transform = { dx: 10, dy: 58 };
 
         s = surface.createPath({ path: "M10,20 L80,150 l40,0 L180,100 l0,-30 l-30,-50 c10,-80 -150,-10 -90,-10 z" });
-        s.fillStyle = null;
-        s.strokeStyle = { color: "blue", width: 1 };
-        s.setTransform({ dx: 50, dy: 78 });
+        s.fill = null;
+        s.stroke = { color: "blue", width: 1 };
+        s.transform = { dx: 50, dy: 78 };
 
     });
 
@@ -346,24 +321,24 @@ require([
         var endPoint = m.multiplyPoint(m.rotateg(xRotg), {x: 0, y: -ry});
 
         var re1 = s = g1.createPath().moveTo(startPoint).arcTo(rx, ry, xRotg, true, false, endPoint);
-        s.strokeStyle = {color: "red"};
+        s.stroke = {color: "red"};
         var ge1 = s = g1.createPath().moveTo(re1.getLastPosition()).arcTo(rx, ry, xRotg, false, false, startPoint);
-        s.strokeStyle = {color: "blue"};
+        s.stroke = {color: "blue"};
         var re2 = s = g2.createPath().moveTo(startPoint).arcTo(rx, ry, xRotg, false, true, endPoint);
-        s.strokeStyle = {color: "red"};
+        s.stroke = {color: "red"};
         var ge2 = s = g2.createPath().moveTo(re2.getLastPosition()).arcTo(rx, ry, xRotg, true, true, startPoint);
-        s.strokeStyle = {color: "blue"};
+        s.stroke = {color: "blue"};
 
-        g1.setTransform({dx: 150, dy: 150});
-        g2.setTransform({dx: 10, dy: 10});
+        g1.transform = {dx: 150, dy: 150};
+        g2.transform = {dx: 10, dy: 10};
     });
 
     // test path: curveTo, smoothCurveTo
     addTest("curveTo", function(testName, surface){
         s = surface.createPath().moveTo(10, 20).curveTo(50, 50, 50, 100, 150, 100).smoothCurveTo(300, 300, 200, 200);
-        s.strokeStyle = { color: "green", width: 1 };
-        s.fillStyle = null;
-        s.setTransform({ dx: 10, dy: 30 });
+        s.stroke = { color: "green", width: 1 };
+        s.fill = null;
+        s.transform = { dx: 10, dy: 30 };
     });
 
     // test path: curveTo, smoothCurveTo with relative.
@@ -371,31 +346,31 @@ require([
         s = surface.createPath().moveTo(10, 20).curveTo(50, 50, 50, 100, 150, 100)
                 .setAbsoluteMode(false).smoothCurveTo(150, 200, 50, 100)
                 .setAbsoluteMode(true).smoothCurveTo(50, 100, 10, 230);
-        s.strokeStyle = { color: "green", width: 1 };
-        s.fillStyle = null;
-        s.setTransform({ dx: 10, dy: 30 });
+        s.stroke = { color: "green", width: 1 };
+        s.fill = null;
+        s.transform = { dx: 10, dy: 30 };
     });
 
     // test path: curveTo, smoothCurveTo with relative.
     addTest("qCurveTo", function(testName, surface){
         s = surface.createPath().moveTo(10, 15).qCurveTo(50, 50, 100, 100).qSmoothCurveTo(150, 20);
-        s.strokeStyle = { color: "green", width: 1 };
-        s.fillStyle = null;
-        s.setTransform({ dx: 10, dy: 30 });
+        s.stroke = { color: "green", width: 1 };
+        s.fill = null;
+        s.transform = { dx: 10, dy: 30 };
     });
 
     addTest("qCurveTo2", function(testName, surface){
         s = surface.createPath().moveTo(10, 20).qCurveTo(50, 50, 100, 100)
                 .setAbsoluteMode(false).qSmoothCurveTo(50, -80)
                 .setAbsoluteMode(true).qSmoothCurveTo(200, 80);
-        s.strokeStyle = { color: "green", width: 1 };
-        s.fillStyle = null;
-        s.setTransform({ dx: 10, dy: 30 });
+        s.stroke = { color: "green", width: 1 };
+        s.fill = null;
+        s.transform = { dx: 10, dy: 30 };
     });
 
     // test defines, linearGradient
     addTest("linearGradient", function(testName, surface){
-        // this is an example to split the linearGradient from _setFillStyleAttr:
+        // this is an example to split the linearGradient from _setFillAttr:
         var lg = {
             type: "linear",
             x1: 0, y1: 0, x2: 75, y2: 50,
@@ -405,8 +380,8 @@ require([
             ]
         };
         s = surface.createRect(rect);
-        s.fillStyle = lg;
-        s.setTransform({ dx: 40, dy: 100 });
+        s.fill = lg;
+        s.transform = { dx: 40, dy: 100 };
     });
 
     // TODO: test radialGradient
@@ -423,47 +398,9 @@ require([
         };
 
         s = surface.createCircle({cx: 100, cy: 100, r: 100});
-        s.strokeStyle = {};
-        s.fillStyle = rg;
-        s.setTransform({dx: 40, dy: 30});
-
-        //		surface.createRect(rect);
-        //		.setShape({width: 200})
-        //		s.strokeStyle = {};
-        //		s.fillStyle = rg;
-        //		 s.setTransform({dx: 40, dy: 30});
-        //		;
-    });
-
-    addTest("attach_gradient", function(testName, surface){
-        // this is an example to split the linearGradient from _setFillStyleAttr:
-        var lg = {
-            type: "linear",
-            x1: 0, y1: 0, x2: 75, y2: 50,
-            colors: [
-                { offset: 0, color: "#F60" },
-                { offset: 0.5, color: "#FAF" },
-                { offset: 1, color: "#FF6" }
-            ]
-        };
-
-        var lgr = s = surface.createRect(rect);
-        s.fillStyle = lg;
-        s.setTransform({ dx: 40, dy: 100 });
-
-        var ar = gfx.attachNode(lgr.rawNode);
-        // FIXME: more generic method to compare two dictionary?
-        console.debug("attach_gradient!");
-
-        console.debug("attach shape: ");
-        isEqual(lgr.shape, ar.shape, "rect.shape");
-        console.debug("attach matrix: ");
-        isEqual(lgr.matrix, ar.matrix, "rect.matrix");
-        console.debug("attach strokeStyle: ");
-        isEqual(lgr.strokeStyle, ar.strokeStyle, "rect.strokeStyle");
-        console.debug("attach fillStyle: ");
-        isEqual(lgr.fillStyle.gradient, ar.fillStyle.gradient, "rect.fillStyle.gradient");
-        //isEqual(lgr.fillStyle.id, ar.fillStyle.id, "rect.fillStyle.id");
+        s.stroke = {};
+        s.fill = rg;
+        s.transform = {dx: 40, dy: 30};
     });
 
     var gTestsToRun = [
@@ -472,8 +409,6 @@ require([
         "rotated_rect",
         "skew_rect",
         "matrix_rect",
-        //"attach",
-        //"attach_gradient",
         "circle",
         "arcTo",
         "line",

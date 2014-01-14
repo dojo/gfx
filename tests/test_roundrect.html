@@ -22,13 +22,13 @@
 
 			makeShapes = function(surface){
 				rect1 = surface.createRect({x:20, y:100, width:300, height:200, r:50});
-                rect1.fillStyle = "red";
-                rect1.strokeStyle = "black";
+                rect1.fill = "red";
+                rect1.stroke = "black";
 				new Moveable(rect1);
 				rect1 = surface.createRect({x:0, y:100, width:300, height:200, r:50});
-                rect1.fillStyle = "red";
-                rect1.strokeStyle = "black";
-                rect1.setTransform(matrix.translate(350, 0));
+                rect1.fill = "red";
+                rect1.stroke = "black";
+                rect1.transform = matrix.translate(350, 0);
                 rect1.shape = {r:0};
 			};
 

@@ -28,10 +28,10 @@
 				var g = group.createGroup();
 				stroke = stroke || {color:[0, 0, 0, 0.1], width:1};
 				for(var i = step; i < size; i += step){
-					g.createLine({x1:0, y1:i, x2:size, y2:i}).strokeStyle = stroke;
-					g.createLine({x1:i, y1:0, x2:i, y2:size}).strokeStyle = stroke;
+					g.createLine({x1:0, y1:i, x2:size, y2:i}).stroke = stroke;
+					g.createLine({x1:i, y1:0, x2:i, y2:size}).stroke = stroke;
 				}
-				g.createRect({x:0, y:0, width:size - 1, height:size - 1}).strokeStyle = "black";
+				g.createRect({x:0, y:0, width:size - 1, height:size - 1}).stroke = "black";
 				return g;
 			}
 
@@ -73,22 +73,22 @@
 				pt = {x:e.pageX - bbox.x, y:e.pageY - bbox.y};
 				if(!point){
 					point = surface.createCircle({cx:0, cy:0, r:MARKER_SIZE});
-							point.strokeStyle = "black"; point.fillStyle = "yellow";
+							point.stroke = "black"; point.fill = "yellow";
 					rpoint = surface.createCircle({cx:0, cy:0, r:MARKER_SIZE});
-                    rpoint.strokeStyle = "black"; rpoint.fillStyle = "red";
+                    rpoint.stroke = "black"; rpoint.fill = "red";
 					ppoint = surface.createCircle({cx:0, cy:0, r:MARKER_SIZE});
-                    ppoint.strokeStyle = "black"; ppoint.fillStyle = "green";
+                    ppoint.stroke = "black"; ppoint.fill = "green";
 					rline = surface.createLine({x1:0, y1:0, x2:0, y2:0});
-                    rline.strokeStyle = "red";
+                    rline.stroke = "red";
 					pline = surface.createLine({x1:0, y1:0, x2:0, y2:0});
-                    pline.strokeStyle = {color:"green", style:"dash"};
+                    pline.stroke = {color:"green", style:"dash"};
 				}
 				updatePoints();
 			}
 
 			run = function(surface){
 				makeGrid(surface, W, 50);
-				shape = surface.createLine(line); shape.strokeStyle = "black";
+				shape = surface.createLine(line); shape.stroke = "black";
 				on(registry.byId("shifter"), "change", shiftVector);
 				on(dom.byId("surf"), "click", setPoint);
 				shiftVector(0);

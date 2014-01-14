@@ -27,8 +27,8 @@
 
 			makeShapes = function(surface){
 				for(var i = 0; i <= grid_size; i += grid_step){
-					surface.createLine({x1:0, x2:grid_size, y1:i, y2:i}).strokeStyle = "black";
-					surface.createLine({y1:0, y2:grid_size, x1:i, x2:i}).strokeStyle = "black";
+					surface.createLine({x1:0, x2:grid_size, y1:i, y2:i}).stroke = "black";
+					surface.createLine({y1:0, y2:grid_size, x1:i, x2:i}).stroke = "black";
 				}
 				image = surface.createImage({width:150, height:100, src:"images/eugene-sm.jpg"});
 				image.connect("onclick", function(){
@@ -43,16 +43,16 @@
 			transformImage = function(){
 				if(window.scaled){
 					surface.setDimensions(800, 600);
-					image.setTransform({});
+					image.transform = {};
 
 					surface2.setDimensions(600, 600);
-					image2.setTransform();
+					image2.transform = null;
 				}else{
 					surface.setDimensions(1000, 600);
-					image.setTransform({xx:6, yy:6});
+					image.transform = {xx:6, yy:6};
 
 					surface2.setDimensions(800, 600);
-					image2.setTransform({xx:5, yy:5});
+					image2.transform = {xx:5, yy:5};
 				}
 				window.scaled = !window.scaled;
 			};

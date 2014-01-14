@@ -151,7 +151,7 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 		if(!args.easing){ args.easing = fx._defaultEasing; }
 		var anim = new fx.Animation(args), shape = args.shape, stroke;
 		Hub.connect(anim, "beforeBegin", anim, function(){
-			stroke = shape.strokeStyle;
+			stroke = shape.stroke;
 			var prop = args.color, values = {}, value, start, end;
 			if(prop){
 				values.color = getColorInterpol(prop, stroke, "color", transparent);
@@ -183,7 +183,7 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 			this.curve = new InterpolObject(values, stroke);
 		});
 		Hub.connect(anim, "onAnimate", shape, function(args){
-			shape.strokeStyle = args;
+			shape.stroke = args;
 		});
 		return anim; // dojo.Animation
 	};
@@ -203,14 +203,14 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 		if(!args.easing){ args.easing = fx._defaultEasing; }
 		var anim = new fx.Animation(args), shape = args.shape, fill;
 		Hub.connect(anim, "beforeBegin", anim, function(){
-			fill = shape.fillStyle;
+			fill = shape.fill;
 			var prop = args.color, values = {};
 			if(prop){
 				this.curve = getColorInterpol(prop, fill, "", transparent);
 			}
 		});
 		Hub.connect(anim, "onAnimate", shape, function(args){
-			shape.fillStyle = args;
+			shape.fill = args;
 		});
 		return anim; // dojo.Animation
 	};
@@ -278,10 +278,12 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 		if(!args.easing){ args.easing = fx._defaultEasing; }
 		var anim = new fx.Animation(args), shape = args.shape, original;
 		Hub.connect(anim, "beforeBegin", anim, function(){
-			original = shape.getTransform();
+			original = shape.transform;
 			this.curve = new InterpolTransform(args.transform, original);
 		});
-		Hub.connect(anim, "onAnimate", shape, "setTransform");
+		Hub.connect(anim, "onAnimate", shape, function(args){
+			shape.transform = args;
+		});
 		if(g.renderer === "svg" && has("ie") >= 10){
 			// fix http://bugs.dojotoolkit.org/ticket/16879
 			var handlers = [
