@@ -230,7 +230,7 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 		if(!args.easing){ args.easing = fx._defaultEasing; }
 		var anim = new fx.Animation(args), shape = args.shape, font;
 		Hub.connect(anim, "beforeBegin", anim, function(){
-			font = shape.getFont();
+			font = shape.font;
 			var prop = args.style, values = {}, value, start, end;
 			if(prop && prop.values){
 				values.style = new InterpolValues(prop.values);
@@ -256,7 +256,7 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 			this.curve = new InterpolObject(values, font);
 		});
 		Hub.connect(anim, "onAnimate", shape, function(args){
-			shape.setFont(args);
+			shape.font = args;
 		});
 		return anim; // dojo.Animation
 	};

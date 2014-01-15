@@ -34,7 +34,7 @@
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 0, 0, 100, 0);
-								t.setFont({family:"times", size:"12pt"});
+								t.font = {family:"times", size:"12pt"};
 								t.fill = "blue";
 				console.debug("t created");
 				var t2 = surfaceLTR.createTextPath({
@@ -43,7 +43,7 @@
 								.moveTo(0, 50)
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 0, 0, 100, 0);
-								t2.setFont({family:"times", size:"12pt"});
+								t2.font = {family:"times", size:"12pt"};
 								t2.fill = "blue";
 				console.debug("t2 created");
 				surfaceRTL = gfx.createSurface("testRTL", 500, 60);
@@ -61,7 +61,7 @@
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
-								t3.setFont({family:"times", size:"12pt"});
+								t3.font = {family:"times", size:"12pt"};
 								t3.fill = "red";
 				console.debug("t3 created");
 				var t4 = surfaceRTL.createTextPath({
@@ -71,7 +71,7 @@
 								.moveTo(0, 50)
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
-								t4.setFont({family:"times", size:"12pt"});
+								t4.font = {family:"times", size:"12pt"};
 								t4.fill = "red";
 				console.debug("t4 created");
 
@@ -90,7 +90,7 @@
 								.moveTo(0, 15)
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
-								t5.setFont({family:"times", size:"12pt"});
+								t5.font = {family:"times", size:"12pt"};
 								t5.fill = "red";
 				console.debug("t5 created");
 				var t6 = surfaceAUTO.createTextPath({
@@ -100,7 +100,7 @@
 								.moveTo(0, 50)
 								.setAbsoluteMode(false)
 								.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
-								t6.setFont({family:"times", size:"12pt"});
+								t6.font = {family:"times", size:"12pt"};
 								t6.fill = "blue";
 				console.debug("t6 created");
 			};

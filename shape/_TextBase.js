@@ -43,23 +43,19 @@ define([
 		// summary:
 		//		a generic text (do not instantiate it directly)
 		shape: defaultShape,
-		constructor: function(){
-			this.fontStyle = null;
-		},
-		getFont: function(){
-			// summary:
-			//		returns the current font object or null
-			return this.fontStyle;	// Object
-		},
-		setFont: function(newFont){
+
+		// font: Object
+		//		A font object (see gfx.defaultFont) or a font string
+		font: null,
+
+		_setFontAttr: function(newFont){
 			// summary:
 			//		sets a font for text
 			// newFont: Object
 			//		a font object (see gfx.defaultFont) or a font string
-			this.fontStyle = typeof newFont == "string" ? g.splitFontString(newFont) :
-				g.makeParameters(g.defaultFont, newFont);
+			this._set("font", typeof newFont == "string" ? g.splitFontString(newFont) :
+				g.makeParameters(g.defaultFont, newFont));
 			this._setFont();
-			return this;	// self
 		},
 		getBoundingBox: function(){
 			var bbox = null, s = this.shape;

@@ -122,7 +122,7 @@ require([
 				status = surface.createText({});
 		status.moveToBack();
         status.fill = new Color([0, 0, 0, 0.5]);
-		status.setFont({family:"serif", variant:"small-caps", weight:"bold"});
+		status.font = {family:"serif", variant:"small-caps", weight:"bold"};
 		status.shape = {x:c.x, y:c.y, text:text, align:"middle"};
 		var anim = coreFx.combine([
 			gfxFx.animateFill({
@@ -373,19 +373,19 @@ require([
 
         var t;
 		t = surface.createText({x:15, y:420, text:"Good:"});
-		t.setFont({weight:"bold"});
+		t.font = {weight:"bold"};
         t.fill = "green";
 		t = surface.createText({x:15, y:450, text:"Bad:"});
-		t.setFont({weight:"bold"});
+		t.font = {weight:"bold"};
         t.fill = "red";
 		t = surface.createText({x:15, y:480, text:"Total:"});
-		t.setFont({weight:"bold"});
+		t.font = {weight:"bold"};
         t.fill = "black";
 		score = surface.createText({x:80, y:485, text:"0"});
-		score.setFont({weight:"bold", size:"24pt"});
+		score.font = {weight:"bold", size:"24pt"};
         score.fill = "black";
 		t = surface.createText({x:120, y:460, text:"DROP HERE!"});
-		t.setFont({size:"50px"});
+		t.font = {size:"50px"};
 		t.fill = new Color([0, 0, 0, 0.1]);
         t.moveToBack();
 

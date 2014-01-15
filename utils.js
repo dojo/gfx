@@ -55,7 +55,7 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 				if(v){ t.fill = v; }
 			}
 			if(object.getFont){
-				v = object.getFont();
+				v = object.font;
 				if(v){ t.font = v; }
 			}
 			return t;	// Object
@@ -95,7 +95,7 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 				shape.fill = object.fill;
 			}
 			if("font" in object){
-				shape.setFont(object.font);
+				shape.font = object.font;
 			}
 			if("children" in object){
 				arr.forEach(object.children, lang.hitch(null, gu.deserialize, shape));

@@ -49,6 +49,10 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 			//		a transformation matrix
 			transform: null,
 
+			// clip: Object
+			//		an object that defines the clipping geometry, or null to remove clip.
+			clip: null,
+
 			constructor: function(rawShape, rawNode){
 				// summary: Creates a new shape.
 				// rawShape: Object
@@ -169,7 +173,7 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 
 			// empty settings
 
-			setClip: function(clip){
+			_setClipAttr: function(clip){
 				// summary:
 				//		sets the clipping area of this shape.
 				// description:
@@ -189,21 +193,17 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				//		The following example shows how to clip a gfx image with all the possible clip geometry: a rectangle,
 				//		an ellipse, a circle (using the ellipse geometry), a polyline and a path:
 				//
-				//	|	surface.createImage({src:img, width:200,height:200}).setClip({x:10,y:10,width:50,height:50});
-				//	|	surface.createImage({src:img, x:100,y:50,width:200,height:200}).setClip({cx:200,cy:100,rx:20,ry:30});
-				//	|	surface.createImage({src:img, x:0,y:350,width:200,height:200}).setClip({cx:100,cy:425,rx:60,ry:60});
-				//	|	surface.createImage({src:img, x:300,y:0,width:200,height:200}).setClip({points:[350,0,450,50,380,130,300,110]});
-				//	|	surface.createImage({src:img, x:300,y:350,width:200,height:200}).setClip({d:"M 350,350 C314,414 317,557 373,450.0000 z"});
+				//	|	surface.createImage({src:img, width:200,height:200}).clip = {x:10,y:10,width:50,height:50};
+				//	|	surface.createImage({src:img, x:100,y:50,width:200,height:200}).clip = {cx:200,cy:100,rx:20,ry:30};
+				//	|	surface.createImage({src:img, x:0,y:350,width:200,height:200}).clip = {cx:100,cy:425,rx:60,ry:60};
+				//	|	surface.createImage({src:img, x:300,y:0,width:200,height:200}).clip = {points:[350,0,450,50,380,130,300,110]};
+				//	|	surface.createImage({src:img, x:300,y:350,width:200,height:200}).clip = {d:"M 350,350 C314,414 317,557 373,450.0000 z"};
 
 				// clip: Object
 				//		an object that defines the clipping geometry, or null to remove clip.
 
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
-				this.clip = clip;
-			},
-
-			getClip: function(){
-				return this.clip;
+				this._set("clip", clip);
 			},
 
 			_setShapeAttr: function(shape){

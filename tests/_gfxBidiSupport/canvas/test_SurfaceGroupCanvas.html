@@ -28,7 +28,7 @@
 			};			
 			var makeText = function(surface, text, font, fill, stroke){
 				var t = surface.createText(text);
-				if(font)   t.setFont(font);
+				if(font)   t.font = font;
 				if(fill)   t.fill = fill;
 				if(stroke) t.stroke = stroke;
 				placeAnchor(surface, text.x, text.y);
@@ -52,7 +52,7 @@
 					.moveTo(0, 15)
 					.setAbsoluteMode(false)
 					.curveTo(CPD, 0, 0,  0, 100,  0);
-					tp1.setFont({family: "times", size: "12pt"});
+					tp1.font = {family: "times", size: "12pt"};
 					tp1.fill = "blue";
 
 				console.debug("tp1 created");
@@ -64,7 +64,7 @@
 					.moveTo(0, 50)
 					.setAbsoluteMode(false)
 					.curveTo(CPD, 0, 0,  0, 100,  0);
-					tp2.setFont({family: "times", size: "12pt"});
+					tp2.font = {family: "times", size: "12pt"};
 					tp2.fill = "blue";
 
 				console.debug("tp2 created");

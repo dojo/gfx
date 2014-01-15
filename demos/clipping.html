@@ -828,7 +828,7 @@
             		var elapsed = timestamp - startTime,
 						vx = elapsed/1000*sx,
 						vy = elapsed/1000*sy,
-						clip = g.getClip();
+						clip = g.clip;
 					var clipr = {x:clip.cx-clip.rx, y:clip.cy-clip.ry, width:2*clip.rx, height:2*clip.ry};
 					var p = {x:clipr.x, y:clipr.y};
 					p = m.multiplyPoint(initial_matrix, p);
@@ -846,7 +846,7 @@
 					clip.cx = Math.round(p.x)+clip.rx;
 					clip.cy = Math.round(p.y)+clip.ry;
 
-					g.setClip(clip);
+					g.clip = clip;
 					startTime = timestamp ;
 				};
 				
@@ -855,7 +855,7 @@
 					clip =  {
 						cx:160, cy:140, rx:60, ry:40
 					};
-					g.setClip(clip);
+					g.clip = clip;
 					startTime = new Date().getTime();
 					window.requestAnimationFrame(render);
 				});

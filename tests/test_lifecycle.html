@@ -122,7 +122,7 @@
 								};
 								r = drawing.createRect();
                                 r.fill = grad;
-                                r.setClip({x:0,y:0,width:300,height:300});
+                                r.clip = {x:0,y:0,width:300,height:300};
 							},
 							runTest: function(){								
 								var defs = drawing.defNode;
@@ -159,7 +159,7 @@
 										x = (i%10)*60+cc, y = r*60+5, w = 50, h = 50;
 									var rect = sub1.createRect({x:x, y:y, width:w, height:h});
                                 rect.fill = grad;
-                                rect.setClip({cx:x+w/2, cy:y+w/2, rx:20, ry:20});
+                                rect.clip = {cx:x+w/2, cy:y+w/2, rx:20, ry:20};
 								}
 							},
 							runTest: function(){								

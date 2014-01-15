@@ -43,7 +43,7 @@
 								doh.assertEqual("bold", font.weight, "Unexpected values for font weight.");
 								doh.assertEqual("12px", font.size, "Unexpected values for font size.");
 								doh.assertEqual("arial,sans-serif", font.family, "Unexpected values for font family.");
-								t.setFont(s);
+								t.font = s;
 								s = "italic small-caps bold 12px/30px Georgia";
 								font = gfx.splitFontString(s);
 								doh.assertEqual("italic", font.style, "Unexpected Values for font style.");
@@ -51,7 +51,7 @@
 								doh.assertEqual("bold", font.weight, "Unexpected values for font weight.");
 								doh.assertEqual("12px", font.size, "Unexpected values for font size.");
 								doh.assertEqual("Georgia", font.family, "Unexpected values for font family.");
-								t.setFont(s);
+								t.font = s;
 								s = "italic normal normal 150% arial";
 								font = gfx.splitFontString(s);
 								doh.assertEqual("italic", font.style, "Unexpected Values for font style.");
@@ -59,7 +59,7 @@
 								doh.assertEqual("normal", font.weight, "Unexpected values for font weight.");
 								doh.assertEqual("150%", font.size, "Unexpected values for font size.");
 								doh.assertEqual("arial", font.family, "Unexpected values for font family.");
-								t.setFont(s);
+								t.font = s;
 
 								d.callback(true);
 							}catch(e){

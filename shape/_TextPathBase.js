@@ -41,14 +41,19 @@ define([
 		// summary:
 		//		a generalized TextPath shape
 		shape: defaultShape,
+
+		// font: Object
+		//		A font object (see gfx.defaultFont) or a font string
+		font: null,
+
 		constructor: function(){
 			// summary:
 			//		a TextPath shape constructor
 			if(!("text" in this)){
 				this.text = lang.clone(TextPath.defaultShape);
 			}
-			if(!("fontStyle" in this)){
-				this.fontStyle = lang.clone(g.defaultFont);
+			if(!("font" in this)){
+				this.font = lang.clone(g.defaultFont);
 			}
 		},
 		getText: function(){
@@ -64,17 +69,12 @@ define([
 			this._setText();
 			return this;	// self
 		},
-		getFont: function(){
-			// summary:
-			//		returns the current font object or null
-			return this.fontStyle;	// Object
-		},
-		setFont: function(newFont){
+		_setFontAttr: function(newFont){
 			// summary:
 			//		sets a font for text
-			this.fontStyle = typeof newFont == "string" ?
+			this._set("font", typeof newFont == "string" ?
 				g.splitFontString(newFont) :
-				g.makeParameters(g.defaultFont, newFont);
+				g.makeParameters(g.defaultFont, newFont));
 			this._setFont();
 			return this;	// self
 		}

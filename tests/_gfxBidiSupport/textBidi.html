@@ -26,7 +26,7 @@
 
 			var makeText = function(surface, text, font, fill, stroke){
 				var t = surface.createText(text);
-				if(font)   t.setFont(font);
+				if(font)   t.font = font;
 				if(fill)   t.fill = fill;
 				if(stroke) t.stroke = stroke;
 				placeAnchor(surface, text.x, text.y);

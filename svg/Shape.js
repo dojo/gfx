@@ -313,12 +313,12 @@ define([
 			this.rawNode.parentNode.insertBefore(this.rawNode, this.rawNode.parentNode.firstChild);
 			return this;	// self
 		},
-		setClip: dcl.superCall(function(sup){
+		_setClipAttr: dcl.superCall(function(sup){
 			return function(clip){
 				// summary:
 				//		sets the clipping area of this shape.
 				// description:
-				//		This method overrides the gfx/shape.Shape.setClip() method.
+				//		This method overrides the gfx/shape/Shape._setClipAttr() method.
 				// clip: Object
 				//		an object that defines the clipping geometry, or null to remove clip.
 				sup.apply(this, arguments);
@@ -326,7 +326,7 @@ define([
 					"cx" in clip ? "ellipse" :
 						"points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
 				if(clip && !clipType){
-					return this;
+					return;
 				}
 				if(clipType === "polyline"){
 					clip = lang.clone(clip);
@@ -363,7 +363,6 @@ define([
 						clipNode.parentNode.removeChild(clipNode);
 					}
 				}
-				return this;
 			}
 		}),
 		_removeClipNode: function(){

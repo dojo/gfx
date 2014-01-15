@@ -294,20 +294,20 @@ define([
 		},
 
 		canvasClip: null,
-		setClip: dcl.superCall(function(sup){
+		_setClipAttr: dcl.superCall(function(sup){
 			return function(/*Object*/clip){
 				sup.apply(this, arguments);
 				var clipType = clip ? "width" in clip ? "rect" :
 					"cx" in clip ? "ellipse" :
 						"points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
 				if(clip && !clipType){
-					return this;
+					return;
 				}
 				this.canvasClip = clip ? makeClip(clipType, clip) : null;
 				if(this.parent){
 					this.parent._makeDirty();
 				}
-				return this;
+				return;
 			}
 		})
 	});

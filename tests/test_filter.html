@@ -24,12 +24,12 @@
 			g.createPath({path:"M60,80 C30,80 30,40 60,40 L140,40 C170,40 170,80 140,80 z"}).fill = "#D90000";
 			var text = g.createGroup().createText({x:52, y:76, text:"SVG"});
             text.fill = "white";
-            text.setFont({family:"verdana", size:45});
+            text.font = {family:"verdana", size:45};
 			if(filter){
 				g.setFilter(filter);
 			}
 			text = topg.createText({x:100, y:140, text: title, align:"middle"});
-            text.fill = "black"; text.setFont({family:"verdana", size:20});
+            text.fill = "black"; text.font = {family:"verdana", size:20};
 			var tooltip = document.createElementNS("http://www.w3.org/2000/svg", "title");
 			tooltip.appendChild(document.createTextNode(title));
 			topg.rawNode.appendChild(tooltip);

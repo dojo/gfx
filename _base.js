@@ -163,7 +163,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 			return {x:0, y:0, width:0, height:0};
 		}
 		var loc, textShape = s.shape,
-			font = s.getFont() || g.defaultFont,
+			font = s.font || g.defaultFont,
 			w = s.getTextWidth(),
 			h = g.normalizedLength(font.size);
 		loc = g._computeTextLocation(textShape, w, h, true);

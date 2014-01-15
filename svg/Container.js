@@ -38,7 +38,7 @@ define([
 					}
 					sup.apply(this, arguments);
 					// update clipnode with new parent
-					shape.setClip(shape.clip);
+					shape.clip = shape.clip;
 				}
 				return this;	// self
 			}

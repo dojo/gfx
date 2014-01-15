@@ -13,8 +13,8 @@ define([
 			if(this.parent){
 				this.parent._makeDirty();
 			}
-			if(this.fontStyle){
-				this.canvasFont = g.makeFontString(this.fontStyle);
+			if(this.font){
+				this.canvasFont = g.makeFontString(this.font);
 			}else{
 				delete this.canvasFont;
 			}
