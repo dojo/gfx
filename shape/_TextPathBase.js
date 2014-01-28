@@ -2,8 +2,10 @@ define([
 	"../_base",
 	"dcl/dcl",
 	"dojo/_base/lang",
-	"./_PathBase"
-], function(g, dcl, lang, Path){
+	"./_PathBase",
+	"dojo/has",
+	"dojo/has!dojo-bidi?./bidi/_TextPath"
+], function(g, dcl, lang, Path, has, BidiTextPath){
 	var defaultShape = {
 		// summary:
 		//		Defines the default TextPath prototype.
@@ -46,26 +48,21 @@ define([
 		//		A font object (see gfx.defaultFont) or a font string
 		font: null,
 
+		// text: Object
+		//		The text to be drawn along the path
+		text: null,
+
 		constructor: function(){
 			// summary:
 			//		a TextPath shape constructor
-			if(!("text" in this)){
-				this.text = lang.clone(TextPath.defaultShape);
-			}
-			if(!("font" in this)){
-				this.font = lang.clone(g.defaultFont);
-			}
+			this._set("text", lang.clone(TextPath.defaultShape));
+			this._set("font", lang.clone(g.defaultFont));
 		},
-		getText: function(){
-			// summary:
-			//		returns the current text object or null
-			return this.text;	// Object
-		},
-		setText: function(newText){
+		_setTextAttr: function(newText){
 			// summary:
 			//		sets a text to be drawn along the path
-			this.text = g.makeParameters(this.text,
-				typeof newText == "string" ? {text: newText} : newText);
+			this._set("text", g.makeParameters(this._get("text"),
+				typeof newText == "string" ? {text: newText} : newText));
 			this._setText();
 			return this;	// self
 		},
@@ -79,6 +76,10 @@ define([
 			return this;	// self
 		}
 	});
+	if(has("dojo-bidi")){
+		TextPath = dcl([TextPath, BidiTextPath], {});
+		defaultShape.textDir = "";
+	}
 	TextPath.defaultShape = defaultShape;
 	return TextPath;
 });

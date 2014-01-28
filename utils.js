@@ -1,7 +1,23 @@
 define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo/_base/array", "dojo/_base/window", "dojo/_base/json", 
-	"dojo/_base/Deferred", "dojo/_base/sniff", "require","dojo/_base/config"], 
-  function(kernel, lang, g, html, arr, win, jsonLib, Deferred, has, require, config){
+	"dojo/_base/Deferred", "dojo/_base/sniff", "require","dojo/_base/config", "dcl/dcl"],
+  function(kernel, lang, g, html, arr, win, jsonLib, Deferred, has, require, config, dcl){
 	var gu = g.utils = {};
+
+    var classesRequired, Surface, Group;
+
+	function ensureClassesRequired(){
+		if(!classesRequired){
+			try{
+				Surface = require("./shape/_SurfaceBase");
+			}catch(err){
+			}
+			try{
+				Group = require("./shape/_GroupBase");
+			}catch(err){
+			}
+			classesRequired = true;
+		}
+	}
 
 	lang.mixin(gu, {
 		forEach: function(
@@ -18,9 +34,12 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 			//		The function to apply.
 			// o:
 			//		The scope.
+
+			ensureClassesRequired();
+
 			o = o || kernel.global;
 			f.call(o, object);
-			if(object instanceof g.Surface || object instanceof g.Group){
+			if(dcl.isInstanceOf(object, Surface) || dcl.isInstanceOf(object, Group)){
 				arr.forEach(object.children, function(shape){
 					gu.forEach(shape, f, o);
 				});
@@ -33,8 +52,10 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 			// object: gfx/shape.Surface|gfx/shape.Shape
 			//		The container to serialize.
 
-			var t = {}, v, isSurface = object instanceof g.Surface;
-			if(isSurface || object instanceof g.Group){
+			ensureClassesRequired();
+
+			var t = {}, v, isSurface = dcl.isInstanceOf(object, Surface);
+			if(isSurface || dcl.isInstanceOf(object, Group)){
 				t.children = arr.map(object.children, gu.serialize);
 				if(isSurface){
 					return t.children;	// Array

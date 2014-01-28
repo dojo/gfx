@@ -2,15 +2,15 @@
 <head>
 	<title>Testing textpath</title>
 	<style type="text/css">
-		@import "../../../dojo/resources/dojo.css";
-		@import "../../../dijit/tests/css/dijitTests.css";
+		@import "../../../../dojo/resources/dojo.css";
+		@import "../../../../dijit/tests/css/dijitTests.css";
 	</style>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+	<script type="text/javascript" src="../../../../dojo/dojo.js"
+			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}], has:{'dojo-bidi':1, 'gfx-renderer':'canvas'}"></script>
 	<script type="text/javascript">
 
-		require(["dojo/ready", "gfx", "gfx/matrix", "gfx/_gfxBidiSupport"], function(ready, gfx, m){
+		require(["dojo/ready", "gfx", "gfx/matrix"], function(ready, gfx, m){
 
 			var CPD = 30, tp1, tp2, tp3, tp4, tp5, t1, t2, t3, t4, t5, t6;
 			var g1 = null;

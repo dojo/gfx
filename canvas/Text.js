@@ -3,12 +3,14 @@ define([
 	"../_base",
 	"./_base",
 	"./Shape",
-	"../shape/_TextBase"
-], function(dcl, g, canvas, CanvasShape, TextBase){
+	"../shape/_TextBase",
+	"dojo/has",
+	"dojo/has!dojo-bidi?./bidi/Text"
+], function(dcl, g, canvas, CanvasShape, TextBase, has, CanvasBidiText){
 
 	var hasFillText = canvas.hasFillText;
 
-	return dcl([CanvasShape, TextBase], {
+	var Text = dcl([CanvasShape, TextBase], {
 		_setFont: function(){
 			if(this.parent){
 				this.parent._makeDirty();
@@ -26,7 +28,7 @@ define([
 			if(!hasFillText){
 				return 0;
 			}
-			var s = this.shape, w = 0, ctx;
+			var s = this._get("shape"), w = 0, ctx;
 			if(s.text){
 				ctx = this.surface.rawNode.getContext("2d");
 				ctx.save();
@@ -74,7 +76,7 @@ define([
 			if(!hasFillText){
 				return;
 			}
-			var ta, s = this.shape;
+			var ta, s = this._get("shape");
 			if(!s.text){
 				return;
 			}
@@ -94,4 +96,5 @@ define([
 			}
 		}
 	});
+	return has("dojo-bidi")?dcl([Text, CanvasBidiText], {}) : Text;
 });

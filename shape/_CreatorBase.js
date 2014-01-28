@@ -58,11 +58,11 @@ define([
 			}
 			return null;
 		},
-		createGroup: function(){
+		createGroup: function(arg){
 			// summary:
 			//		creates a group shape
 			var n = this._prefix+"Group";
-			return this.createObject(cc[n]||(cc[n]=require(n)));
+			return this.createObject(cc[n]||(cc[n]=require(n)), arg);
 		},
 		createRect: function(rect){
 			// summary:
@@ -135,7 +135,9 @@ define([
 			// text: Object
 			//		a textpath object (see gfx.defaultTextPath)
 			var n = this._prefix+"TextPath";
-			return this.createObject(cc[n]||(cc[n]=require(n)), {}).setText(text);
+			var tp = this.createObject(cc[n]||(cc[n]=require(n)), {});
+			tp.text = text;
+			return tp;
 		},
 		createObject: function(shapeType, rawShape){
 			// summary:

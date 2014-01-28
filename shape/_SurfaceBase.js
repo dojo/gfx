@@ -1,7 +1,8 @@
 define(["dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
-	"dojo/on", "dojo/_base/array", "dojo/dom-construct", "./_EventsProcessing", "./_ContainerBase", "./_CreatorBase"],
-	function(lang, dcl, has, on, arr, domConstruct, EventsProcessing, Container, Creator){
-		return dcl([EventsProcessing, Container, Creator], {
+	"dojo/on", "dojo/_base/array", "dojo/dom-construct", "./_EventsProcessing", "./_ContainerBase", "./_CreatorBase",
+	"dui/Stateful" ],
+	function(lang, dcl, has, on, arr, domConstruct, EventsProcessing, Container, Creator, Stateful){
+		return dcl([EventsProcessing, Container, Creator, Stateful], {
 			// summary:
 			//		a surface object to be used for drawings
 			constructor: function(){

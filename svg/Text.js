@@ -5,10 +5,11 @@ define([
 	"./_base",
 	"./Shape",
 	"../shape/_TextBase",
-	"./Font"
-], function(dcl, has, g, svg, SvgShape, TextBase, Font){
+	"./Font",
+	"dojo/has!dojo-bidi?./bidi/Text"
+], function(dcl, has, g, svg, SvgShape, TextBase, Font, SvgBidiText){
 	var android = has("android"),
-		textRenderingFix = has("chrome") || (android && android>=4) ? "auto" : "optimizeLegibility";// #16099, #16461
+		textRenderingFix = has("chrome") || (android && android >= 4) ? "auto" : "optimizeLegibility";// #16099, #16461
 
 	var Text = dcl([SvgShape, TextBase, Font], {
 		// summary:
@@ -18,9 +19,9 @@ define([
 			//		sets a text shape object (SVG)
 			// newShape: Object
 			//		a text shape object
-			this._set("shape", g.makeParameters(this.shape, newShape));
+			this._set("shape", g.makeParameters(this._get("shape"), newShape));
 			this.bbox = null;
-			var r = this.rawNode, s = this.shape;
+			var r = this.rawNode, s = this._get("shape");
 			r.setAttribute("x", s.x);
 			r.setAttribute("y", s.y);
 			r.setAttribute("text-anchor", s.align);
@@ -51,7 +52,7 @@ define([
 
 			// solution to the "orphan issue" in Opera
 			// (nodeValue == "" hangs firefox)
-			if(_text!=""){
+			if(_text != ""){
 				while(!_width){
 					_width = parseInt(_measurementNode.getBBox().width);
 				}
@@ -63,16 +64,19 @@ define([
 			var s = this.shape, bbox = null;
 			if(s.text){
 				// try/catch the FF native getBBox error.
-				try {
+				try{
 					bbox = this.rawNode.getBBox();
-				} catch (e) {
+				}catch(e){
 					// under FF when the node is orphan (all other browsers return a 0ed bbox.
-					bbox = {x:0, y:0, width:0, height:0};
+					bbox = {x: 0, y: 0, width: 0, height: 0};
 				}
 			}
 			return bbox;
 		}
 	});
+	if(has("dojo-bidi")){
+		Text = dcl([Text, SvgBidiText], {});
+	};
 	Text.nodeType = "text";
 	return Text;
 });

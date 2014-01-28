@@ -223,7 +223,6 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				// COULD BE RE-IMPLEMENTED BY THE RENDERER!
 				this._set("shape", g.makeParameters(this.shape, shape));
 				this.bbox = null;
-				return this;	// self
 			},
 			_setFillAttr: function(fill){
 				// summary:
@@ -261,7 +260,6 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 					f = g.normalizeColor(fill);
 				}
 				this._set("fill", f);
-				return this;	// self
 			},
 			_setStrokeAttr: function(stroke){
 				// summary:
@@ -284,7 +282,6 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				var s = g.makeParameters(g.defaultStroke, stroke);
 				s.color = g.normalizeColor(s.color);
 				this._set("stroke", s);
-				return this;	// self
 			},
 			_setTransformAttr: function(matrix){
 				// summary:

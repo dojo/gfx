@@ -2,19 +2,18 @@
 <head>
 <title>Testing textpath</title>
 <style type="text/css">
-	@import "../../../dojo/resources/dojo.css";
-	@import "../../../dijit/tests/css/dijitTests.css";
+	@import "../../../../dojo/resources/dojo.css";
+	@import "../../../../dijit/tests/css/dijitTests.css";
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<script type="text/javascript" src="../../../dojo/dojo.js"
-        data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+<script type="text/javascript" src="../../../../dojo/dojo.js"
+        data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}], has:{'dojo-bidi':1, 'gfx-renderer':'canvas'}"></script>
 <script type="text/javascript">
 require([
 	"doh/runner",
 	"dojo/ready",
 	"gfx",
-	"gfx/matrix",
-	"gfx/_gfxBidiSupport"
+	"gfx/matrix"
 ], function(doh, ready, gfx, m){
 
 	var CPD = 30, tp1, tp2, tp3, tp4, tp5, tp6, t1, t2, t3, t4, t5, t6;
@@ -66,8 +65,8 @@ require([
 
 		console.debug("tp2 created");
 		g1 = surfaceLTR.createGroup();
-		g1.setTextDir("rtl");
-		//		surfaceLTR.setTextDir("ltr");
+		g1.textDir = "rtl";
+		//		surfaceLTR.textDir = "ltr";
 		t1 = makeText(g1, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
 				{family:"Times", size:"18pt"}, "black", "blue");
 				t1.transform = m.rotategAt(0, 250, 150);
@@ -91,12 +90,12 @@ require([
 				.moveTo(0, 15)
 				.setAbsoluteMode(false)
 				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
-				tp3.setFont({family:"times", size:"12pt"})
+				tp3.font = {family:"times", size:"12pt"};
 				tp3.fill = "red";
 
 		g2 = surfaceRTL.createGroup();
 		g2.add(tp3);
-		g2.setTextDir("ltr");
+		g2.textDir = "ltr";
 
 		g3 = g2.createGroup("rtl");
 
@@ -110,9 +109,9 @@ require([
 			//.setShape(p.shape)
 				.moveTo(0, 50)
 				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-				.setFont({family:"times", size:"12pt"})
-				.fill = "red";
+				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+				tp4.font = {family:"times", size:"12pt"};
+				tp4.fill = "red";
 
 		console.debug("tp4 created");
 
@@ -141,10 +140,10 @@ require([
 			//.setShape(p.shape)
 				.moveTo(0, 15)
 				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
+				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
 
-				.setFont({family:"times", size:"12pt"})
-				.fill = "red";
+				tp5.font = {family:"times", size:"12pt"};
+				tp5.fill = "red";
 
 		console.debug("tp5 created");
 		tp6 = surfaceAUTO.createTextPath({
@@ -155,9 +154,9 @@ require([
 			//.setShape(p.shape)
 				.moveTo(0, 50)
 				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0)
-				.setFont({family:"times", size:"12pt"})
-				.fill = "blue";
+				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+				tp6.font = {family:"times", size:"12pt"};
+				tp6.fill = "blue";
 
 		console.debug("tp6 created");
 
@@ -178,63 +177,63 @@ require([
 
 		doh.register("Test inheritance", [
 			function surfaces_TextDir(){
-				doh.is("ltr", surfaceLTR.getTextDir(), "surfaceLTR.getTextDir");
-				doh.is("rtl", surfaceRTL.getTextDir(), "surfaceRTL.getTextDir");
-				doh.is("auto", surfaceAUTO.getTextDir(), "surfaceAUTO.getTextDir");
+				doh.is("ltr", surfaceLTR.textDir, "surfaceLTR.textDir");
+				doh.is("rtl", surfaceRTL.textDir, "surfaceRTL.textDir");
+				doh.is("auto", surfaceAUTO.textDir, "surfaceAUTO.textDir");
 			},
 			function groups_TextDir(){
-				doh.is("rtl", g1.getTextDir(), "g1.getTextDir");
-				doh.is("ltr", g2.getTextDir(), "g2.getTextDir");
-				doh.is("rtl", g3.getTextDir(), "g3.getTextDir");
-				doh.is("auto", g4.getTextDir(), "g4.getTextDir");
+				doh.is("rtl", g1.textDir, "g1.textDir");
+				doh.is("ltr", g2.textDir, "g2.textDir");
+				doh.is("rtl", g3.textDir, "g3.textDir");
+				doh.is("auto", g4.textDir, "g4.textDir");
 			},
 			function gfxText_TextDir(){
-				doh.is("rtl", t1.textDir, "t1.getTextDir");
-				doh.is("ltr", t2.textDir, "t2.getTextDir");
-				doh.is("rtl", t3.textDir, "t3.getTextDir");
-				doh.is("rtl", t4.textDir, "t4.getTextDir");
-				doh.is("auto", t5.textDir, "t5.getTextDir");
-				doh.is("auto", t6.textDir, "t6h.getTextDir");
+				doh.is("rtl", t1.textDir, "t1.textDir");
+				doh.is("ltr", t2.textDir, "t2.textDir");
+				doh.is("rtl", t3.textDir, "t3.textDir");
+				doh.is("rtl", t4.textDir, "t4.textDir");
+				doh.is("auto", t5.textDir, "t5.textDir");
+				doh.is("auto", t6.textDir, "t6h.textDir");
 			},
 			function gfxTextPath_TextDir(){
-				doh.is("ltr", tp1.textDir, "tp1.getTextDir");
-				doh.is("ltr", tp2.textDir, "tp2.getTextDir");
-				doh.is("ltr", tp3.textDir, "tp3.getTextDir");
-				doh.is("rtl", tp4.textDir, "tp4.getTextDir");
-				doh.is("auto", tp5.textDir, "tp5.getTextDir");
-				doh.is("auto", tp6.textDir, "tp6.getTextDir");
+				doh.is("ltr", tp1.textDir, "tp1.textDir");
+				doh.is("ltr", tp2.textDir, "tp2.textDir");
+				doh.is("ltr", tp3.textDir, "tp3.textDir");
+				doh.is("rtl", tp4.textDir, "tp4.textDir");
+				doh.is("auto", tp5.textDir, "tp5.textDir");
+				doh.is("auto", tp6.textDir, "tp6.textDir");
 			},
 			function changeSurfaceRTLextDir(){
-				surfaceRTL.setTextDir("ltr");
+				surfaceRTL.textDir = "ltr";
 
-				doh.is("ltr", surfaceRTL.getTextDir(), "surfaceRTL.getTextDir");
+				doh.is("ltr", surfaceRTL.textDir, "surfaceRTL.textDir");
 
-				doh.is("ltr", g2.getTextDir(), "g2.getTextDir");
-				doh.is("ltr", g3.getTextDir(), "g3.getTextDir");
-				doh.is("ltr", g4.getTextDir(), "g4.getTextDir");
+				doh.is("ltr", g2.textDir, "g2.textDir");
+				doh.is("ltr", g3.textDir, "g3.textDir");
+				doh.is("ltr", g4.textDir, "g4.textDir");
 
 
-				doh.is("ltr", t3.textDir, "t3.getTextDir");
-				doh.is("ltr", t4.textDir, "t4.getTextDir");
+				doh.is("ltr", t3.textDir, "t3.textDir");
+				doh.is("ltr", t4.textDir, "t4.textDir");
 
-				doh.is("ltr", tp3.textDir, "tp3.getTextDir");
-				doh.is("ltr", tp4.textDir, "tp4.getTextDir");
+				doh.is("ltr", tp3.textDir, "tp3.textDir");
+				doh.is("ltr", tp4.textDir, "tp4.textDir");
 			},
 			function changeGroupTextDir(){
 
 				g3.add(tp5);
 				g3.add(t2);
 
-				g2.setTextDir("rtl");
+				g2.textDir = "rtl";
 
-				doh.is("rtl", g2.getTextDir(), "g2.getTextDir");
+				doh.is("rtl", g2.textDir, "g2.textDir");
 				// son of g2
-				doh.is("rtl", g3.getTextDir(), "g3.getTextDir");
+				doh.is("rtl", g3.textDir, "g3.textDir");
 
-				doh.is("rtl", t2.textDir, "t2.getTextDir");
-				doh.is("rtl", t3.textDir, "t3.getTextDir");
+				doh.is("rtl", t2.textDir, "t2.textDir");
+				doh.is("rtl", t3.textDir, "t3.textDir");
 
-				doh.is("rtl", tp5.textDir, "tp3.getTextDir");
+				doh.is("rtl", tp5.textDir, "tp3.textDir");
 			}
 		]);
 

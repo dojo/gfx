@@ -1,6 +1,6 @@
-define(["dcl/dcl", "./_ShapeBase", "./_ContainerBase"],
-	function(dcl, Shape, Container){
-		return dcl([Shape, Container], {
+define(["dcl/dcl", "./_ShapeBase", "./_ContainerBase", "dojo/has", "dojo/has!dojo-bidi?./bidi/_Group"],
+	function(dcl, Shape, Container, has, BidiGroup){
+		var Group = dcl([Shape, Container], {
 			// summary:
 			//		The base class for a group shape, which can be used
 			//		to logically group shapes (e.g, to propagate matricies)
@@ -15,4 +15,5 @@ define(["dcl/dcl", "./_ShapeBase", "./_ContainerBase"],
 				};
 			})
 		});
+		return has("dojo-bidi")?dcl([Group, BidiGroup], {}):Group;
 	});

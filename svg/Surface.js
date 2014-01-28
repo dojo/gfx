@@ -5,9 +5,11 @@ define([
 	"./_base",
 	"../shape/_SurfaceBase",
 	"./Container",
-	"./Creator"
-], function(dcl, dom, g, svg, SurfaceBase, Container, Creator){
-	return dcl([SurfaceBase, Container, Creator], {
+	"./Creator",
+	"dojo/has",
+	"dojo/has!dojo-bidi?./bidi/Surface"
+], function(dcl, dom, g, svg, SurfaceBase, Container, Creator, has, BidiSurface){
+	var Surface = dcl([SurfaceBase, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (SVG)
 
@@ -83,4 +85,5 @@ define([
 				height: g.normalizedLength(this.rawNode.getAttribute("height"))} : null; // Object
 		}
 	});
+	return has("dojo-bidi")?dcl([Surface, BidiSurface], {}) : Surface;
 });

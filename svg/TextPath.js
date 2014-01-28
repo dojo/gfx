@@ -4,8 +4,10 @@ define([
 	"./_base",
 	"./Shape",
 	"../shape/_TextPathBase",
-	"./Font"
-], function(dcl, g, svg, SvgShape, TextPathBase, Font){
+	"./Font",
+	"dojo/has",
+	"dojo/has!dojo-bidi?./bidi/TextPath"
+], function(dcl, g, svg, SvgShape, TextPathBase, Font, has, SvgBidiTextPath){
 	var TextPath = dcl([SvgShape, TextPathBase, Font], {
 		// summary:
 		//		a textpath shape (SVG)
@@ -67,7 +69,7 @@ define([
 				r.appendChild(tp);
 			}
 			r = r.firstChild;
-			var t = this.text;
+			var t = this._get("text");
 			r.setAttribute("alignment-baseline", "middle");
 			switch(t.align){
 				case "middle":
@@ -92,6 +94,9 @@ define([
 			r.firstChild.data = t.text;
 		}
 	});
+	if(has("dojo-bidi")){
+		TextPath = dcl([TextPath, SvgBidiTextPath], {});
+	}
 	TextPath.nodeType = "text";
-	return TextPath;
+	return  TextPath;
 });

@@ -1,9 +1,11 @@
 define([
 	"dcl/dcl",
 	"dojo/_base/array",
-	"../matrix"
-], function(dcl, arr, matrixLib){
-	return dcl(null, {
+	"../matrix",
+	"dojo/has",
+	"dojo/has!dojo-bidi?./bidi/_Container"
+], function(dcl, arr, matrixLib, has, BidiContainer){
+	var Container = dcl(null, {
 		// summary:
 		//		a container of shapes, which can be used
 		//		as a foundation for renderer-specific groups, or as a way
@@ -159,5 +161,5 @@ define([
 			return this;	// self
 		}
 	});
+	return has("dojo-bidi")?dcl([Container, BidiContainer], {}) : Container;
 });
-

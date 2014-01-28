@@ -6,9 +6,11 @@ define([
 	"../_base",
 	"../shape/_SurfaceBase",
 	"./Container",
-	"./Creator"
-], function(lang, dcl, dom, domGeom, g, SurfaceBase, Container, Creator){
-	return dcl([SurfaceBase, Container, Creator], {
+	"./Creator",
+	"dojo/has",
+	"dojo/has!dojo-bidi?./bidi/Surface"
+], function(lang, dcl, dom, domGeom, g, SurfaceBase, Container, Creator, has, BidiSurface){
+	var Surface = dcl([SurfaceBase, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (Canvas)
 		constructor: function(parentNode, width, height){
@@ -156,4 +158,5 @@ define([
 		on: function(){
 		}
 	});
+	return has("dojo-bidi")?dcl([Surface, BidiSurface], {}) : Surface;
 });

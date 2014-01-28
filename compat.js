@@ -9,10 +9,10 @@ define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes
 
 		g.Surface = Surface;
 		lang.mixin(g, shapes);
-		g.createSurface = function(parent, width, height){
+		g.createSurface = function(parent, width, height, arg){
 			// summary:
 			//		Creates a new drawing surface using the renderer defined by the "gfx-renderer" has flag.
-			return new g.Surface(parent, width, height);
+			return new g.Surface(parent, width, height, arg);
 		};
 		g.renderer = g._chooseRenderer();
 

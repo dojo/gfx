@@ -1,8 +1,10 @@
 define([
 	"../_base",
 	"dcl/dcl",
-	"./_ShapeBase"
-], function(g, dcl, Shape){
+	"./_ShapeBase",
+	"dojo/has",
+	"dojo/has!dojo-bidi?./bidi/_Text"
+], function(g, dcl, Shape, has, BidiText){
 	var defaultShape = {
 		// summary:
 		//		Defines the default Text prototype.
@@ -58,13 +60,17 @@ define([
 			this._setFont();
 		},
 		getBoundingBox: function(){
-			var bbox = null, s = this.shape;
+			var bbox = null, s = this._get("shape");
 			if(s.text){
 				bbox = g._computeTextBoundingBox(this);
 			}
 			return bbox;
 		}
 	});
+	if(has("dojo-bidi")){
+		Text = dcl([Text, BidiText], {});
+		defaultShape.textDir = "";
+	}
 	Text.defaultShape = defaultShape;
 	return Text;
 });
