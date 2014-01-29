@@ -1,4 +1,4 @@
-define(["gfx"], function(){
+define(["gfx/gfx"], function(){
 	// TODO: the current implementation is not functional, please implement correctly
 	/*
 	dojo.getObject("gfx.arc", true);

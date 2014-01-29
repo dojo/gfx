@@ -8,7 +8,7 @@
 		@import "../../dijit/tests/css/dijitTests.css";
 	</style>
 	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+			data-dojo-config="isDebug: true, async:1"></script>
 	<script type="text/javascript" src="../../util/doh/runner.js"></script>
 	<script type="text/javascript">
 		require([
@@ -16,7 +16,7 @@
 			"dojo/ready",
 			"dojo/dom",
 			"dojo/json",
-			"gfx",
+			"gfx/gfx",
 			"gfx/utils"
 		], function(doh, ready, dom, JSON, gfx, utils){
 			ready(function(){

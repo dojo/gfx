@@ -4,12 +4,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Testing arc</title>
 	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+			data-dojo-config="isDebug: true, async:1"></script>
 	<script type="text/javascript">
 		window.onerror = function(){
 			document.writeln("Test has failed: canvas.js cannot be loaded.");
 		}
-		require(["gfx", "gfx/canvas", "dojo/ready", "dojo/dom"], function(gfx, canvas, ready, dom){
+		require(["gfx/gfx", "gfx/canvas", "dojo/ready", "dojo/dom"], function(gfx, canvas, ready, dom){
 			ready(function(){
 				gfx.switchTo("canvas");
 				dom.byId("test").innerHTML = "Test is successful.";

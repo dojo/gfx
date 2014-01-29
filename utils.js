@@ -183,7 +183,7 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 							html.style(node, "height", height);
 						}, this);
 
-						var proxyGfx = gu._gfxSvgProxy.require("gfx"); // will throw exception if not loaded
+						var proxyGfx = gu._gfxSvgProxy.require("gfx/gfx"); // will throw exception if not loaded
 
 						//Create temp surface to render object to and render.
 						var ts = proxyGfx.createSurface(node, width, height);

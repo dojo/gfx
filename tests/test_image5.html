@@ -8,10 +8,10 @@
 		@import "../../dijit/tests/css/dijitTests.css";
 	</style>
 	<script src="../../dojo/dojo.js"
-			data-dojo-config="isDebug:1, async:1, packages:[{name:'gfx' ,location:'../gfx'}]"></script>
+			data-dojo-config="isDebug:1, async:1"></script>
 	<script>
 		require([
-			"gfx",
+			"gfx/gfx",
 			"gfx/matrix",
 			"gfx/Moveable", "dojo/domReady!"], function(gfx, matrix, Moveable){
 			var surface = gfx.createSurface("test", 800, 600);
