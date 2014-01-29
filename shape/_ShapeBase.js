@@ -16,7 +16,7 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 			return registry;
 		}
 
-		return dcl([EventsProcessing, Stateful], {
+		return dcl([Stateful, EventsProcessing], {
 			// summary:
 			//		a Shape object, which knows how to apply
 			//		graphical attributes and transformations
@@ -52,6 +52,10 @@ define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 			// clip: Object
 			//		an object that defines the clipping geometry, or null to remove clip.
 			clip: null,
+
+			// prevent Stateful from mixing in the properties of the 1st constructor argument
+			// (which is the hash containing the shape properties)
+			mix: function(){},
 
 			constructor: function(rawShape, rawNode){
 				// summary: Creates a new shape.

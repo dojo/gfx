@@ -2,9 +2,14 @@ define(["dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 	"dojo/on", "dojo/_base/array", "dojo/dom-construct", "./_EventsProcessing", "./_ContainerBase", "./_CreatorBase",
 	"dui/Stateful" ],
 	function(lang, dcl, has, on, arr, domConstruct, EventsProcessing, Container, Creator, Stateful){
-		return dcl([EventsProcessing, Container, Creator, Stateful], {
+		return dcl([Stateful, EventsProcessing, Container, Creator], {
 			// summary:
 			//		a surface object to be used for drawings
+
+			// prevent Stateful from mixing in the properties of the 1st constructor argument
+			// (which is a DOM node)
+			mix: function(){},
+
 			constructor: function(){
 				// underlying node
 				this.rawNode = null;
