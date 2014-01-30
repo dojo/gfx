@@ -11,11 +11,11 @@
 	<!--<script type="text/javascript" src="../svg.js"></script>-->
 	<script type="text/javascript">
 		require([
-			"dojo/_base/lang",
+            "dcl/dcl",
 			"dojo/ready",
 			"gfx/gfx",
 			"dojo/colors"
-		], function(lang, ready, gfx){
+		], function(dcl, ready, gfx){
 
 			createSurface = function(){
 				var surface = gfx.createSurface("grad", 300, 300);
@@ -43,11 +43,13 @@
 					width:300,
 					height:100
 				});
-                rect.fill = lang.mixin({
-							type:"linear",
-							x1:0, y1:0,
-							x2:300, y2:0
-						}, fillObj);
+                var fill = {
+                    type:"linear",
+                    x1:0, y1:0,
+                    x2:300, y2:0
+                };
+                dcl.mix(fill, fillObj);
+                rect.fill = fill;
 				// create a circle
 				var circle = surface.createEllipse({
 					cx:150,
@@ -55,11 +57,13 @@
 					rx:100,
 					ry:100
 				});
-                circle.fill = lang.mixin({
-							type:"radial",
-							cx:150,
-							cy:200
-						}, fillObj);
+                fill = {
+                    type:"radial",
+                    cx:150,
+                    cy:200
+                };
+                dcl.mix(fill, fillObj);
+                circle.fill = fill;
 			};
 			ready(createSurface);
 		});

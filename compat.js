@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes", "require", "./shape/_ShapeBase"],
-	function(lang, arr, g, Surface, shapes, require, ShapeBase){
+define(["dcl/dcl", "dojo/_base/array", "./_base", "./Surface", "./shapes", "require", "./shape/_ShapeBase"],
+	function(dcl, arr, g, Surface, shapes, require, ShapeBase){
 		// module:
 		//		gfx/compat
 		// summary:
@@ -8,7 +8,7 @@ define(["dojo/_base/lang", "dojo/_base/array", "./_base", "./Surface", "./shapes
 		//		This module may be removed before 2.0 is released.
 
 		g.Surface = Surface;
-		lang.mixin(g, shapes);
+		dcl.mix(g, shapes);
 		g.createSurface = function(parent, width, height, arg){
 			// summary:
 			//		Creates a new drawing surface using the renderer defined by the "gfx-renderer" has flag.

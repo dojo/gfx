@@ -1,6 +1,6 @@
-define(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/Color", "dojo/_base/sniff", "dojo/_base/config", "dojo/_base/window",
+define(["dcl/dcl", "dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/Color", "dojo/_base/sniff", "dojo/_base/config", "dojo/_base/window",
 	    "dojo/_base/array","dojo/dom", "dojo/dom-construct","dojo/dom-geometry"],
-function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom){
+function(dcl, kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom){
 	// module:
 	//		gfx
 	// summary:
@@ -397,7 +397,7 @@ function(kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom)
 
 	=====*/
 
-	lang.mixin(g, {
+	dcl.mix(g, {
 		// summary:
 		//		defines constants, prototypes, and utility functions for the core Graphics API
 

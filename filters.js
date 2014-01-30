@@ -1,7 +1,8 @@
 define([
+	"dcl/dcl",
 	"dojo/_base/lang",
 	"dojo/_base/array"
-], function(lang, array){
+], function(dcl, lang, array){
 
 	/*=====
 	return {
@@ -97,7 +98,9 @@ define([
 		// primitives: Array
 		//		An array of primitives object.
 
-		var filter = lang.mixin({}, defaultFilterBBox, args);
+		var filter = {};
+		dcl.mix(filter, defaultFilterBBox);
+		dcl.mix(filter, args);
 		if(!filter.primitives){
 			filter.primitives = [];
 		}
@@ -112,7 +115,8 @@ define([
 			children = args;
 			args = null;
 		}
-		var fe = lang.mixin({}, args);
+		var fe = {};
+		dcl.mix(fe, args);
 		fe.children = children;
 		fe.tag = tag;
 		return fe;
@@ -199,7 +203,7 @@ define([
 		])
 	];
 	array.forEach(lib.convolutions, function(f){
-		lang.mixin(f, defaultFilterBBox);
+		dcl.mix(f, defaultFilterBBox);
 	});
 
 	//
@@ -268,7 +272,7 @@ define([
 		height:"125%"
 	};
 	array.forEach(lib.shadows, function(f){
-		lang.mixin(f, defaultDropShadowBBox);
+		dcl.mix(f, defaultDropShadowBBox);
 	});
 
 	//
@@ -365,7 +369,7 @@ define([
 		])
 	];
 	array.forEach(lib.colors, function(f){
-		lang.mixin(f, defaultFilterBBox);
+		dcl.mix(f, defaultFilterBBox);
 	});
 
 	lib.miscs = [

@@ -19,7 +19,7 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 		}
 	}
 
-	lang.mixin(gu, {
+	dcl.mix(gu, {
 		forEach: function(
 			/*gfx/shape.Surface|gfx/shape.Shape*/ object,
 			/*Function|String|Array*/ f, /*Object?*/ o

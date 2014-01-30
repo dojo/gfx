@@ -1,5 +1,5 @@
-define(["./_base", "dojo/_base/lang", "./matrix"], 
-  function (g, lang, m){
+define(["dcl/dcl", "./_base", "./matrix"],
+  function (dcl, g, m){
 	function eq(/* Number */ a, /* Number */ b){
 		// summary:
 		//		compare two FP numbers for equality
@@ -22,7 +22,8 @@ define(["./_base", "dojo/_base/lang", "./matrix"],
 		// matrix: gfx/matrix.Matrix2D
 		//		a 2D matrix-like object
 		var M = new m.Matrix2D(matrix);
-		return lang.mixin(M, {dx: 0, dy: 0, xy: M.yx, yx: M.xy});	// gfx/matrix.Matrix2D
+		dcl.mix(M, {dx: 0, dy: 0, xy: M.yx, yx: M.xy});	// gfx/matrix.Matrix2D
+		return M;
 	}
 
 	function scaleSign(/* gfx/matrix.Matrix2D */ matrix){
@@ -111,7 +112,8 @@ define(["./_base", "dojo/_base/lang", "./matrix"],
 			result = {dx: M.dx, dy: M.dy, sx: 1, sy: 1, angle1: 0, angle2: 0};
 		// detect case: [scale]
 		if(eq(M.xy, 0) && eq(M.yx, 0)){
-			return lang.mixin(result, {sx: M.xx, sy: M.yy});	// Object
+			dcl.mix(result, {sx: M.xx, sy: M.yy});	// Object
+			return result;
 		}
 		// detect case: [scale, rotate]
 		if(eq(M.xx * M.yx, -M.xy * M.yy)){
@@ -134,6 +136,7 @@ define(["./_base", "dojo/_base/lang", "./matrix"],
 		decomposeRS(U, result);
 		S.xx *= result.sx;
 		S.yy *= result.sy;
-		return lang.mixin(result, {sx: S.xx, sy: S.yy});	// Object
+		dcl.mix(result, {sx: S.xx, sy: S.yy});	// Object
+		return result;
 	};
 });

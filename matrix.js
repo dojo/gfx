@@ -1,5 +1,5 @@
-define(["./_base","dojo/_base/lang"], 
-  function(g, lang){
+define(["dcl/dcl", "./_base","dojo/_base/lang"],
+  function(dcl, g, lang){
 	var m = g.matrix = {};
 
 	// candidates for dojox.math:
@@ -34,10 +34,10 @@ define(["./_base","dojo/_base/lang"],
 						matrix.dx = l.xx * r.dx + l.xy * r.dy + l.dx;
 						matrix.dy = l.yx * r.dx + l.yy * r.dy + l.dy;
 					}
-					lang.mixin(this, matrix);
+					dcl.mix(this, matrix);
 				}
 			}else{
-				lang.mixin(this, arg);
+				dcl.mix(this, arg);
 			}
 		}
 	};
@@ -45,7 +45,7 @@ define(["./_base","dojo/_base/lang"],
 	// the default (identity) matrix, which is used to fill in missing values
 	lang.extend(m.Matrix2D, {xx: 1, xy: 0, yx: 0, yy: 1, dx: 0, dy: 0});
 
-	lang.mixin(m, {
+	dcl.mix(m, {
 		// summary:
 		//		class constants, and methods of gfx/matrix
 
