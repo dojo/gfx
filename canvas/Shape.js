@@ -1,11 +1,12 @@
 define([
+	"require",
 	"dojo/_base/lang",
 	"dcl/dcl",
 	"../_base",
 	"./_base",
 	"../shape/_ShapeBase",
 	"../decompose"
-], function(lang, dcl, g, canvas, ShapeBase){
+], function(require, lang, dcl, g, canvas, ShapeBase){
 	var pattrnbuffer = null;
 
 	var hasNativeDash = canvas.hasNativeDash;
