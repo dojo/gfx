@@ -1,7 +1,7 @@
 define(["../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
-	"dojo/_base/array", "dojo/_base/Color", "../matrix", "./_EventsProcessing",
+	"dojo/_base/Color", "../matrix", "./_EventsProcessing",
 	"dui/Stateful" ],
-	function(g, lang, dcl, has, arr, Color, matrixLib, EventsProcessing, Stateful){
+	function(g, lang, dcl, has, Color, matrixLib, EventsProcessing, Stateful){
 
 		var registry;
 

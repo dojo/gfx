@@ -1,12 +1,11 @@
 define([
 	"dojo/_base/lang",
-	"dojo/_base/array",
 	"dcl/dcl",
 	"../_base",
 	"./_base",
 	"../shape/_ShapeBase",
 	"../decompose"
-], function(lang, arr, dcl, g, canvas, ShapeBase){
+], function(lang, dcl, g, canvas, ShapeBase){
 	var pattrnbuffer = null;
 
 	var hasNativeDash = canvas.hasNativeDash;
@@ -116,7 +115,7 @@ define([
 								f = fs.type == "linear" ?
 									ctx.createLinearGradient(fs.x1, fs.y1, fs.x2, fs.y2) :
 									ctx.createRadialGradient(fs.cx, fs.cy, 0, fs.cx, fs.cy, fs.r);
-								arr.forEach(fs.colors, function(step){
+								fs.colors.forEach(function(step){
 									f.addColorStop(step.offset, g.normalizeColor(step.color).toString());
 								});
 								break;
@@ -307,7 +306,6 @@ define([
 				if(this.parent){
 					this.parent._makeDirty();
 				}
-				return;
 			}
 		})
 	});

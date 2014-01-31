@@ -1,10 +1,9 @@
 define([
 	"dcl/dcl",
-	"dojo/_base/array",
 	"../matrix",
 	"dojo/has",
 	"dojo/has!dojo-bidi?./bidi/_Container"
-], function(dcl, arr, matrixLib, has, BidiContainer){
+], function(dcl, matrixLib, has, BidiContainer){
 	var Container = dcl(null, {
 		// summary:
 		//		a container of shapes, which can be used
@@ -98,7 +97,7 @@ define([
 			if(this.children){
 				// if this is a composite shape, then sum up all the children
 				var result = null;
-				arr.forEach(this.children, function(shape){
+				this.children.forEach(function(shape){
 					var bb = shape.getBoundingBox();
 					if(bb){
 						var ct = shape.transform;

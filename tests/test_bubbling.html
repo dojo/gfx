@@ -17,14 +17,13 @@
 	<script type="text/javascript" src="../../dojo/dojo.js"></script>
 	<script type="text/javascript">
 		require([
-			"dojo/_base/array",
 			"gfx/gfx",
 			"dojo/touch",
 			"dojo/dom",
 			"dojo/on",
 			"dojo/sniff",
 			"dojo/ready"
-		], function(array, gfx, touch, dom, on, has, ready){
+		], function(gfx, touch, dom, on, has, ready){
 
 			var touchMaps = {
 				"press" : touch.press,
@@ -53,7 +52,7 @@
 
 			function wireEvents(shape, events, dojoTouch){
 				var maps = dojoTouch ? touchMaps : nativeMaps;
-				array.forEach(events, function(evt){
+				events.forEach(function(evt){
 					var event = maps[evt];
 					if(!event){ return; }
 					shape.on(maps[evt], function(e){

@@ -6,7 +6,6 @@
 		</script>
 		<script>
 			require([
-				"dojo/_base/array",
 				"dojo/dom",
 				"dojo/on",
 				"dojo/aspect",
@@ -14,7 +13,7 @@
 				"gfx/matrix",
 				"dojo/ready",
 				"gfx/canvasext"],
-				function(array, dom, on, aspect, gfx, matrix, ready){
+				function(dom, on, aspect, gfx, matrix, ready){
 					
 					var initial_matrix = matrix.translate(250, 250), surface;
 					

@@ -1,6 +1,6 @@
 define(["dcl/dcl", "dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/Color", "dojo/_base/sniff", "dojo/_base/config", "dojo/_base/window",
-	    "dojo/_base/array","dojo/dom", "dojo/dom-construct","dojo/dom-geometry"],
-function(dcl, kernel, lang, Color, has, config, win, arr, dom, domConstruct, domGeom){
+	    "dojo/dom", "dojo/dom-construct","dojo/dom-geometry"],
+function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom){
 	// module:
 	//		gfx
 	// summary:

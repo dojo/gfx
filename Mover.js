@@ -1,5 +1,5 @@
-define(["dojo/_base/lang","dojo/_base/array", "dcl/dcl", "dojo/on", "dojo/touch", "dojo/_base/event"],
-  function(lang, arr, dcl, on, touch, event){
+define(["dojo/_base/lang","dcl/dcl", "dojo/on", "dojo/touch", "dojo/_base/event"],
+  function(lang, dcl, on, touch, event){
 	return dcl(null, {
 		constructor: function(shape, e, host){
 			// summary:
@@ -54,7 +54,7 @@ define(["dojo/_base/lang","dojo/_base/array", "dcl/dcl", "dojo/on", "dojo/touch"
 		destroy: function(){
 			// summary:
 			//		stops the move, deletes all references, so the object can be garbage-collected
-			arr.forEach(this.events, function(handle){
+			this.events.forEach(function(handle){
 				handle.remove();
 			});
 			// undo global settings

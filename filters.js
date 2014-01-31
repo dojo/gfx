@@ -1,8 +1,7 @@
 define([
 	"dcl/dcl",
-	"dojo/_base/lang",
-	"dojo/_base/array"
-], function(dcl, lang, array){
+	"dojo/_base/lang"
+], function(dcl, lang){
 
 	/*=====
 	return {
@@ -133,10 +132,10 @@ define([
 		return _createFePrimitive("feMerge", args, children);
 	};
 
-	array.forEach(["feBlend", "feColorMatrix", "feComponentTransfer", "feComposite", "feConvolveMatrix", "feDiffuseLighting",
+	["feBlend", "feColorMatrix", "feComponentTransfer", "feComposite", "feConvolveMatrix", "feDiffuseLighting",
 		"feDisplacementMap", "feFlood", "feGaussianBlur", "feImage", "feMorphology", "feOffset", "feSpecularLighting",
 		"feTile", "feTurbulence", "feDistantLight", "fePointLight", "feSpotLight", "feMergeNode", "feFuncA", "feFuncR",
-		"feFuncG", "feFuncB"], function(fe){
+		"feFuncG", "feFuncB"].forEach(function(fe){
 		filters[fe] = function(args, children){
 			return _createFePrimitive(fe, args, children);
 		};
@@ -202,7 +201,7 @@ define([
 			])
 		])
 	];
-	array.forEach(lib.convolutions, function(f){
+	lib.convolutions.forEach(function(f){
 		dcl.mix(f, defaultFilterBBox);
 	});
 
@@ -271,7 +270,7 @@ define([
 		width:"125%",
 		height:"125%"
 	};
-	array.forEach(lib.shadows, function(f){
+	lib.shadows.forEach(function(f){
 		dcl.mix(f, defaultDropShadowBBox);
 	});
 
@@ -368,7 +367,7 @@ define([
 			filters.feColorMatrix({"type":"hueRotate","values":270})
 		])
 	];
-	array.forEach(lib.colors, function(f){
+	lib.colors.forEach(function(f){
 		dcl.mix(f, defaultFilterBBox);
 	});
 

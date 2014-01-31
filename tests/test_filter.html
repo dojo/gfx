@@ -8,12 +8,11 @@
 <script type="text/javascript">
 	require([
 	"dojo/ready",
-	"dojo/_base/array",
 	"gfx/gfx",
 	"gfx/matrix",
 	"gfx/filters",
 	"gfx/svgext"
-	], function(ready, array, gfx, matrix, filters){
+	], function(ready, gfx, matrix, filters){
 
 		var surface;
 
@@ -41,7 +40,7 @@
 			surface = gfx.createSurface("canvas", 800, 900);
 			var count = 0;
 			makeShape(null, "none", matrix.scale(.65,.65));
-			array.forEach(["convolutions", "blurs", "colors", "miscs", "shadows", "textures", "reliefs"], function(lib){
+			["convolutions", "blurs", "colors", "miscs", "shadows", "textures", "reliefs"].forEach(function(lib){
 				for(var func in filters[lib]){
 					++count;
 					var f = filters[lib][func];

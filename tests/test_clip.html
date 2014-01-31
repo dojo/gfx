@@ -7,13 +7,13 @@
 		<script type="text/javascript">
 			require([
 				"dojo/ready",
-				"dojo/_base/array", 
-				"dojo/dom", 
+				"dojo/dom",
 				"dojo/on", 
 				"gfx/gfx",
 				"gfx/matrix",
-				"gfx/Moveable"],
-				function(ready, array, dom, on, gfx, matrix, Moveable) {
+				"gfx/Moveable",
+                "gfx/canvas"],
+				function(ready, dom, on, gfx, matrix, Moveable) {
 
 				var surface, clipped = [];
 				
@@ -100,7 +100,7 @@
 						clipped.push(rect);
 
 
-						array.forEach(clipped, function(s){
+						clipped.forEach(function(s){
 							new Moveable(s);
 						});
 						
@@ -122,7 +122,7 @@
 				
 				ready(function() {
 					on(dom.byId("noClip"), "click", function(){
-						array.forEach(clipped,function(s){
+						clipped.forEach(function(s){
 							var c = s.clip;
 							s.clip = s._oldClip;
 							s._oldClip = c;
@@ -133,12 +133,14 @@
 					on(select,"change",function(e){
 						switchRenderer();
 					});
-					array.forEach(select.options, function(opt,i){
+                    var options = select.options;
+					for(var i = 0; i < options.length; i++){
+                        var opt = options[i];
 						if (gfx.renderer.indexOf(opt.value) !== -1){
 							select.selectedIndex = i;
 							switchRenderer();
 						}
-					});
+					}
 				});
 			});
 

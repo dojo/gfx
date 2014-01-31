@@ -1,5 +1,5 @@
-define(["dcl/dcl", "dojo/_base/array", "./_base", "./Surface", "./shapes", "require", "./shape/_ShapeBase"],
-	function(dcl, arr, g, Surface, shapes, require, ShapeBase){
+define(["dcl/dcl", "./_base", "./Surface", "./shapes", "require", "./shape/_ShapeBase"],
+	function(dcl, g, Surface, shapes, require, ShapeBase){
 		// module:
 		//		gfx/compat
 		// summary:
@@ -51,9 +51,9 @@ define(["dcl/dcl", "dojo/_base/array", "./_base", "./Surface", "./shapes", "requ
 			};
 			if(ns){
 				// If more options are added, update the docblock at the end of shape.js!
-				arr.forEach(["Group", "Rect", "Ellipse", "Circle", "Line",
+				["Group", "Rect", "Ellipse", "Circle", "Line",
 					"Polyline", "Image", "Text", "Path", "TextPath",
-					"Surface"], function(name){
+					"Surface"].forEach(function(name){
 					g[name] = ns[name];
 				});
 

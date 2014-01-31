@@ -1,6 +1,6 @@
-define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo/_base/array", "dojo/_base/window", "dojo/_base/json", 
+define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html", "dojo/_base/window", "dojo/_base/json",
 	"dojo/_base/Deferred", "dojo/_base/sniff", "require","dojo/_base/config", "dcl/dcl"],
-  function(kernel, lang, g, html, arr, win, jsonLib, Deferred, has, require, config, dcl){
+  function(kernel, lang, g, html, win, jsonLib, Deferred, has, require, config, dcl){
 	var gu = g.utils = {};
 
     var classesRequired, Surface, Group;
@@ -40,7 +40,7 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 			o = o || kernel.global;
 			f.call(o, object);
 			if(dcl.isInstanceOf(object, Surface) || dcl.isInstanceOf(object, Group)){
-				arr.forEach(object.children, function(shape){
+				object.children.forEach(function(shape){
 					gu.forEach(shape, f, o);
 				});
 			}
@@ -56,7 +56,7 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 
 			var t = {}, v, isSurface = dcl.isInstanceOf(object, Surface);
 			if(isSurface || dcl.isInstanceOf(object, Group)){
-				t.children = arr.map(object.children, gu.serialize);
+				t.children = object.children.map(gu.serialize);
 				if(isSurface){
 					return t.children;	// Array
 				}
@@ -103,7 +103,7 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 			//		The shapes to deserialize.
 
 			if(object instanceof Array){
-				return arr.map(object, lang.hitch(null, gu.deserialize, parent));	// Array
+				return object.map(lang.hitch(null, gu.deserialize, parent));	// Array
 			}
 			var shape = ("shape" in object) ? parent.createShape(object.shape) : parent.createGroup();
 			if("transform" in object){
@@ -119,7 +119,7 @@ define(["dojo/_base/kernel","dojo/_base/lang","./_base", "dojo/_base/html","dojo
 				shape.font = object.font;
 			}
 			if("children" in object){
-				arr.forEach(object.children, lang.hitch(null, gu.deserialize, shape));
+				object.children.forEach(lang.hitch(null, gu.deserialize, shape));
 			}
 			return shape;	// gfx/shape.Shape
 		},

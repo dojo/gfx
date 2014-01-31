@@ -1,6 +1,6 @@
-define(["dojo/_base/lang","dcl/dcl","dojo/_base/array","dojo/_base/event","dojo/topic","dojo/touch",
+define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch",
 	"dojo/dom-class","dojo/_base/window","./Mover"],
-  function(lang, dcl,arr,event,topic,touch,domClass,win,Mover){
+  function(lang, dcl,event,topic,touch,domClass,win,Mover){
 
 	/*=====
 	var __MoveableCtorArgs = dcl(null, {
@@ -43,7 +43,7 @@ define(["dojo/_base/lang","dcl/dcl","dojo/_base/array","dojo/_base/event","dojo/
 		destroy: function(){
 			// summary:
 			//		stops watching for possible move, deletes all references, so the object can be garbage-collected
-			arr.forEach(this.events, function(handle){
+			this.events.forEach(function(handle){
 				handle.remove();
 			});
 			this.events = this.shape = null;

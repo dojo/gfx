@@ -1,12 +1,11 @@
 define([
 	"dojo/dom",
-	"dojo/_base/array",
 	"dojo/_base/window",
 	"dojo/_base/lang",
 	"./_base",
 	"./svg",
 	"./svg/_base"],
-	function(dom, array, win, lang, gfx, svg, svgUtils){
+	function(dom, win, lang, gfx, svg, svgUtils){
 
 	/*=====
 	return {
@@ -32,7 +31,7 @@ define([
 			}
 		}
 		if(primitive.children){
-			array.forEach(primitive.children, function(f){buildFilterPrimitivesDOM(f, node);});
+			primitive.children.forEach(function(f){buildFilterPrimitivesDOM(f, node);});
 		}
 		return node;
 	}
@@ -207,7 +206,7 @@ define([
 						filterNode.setAttribute(p, filter[p]);
 					}
 				}
-				array.forEach(filter.primitives, function(p){
+				filter.primitives.forEach(function(p){
 					buildFilterPrimitivesDOM(p, filterNode);
 				});
 				var surface = this._getParentSurface();

@@ -1,10 +1,10 @@
-define(["dojo/_base/lang", "dojo/_base/array", "../dojox/string/BidiEngine"], function(lang, arr, BidiEngine){
+define(["dojo/_base/lang", "../dojox/string/BidiEngine"], function(lang, BidiEngine){
 
 	function validateTextDir(textDir){
 		var validValues = ["ltr", "rtl", "auto"];
 		if(textDir){
 			textDir = textDir.toLowerCase();
-			if(arr.indexOf(validValues, textDir) < 0){
+			if(validValues.indexOf(textDir) < 0){
 				return null;
 			}
 		}

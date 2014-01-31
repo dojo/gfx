@@ -1,7 +1,7 @@
 define(["dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
-	"dojo/on", "dojo/_base/array", "dojo/dom-construct", "./_EventsProcessing", "./_ContainerBase", "./_CreatorBase",
+	"dojo/on", "dojo/dom-construct", "./_EventsProcessing", "./_ContainerBase", "./_CreatorBase",
 	"dui/Stateful" ],
-	function(lang, dcl, has, on, arr, domConstruct, EventsProcessing, Container, Creator, Stateful){
+	function(lang, dcl, has, on, domConstruct, EventsProcessing, Container, Creator, Stateful){
 		return dcl([Stateful, EventsProcessing, Container, Creator], {
 			// summary:
 			//		a surface object to be used for drawings
@@ -24,9 +24,9 @@ define(["dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff",
 				// summary:
 				//		destroy all relevant external resources and release all
 				//		external references to make this object garbage-collectible
-				arr.forEach(this._nodes, domConstruct.destroy);
+				this._nodes.forEach(domConstruct.destroy);
 				this._nodes = [];
-				arr.forEach(this._events, function(h){
+				this._events.forEach(function(h){
 					if(h){
 						h.remove();
 					}

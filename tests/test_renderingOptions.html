@@ -5,15 +5,14 @@
 				data-dojo-config="isDebug: true,parseOnLoad: true, async:1, gfxRenderer:'svg'"></script>
 		<script>
 			require([
-				"dojo/_base/array",
 				"gfx/gfx",
 				"gfx/matrix",
 				"dojo/ready",
 				"gfx/svgext"],
-				function(array, gfx, matrix, ready){
+				function(gfx, matrix, ready){
 
 				var surface = gfx.createSurface("slideTarget", 700, 500), g, parent = surface, s;
-				array.forEach(["auto","optimizeSpeed","crispEdges","geometricPrecision"], function(opt,idx){
+				["auto","optimizeSpeed","crispEdges","geometricPrecision"].forEach(function(opt,idx){
 					g = parent.createGroup(); g.transform = matrix.translate(0, 20*idx);
 					s = g.createLine({
 						x1 : 10,
@@ -31,7 +30,7 @@
                     s.fill = "black";
 				});
 				parent = surface.createGroup(); parent.transform = matrix.translate(0, 80);
-				array.forEach(["auto","optimizeSpeed","crispEdges","geometricPrecision"], function(opt,idx){
+				["auto","optimizeSpeed","crispEdges","geometricPrecision"].forEach(function(opt,idx){
 					g = parent.createGroup(); g.transform = matrix.translate(0, 20*idx);
 					s = g.createLine({
 						x1 : 10,
@@ -49,7 +48,7 @@
                     s.fill = "black";
 				});
 				parent = surface.createGroup(); parent.transform = matrix.translate(0, 160);
-				array.forEach(["auto","optimizeSpeed","optimizeLegibility","geometricPrecision"], function(opt,idx){
+				["auto","optimizeSpeed","optimizeLegibility","geometricPrecision"].forEach(function(opt,idx){
 					g = parent.createGroup(); g.transform = matrix.translate(0, 20*idx);
 					s = g.createText({
 						x : 50,

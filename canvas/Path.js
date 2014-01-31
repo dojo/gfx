@@ -1,12 +1,11 @@
 define([
 	"dojo/_base/lang",
-	"dojo/_base/array",
 	"dcl/dcl",
 	"./_base",
 	"./Shape",
 	"../shape/_PathBase",
 	"../arc"
-], function(lang, arr, dcl, canvas, CanvasShape, PathBase, ga){
+], function(lang, dcl, canvas, CanvasShape, PathBase, ga){
 
 	var hasNativeDash = canvas.hasNativeDash;
 
@@ -321,7 +320,7 @@ define([
 					args[i + 3] ? 1 : 0, args[i + 4] ? 1 : 0,
 					x1, y1
 				);
-				arr.forEach(arcs, function(p){
+				arcs.forEach(function(p){
 					result.push("bezierCurveTo", p);
 				});
 				if(doDash)

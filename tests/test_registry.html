@@ -14,11 +14,10 @@
 			"doh/runner",
 			"dojo/ready",
 			"dojo/dom",
-			"dojo/_base/array",
 			"gfx/gfx",
 			"gfx/shape",
 			"gfx/registry"
-		], function(doh, ready, dom, array, gfx, shape, registry){
+		], function(doh, ready, dom, gfx, shape, registry){
 			ready(function(){
 				var drawing;
 				var ta;
@@ -92,7 +91,7 @@
 						},
 						runTest:function(t){
 							var dic = {};
-							array.forEach(["Group", "Rect", "Ellipse", "Circle", "Line", "Polyline", "Image", "Text", "Path", "TextPath"], function(name, idx, values){
+							["Group", "Rect", "Ellipse", "Circle", "Line", "Polyline", "Image", "Text", "Path", "TextPath"].forEach(function(name, idx, values){
 								var s = drawing["create" + name]();
 								t.t(s.getUID() && s.getUID().length > 0, "Checking automatic shape registration for " + name);
 								var o = shape.byId(s.getUID());
@@ -103,7 +102,7 @@
 								dic[name] = s.getUID();
 							});
 							// successive registration
-							array.forEach(["Group", "Rect", "Ellipse", "Circle", "Line", "Polyline", "Image", "Text", "Path", "TextPath"], function(name, idx, values){
+							["Group", "Rect", "Ellipse", "Circle", "Line", "Polyline", "Image", "Text", "Path", "TextPath"].forEach(function(name, idx, values){
 								var s = drawing["create" + name]();
 								var id = s.getUID();
 								t.t(dic[name] != id, "Checking unicity.");

@@ -9,7 +9,6 @@
 	<script type="text/javascript" charset="utf-8">
 		require([
 			"dojo/_base/lang",
-			"dojo/_base/array",
 			"dojo/_base/fx",
 			"dojo/ready",
 			"dojo/dom",
@@ -22,7 +21,7 @@
 			"dojo/fx",
 			"dojo/fx/easing",
 			"gfx/gfx"
-		], function(lang, array, baseFx, ready, dom, domAttr, domConstruct, on, aspect, query, NLdom, dojoFx, fxEasing, gfx){
+		], function(lang, baseFx, ready, dom, domAttr, domConstruct, on, aspect, query, NLdom, dojoFx, fxEasing, gfx){
 			var WIDTH = 600, HEIGHT = 400,
 					BAR_GAP = 20, BAR_WIDTH = 76,
 					BAR_FILL = "red", BAR_STROKE = "black",
@@ -57,12 +56,12 @@
 				enable(false);
 
 				// get old heights
-				var oldHeights = array.map(rects, function(rect){
+				var oldHeights = rects.map(function(rect){
 					return rect.shape.height;
 				});
 
 				// generate new heights
-				var newHeights = array.map(rects, function(){
+				var newHeights = rects.map(function(){
 					return 1 + Math.random() * (HEIGHT - 1);
 				});
 
@@ -71,7 +70,7 @@
 						easing = fxEasing[(dom.byId("easing").value)];
 
 				// create animations between heights
-				var animations = array.map(rects, function(rect, i){
+				var animations = rects.map(function(rect, i){
 					// create animation
 					var anim = new baseFx.Animation({
 						duration:duration,

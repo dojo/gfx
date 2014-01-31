@@ -7,8 +7,8 @@
 			data-dojo-config="isDebug: true, async:1"></script>
 	<script type="text/javascript">
 
-	require(["dojo/ready", "dojo/_base/array", "dojo/dom", "dojo/on", "gfx/gfx","gfx/matrix"],
-	function(ready, array, dom, on, gfx, matrix){
+	require(["dojo/ready", "dojo/dom", "dojo/on", "gfx/gfx","gfx/matrix"],
+	function(ready, dom, on, gfx, matrix){
 
 		var ROTATION = 30, surface = null, t1, t2, t3, t4, t5, t6, t7, t8, t9;
 
@@ -66,7 +66,7 @@
 					 t9.transform = m.translate(250, 440);
 
 
-			array.forEach(["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"], function(name){
+			["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"].forEach(function(name){
 				var node = eval("(" + name + ")");
 				placeBBox(surface, node);
 			});
@@ -80,7 +80,7 @@
 		function getSizes(){
 			if (!surface.children.length){return;}
 			var t = [];
-			array.forEach(["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"], function(name){
+			["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"].forEach(function(name){
 				var node = eval("(" + name + ")");
 				t.push(node.shape.text + " = " + node.getTextWidth());
 			});

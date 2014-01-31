@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_base/array", "dojo/_base/fx", "dojo/_base/connect", "dojo/sniff"], 
-  function(lang, g, m, Color, arr, fx, Hub, has){
+define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_base/fx", "dojo/_base/connect", "dojo/sniff"],
+  function(lang, g, m, Color, fx, Hub, has){
 	var fxg = g.fx = {};
 
 	// Generic interpolators. Should they be moved to dojox.fx?
@@ -53,7 +53,7 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 	}
 	InterpolTransform.prototype.getValue = function(r){
 		var ret = [];
-		arr.forEach(this.stack, function(t){
+		this.stack.forEach(function(t){
 			if(t instanceof m.Matrix2D){
 				ret.push(t);
 				return;
@@ -80,7 +80,7 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 				ret.push(f);
 				return;
 			}
-			var val = arr.map(t.start, function(v, i){
+			var val = t.start.map(function(v, i){
 							return (t.end[i] - v) * r + v;
 						}),
 				matrix = f.apply(m, val);
@@ -307,7 +307,7 @@ define(["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_bas
 						}catch(e){}
 					}),
 					Hub.connect(anim, "onEnd", anim, function(){
-						arr.forEach(handlers, Hub.disconnect);
+						handlers.forEach(Hub.disconnect);
 						if(shape.__svgContainer){
 							var ov = shape.__svgContainer.style.visibility;
 							var sn = shape.__svgContainer;

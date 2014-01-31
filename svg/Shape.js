@@ -2,7 +2,6 @@ define([
 	"dojo/_base/lang",
 	"dojo/dom",
 	"dcl/dcl",
-	"dojo/_base/array",
 	"dojo/sniff",
 	"dojo/dom-geometry",
 	"dojo/dom-attr",
@@ -11,7 +10,7 @@ define([
 	"./_base",
 	"../shape/_ShapeBase",
 	"./Surface"
-], function(lang, dom, dcl, arr, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface){
+], function(lang, dom, dcl, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface){
 
 	var clipCount = 0;
 
@@ -77,17 +76,17 @@ define([
 					case "linear":
 						f = g.makeParameters(g.defaultLinearGradient, fill);
 						var gradient = this._setFillObject(f, "linearGradient");
-						arr.forEach(["x1", "y1", "x2", "y2"], setter, gradient);
+						["x1", "y1", "x2", "y2"].forEach(setter, gradient);
 						break;
 					case "radial":
 						f = g.makeParameters(g.defaultRadialGradient, fill);
 						var grad = this._setFillObject(f, "radialGradient");
-						arr.forEach(["cx", "cy", "r"], setter, grad);
+						["cx", "cy", "r"].forEach(setter, grad);
 						break;
 					case "pattern":
 						f = g.makeParameters(g.defaultPattern, fill);
 						var pattern = this._setFillObject(f, "pattern");
-						arr.forEach(["x", "y", "width", "height"], setter, pattern);
+						["x", "y", "width", "height"].forEach(setter, pattern);
 						break;
 				}
 				this._set("fill", f);

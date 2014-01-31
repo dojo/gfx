@@ -1,4 +1,4 @@
-define(["require", "dcl/dcl", "dojo/_base/array", "../../utils"], function(require, dcl, arr, gfxUtils){
+define(["require", "dcl/dcl", "../../utils", "../../_bidi"], function(require, dcl, gfxUtils, bidi){
 
 	var classesRequired, Container, Text, TextPath;
 
@@ -9,7 +9,7 @@ define(["require", "dcl/dcl", "dojo/_base/array", "../../utils"], function(requi
 			try { TextPath = require("../_TextPathBase"); }catch(err){}
 			classesRequired = true;
 		}
-		var tDir = validateTextDir(newTextDir);
+		var tDir = bidi.validateTextDir(newTextDir);
 		if (tDir){
 			gfxUtils.forEach(obj,function(e){
 				if(dcl.isInstanceOf(e, Container)){
@@ -24,17 +24,6 @@ define(["require", "dcl/dcl", "dojo/_base/array", "../../utils"], function(requi
 			}, obj);
 		}
 		return obj;
-	}
-
-	function validateTextDir(textDir){
-		var validValues = ["ltr","rtl","auto"];
-		if (textDir){
-			textDir = textDir.toLowerCase();
-			if (arr.indexOf(validValues, textDir) < 0){
-				return null;
-			}
-		}
-		return textDir;
 	}
 
 	return dcl(null, {
