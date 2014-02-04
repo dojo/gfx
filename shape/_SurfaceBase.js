@@ -6,9 +6,9 @@ define([
 		// summary:
 		//		a surface object to be used for drawings
 
-		// prevent Stateful from mixing in the properties of the 1st constructor argument
-		// (which is a DOM node)
-		mix: function () {
+		processConstructorParameters: function () {
+			// summary:
+			//		Does nothing to prevent Stateful from mixing in the properties of the 1st constructor argument.
 		},
 
 		constructor: function () {

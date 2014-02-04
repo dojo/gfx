@@ -53,9 +53,9 @@ define([
 		//		an object that defines the clipping geometry, or null to remove clip.
 		clip: null,
 
-		// prevent Stateful from mixing in the properties of the 1st constructor argument
-		// (which is the hash containing the shape properties)
-		mix: function () {
+		processConstructorParameters: function () {
+			// summary:
+			//		Does nothing to prevent Stateful from mixing in the properties of the 1st constructor argument.
 		},
 
 		constructor: function (rawShape, rawNode) {
