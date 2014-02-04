@@ -1,20 +1,10 @@
 define([
-	"./canvas/_base",
-	"./canvas/Shape",
-	"./canvas/Container",
-	"./canvas/Surface",
-	"./canvas/Group",
-	"./canvas/Rect",
-	"./canvas/Ellipse",
-	"./canvas/Circle",
-	"./canvas/Line",
-	"./canvas/Polyline",
-	"./canvas/Image",
-	"./canvas/Path",
-	"./canvas/Text",
-	"./canvas/TextPath",
-	"./canvas/Creator"
-], function(canvas, Shape, Container, Surface, Group, Rect, Ellipse, Circle, Line, Polyline, Image, Path, Text, TextPath, Creator){
+	"./canvas/_base", "./canvas/Shape", "./canvas/Container", "./canvas/Surface", "./canvas/Group", "./canvas/Rect",
+	"./canvas/Ellipse", "./canvas/Circle", "./canvas/Line", "./canvas/Polyline", "./canvas/Image", "./canvas/Path",
+	"./canvas/Text", "./canvas/TextPath", "./canvas/Creator"
+], function (canvas, Shape, Container, Surface, Group, Rect, Ellipse, Circle, Line, Polyline, Image, Path, Text,
+	TextPath, Creator
+	) {
 	return {
 		// summary:
 		//		This the graphics rendering bridge for W3C Canvas compliant browsers.
@@ -37,7 +27,7 @@ define([
 		Text: Text,
 		TextPath: TextPath,
 		Creator: Creator,
-		createSurface: function(node, width, height){
+		createSurface: function (node, width, height) {
 			return new Surface(node, width, height);
 		}
 	};

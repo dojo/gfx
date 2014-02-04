@@ -1,11 +1,6 @@
 define([
-	"../_base",
-	"dcl/dcl",
-	"dojo/_base/lang",
-	"./_PathBase",
-	"dojo/has",
-	"dojo/has!dojo-bidi?./bidi/_TextPath"
-], function(g, dcl, lang, Path, has, BidiTextPath){
+	"../_base", "dcl/dcl", "dojo/_base/lang", "./_PathBase", "dojo/has", "dojo/has!dojo-bidi?./bidi/_TextPath"
+], function (g, dcl, lang, Path, has, BidiTextPath) {
 	var defaultShape = {
 		// summary:
 		//		Defines the default TextPath prototype.
@@ -52,31 +47,30 @@ define([
 		//		The text to be drawn along the path
 		text: null,
 
-		constructor: function(){
+		constructor: function () {
 			// summary:
 			//		a TextPath shape constructor
 			this._set("text", lang.clone(TextPath.defaultShape));
 			this._set("font", lang.clone(g.defaultFont));
 		},
-		_setTextAttr: function(newText){
+		_setTextAttr: function (newText) {
 			// summary:
 			//		sets a text to be drawn along the path
-			this._set("text", g.makeParameters(this._get("text"),
-				typeof newText == "string" ? {text: newText} : newText));
+			this._set("text",
+				g.makeParameters(this._get("text"), typeof newText === "string" ? {text: newText} : newText));
 			this._setText();
 			return this;	// self
 		},
-		_setFontAttr: function(newFont){
+		_setFontAttr: function (newFont) {
 			// summary:
 			//		sets a font for text
-			this._set("font", typeof newFont == "string" ?
-				g.splitFontString(newFont) :
-				g.makeParameters(g.defaultFont, newFont));
+			this._set("font",
+				typeof newFont === "string" ? g.splitFontString(newFont) : g.makeParameters(g.defaultFont, newFont));
 			this._setFont();
 			return this;	// self
 		}
 	});
-	if(has("dojo-bidi")){
+	if (has("dojo-bidi")) {
 		TextPath = dcl([TextPath, BidiTextPath], {});
 		defaultShape.textDir = "";
 	}

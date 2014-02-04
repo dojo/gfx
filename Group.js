@@ -1,3 +1,3 @@
-define(["./_RendererChooser!Group"], function(Group){
+define(["./_RendererChooser!Group"], function (Group) {
 	return Group;
 });

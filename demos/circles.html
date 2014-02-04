@@ -1,85 +1,67 @@
 ﻿<html>
 <head>
-	<title>gfx: 100 draggable circles</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dijit/tests/css/dijitTests.css";
-	</style>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="parseOnLoad: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
-	<script type="text/javascript">
-		require([
-			"dojo/_base/event",
-			"dojo/ready",
-			"dojo/dom",
-			"dojo/on",
-			"gfx/gfx",
-			"gfx/Moveable"
-		], function(event, ready, dom, on, gfx, Moveable){
-			var container = null,
-					surface = null,
-					surface_size = null;
+    <title>gfx: 100 draggable circles</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+        @import "../../dojo/resources/dojo.css";
+        @import "../../dijit/tests/css/dijitTests.css";
+    </style>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="parseOnLoad: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
+    <script type="text/javascript">
+        require([
+            "dojo/_base/event", "dojo/ready", "dojo/dom", "dojo/on", "gfx/gfx", "gfx/Moveable"
+        ], function (event, ready, dom, on, gfx, Moveable) {
+            var container = null, surface = null, surface_size = null;
 
-			function getRand(from, to){
-				return Math.random() * (to - from) + from;
-			}
+            function getRand(from, to) {
+                return Math.random() * (to - from) + from;
+            }
 
-			var skew_stat_factor = 15;
+            var skew_stat_factor = 15;
 
-			function getRandSkewed(from, to){
-				// let skew stats to smaller values
-				var seed = 0;
-				for(var i = 0; i < skew_stat_factor; ++i){
-					seed += Math.random();
-				}
-				seed = 2 * Math.abs(seed / skew_stat_factor - 0.5);
-				return seed * (to - from) + from;
-			}
+            function getRandSkewed(from, to) {
+                // let skew stats to smaller values
+                var seed = 0;
+                for (var i = 0; i < skew_stat_factor; ++i) {
+                    seed += Math.random();
+                }
+                seed = 2 * Math.abs(seed / skew_stat_factor - 0.5);
+                return seed * (to - from) + from;
+            }
 
-			function randColor(alpha){
-				var red = Math.floor(getRand(0, 255)),
-						green = Math.floor(getRand(0, 255)),
-						blue = Math.floor(getRand(0, 255)),
-						opacity = alpha ? getRand(0.1, 1) : 1;
-				return [red, green, blue, opacity];
-			}
+            function randColor(alpha) {
+                var red = Math.floor(getRand(0, 255)), green = Math.floor(getRand(0, 255)), blue = Math.floor(getRand(0,
+                        255)), opacity = alpha ? getRand(0.1, 1) : 1;
+                return [red, green, blue, opacity];
+            }
 
-			function makeCircleGrid(itemCount){
-				var minR = 10, maxR = surface_size.width / 3;
-				for(var j = 0; j < itemCount; ++j){
-					var r = getRandSkewed(minR, maxR),
-							cx = getRand(r, surface_size.width - r),
-							cy = getRand(r, surface_size.height - r),
-							shape = surface.createCircle({cx:cx, cy:cy, r:r});
-					shape.fill = randColor(true);
-					shape.stroke = {color:randColor(true), width:getRand(0, 3)};
-					new Moveable(shape);
-				}
-			}
+            function makeCircleGrid(itemCount) {
+                var minR = 10, maxR = surface_size.width / 3;
+                for (var j = 0; j < itemCount; ++j) {
+                    var r = getRandSkewed(minR, maxR), cx = getRand(r, surface_size.width - r), cy = getRand(r,
+                            surface_size.height - r), shape = surface.createCircle({cx: cx, cy: cy, r: r});
+                    shape.fill = randColor(true);
+                    shape.stroke = {color: randColor(true), width: getRand(0, 3)};
+                    new Moveable(shape);
+                }
+            }
 
-			function initGfx(){
-				container = dom.byId("gfx_holder");
-				surface = gfx.createSurface(container, 500, 500);
-				surface_size = {width:500, height:500};
+            function initGfx() {
+                container = dom.byId("gfx_holder");
+                surface = gfx.createSurface(container, 500, 500);
+                surface_size = {width: 500, height: 500};
 
-				makeCircleGrid(100);
+                makeCircleGrid(100);
 
-				// cancel text selection and text dragging
-				on(container, "dragstart", event.stop);
-				on(container, "selectstart", event.stop);
-			}
+                // cancel text selection and text dragging
+                on(container, "dragstart", event.stop);
+                on(container, "selectstart", event.stop);
+            }
 
-			ready(initGfx);
-		});
-	</script>
-
-	<style type="text/css">
-		.movable {
-			cursor: pointer;
-		}
-	</style>
-
+            ready(initGfx);
+        });
+    </script>
 </head>
 <body>
 <h1>gfx: 100 draggable circles</h1>

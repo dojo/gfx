@@ -1,80 +1,73 @@
 <!DOCTYPE html>
+<html>
 <head>
-	<title>Testing polyline points initialization</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dijit/tests/css/dijitTests.css";
-	</style>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="gfxRenderer:'canvas', canvasEvents:false, isDebug: true, packages:[{name:'gfx',location:'../gfx'}]"></script>
-	<script type="text/javascript">
-		require([
-			"dojo/ready",
-			"dojo/dom",
-			"gfx/gfx",
-			"gfx/shape",
-			"gfx/path",
-			"gfx/arc"
-		], function(ready, dom, gfx, shape, path, arc){
-			createSurface = function(){
-				surface = gfx.createSurface("test", 500, 200);
-				surface.whenLoaded(makeShapes);
-			};
+    <title>Testing polyline points initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+        @import "../../dojo/resources/dojo.css";
+        @import "../../dijit/tests/css/dijitTests.css";
+    </style>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="gfxRenderer:'canvas', canvasEvents:false, isDebug: true, packages:[{name:'gfx',location:'../gfx'}]"></script>
+    <script type="text/javascript">
+        require([
+            "dojo/ready", "dojo/dom", "gfx/gfx", "gfx/shape", "gfx/path", "gfx/arc"
+        ], function (ready, dom, gfx, shape, path, arc) {
+            createSurface = function () {
+                surface = gfx.createSurface("test", 500, 200);
+                surface.whenLoaded(makeShapes);
+            };
 
-			logBBox = function(shape, msg){
-				var bbox = shape.getBoundingBox(), t = shape.transform;
-				if(bbox){
-					var text = surface.createText({
-						text:msg + " bbox: [" + bbox.x + "," + bbox.y + "," + bbox.width + "," + bbox.height + "]",
-						align:"middle",
-						x:bbox.x + bbox.width / 2,
-						y:bbox.y + bbox.height + 20
-					});
+            logBBox = function (shape, msg) {
+                var bbox = shape.getBoundingBox(), t = shape.transform;
+                if (bbox) {
+                    var text = surface.createText({
+                        text: msg + " bbox: [" + bbox.x + "," + bbox.y + "," + bbox.width + "," + bbox.height + "]",
+                        align: "middle",
+                        x: bbox.x + bbox.width / 2,
+                        y: bbox.y + bbox.height + 20
+                    });
                     text.fill = "black";
                     text.transform = t;
-                }else{
-					dom.byId("o1").innerHTML = msg + " bbox: null";
+                } else {
+                    dom.byId("o1").innerHTML = msg + " bbox: null";
                 }
-				return bbox;
-			};
+                return bbox;
+            };
 
-			makeShapes = function(surface){
-				var poly1 = surface.createPolyline([
-									{x:150, y:50},
-									{x:200, y:100},
-									{x:150, y:150},
-									{x:100, y:100},
-									{x:150, y:50}
-								]);
-                poly1.stroke = {color:"blue"};
-				var bbox1 = logBBox(poly1, "Polyline1");
+            makeShapes = function (surface) {
+                var poly1 = surface.createPolyline([
+                    {x: 150, y: 50},
+                    {x: 200, y: 100},
+                    {x: 150, y: 150},
+                    {x: 100, y: 100},
+                    {x: 150, y: 50}
+                ]);
+                poly1.stroke = {color: "blue"};
+                var bbox1 = logBBox(poly1, "Polyline1");
 
-				var poly2 = surface.createPolyline([150, 50, 200, 100, 150, 150, 100, 100, 150, 50]);
-								poly2.stroke = {color:"blue"};
-								poly2.transform = gfx.matrix.translate(200, 0);
-				var bbox2 = logBBox(poly2, "Polyline2");
+                var poly2 = surface.createPolyline([150, 50, 200, 100, 150, 150, 100, 100, 150, 50]);
+                poly2.stroke = {color: "blue"};
+                poly2.transform = gfx.matrix.translate(200, 0);
+                var bbox2 = logBBox(poly2, "Polyline2");
 
-				var poly3 = surface.createPolyline(),
-						bbox3 = logBBox(poly3, "Polyline3");
+                var poly3 = surface.createPolyline(), bbox3 = logBBox(poly3, "Polyline3");
 
-				var t = bbox1.x === bbox2.x &&
-						bbox1.y === bbox2.y &&
-						bbox1.width === bbox2.width &&
-						bbox1.height === bbox2.height;
-				var s;
-				if(t){
-					s = "OK";
-				}else{
-					s = "KO";
-					dojo.style("o3", "color", "red");
-				}
-				dom.byId("o3").innerHTML = "Test Result : " + (t ? "OK" : "KO");
-			};
+                var t = bbox1.x === bbox2.x && bbox1.y === bbox2.y && bbox1.width === bbox2.width &&
+                        bbox1.height === bbox2.height;
+                var s;
+                if (t) {
+                    s = "OK";
+                } else {
+                    s = "KO";
+                    dojo.style("o3", "color", "red");
+                }
+                dom.byId("o3").innerHTML = "Test Result : " + (t ? "OK" : "KO");
+            };
 
-			ready(createSurface);
-		});
-	</script>
+            ready(createSurface);
+        });
+    </script>
 </head>
 <body>
 <h1>gfx Polyline points initialization test </h1>

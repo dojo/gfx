@@ -1,16 +1,7 @@
 define([
-	"dojo/_base/lang",
-	"dojo/dom",
-	"dcl/dcl",
-	"dojo/sniff",
-	"dojo/dom-geometry",
-	"dojo/dom-attr",
-	"dojo/_base/Color",
-	"../_base",
-	"./_base",
-	"../shape/_ShapeBase",
-	"./Surface"
-], function(lang, dom, dcl, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface){
+	"dojo/_base/lang", "dojo/dom", "dcl/dcl", "dojo/sniff", "dojo/dom-geometry", "dojo/dom-attr", "dojo/_base/Color",
+	"../_base", "./_base", "../shape/_ShapeBase", "./Surface"
+], function (lang, dom, dcl, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface) {
 
 	var clipCount = 0;
 
@@ -18,36 +9,35 @@ define([
 		// summary:
 		//		SVG-specific implementation of gfx/shape.Shape methods
 
-		createRawNode: function(){
+		createRawNode: function () {
 			// summary: Creates a new SVG shape.
 			var node = svg._createElementNS(svg.xmlns.svg, this.constructor.nodeType);
 			this.setRawNode(node);
 			return node;
 		},
 
-		destroy: dcl.superCall(function(sup){
-			return function(){
-				if(this.fill && "type" in this.fill){
-					var fill = this.rawNode.getAttribute("fill"),
-						ref = svg.getRef(fill);
-					if(ref){
+		destroy: dcl.superCall(function (sup) {
+			return function () {
+				if (this.fill && "type" in this.fill) {
+					var fill = this.rawNode.getAttribute("fill"), ref = svg.getRef(fill);
+					if (ref) {
 						ref.parentNode.removeChild(ref);
 					}
 				}
-				if(this.clip){
+				if (this.clip) {
 					var clipPathProp = this.rawNode.getAttribute("clip-path");
-					if(clipPathProp){
+					if (clipPathProp) {
 						var clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
-						if(clipNode){
+						if (clipNode) {
 							clipNode.parentNode.removeChild(clipNode);
 						}
 					}
 				}
 				sup.apply(this, arguments);
-			}
+			};
 		}),
 
-		_setFillAttr: function(fill){
+		_setFillAttr: function (fill) {
 			// summary:
 			//		sets a fill object (SVG)
 			// fill: Object
@@ -57,7 +47,7 @@ define([
 			//		gfx.defaultPattern,
 			//		or dojo/_base/Color)
 
-			if(!fill){
+			if (!fill) {
 				// don't fill
 				this._set("fill", null);
 				this.rawNode.setAttribute("fill", "none");
@@ -66,28 +56,28 @@ define([
 			}
 			var f;
 			// FIXME: slightly magical. We're using the outer scope's "f", but setting it later
-			var setter = function(x){
+			var setter = function (x) {
 				// we assume that we're executing in the scope of the node to mutate
 				this.setAttribute(x, f[x].toFixed(8));
 			};
-			if(typeof(fill) == "object" && "type" in fill){
+			if (typeof(fill) === "object" && "type" in fill) {
 				// gradient
-				switch(fill.type){
-					case "linear":
-						f = g.makeParameters(g.defaultLinearGradient, fill);
-						var gradient = this._setFillObject(f, "linearGradient");
-						["x1", "y1", "x2", "y2"].forEach(setter, gradient);
-						break;
-					case "radial":
-						f = g.makeParameters(g.defaultRadialGradient, fill);
-						var grad = this._setFillObject(f, "radialGradient");
-						["cx", "cy", "r"].forEach(setter, grad);
-						break;
-					case "pattern":
-						f = g.makeParameters(g.defaultPattern, fill);
-						var pattern = this._setFillObject(f, "pattern");
-						["x", "y", "width", "height"].forEach(setter, pattern);
-						break;
+				switch (fill.type) {
+				case "linear":
+					f = g.makeParameters(g.defaultLinearGradient, fill);
+					var gradient = this._setFillObject(f, "linearGradient");
+					["x1", "y1", "x2", "y2"].forEach(setter, gradient);
+					break;
+				case "radial":
+					f = g.makeParameters(g.defaultRadialGradient, fill);
+					var grad = this._setFillObject(f, "radialGradient");
+					["cx", "cy", "r"].forEach(setter, grad);
+					break;
+				case "pattern":
+					f = g.makeParameters(g.defaultPattern, fill);
+					var pattern = this._setFillObject(f, "pattern");
+					["x", "y", "width", "height"].forEach(setter, pattern);
+					break;
 				}
 				this._set("fill", f);
 				return this;
@@ -101,14 +91,16 @@ define([
 			return this;	// self
 		},
 
-		_setStrokeAttr: function(stroke){
+		_setStrokeAttr: function (stroke) {
 			// summary:
 			//		sets a stroke object (SVG)
 			// stroke: Object
 			//		a stroke object (see gfx.defaultStroke)
 
+			/* jshint maxcomplexity:12 */
+
 			var rn = this.rawNode;
-			if(!stroke){
+			if (!stroke) {
 				// don't stroke
 				this._set("stroke", null);
 				rn.setAttribute("stroke", "none");
@@ -116,42 +108,42 @@ define([
 				return this;
 			}
 			// normalize the stroke
-			if(typeof stroke == "string" || lang.isArray(stroke) || stroke instanceof Color){
+			if (typeof stroke === "string" || lang.isArray(stroke) || stroke instanceof Color) {
 				stroke = { color: stroke };
 			}
-			var s =  g.makeParameters(g.defaultStroke, stroke);
+			var s = g.makeParameters(g.defaultStroke, stroke);
 			s.color = g.normalizeColor(s.color);
 			this._set("stroke", s);
 			// generate attributes
-			if(s){
+			if (s) {
 				rn.setAttribute("stroke", s.color.toCss());
 				rn.setAttribute("stroke-opacity", s.color.a);
 				rn.setAttribute("stroke-width", s.width);
 				rn.setAttribute("stroke-linecap", s.cap);
-				if(typeof s.join == "number"){
+				if (typeof s.join === "number") {
 					rn.setAttribute("stroke-linejoin", "miter");
 					rn.setAttribute("stroke-miterlimit", s.join);
-				}else{
+				} else {
 					rn.setAttribute("stroke-linejoin", s.join);
 				}
 				var da = s.style.toLowerCase();
-				if(da in svg.dasharray){
+				if (da in svg.dasharray) {
 					da = svg.dasharray[da];
 				}
-				if(da instanceof Array){
+				if (da instanceof Array) {
 					da = lang._toArray(da);
 					var i;
-					for(i = 0; i < da.length; ++i){
+					for (i = 0; i < da.length; ++i) {
 						da[i] *= s.width;
 					}
-					if(s.cap != "butt"){
-						for(i = 0; i < da.length; i += 2){
+					if (s.cap !== "butt") {
+						for (i = 0; i < da.length; i += 2) {
 							da[i] -= s.width;
-							if(da[i] < 1){
+							if (da[i] < 1) {
 								da[i] = 1;
 							}
 						}
-						for(i = 1; i < da.length; i += 2){
+						for (i = 1; i < da.length; i += 2) {
 							da[i] += s.width;
 						}
 					}
@@ -163,46 +155,45 @@ define([
 			return this;	// self
 		},
 
-		_getParentSurface: function(){
+		_getParentSurface: function () {
 			var surface = this.parent;
-			for(; surface && !(surface instanceof SvgSurface); surface = surface.parent);
+			for (; surface && !(surface instanceof SvgSurface); surface = surface.parent) {
+			}
 			return surface;
 		},
 
-		_setFillObject: function(f, nodeType){
+		_setFillObject: function (f, nodeType) {
 			var svgns = svg.xmlns.svg;
 			this._set("fill", f);
-			var surface = this._getParentSurface(),
-				defs = surface && surface.defNode,
-				fill = this.rawNode.getAttribute("fill"),
-				ref = svg.getRef(fill);
-			if(ref){
+			var surface = this._getParentSurface(), defs = surface &&
+				surface.defNode, fill = this.rawNode.getAttribute("fill"), ref = svg.getRef(fill);
+			if (ref) {
 				fill = ref;
-				if(fill.tagName.toLowerCase() != nodeType.toLowerCase()){
+				if (fill.tagName.toLowerCase() !== nodeType.toLowerCase()) {
 					var id = fill.id;
 					fill.parentNode.removeChild(fill);
 					fill = svg._createElementNS(svgns, nodeType);
 					fill.setAttribute("id", id);
-					if(defs){
+					if (defs) {
 						defs.appendChild(fill);
-					}else{
+					} else {
 						this._pendingFill = fill;
 					}
-				}else{
-					while(fill.childNodes.length){
+				} else {
+					while (fill.childNodes.length) {
 						fill.removeChild(fill.lastChild);
 					}
 				}
-			}else{
+			} else {
 				fill = svg._createElementNS(svgns, nodeType);
 				fill.setAttribute("id", g._getUniqueId());
-				if(defs){
+				if (defs) {
 					defs.appendChild(fill);
-				}else{
+				} else {
 					this._pendingFill = fill;
 				}
 			}
-			if(nodeType == "pattern"){
+			if (nodeType === "pattern") {
 				fill.setAttribute("patternUnits", "userSpaceOnUse");
 				var img = svg._createElementNS(svgns, "image");
 				img.setAttribute("x", 0);
@@ -211,11 +202,11 @@ define([
 				img.setAttribute("height", f.height.toFixed(8));
 				svg._setAttributeNS(img, svg.xmlns.xlink, "xlink:href", f.src);
 				fill.appendChild(img);
-			}else{
+			} else {
 				fill.setAttribute("gradientUnits", "userSpaceOnUse");
-				for(var i = 0; i < f.colors.length; ++i){
-					var c = f.colors[i], t = svg._createElementNS(svgns, "stop"),
-						cc = c.color = g.normalizeColor(c.color);
+				for (var i = 0; i < f.colors.length; ++i) {
+					var c = f.colors[i], t = svg._createElementNS(svgns, "stop"), cc = c.color =
+						g.normalizeColor(c.color);
 					t.setAttribute("offset", c.offset.toFixed(8));
 					t.setAttribute("stop-color", cc.toCss());
 					t.setAttribute("stop-opacity", cc.a);
@@ -228,40 +219,39 @@ define([
 			return fill;
 		},
 
-		_setParent: dcl.superCall(function(sup){
-			return function(){
+		_setParent: dcl.superCall(function (sup) {
+			return function () {
 				sup.apply(this, arguments);
-				if(this._pendingFill){
+				if (this._pendingFill) {
 					var surface = this._getParentSurface();
-					if(surface){
+					if (surface) {
 						surface.defNode.appendChild(this._pendingFill);
 						this._pendingFill = null;
 					}
 				}
-			}
+			};
 		}),
 
-		_applyTransform: function(){
+		_applyTransform: function () {
 			var matrix = this.transform;
-			if(matrix){
+			if (matrix) {
 				var tm = this.transform;
-				this.rawNode.setAttribute("transform", "matrix(" +
-					tm.xx.toFixed(8) + "," + tm.yx.toFixed(8) + "," +
-					tm.xy.toFixed(8) + "," + tm.yy.toFixed(8) + "," +
-					tm.dx.toFixed(8) + "," + tm.dy.toFixed(8) + ")");
-			}else{
+				this.rawNode.setAttribute("transform",
+					"matrix(" + tm.xx.toFixed(8) + "," + tm.yx.toFixed(8) + "," + tm.xy.toFixed(8) + "," +
+						tm.yy.toFixed(8) + "," + tm.dx.toFixed(8) + "," + tm.dy.toFixed(8) + ")");
+			} else {
 				this.rawNode.removeAttribute("transform");
 			}
 			return this;
 		},
 
-		setRawNode: function(rawNode){
+		setRawNode: function (rawNode) {
 			// summary:
 			//		assigns and clears the underlying node that will represent this
 			//		shape. Once set, transforms, gradients, etc, can be applied.
 			//		(no fill & stroke by default)
 			var r = this.rawNode = rawNode;
-			if(this.shape.type != "image"){
+			if (this.shape.type !== "image") {
 				r.setAttribute("fill", "none");
 			}
 			r.setAttribute("fill-opacity", 0);
@@ -273,10 +263,10 @@ define([
 			r.setAttribute("stroke-miterlimit", 4);
 			// Bind GFX object with SVG node for ease of retrieval - that is to
 			// save code/performance to keep this association elsewhere
-			r.__gfxObject__ = this;
+			r._gfxObject = this;
 		},
 
-		_setShapeAttr: function(newShape){
+		_setShapeAttr: function (newShape) {
 			// summary:
 			//		sets a shape object (SVG)
 			// newShape: Object
@@ -289,8 +279,8 @@ define([
 			//		gfx.defaultLine,
 			//		or gfx.defaultImage)
 			this._set("shape", g.makeParameters(this.shape, newShape));
-			for(var i in this.shape){
-				if(i != "type"){
+			for (var i in this.shape) {
+				if (i !== "type") {
 					this.rawNode.setAttribute(i, this.shape[i]);
 				}
 			}
@@ -300,20 +290,20 @@ define([
 
 		// move family
 
-		_moveToFront: function(){
+		_moveToFront: function () {
 			// summary:
 			//		moves a shape to front of its parent's list of shapes (SVG)
 			this.rawNode.parentNode.appendChild(this.rawNode);
 			return this;	// self
 		},
-		_moveToBack: function(){
+		_moveToBack: function () {
 			// summary:
 			//		moves a shape to back of its parent's list of shapes (SVG)
 			this.rawNode.parentNode.insertBefore(this.rawNode, this.rawNode.parentNode.firstChild);
 			return this;	// self
 		},
-		_setClipAttr: dcl.superCall(function(sup){
-			return function(clip){
+		_setClipAttr: dcl.superCall(function (sup) {
+			return function (clip) {
 				// summary:
 				//		sets the clipping area of this shape.
 				// description:
@@ -322,28 +312,26 @@ define([
 				//		an object that defines the clipping geometry, or null to remove clip.
 				sup.apply(this, arguments);
 				var clipType = clip ? "width" in clip ? "rect" :
-					"cx" in clip ? "ellipse" :
-						"points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
-				if(clip && !clipType){
+					"cx" in clip ? "ellipse" : "points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
+				if (clip && !clipType) {
 					return;
 				}
-				if(clipType === "polyline"){
+				if (clipType === "polyline") {
 					clip = lang.clone(clip);
 					clip.points = clip.points.join(",");
 				}
-				var clipNode, clipShape,
-					clipPathProp = domAttr.get(this.rawNode, "clip-path");
-				if(clipPathProp){
+				var clipNode, clipShape, clipPathProp = domAttr.get(this.rawNode, "clip-path");
+				if (clipPathProp) {
 					clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
-					if(clipNode){ // may be null if not in the DOM anymore
+					if (clipNode) { // may be null if not in the DOM anymore
 						clipNode.removeChild(clipNode.childNodes[0]);
 					}
 				}
-				if(clip){
-					if(clipNode){
+				if (clip) {
+					if (clipNode) {
 						clipShape = svg._createElementNS(svg.xmlns.svg, clipType);
 						clipNode.appendChild(clipShape);
-					}else{
+					} else {
 						var idIndex = ++clipCount;
 						var clipId = "gfx_clip" + idIndex;
 						var clipUrl = "url(#" + clipId + ")";
@@ -355,20 +343,20 @@ define([
 						domAttr.set(clipNode, "id", clipId);
 					}
 					domAttr.set(clipShape, clip);
-				}else{
+				} else {
 					//remove clip-path
 					this.rawNode.removeAttribute("clip-path");
-					if(clipNode){
+					if (clipNode) {
 						clipNode.parentNode.removeChild(clipNode);
 					}
 				}
-			}
+			};
 		}),
-		_removeClipNode: function(){
+		_removeClipNode: function () {
 			var clipNode, clipPathProp = domAttr.get(this.rawNode, "clip-path");
-			if(clipPathProp){
+			if (clipPathProp) {
 				clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
-				if(clipNode){
+				if (clipNode) {
 					clipNode.parentNode.removeChild(clipNode);
 				}
 			}
@@ -376,7 +364,7 @@ define([
 		},
 
 		// Mouse/Touch event
-		_fixTarget: function(event, gfxElement){
+		_fixTarget: function (event/*===== , gfxElement =====*/) {
 			// summary:
 			//		Adds the gfxElement to event.gfxTarget if none exists. This new
 			//		property will carry the GFX element associated with this event.
@@ -384,12 +372,12 @@ define([
 			//		The current input event (MouseEvent or TouchEvent)
 			// gfxElement: Object
 			//		The GFX target element
-			if(!event.gfxTarget){
-				if(has("ios") && event.target.wholeText){
+			if (!event.gfxTarget) {
+				if (has("ios") && event.target.wholeText) {
 					// Workaround iOS bug when touching text nodes
-					event.gfxTarget = event.target.parentElement.__gfxObject__;
-				}else{
-					event.gfxTarget = event.target.__gfxObject__;
+					event.gfxTarget = event.target.parentElement._gfxObject;
+				} else {
+					event.gfxTarget = event.target._gfxObject;
 				}
 			}
 			return true;

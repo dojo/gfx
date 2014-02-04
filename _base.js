@@ -1,6 +1,7 @@
-define(["dcl/dcl", "dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/Color", "dojo/_base/sniff", "dojo/_base/config", "dojo/_base/window",
-	    "dojo/dom", "dojo/dom-construct","dojo/dom-geometry"],
-function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom){
+define([
+	"dcl/dcl", "dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/Color", "dojo/_base/sniff", "dojo/_base/config",
+	"dojo/_base/window", "dojo/dom", "dojo/dom-construct", "dojo/dom-geometry"
+], function (dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom) {
 	// module:
 	//		gfx
 	// summary:
@@ -9,75 +10,81 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 	var g = {};
 
 	// candidates for dojox.style (work on SVG nodes)
-	g._hasClass = function(/*DomNode*/node, /*String*/classStr){
+	g._hasClass = function (/*DomNode*/node, /*String*/classStr) {
 		// summary:
 		//		Returns whether or not the specified classes are a portion of the
 		//		class list currently applied to the node.
-		
+
 		// return (new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)	// Boolean
 		var cls = node.getAttribute("className");
 		return cls && (" " + cls + " ").indexOf(" " + classStr + " ") >= 0;  // Boolean
 	};
-	g._addClass = function(/*DomNode*/node, /*String*/classStr){
+	g._addClass = function (/*DomNode*/node, /*String*/classStr) {
 		// summary:
 		//		Adds the specified classes to the end of the class list on the
 		//		passed node.
 		var cls = node.getAttribute("className") || "";
-		if(!cls || (" " + cls + " ").indexOf(" " + classStr + " ") < 0){
+		if (!cls || (" " + cls + " ").indexOf(" " + classStr + " ") < 0) {
 			node.setAttribute("className", cls + (cls ? " " : "") + classStr);
 		}
 	};
-	g._removeClass = function(/*DomNode*/node, /*String*/classStr){
+	g._removeClass = function (/*DomNode*/node, /*String*/classStr) {
 		// summary:
 		//		Removes classes from node.
 		var cls = node.getAttribute("className");
-		if(cls){
-			node.setAttribute(
-				"className",
-				cls.replace(new RegExp('(^|\\s+)' + classStr + '(\\s+|$)'), "$1$2")
-			);
+		if (cls) {
+			node.setAttribute("className", cls.replace(new RegExp("(^|\\s+)" + classStr + "(\\s+|$)"), "$1$2"));
 		}
 	};
 
 	// candidate for dojox.html.metrics (dynamic font resize handler is not implemented here)
 
 	//		derived from Morris John's emResized measurer
-	g._getFontMeasurements = function(){
+	g._getFontMeasurements = function () {
 		// summary:
 		//		Returns an object that has pixel equivilents of standard font
 		//		size values.
 		var heights = {
-			'1em': 0, '1ex': 0, '100%': 0, '12pt': 0, '16px': 0, 'xx-small': 0,
-			'x-small': 0, 'small': 0, 'medium': 0, 'large': 0, 'x-large': 0,
-			'xx-large': 0
+			"1em": 0,
+			"1ex": 0,
+			"100%": 0,
+			"12pt": 0,
+			"16px": 0,
+			"xx-small": 0,
+			"x-small": 0,
+			"small": 0,
+			"medium": 0,
+			"large": 0,
+			"x-large": 0,
+			"xx-large": 0
 		};
 		var p;
 
-		if(has("ie")){
-			//		we do a font-size fix if and only if one isn't applied already.
+		if (has("ie")) {
+			//		we do a font-size fix if and only if one isn"t applied already.
 			// NOTE: If someone set the fontSize on the HTML Element, this will kill it.
-			win.doc.documentElement.style.fontSize="100%";
+			win.doc.documentElement.style.fontSize = "100%";
 		}
 
 		//		set up the measuring node.
 		var div = domConstruct.create("div", {style: {
-				position: "absolute",
-				left: "0",
-				top: "-100px",
-				width: "30px",
-				height: "1000em",
-				borderWidth: "0",
-				margin: "0",
-				padding: "0",
-				outline: "none",
-				lineHeight: "1",
-				overflow: "hidden"
-			}}, win.body());
+			position: "absolute",
+			left: "0",
+			top: "-100px",
+			width: "30px",
+			height: "1000em",
+			borderWidth: "0",
+			margin: "0",
+			padding: "0",
+			outline: "none",
+			lineHeight: "1",
+			overflow: "hidden"
+		}}, win.body());
 
 		//		do the measurements.
-		for(p in heights){
+		for (p in heights) {
 			div.style.fontSize = p;
-			heights[p] = Math.round(div.offsetHeight * 12/16) * 16/12 / 1000;
+			heights[p] = Math.round(div.offsetHeight * 12 / 16) * 16 / 12 / 1000;
 		}
 
 		win.body().removeChild(div);
@@ -86,8 +93,8 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 
 	var fontMeasurements = null;
 
-	g._getCachedFontMeasurements = function(recalculate){
-		if(recalculate || !fontMeasurements){
+	g._getCachedFontMeasurements = function (recalculate) {
+		if (recalculate || !fontMeasurements) {
 			fontMeasurements = g._getFontMeasurements();
 		}
 		return fontMeasurements;
@@ -96,12 +103,10 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 	// candidate for dojox.html.metrics
 
 	var measuringNode = null, empty = {};
-	g._getTextBox = function(	/*String*/ text,
-								/*Object*/ style,
-								/*String?*/ className){
+	g._getTextBox = function (/*String*/ text, /*Object*/ style, /*String?*/ className) {
 		var m, s, al = arguments.length;
 		var i;
-		if(!measuringNode){
+		if (!measuringNode) {
 			measuringNode = domConstruct.create("div", {style: {
 				position: "absolute",
 				top: "-10000px",
@@ -117,55 +122,58 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 		s.padding = "0";
 		s.outline = "0";
 		// set new style
-		if(al > 1 && style){
-			for(i in style){
-				if(i in empty){ continue; }
+		if (al > 1 && style) {
+			for (i in style) {
+				if (i in empty) {
+					continue;
+				}
 				s[i] = style[i];
 			}
 		}
 		// set classes
-		if(al > 2 && className){
+		if (al > 2 && className) {
 			m.className = className;
 		}
 		// take a measure
 		m.innerHTML = text;
 
-		if(m.getBoundingClientRect){
+		if (m.getBoundingClientRect) {
 			var bcr = m.getBoundingClientRect();
-			return {l: bcr.left, t: bcr.top, w: bcr.width || (bcr.right - bcr.left), h: bcr.height || (bcr.bottom - bcr.top)};
-		}else{
+			return {l: bcr.left, t: bcr.top, w: bcr.width || (bcr.right - bcr.left), h: bcr.height ||
+				(bcr.bottom - bcr.top)};
+		} else {
 			return domGeom.getMarginBox(m);
 		}
 	};
 
-	g._computeTextLocation = function(/*g.defaultTextShape*/textShape, /*Number*/width, /*Number*/height, /*Boolean*/fixHeight) {
-		var loc = {}, align = textShape.align;
-		switch (align) {
-			case 'end':
+	g._computeTextLocation =
+		function (/*g.defaultTextShape*/textShape, /*Number*/width, /*Number*/height, /*Boolean*/fixHeight) {
+			var loc = {}, align = textShape.align;
+			switch (align) {
+			case "end":
 				loc.x = textShape.x - width;
 				break;
-			case 'middle':
+			case "middle":
 				loc.x = textShape.x - width / 2;
 				break;
 			default:
 				loc.x = textShape.x;
 				break;
-		}
-		var c = fixHeight ? 0.75 : 1;
-		loc.y = textShape.y - height*c; // **rough** approximation of the ascent...
-		return loc;
-	};
-	g._computeTextBoundingBox = function(/*shape.Text*/s){
+			}
+			var c = fixHeight ? 0.75 : 1;
+			loc.y = textShape.y - height * c; // **rough** approximation of the ascent...
+			return loc;
+		};
+	g._computeTextBoundingBox = function (/*shape.Text*/s) {
 		// summary:
 		//		Compute the bbox of the given shape.Text instance. Note that this method returns an
-		//		approximation of the bbox, and should be used when the underlying renderer cannot provide precise metrics.
-		if(!g._isRendered(s)){
-			return {x:0, y:0, width:0, height:0};
+		//		approximation of the bbox, and should be used when the underlying renderer cannot provide precise
+		//		metrics.
+		if (!g._isRendered(s)) {
+			return {x: 0, y: 0, width: 0, height: 0};
 		}
-		var loc, textShape = s.shape,
-			font = s.font || g.defaultFont,
-			w = s.getTextWidth(),
-			h = g.normalizedLength(font.size);
+		var loc, textShape = s.shape, font = s.font ||
+			g.defaultFont, w = s.getTextWidth(), h = g.normalizedLength(font.size);
 		loc = g._computeTextLocation(textShape, w, h, true);
 		return {
 			x: loc.x,
@@ -174,9 +182,9 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			height: h
 		};
 	};
-	g._isRendered = function(/*Shape*/s){
+	g._isRendered = function (/*Shape*/s) {
 		var p = s.parent;
-		while(p && p.getParent){
+		while (p && p.getParent) {
 			p = p.parent;
 		}
 		return p !== null;
@@ -185,25 +193,26 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 	// candidate for dojo.dom
 
 	var uniqueId = 0;
-	g._getUniqueId = function(){
+	g._getUniqueId = function () {
 		// summary:
 		//		returns a unique string for use with any DOM element
 		var id;
-		do{
+		do {
 			id = kernel._scopeName + "xUnique" + (++uniqueId);
-		}while(dom.byId(id));
+		} while (dom.byId(id));
 		return id;
 	};
 
 	// IE10
 
-	g._fixMsTouchAction = function(/*gfx/shape.Surface*/surface){
+	g._fixMsTouchAction = function (/*gfx/shape.Surface*/surface) {
 		var r = surface.rawNode;
-		if (typeof r.style.msTouchAction != 'undefined')
+		if (typeof r.style.msTouchAction !== "undefined") {
 			r.style.msTouchAction = "none";
+		}
 	};
 
-	g._chooseRenderer = function(){
+	g._chooseRenderer = function () {
 
 		// Choose the GFX renderer based on the (deprecated) dojoConfig.gfxRenderer
 		// or the has("gfx-renderer") flag.
@@ -212,190 +221,196 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 	};
 
 	/*=====
-	g.Stroke = {
-		// summary:
-		//		A stroke defines stylistic properties that are used when drawing a path.
+	 g.Stroke = {
+	 // summary:
+	 //		A stroke defines stylistic properties that are used when drawing a path.
 
-		// color: String
-		//		The color of the stroke, default value 'black'.
-		color: "black",
+	 // color: String
+	 //		The color of the stroke, default value 'black'.
+	 color: "black",
 
-		// style: String
-		//		The style of the stroke, one of 'solid', ... . Default value 'solid'.
-		style: "solid",
+	 // style: String
+	 //		The style of the stroke, one of 'solid', ... . Default value 'solid'.
+	 style: "solid",
 
-		// width: Number
-		//		The width of a stroke, default value 1.
-		width: 1,
+	 // width: Number
+	 //		The width of a stroke, default value 1.
+	 width: 1,
 
-		// cap: String
-		//		The endcap style of the path. One of 'butt', 'round', ... . Default value 'butt'.
-		cap: "butt",
+	 // cap: String
+	 //		The endcap style of the path. One of 'butt', 'round', ... . Default value 'butt'.
+	 cap: "butt",
 
-		// join: Number
-		//		The join style to use when combining path segments. Default value 4.
-		join: 4
-	};
-	
-	g.Fill = {
-		// summary:
-		//		Defines how to fill a shape. Four types of fills can be used: solid, linear gradient, radial gradient and pattern.
-		//		See gfx.LinearGradient, gfx.RadialGradient and gfx.Pattern respectively for more information about the properties supported by each type.
-		
-		// type: String?
-		//		The type of fill. One of 'linear', 'radial', 'pattern' or undefined. If not specified, a solid fill is assumed.
-		type:"",
-		
-		// color: String|dojo/Color?
-		//		The color of a solid fill type.
-		color:null,
-		
-	};
-	
-	g.LinearGradient = {
-		// summary:
-		//		An object defining the default stylistic properties used for Linear Gradient fills.
-		//		Linear gradients are drawn along a virtual line, which results in appearance of a rotated pattern in a given direction/orientation.
+	 // join: Number
+	 //		The join style to use when combining path segments. Default value 4.
+	 join: 4
+	 };
 
-		// type: String
-		//		Specifies this object is a Linear Gradient, value 'linear'
-		type: "linear",
+	 g.Fill = {
+	 // summary:
+	 //		Defines how to fill a shape. Four types of fills can be used: solid, linear gradient, radial gradient
+	 //		and pattern.
+	 //		See gfx.LinearGradient, gfx.RadialGradient and gfx.Pattern respectively for more information about the
+	 //		properties supported by each type.
 
-		// x1: Number
-		//		The X coordinate of the start of the virtual line along which the gradient is drawn, default value 0.
-		x1: 0,
+	 // type: String?
+	 //		The type of fill. One of 'linear', 'radial', 'pattern' or undefined. If not specified, a solid fill is
+	 //		assumed.
+	 type:"",
 
-		// y1: Number
-		//		The Y coordinate of the start of the virtual line along which the gradient is drawn, default value 0.
-		y1: 0,
+	 // color: String|dojo/Color?
+	 //		The color of a solid fill type.
+	 color:null,
 
-		// x2: Number
-		//		The X coordinate of the end of the virtual line along which the gradient is drawn, default value 100.
-		x2: 100,
+	 };
 
-		// y2: Number
-		//		The Y coordinate of the end of the virtual line along which the gradient is drawn, default value 100.
-		y2: 100,
+	 g.LinearGradient = {
+	 // summary:
+	 //		An object defining the default stylistic properties used for Linear Gradient fills.
+	 //		Linear gradients are drawn along a virtual line, which results in appearance of a rotated pattern in a
+	 //		given direction/orientation.
 
-		// colors: Array
-		//		An array of colors at given offsets (from the start of the line).  The start of the line is
-		//		defined at offest 0 with the end of the line at offset 1.
-		//		Default value, [{ offset: 0, color: 'black'},{offset: 1, color: 'white'}], is a gradient from black to white.
-		colors: []
-	};
-	
-	g.RadialGradient = {
-		// summary:
-		//		Specifies the properties for RadialGradients using in fills patterns.
+	 // type: String
+	 //		Specifies this object is a Linear Gradient, value 'linear'
+	 type: "linear",
 
-		// type: String
-		//		Specifies this is a RadialGradient, value 'radial'
-		type: "radial",
+	 // x1: Number
+	 //		The X coordinate of the start of the virtual line along which the gradient is drawn, default value 0.
+	 x1: 0,
 
-		// cx: Number
-		//		The X coordinate of the center of the radial gradient, default value 0.
-		cx: 0,
+	 // y1: Number
+	 //		The Y coordinate of the start of the virtual line along which the gradient is drawn, default value 0.
+	 y1: 0,
 
-		// cy: Number
-		//		The Y coordinate of the center of the radial gradient, default value 0.
-		cy: 0,
+	 // x2: Number
+	 //		The X coordinate of the end of the virtual line along which the gradient is drawn, default value 100.
+	 x2: 100,
 
-		// r: Number
-		//		The radius to the end of the radial gradient, default value 100.
-		r: 100,
+	 // y2: Number
+	 //		The Y coordinate of the end of the virtual line along which the gradient is drawn, default value 100.
+	 y2: 100,
 
-		// colors: Array
-		//		An array of colors at given offsets (from the center of the radial gradient).
-		//		The center is defined at offest 0 with the outer edge of the gradient at offset 1.
-		//		Default value, [{ offset: 0, color: 'black'},{offset: 1, color: 'white'}], is a gradient from black to white.
-		colors: []
-	};
-	
-	g.Pattern = {
-		// summary:
-		//		An object specifying the default properties for a Pattern using in fill operations.
+	 // colors: Array
+	 //		An array of colors at given offsets (from the start of the line).  The start of the line is
+	 //		defined at offest 0 with the end of the line at offset 1.
+	 //		Default value, [{ offset: 0, color: 'black'},{offset: 1, color: 'white'}], is a gradient from black to
+	 //		white.
+	 colors: []
+	 };
 
-		// type: String
-		//		Specifies this object is a Pattern, value 'pattern'.
-		type: "pattern",
+	 g.RadialGradient = {
+	 // summary:
+	 //		Specifies the properties for RadialGradients using in fills patterns.
 
-		// x: Number
-		//		The X coordinate of the position of the pattern, default value is 0.
-		x: 0,
+	 // type: String
+	 //		Specifies this is a RadialGradient, value 'radial'
+	 type: "radial",
 
-		// y: Number
-		//		The Y coordinate of the position of the pattern, default value is 0.
-		y: 0,
+	 // cx: Number
+	 //		The X coordinate of the center of the radial gradient, default value 0.
+	 cx: 0,
 
-		// width: Number
-		//		The width of the pattern image, default value is 0.
-		width: 0,
+	 // cy: Number
+	 //		The Y coordinate of the center of the radial gradient, default value 0.
+	 cy: 0,
 
-		// height: Number
-		//		The height of the pattern image, default value is 0.
-		height: 0,
+	 // r: Number
+	 //		The radius to the end of the radial gradient, default value 100.
+	 r: 100,
 
-		// src: String
-		//		A url specifying the image to use for the pattern.
-		src: ""
-	};
+	 // colors: Array
+	 //		An array of colors at given offsets (from the center of the radial gradient).
+	 //		The center is defined at offest 0 with the outer edge of the gradient at offset 1.
+	 //		Default value, [{ offset: 0, color: 'black'},{offset: 1, color: 'white'}], is a gradient from black
+	 //		to white.
+	 colors: []
+	 };
 
-	g.Text = {
-		//	summary:
-		//		A keyword argument object defining both the text to be rendered in a VectorText shape,
-		//		and specifying position, alignment, and fitting.
-		//	text: String
-		//		The text to be rendered.
-		//	x: Number?
-		//		The left coordinate for the text's bounding box.
-		//	y: Number?
-		//		The top coordinate for the text's bounding box.
-		//	width: Number?
-		//		The width of the text's bounding box.
-		//	height: Number?
-		//		The height of the text's bounding box.
-		//	align: String?
-		//		The alignment of the text, as defined in SVG. Can be "start", "end" or "middle".
-		//	fitting: Number?
-		//		How the text is to be fitted to the bounding box. Can be 0 (no fitting), 1 (fitting based on
-		//		passed width of the bounding box and the size of the font), or 2 (fit text to the bounding box,
-		//		and ignore any size parameters).
-		//	leading: Number?
-		//		The leading to be used between lines in the text.
-		//	decoration: String?
-		//		Any text decoration to be used.
-	};
+	 g.Pattern = {
+	 // summary:
+	 //		An object specifying the default properties for a Pattern using in fill operations.
 
-	g.Font = {
-		// summary:
-		//		An object specifying the properties for a Font used in text operations.
-	
-		// type: String
-		//		Specifies this object is a Font, value 'font'.
-		type: "font",
-	
-		// style: String
-		//		The font style, one of 'normal', 'bold', default value 'normal'.
-		style: "normal",
-	
-		// variant: String
-		//		The font variant, one of 'normal', ... , default value 'normal'.
-		variant: "normal",
-	
-		// weight: String
-		//		The font weight, one of 'normal', ..., default value 'normal'.
-		weight: "normal",
-	
-		// size: String
-		//		The font size (including units), default value '10pt'.
-		size: "10pt",
-	
-		// family: String
-		//		The font family, one of 'serif', 'sanserif', ..., default value 'serif'.
-		family: "serif"
-	};
+	 // type: String
+	 //		Specifies this object is a Pattern, value 'pattern'.
+	 type: "pattern",
 
-	=====*/
+	 // x: Number
+	 //		The X coordinate of the position of the pattern, default value is 0.
+	 x: 0,
+
+	 // y: Number
+	 //		The Y coordinate of the position of the pattern, default value is 0.
+	 y: 0,
+
+	 // width: Number
+	 //		The width of the pattern image, default value is 0.
+	 width: 0,
+
+	 // height: Number
+	 //		The height of the pattern image, default value is 0.
+	 height: 0,
+
+	 // src: String
+	 //		A url specifying the image to use for the pattern.
+	 src: ""
+	 };
+
+	 g.Text = {
+	 //	summary:
+	 //		A keyword argument object defining both the text to be rendered in a VectorText shape,
+	 //		and specifying position, alignment, and fitting.
+	 //	text: String
+	 //		The text to be rendered.
+	 //	x: Number?
+	 //		The left coordinate for the text's bounding box.
+	 //	y: Number?
+	 //		The top coordinate for the text's bounding box.
+	 //	width: Number?
+	 //		The width of the text's bounding box.
+	 //	height: Number?
+	 //		The height of the text's bounding box.
+	 //	align: String?
+	 //		The alignment of the text, as defined in SVG. Can be "start", "end" or "middle".
+	 //	fitting: Number?
+	 //		How the text is to be fitted to the bounding box. Can be 0 (no fitting), 1 (fitting based on
+	 //		passed width of the bounding box and the size of the font), or 2 (fit text to the bounding box,
+	 //		and ignore any size parameters).
+	 //	leading: Number?
+	 //		The leading to be used between lines in the text.
+	 //	decoration: String?
+	 //		Any text decoration to be used.
+	 };
+
+	 g.Font = {
+	 // summary:
+	 //		An object specifying the properties for a Font used in text operations.
+
+	 // type: String
+	 //		Specifies this object is a Font, value 'font'.
+	 type: "font",
+
+	 // style: String
+	 //		The font style, one of 'normal', 'bold', default value 'normal'.
+	 style: "normal",
+
+	 // variant: String
+	 //		The font variant, one of 'normal', ... , default value 'normal'.
+	 variant: "normal",
+
+	 // weight: String
+	 //		The font weight, one of 'normal', ..., default value 'normal'.
+	 weight: "normal",
+
+	 // size: String
+	 //		The font size (including units), default value '10pt'.
+	 size: "10pt",
+
+	 // family: String
+	 //		The font family, one of 'serif', 'sanserif', ..., default value 'serif'.
+	 family: "serif"
+	 };
+
+	 =====*/
 
 	dcl.mix(g, {
 		// summary:
@@ -433,34 +448,41 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 		defaultLinearGradient: {
 			// summary:
 			//		An object defining the default stylistic properties used for Linear Gradient fills.
-			//		Linear gradients are drawn along a virtual line, which results in appearance of a rotated pattern in a given direction/orientation.
+			//		Linear gradients are drawn along a virtual line, which results in appearance of a rotated pattern
+			//		in a given direction/orientation.
 
 			// type: String
 			//		Specifies this object is a Linear Gradient, value 'linear'
 			type: "linear",
 
 			// x1: Number
-			//		The X coordinate of the start of the virtual line along which the gradient is drawn, default value 0.
+			//		The X coordinate of the start of the virtual line along which the gradient is drawn,
+			//		default value 0.
 			x1: 0,
 
 			// y1: Number
-			//		The Y coordinate of the start of the virtual line along which the gradient is drawn, default value 0.
+			//		The Y coordinate of the start of the virtual line along which the gradient is drawn,
+			//		default value 0.
 			y1: 0,
 
 			// x2: Number
-			//		The X coordinate of the end of the virtual line along which the gradient is drawn, default value 100.
+			//		The X coordinate of the end of the virtual line along which the gradient is drawn,
+			//		default value 100.
 			x2: 100,
 
 			// y2: Number
-			//		The Y coordinate of the end of the virtual line along which the gradient is drawn, default value 100.
+			//		The Y coordinate of the end of the virtual line along which the gradient is drawn,
+			//		default value 100.
 			y2: 100,
 
 			// colors: Array
 			//		An array of colors at given offsets (from the start of the line).  The start of the line is
 			//		defined at offest 0 with the end of the line at offset 1.
-			//		Default value, [{ offset: 0, color: 'black'},{offset: 1, color: 'white'}], is a gradient from black to white.
+			//		Default value, [{ offset: 0, color: 'black'},{offset: 1, color: 'white'}], is a gradient from
+			//		black to white.
 			colors: [
-				{ offset: 0, color: "black" }, { offset: 1, color: "white" }
+				{ offset: 0, color: "black" },
+				{ offset: 1, color: "white" }
 			]
 		},
 		defaultRadialGradient: {
@@ -486,9 +508,11 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			// colors: Array
 			//		An array of colors at given offsets (from the center of the radial gradient).
 			//		The center is defined at offest 0 with the outer edge of the gradient at offset 1.
-			//		Default value, [{ offset: 0, color: 'black'},{offset: 1, color: 'white'}], is a gradient from black to white.
+			//		Default value, [{ offset: 0, color: 'black'},{offset: 1, color: 'white'}], is a gradient from
+			//		black to white.
 			colors: [
-				{ offset: 0, color: "black" }, { offset: 1, color: "white" }
+				{ offset: 0, color: "black" },
+				{ offset: 1, color: "white" }
 			]
 		},
 		defaultPattern: {
@@ -548,23 +572,26 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			family: "serif"
 		},
 
-		getDefault: (function(){
+		getDefault: (function () {
 			// summary:
 			//		Returns a function used to access default memoized prototype objects (see them defined above).
 			var typeCtorCache = {};
 			// a memoized delegate()
-			return function(/*String*/ type){
+			return function (/*String*/ type) {
 				var t = typeCtorCache[type];
-				if(t){
+				if (t) {
+					/* jshint newcap:false */
 					return new t();
 				}
+				/* jshint evil:true */
 				t = typeCtorCache[type] = new Function();
-				t.prototype = g[ "default" + type ];
+				t.prototype = g["default" + type];
+				/* jshint newcap:false */
 				return new t();
-			}
+			};
 		})(),
 
-		normalizeColor: function(/*dojo/Color|Array|string|Object*/ color){
+		normalizeColor: function (/*dojo/Color|Array|string|Object*/ color) {
 			// summary:
 			//		converts any legal color representation to normalized
 			//		dojo/Color object
@@ -572,7 +599,7 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			//		A color representation.
 			return (color instanceof Color) ? color : new Color(color); // dojo/Color
 		},
-		normalizeParameters: function(existed, update){
+		normalizeParameters: function (existed, update) {
 			// summary:
 			//		updates an existing object with properties from an 'update'
 			//		object
@@ -582,17 +609,17 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			//		the 'update' object, whose properties will be used to update
 			//		the existed object
 			var x;
-			if(update){
+			if (update) {
 				var empty = {};
-				for(x in existed){
-					if(x in update && !(x in empty)){
+				for (x in existed) {
+					if (x in update && !(x in empty)) {
 						existed[x] = update[x];
 					}
 				}
 			}
 			return existed;	// Object
 		},
-		makeParameters: function(defaults, update){
+		makeParameters: function (defaults, update) {
 			// summary:
 			//		copies the original object, and all copied properties from the
 			//		'update' object
@@ -603,19 +630,19 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			// returns: Object
 			//      new object with new and default properties
 			var i = null;
-			if(!update){
+			if (!update) {
 				// return dojo.clone(defaults);
 				return lang.delegate(defaults);
 			}
 			var result = {};
-			for(i in defaults){
-				if(!(i in result)){
+			for (i in defaults) {
+				if (!(i in result)) {
 					result[i] = lang.clone((i in update) ? update[i] : defaults[i]);
 				}
 			}
 			return result; // Object
 		},
-		formatNumber: function(x, addSpace){
+		formatNumber: function (x, addSpace) {
 			// summary:
 			//		converts a number to a string using a fixed notation
 			// x: Number
@@ -625,28 +652,28 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			// returns: String
 			//      the formatted value
 			var val = x.toString();
-			if(val.indexOf("e") >= 0){
+			if (val.indexOf("e") >= 0) {
 				val = x.toFixed(4);
-			}else{
+			} else {
 				var point = val.indexOf(".");
-				if(point >= 0 && val.length - point > 5){
+				if (point >= 0 && val.length - point > 5) {
 					val = x.toFixed(4);
 				}
 			}
-			if(x < 0){
+			if (x < 0) {
 				return val; // String
 			}
 			return addSpace ? " " + val : val; // String
 		},
 		// font operations
-		makeFontString: function(font){
+		makeFontString: function (font) {
 			// summary:
 			//		converts a font object to a CSS font string
 			// font: Object
 			//		font object (see gfx.defaultFont)
 			return font.style + " " + font.variant + " " + font.weight + " " + font.size + " " + font.family; // Object
 		},
-		splitFontString: function(str){
+		splitFontString: function (str) {
 			// summary:
 			//		converts a CSS font string to a font object
 			// description:
@@ -661,77 +688,87 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			//      object in gfx.defaultFont format
 			var font = g.getDefault("Font");
 			var t = str.split(/\s+/);
-			do{
-				if(t.length < 5){ break; }
-				font.style   = t[0];
+			do {
+				if (t.length < 5) {
+					break;
+				}
+				font.style = t[0];
 				font.variant = t[1];
-				font.weight  = t[2];
+				font.weight = t[2];
 				var i = t[3].indexOf("/");
 				font.size = i < 0 ? t[3] : t[3].substring(0, i);
 				var j = 4;
-				if(i < 0){
-					if(t[4] == "/"){
+				if (i < 0) {
+					if (t[4] === "/") {
 						j = 6;
-					}else if(t[4].charAt(0) == "/"){
+					} else if (t[4].charAt(0) === "/") {
 						j = 5;
 					}
 				}
-				if(j < t.length){
+				if (j < t.length) {
 					font.family = t.slice(j).join(" ");
 				}
-			}while(false);
+			} while (false);
 			return font;	// Object
 		},
 		// length operations
 
-		// cm_in_pt: Number
+		// cmInPt: Number
 		//		points per centimeter (constant)
-		cm_in_pt: 72 / 2.54,
+		cmInPt: 72 / 2.54,
 
-		// mm_in_pt: Number
+		// mmInPt: Number
 		//		points per millimeter (constant)
-		mm_in_pt: 7.2 / 2.54,
+		mmInPt: 7.2 / 2.54,
 
-		px_in_pt: function(){
+		pxInPt: function () {
 			// summary:
 			//		returns the current number of pixels per point.
 			return g._getCachedFontMeasurements()["12pt"] / 12;	// Number
 		},
 
-		pt2px: function(len){
+		pt2px: function (len) {
 			// summary:
 			//		converts points to pixels
 			// len: Number
 			//		a value in points
-			return len * g.px_in_pt();	// Number
+			return len * g.pxInPt();	// Number
 		},
 
-		px2pt: function(len){
+		px2pt: function (len) {
 			// summary:
 			//		converts pixels to points
 			// len: Number
 			//		a value in pixels
-			return len / g.px_in_pt();	// Number
+			return len / g.pxInPt();	// Number
 		},
 
-		normalizedLength: function(len) {
+		normalizedLength: function (len) {
 			// summary:
 			//		converts any length value to pixels
 			// len: String
 			//		a length, e.g., '12pc'
 			// returns: Number
 			//      pixels
-			if(len.length === 0){ return 0; }
-			if(len.length > 2){
-				var px_in_pt = g.px_in_pt();
+			if (len.length === 0) {
+				return 0;
+			}
+			if (len.length > 2) {
+				var pxInPt = g.pxInPt();
 				var val = parseFloat(len);
-				switch(len.slice(-2)){
-					case "px": return val;
-					case "pt": return val * px_in_pt;
-					case "in": return val * 72 * px_in_pt;
-					case "pc": return val * 12 * px_in_pt;
-					case "mm": return val * g.mm_in_pt * px_in_pt;
-					case "cm": return val * g.cm_in_pt * px_in_pt;
+				switch (len.slice(-2)) {
+				case "px":
+					return val;
+				case "pt":
+					return val * pxInPt;
+				case "in":
+					return val * 72 * pxInPt;
+				case "pc":
+					return val * 12 * pxInPt;
+				case "mm":
+					return val * g.mmInPt * pxInPt;
+				case "cm":
+					return val * g.cmInPt * pxInPt;
 				}
 			}
 			return parseFloat(len);	// Number
@@ -743,7 +780,7 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 		//		private
 		pathSvgRegExp: /([A-Za-z])|(\d+(\.\d+)?)|(\.\d+)|(-\d+(\.\d+)?)|(-\.\d+)/g,
 
-		equalSources: function(a, b){
+		equalSources: function (a, b) {
 			// summary:
 			//		compares event sources, returns true if they are equal
 			// a: Object
@@ -755,21 +792,21 @@ function(dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom)
 			return a && b && a === b;
 		}
 	});
-	
+
 	/*=====
-		g.createSurface = function(parentNode, width, height){
-			// summary:
-			//		creates a surface
-			// parentNode: Node
-			//		a parent node
-			// width: String|Number
-			//		width of surface, e.g., "100px" or 100
-			// height: String|Number
-			//		height of surface, e.g., "100px" or 100
-			// returns: gfx.Surface
-			//     newly created surface
-		};
-	=====*/
-	
+	 g.createSurface = function(parentNode, width, height){
+	 // summary:
+	 //		creates a surface
+	 // parentNode: Node
+	 //		a parent node
+	 // width: String|Number
+	 //		width of surface, e.g., "100px" or 100
+	 // height: String|Number
+	 //		height of surface, e.g., "100px" or 100
+	 // returns: gfx.Surface
+	 //     newly created surface
+	 };
+	 =====*/
+
 	return g; // defaults object api
 });

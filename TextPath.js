@@ -1,3 +1,3 @@
-define(["./_RendererChooser!TextPath"], function(TextPath){
+define(["./_RendererChooser!TextPath"], function (TextPath) {
 	return TextPath;
 });

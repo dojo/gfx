@@ -1,24 +1,33 @@
-define(["require", "dcl/dcl", "../../utils", "../../_bidi"], function(require, dcl, gfxUtils, bidi){
+define(["require", "dcl/dcl", "../../utils", "../../_bidi"], function (require, dcl, gfxUtils, bidi) {
 
 	var classesRequired, Container, Text, TextPath;
 
-	function setTextDir(/*Object*/ obj, /*String*/ newTextDir){
-		if(!classesRequired){
-			try { Container = require("../_ContainerBase"); }catch(err){}
-			try { Text = require("../_TextBase"); }catch(err){}
-			try { TextPath = require("../_TextPathBase"); }catch(err){}
+	function setTextDir(/*Object*/ obj, /*String*/ newTextDir) {
+		if (!classesRequired) {
+			try {
+				Container = require("../_ContainerBase");
+			} catch (err) {
+			}
+			try {
+				Text = require("../_TextBase");
+			} catch (err) {
+			}
+			try {
+				TextPath = require("../_TextPathBase");
+			} catch (err) {
+			}
 			classesRequired = true;
 		}
 		var tDir = bidi.validateTextDir(newTextDir);
-		if (tDir){
-			gfxUtils.forEach(obj,function(e){
-				if(dcl.isInstanceOf(e, Container)){
+		if (tDir) {
+			gfxUtils.forEach(obj, function (e) {
+				if (dcl.isInstanceOf(e, Container)) {
 					e._set("textDir", tDir);
 				}
-				if(dcl.isInstanceOf(e, Text)){
+				if (dcl.isInstanceOf(e, Text)) {
 					e.shape = {textDir: tDir};
 				}
-				if(dcl.isInstanceOf(e, TextPath)){
+				if (dcl.isInstanceOf(e, TextPath)) {
 					e.text = {textDir: tDir};
 				}
 			}, obj);
@@ -38,7 +47,7 @@ define(["require", "dcl/dcl", "../../utils", "../../_bidi"], function(require, d
 		//		of textDir propagates to all of it's children and the children of children (for Groups) etc.
 		textDir: "",
 
-		_setTextDirAttr: function(/*String*/newTextDir){
+		_setTextDirAttr: function (/*String*/newTextDir) {
 			// summary:
 			//		Used for propagation and change of textDir.
 			//		newTextDir will be forced as textDir for all of it's children (Group/Text/TextPath).

@@ -1,50 +1,56 @@
 <html>
 <head>
-	<title>Testing text</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		@import "../../../dojo/resources/dojo.css";
-		@import "../../../dijit/tests/css/dijitTests.css";
-	</style>
-	<script type="text/javascript" src="../../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1, has:{'dojo-bidi':1}"></script>
+    <title>Testing text</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+        @import "../../../dojo/resources/dojo.css";
+        @import "../../../dijit/tests/css/dijitTests.css";
+    </style>
+    <script type="text/javascript" src="../../../dojo/dojo.js"
+            data-dojo-config="isDebug: true, async:1, has:{'dojo-bidi':1}"></script>
 
-	<script type="text/javascript">
-		var t1;
+    <script type="text/javascript">
+        var t1;
 
-		require(["dojo/ready", "gfx/gfx", "gfx/matrix"], function(ready, gfx, m){
+        require(["dojo/ready", "gfx/gfx", "gfx/matrix"], function (ready, gfx, m) {
 
-			var ROTATION = 30;
+            var ROTATION = 30;
 
-			var surface = null;
+            var surface = null;
 
-			var placeAnchor = function(surface, x, y){
-				surface.createLine({x1:x - 2, y1:y, x2:x + 2, y2:y});
-				surface.createLine({x1:x, y1:y - 2, x2:x, y2:y + 2});
-			};
+            var placeAnchor = function (surface, x, y) {
+                surface.createLine({x1: x - 2, y1: y, x2: x + 2, y2: y});
+                surface.createLine({x1: x, y1: y - 2, x2: x, y2: y + 2});
+            };
 
-			var makeText = function(surface, text, font, fill, stroke){
-				var t = surface.createText(text);
-				if(font)   t.font = font;
-				if(fill)   t.fill = fill;
-				if(stroke) t.stroke = stroke;
-				placeAnchor(surface, text.x, text.y);
-				return t;
-			};
+            var makeText = function (surface, text, font, fill, stroke) {
+                var t = surface.createText(text);
+                if (font) {
+                    t.font = font;
+                }
+                if (fill) {
+                    t.fill = fill;
+                }
+                if (stroke) {
+                    t.stroke = stroke;
+                }
+                placeAnchor(surface, text.x, text.y);
+                return t;
+            };
 
-			makeShapes = function(){
-				surface = gfx.createSurface("test", 500, 200);
-				//surface.createLine({x1: 250, y1: 0, x2: 250, y2: 500}).stroke = "green";
-				t1 = makeText(surface, {id:"t1", x:250, y:50, text:"Hello!", textDir:"ltr"},
-						{family:"Times", size:"24pt"}, "black", "red");
-						 t1.transform = m.rotategAt(0, 250, 50);
+            makeShapes = function () {
+                surface = gfx.createSurface("test", 500, 200);
+                //surface.createLine({x1: 250, y1: 0, x2: 250, y2: 500}).stroke = "green";
+                t1 = makeText(surface, {id: "t1", x: 250, y: 50, text: "Hello!", textDir: "ltr"},
+                        {family: "Times", size: "24pt"}, "black", "red");
+                t1.transform = m.rotategAt(0, 250, 50);
 
 
-			};
+            };
 
-			ready(makeShapes);
-		});
-	</script>
+            ready(makeShapes);
+        });
+    </script>
 </head>
 <body>
 <h1>gfx Text test</h1>
@@ -54,33 +60,33 @@
 <label>write inside to test gfx.Text with BidiEngine</label>
 <br>
 <textarea id="inputF"
-		  onkeyup="dealInput();"
-		>write in me to test gfx.Text with BidiEngine</textarea>
+          onkeyup="dealInput();"
+        >write in me to test gfx.Text with BidiEngine</textarea>
 
 <script>
-	function dealInput(){
-		var v = inputF.value ? inputF.value : "";
-		t1.shape = {text:v};
-	}
+    function dealInput() {
+        var v = inputF.value ? inputF.value : "";
+        t1.shape = {text: v};
+    }
 </script>
 
 <br>
 <input id="SHALOM" type="button" value="click on me to write a Hebrew word!"
-	   onclick="t1.shape = {text:'\u05e9\u05dc\u05d5\u05dd!'}; inputF.value = '\u05e9\u05dc\u05d5\u05dd!'"
-		/>
+       onclick="t1.shape = {text:'\u05e9\u05dc\u05d5\u05dd!'}; inputF.value = '\u05e9\u05dc\u05d5\u05dd!'"
+        />
 
 <br>
 <br>
 
 <input id="textDirLTR" type="button" value="change textDir to 'LTR'"
-	   onclick="t1.shape = {textDir:'ltr'};"
-		/>
+       onclick="t1.shape = {textDir:'ltr'};"
+        />
 <input id="textDirRTL" type="button" value="change textDir to 'RTL'"
-	   onclick="t1.shape = {textDir:'rtl'};"
-		/>
+       onclick="t1.shape = {textDir:'rtl'};"
+        />
 <input id="textDirAUTO" type="button" value="change textDir to 'AUTO'"
-	   onclick="t1.shape = {textDir:'auto'};"
-		/>
+       onclick="t1.shape = {textDir:'auto'};"
+        />
 
 </body>
 </html>

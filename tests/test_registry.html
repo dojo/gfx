@@ -1,119 +1,122 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-		"http://www.w3.org/TR/html4/strict.dtd">
+        "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-	<title>GFX Test: Test the shape registry</title>
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dijit/tests/css/dijitTests.css";
-	</style>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1"></script>
-	<script type="text/javascript">
-		require([
-			"doh/runner",
-			"dojo/ready",
-			"dojo/dom",
-			"gfx/gfx",
-			"gfx/shape",
-			"gfx/registry"
-		], function(doh, ready, dom, gfx, shape, registry){
-			ready(function(){
-				var drawing;
-				var ta;
-				doh.register("GFX: Registry Tests", [
-					{
-						name:"gfx.shape.register",
-						timeout:1000,
-						runTest:function(t){
-							var obj = {
-								declaredClass:'module.sub.foo'
-							};
-							// register
-							var id = shape.register(obj);
-							t.t(typeof id == "string" && id.length > 0, "checking register() return value.");
-							var ret = shape.byId(id);
-							t.t(ret === obj, "Checking byId() after register().");
-							var obj2 = {declaredClass:'module.sub.foo'};
-							var ret2 = shape.register(obj2);
-							t.t(typeof ret2 == "string" && ret2.length > 0, "checking register() with same declaredClass.");
-							t.t(ret2 != id, "checking _uid unicity.");
-							//dispose
-							obj.getUID = function(){
-								return id;
-							};
-							shape.dispose(obj);
-							ret = shape.byId(id);
-							t.t(!ret, "Checking gfx.shape.dispose().");
-							// optional recursive dispose
-						}
-					},
-					{
-						name:"recursive dispose",
-						runTest:function(t){
+    <title>GFX Test: Test the shape registry</title>
+    <style type="text/css">
+        @import "../../dojo/resources/dojo.css";
+        @import "../../dijit/tests/css/dijitTests.css";
+    </style>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="isDebug: true, async:1"></script>
+    <script type="text/javascript">
+        require([
+            "doh/runner", "dojo/ready", "dojo/dom", "gfx/gfx", "gfx/shape", "gfx/registry"
+        ], function (doh, ready, dom, gfx, shape, registry) {
+            ready(function () {
+                var drawing;
+                var ta;
+                doh.register("GFX: Registry Tests", [
+                    {
+                        name: "gfx.shape.register",
+                        timeout: 1000,
+                        runTest: function (t) {
+                            var obj = {
+                                declaredClass: 'module.sub.foo'
+                            };
+                            // register
+                            var id = shape.register(obj);
+                            t.t(typeof id === "string" && id.length > 0, "checking register() return value.");
+                            var ret = shape.byId(id);
+                            t.t(ret === obj, "Checking byId() after register().");
+                            var obj2 = {declaredClass: 'module.sub.foo'};
+                            var ret2 = shape.register(obj2);
+                            t.t(typeof ret2 === "string" && ret2.length > 0,
+                                    "checking register() with same declaredClass.");
+                            t.t(ret2 !== id, "checking _uid unicity.");
+                            //dispose
+                            obj.getUID = function () {
+                                return id;
+                            };
+                            shape.dispose(obj);
+                            ret = shape.byId(id);
+                            t.t(!ret, "Checking gfx.shape.dispose().");
+                            // optional recursive dispose
+                        }
+                    },
+                    {
+                        name: "recursive dispose",
+                        runTest: function (t) {
 
-							var obj = {
-								declaredClass:'module.sub.foo',
-								children:[
-									{ declaredClass:"foo.bar" },
-									{ declaredClass:"bar.foo" }
-								]
-							};
-							var id1 = shape.register(obj);
-							obj.getUID = function(){
-								return id1;
-							};
-							var id2 = shape.register(obj.children[0]);
-							obj.children[0].getUID = function(){
-								return id2;
-							};
-							var id3 = shape.register(obj.children[1]);
-							obj.children[1].getUID = function(){
-								return id3;
-							};
-							shape.dispose(obj, true);
-							var ret = shape.byId(id1);
-							t.t(!ret, "Shape id1 not disposed (recursive dispose).");
-							ret = shape.byId(id2);
-							t.t(!ret, "Child id2 not disposed (recursive dispose).");
-							ret = shape.byId(id3);
-							t.t(!ret, "Child id3 not disposed (recursive dispose).");
-						}
-					},
-					{
-						name:"shape registration",
-						timeout:1000,
-						setUp:function(){
-							if(!drawing){
-								var dn = dom.byId("gfxObject");
-								drawing = gfx.createSurface(dn, 300, 300);
-							}
-						},
-						runTest:function(t){
-							var dic = {};
-							["Group", "Rect", "Ellipse", "Circle", "Line", "Polyline", "Image", "Text", "Path", "TextPath"].forEach(function(name, idx, values){
-								var s = drawing["create" + name]();
-								t.t(s.getUID() && s.getUID().length > 0, "Checking automatic shape registration for " + name);
-								var o = shape.byId(s.getUID());
-								t.t(o === s, "Checking gfx.shape.byId()");
-								// rawNode binding
-								var p = s.rawNode.tag ? 'tag' : '__gfxObject__';
-								t.t(s.rawNode[p] == s, "Checking rawNode<->gfx binding.");
-								dic[name] = s.getUID();
-							});
-							// successive registration
-							["Group", "Rect", "Ellipse", "Circle", "Line", "Polyline", "Image", "Text", "Path", "TextPath"].forEach(function(name, idx, values){
-								var s = drawing["create" + name]();
-								var id = s.getUID();
-								t.t(dic[name] != id, "Checking unicity.");
-							});
-						}
-					}
-				]);
-				doh.run();
-			});
-		});
-	</script>
+                            var obj = {
+                                declaredClass: 'module.sub.foo',
+                                children: [
+                                    { declaredClass: "foo.bar" },
+                                    { declaredClass: "bar.foo" }
+                                ]
+                            };
+                            var id1 = shape.register(obj);
+                            obj.getUID = function () {
+                                return id1;
+                            };
+                            var id2 = shape.register(obj.children[0]);
+                            obj.children[0].getUID = function () {
+                                return id2;
+                            };
+                            var id3 = shape.register(obj.children[1]);
+                            obj.children[1].getUID = function () {
+                                return id3;
+                            };
+                            shape.dispose(obj, true);
+                            var ret = shape.byId(id1);
+                            t.t(!ret, "Shape id1 not disposed (recursive dispose).");
+                            ret = shape.byId(id2);
+                            t.t(!ret, "Child id2 not disposed (recursive dispose).");
+                            ret = shape.byId(id3);
+                            t.t(!ret, "Child id3 not disposed (recursive dispose).");
+                        }
+                    },
+                    {
+                        name: "shape registration",
+                        timeout: 1000,
+                        setUp: function () {
+                            if (!drawing) {
+                                var dn = dom.byId("gfxObject");
+                                drawing = gfx.createSurface(dn, 300, 300);
+                            }
+                        },
+                        runTest: function (t) {
+                            var dic = {};
+                            [
+                                "Group", "Rect", "Ellipse", "Circle", "Line", "Polyline", "Image", "Text", "Path",
+                                "TextPath"
+                            ].forEach(function (name, idx, values) {
+                                        var s = drawing["create" + name]();
+                                        t.t(s.getUID() && s.getUID().length > 0,
+                                                "Checking automatic shape registration for " + name);
+                                        var o = shape.byId(s.getUID());
+                                        t.t(o === s, "Checking gfx.shape.byId()");
+                                        // rawNode binding
+                                        var p = s.rawNode.tag ? 'tag' : '_gfxObject';
+                                        t.t(s.rawNode[p] === s, "Checking rawNode<->gfx binding.");
+                                        dic[name] = s.getUID();
+                                    });
+                            // successive registration
+                            [
+                                "Group", "Rect", "Ellipse", "Circle", "Line", "Polyline", "Image", "Text", "Path",
+                                "TextPath"
+                            ].forEach(function (name, idx, values) {
+                                        var s = drawing["create" + name]();
+                                        var id = s.getUID();
+                                        t.t(dic[name] !== id, "Checking unicity.");
+                                    });
+                        }
+                    }
+                ]);
+                doh.run();
+            });
+        });
+    </script>
 </head>
 <body class="tundra">
 <h1>Test of GFX registry functions</h1>

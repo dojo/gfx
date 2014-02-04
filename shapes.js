@@ -1,15 +1,6 @@
 define([
-	"./Group",
-	"./Rect",
-	"./Ellipse",
-	"./Circle",
-	"./Line",
-	"./Polyline",
-	"./Image",
-	"./Path",
-	"./Text",
-	"./TextPath"
-], function(Group, Rect, Ellipse, Circle, Line, Polyline, Image, Path, Text, TextPath){
+	"./Group", "./Rect", "./Ellipse", "./Circle", "./Line", "./Polyline", "./Image", "./Path", "./Text", "./TextPath"
+], function (Group, Rect, Ellipse, Circle, Line, Polyline, Image, Path, Text, TextPath) {
 	return {
 		Group: Group,
 		Rect: Rect,

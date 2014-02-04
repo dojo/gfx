@@ -1,10 +1,10 @@
-define(["dojo/_base/lang", "../dojox/string/BidiEngine"], function(lang, BidiEngine){
+define(["dojo/_base/lang", "../dojox/string/BidiEngine"], function (lang, BidiEngine) {
 
-	function validateTextDir(textDir){
+	function validateTextDir(textDir) {
 		var validValues = ["ltr", "rtl", "auto"];
-		if(textDir){
+		if (textDir) {
 			textDir = textDir.toLowerCase();
-			if(validValues.indexOf(textDir) < 0){
+			if (validValues.indexOf(textDir) < 0) {
 				return null;
 			}
 		}
@@ -12,30 +12,30 @@ define(["dojo/_base/lang", "../dojox/string/BidiEngine"], function(lang, BidiEng
 	}
 
 	return {
-		bidi_const: {
-			LRM: '\u200E',
-			LRE: '\u202A',
-			PDF: '\u202C',
-			RLM: '\u200f',
-			RLE: '\u202B'
-		},
+
+		LRM: "\u200E",
+		LRE: "\u202A",
+		PDF: "\u202C",
+		RLM: "\u200f",
+		RLE: "\u202B",
 
 		// the object that performs text transformations.
 		bidiEngine: new BidiEngine(),
 
-		bidiPreprocess: function(newText){
-			if(newText){
-				if(newText.textDir){
+		bidiPreprocess: function (newText) {
+			if (newText) {
+				if (newText.textDir) {
 					newText.textDir = validateTextDir(newText.textDir);
 				}
-				if(newText.text && (newText.text instanceof Array)){
+				if (newText.text && (newText.text instanceof Array)) {
 					newText.text = newText.text.join(",");
 				}
 			}
-			if(newText && (newText.text != undefined || newText.textDir) && (this.textDir != newText.textDir || newText.text != this.origText)){
+			if (newText && (newText.text !== undefined || newText.textDir) &&
+				(this.textDir !== newText.textDir || newText.text !== this.origText)) {
 				// store the original text.
-				this.origText = (newText.text != undefined) ? newText.text : this.origText;
-				if(newText.textDir){
+				this.origText = (newText.text !== undefined) ? newText.text : this.origText;
+				if (newText.textDir) {
 					this.textDir = newText.textDir;
 				}
 				newText.text = this.formatText(this.origText, this.textDir);
@@ -43,19 +43,19 @@ define(["dojo/_base/lang", "../dojox/string/BidiEngine"], function(lang, BidiEng
 			return this.bidiPreprocess(newText);
 		},
 
-		restoreText: function(origObj){
+		restoreText: function (origObj) {
 			var obj = lang.clone(origObj);
-			if(obj && this.origText){
+			if (obj && this.origText) {
 				obj.text = this.origText;
 			}
 			return obj;
 		},
 
-		textDirPreprocess: function(text){
+		textDirPreprocess: function (text) {
 			// inherit from surface / group  if textDir is defined there
-			if(text){
+			if (text) {
 				var textDir = text.textDir ? validateTextDir(text.textDir) : this.textDir;
-				if(textDir){
+				if (textDir) {
 					text.textDir = textDir;
 				}
 			}

@@ -1,8 +1,6 @@
 define([
-	"../_base",
-	"dcl/dcl",
-	"./_ShapeBase"
-], function(g, dcl, Shape){
+	"../_base", "dcl/dcl", "./_ShapeBase"
+], function (g, dcl, Shape) {
 	var defaultShape = {
 		// summary:
 		//		Defines the default Rect prototype.
@@ -35,7 +33,7 @@ define([
 		// summary:
 		//		a generic rectangle
 		shape: defaultShape,
-		getBoundingBox: function(){
+		getBoundingBox: function () {
 			// summary:
 			//		returns the bounding box (its shape in this case)
 			return this.shape;	// gfx.Rectangle

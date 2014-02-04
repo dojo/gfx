@@ -1,15 +1,16 @@
-define(["dcl/dcl", "./_base","dojo/_base/lang"],
-  function(dcl, g, lang){
+define(["dcl/dcl", "./_base", "dojo/_base/lang"], function (dcl, g, lang) {
 	var m = g.matrix = {};
 
 	// candidates for dojox.math:
 	var _degToRadCache = {};
-	m._degToRad = function(degree){
+	m._degToRad = function (degree) {
 		return _degToRadCache[degree] || (_degToRadCache[degree] = (Math.PI * degree / 180));
 	};
-	m._radToDeg = function(radian){ return radian / Math.PI * 180; };
+	m._radToDeg = function (radian) {
+		return radian / Math.PI * 180;
+	};
 
-	m.Matrix2D = function(arg){
+	m.Matrix2D = function (arg) {
 		// summary:
 		//		a 2D matrix object
 		// description:
@@ -17,14 +18,14 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 		//		all objects of the array are normalized and multiplied sequentially.
 		// arg: Object
 		//		a 2D matrix-like object, a number, or an array of such objects
-		if(arg){
-			if(typeof arg == "number"){
+		if (arg) {
+			if (typeof arg === "number") {
 				this.xx = this.yy = arg;
-			}else if(arg instanceof Array){
-				if(arg.length > 0){
+			} else if (arg instanceof Array) {
+				if (arg.length > 0) {
 					var matrix = m.normalize(arg[0]);
 					// combine matrices
-					for(var i = 1; i < arg.length; ++i){
+					for (var i = 1; i < arg.length; ++i) {
 						var l = matrix, r = m.normalize(arg[i]);
 						matrix = new m.Matrix2D();
 						matrix.xx = l.xx * r.xx + l.xy * r.yx;
@@ -36,7 +37,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 					}
 					dcl.mix(this, matrix);
 				}
-			}else{
+			} else {
 				dcl.mix(this, arg);
 			}
 		}
@@ -52,24 +53,24 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 		// matrix constants
 
 		// identity: gfx/matrix.Matrix2D
-		//		an identity matrix constant: identity * (x, y) == (x, y)
+		//		an identity matrix constant: identity * (x, y) === (x, y)
 		identity: new m.Matrix2D(),
 
 		// flipX: gfx/matrix.Matrix2D
-		//		a matrix, which reflects points at x = 0 line: flipX * (x, y) == (-x, y)
-		flipX:    new m.Matrix2D({xx: -1}),
+		//		a matrix, which reflects points at x = 0 line: flipX * (x, y) === (-x, y)
+		flipX: new m.Matrix2D({xx: -1}),
 
 		// flipY: gfx/matrix.Matrix2D
-		//		a matrix, which reflects points at y = 0 line: flipY * (x, y) == (x, -y)
-		flipY:    new m.Matrix2D({yy: -1}),
+		//		a matrix, which reflects points at y = 0 line: flipY * (x, y) === (x, -y)
+		flipY: new m.Matrix2D({yy: -1}),
 
 		// flipXY: gfx/matrix.Matrix2D
-		//		a matrix, which reflects points at the origin of coordinates: flipXY * (x, y) == (-x, -y)
-		flipXY:   new m.Matrix2D({xx: -1, yy: -1}),
+		//		a matrix, which reflects points at the origin of coordinates: flipXY * (x, y) === (-x, -y)
+		flipXY: new m.Matrix2D({xx: -1, yy: -1}),
 
 		// matrix creators
 
-		translate: function(a, b){
+		translate: function (a, b) {
 			// summary:
 			//		forms a translation matrix
 			// description:
@@ -79,13 +80,13 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a y coordinate value
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length > 1){
+			if (arguments.length > 1) {
 				return new m.Matrix2D({dx: a, dy: b}); // gfx/matrix.Matrix2D
 			}
 			// branch
 			return new m.Matrix2D({dx: a.x, dy: a.y}); // gfx/matrix.Matrix2D
 		},
-		scale: function(a, b){
+		scale: function (a, b) {
 			// summary:
 			//		forms a scaling matrix
 			// description:
@@ -97,15 +98,15 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a scaling factor used for the y coordinate
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length > 1){
+			if (arguments.length > 1) {
 				return new m.Matrix2D({xx: a, yy: b}); // gfx/matrix.Matrix2D
 			}
-			if(typeof a == "number"){
+			if (typeof a === "number") {
 				return new m.Matrix2D({xx: a, yy: a}); // gfx/matrix.Matrix2D
 			}
 			return new m.Matrix2D({xx: a.x, yy: a.y}); // gfx/matrix.Matrix2D
 		},
-		rotate: function(angle){
+		rotate: function (angle) {
 			// summary:
 			//		forms a rotating matrix
 			// description:
@@ -118,7 +119,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			var s = Math.sin(angle);
 			return new m.Matrix2D({xx: c, xy: -s, yx: s, yy: c}); // gfx/matrix.Matrix2D
 		},
-		rotateg: function(degree){
+		rotateg: function (degree) {
 			// summary:
 			//		forms a rotating matrix
 			// description:
@@ -130,7 +131,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// returns: gfx/matrix.Matrix2D
 			return m.rotate(m._degToRad(degree)); // gfx/matrix.Matrix2D
 		},
-		skewX: function(angle) {
+		skewX: function (angle) {
 			// summary:
 			//		forms an x skewing matrix
 			// description:
@@ -141,7 +142,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// returns: gfx/matrix.Matrix2D
 			return new m.Matrix2D({xy: Math.tan(angle)}); // gfx/matrix.Matrix2D
 		},
-		skewXg: function(degree){
+		skewXg: function (degree) {
 			// summary:
 			//		forms an x skewing matrix
 			// description:
@@ -153,7 +154,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// returns: gfx/matrix.Matrix2D
 			return m.skewX(m._degToRad(degree)); // gfx/matrix.Matrix2D
 		},
-		skewY: function(angle){
+		skewY: function (angle) {
 			// summary:
 			//		forms a y skewing matrix
 			// description:
@@ -164,7 +165,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// returns: gfx/matrix.Matrix2D
 			return new m.Matrix2D({yx: Math.tan(angle)}); // gfx/matrix.Matrix2D
 		},
-		skewYg: function(degree){
+		skewYg: function (degree) {
 			// summary:
 			//		forms a y skewing matrix
 			// description:
@@ -176,7 +177,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// returns: gfx/matrix.Matrix2D
 			return m.skewY(m._degToRad(degree)); // gfx/matrix.Matrix2D
 		},
-		reflect: function(a, b){
+		reflect: function (a, b) {
 			// summary:
 			//		forms a reflection matrix
 			// description:
@@ -187,7 +188,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a Y value
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length == 1){
+			if (arguments.length === 1) {
 				b = a.y;
 				a = a.x;
 			}
@@ -195,7 +196,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			var a2 = a * a, b2 = b * b, n2 = a2 + b2, xy = 2 * a * b / n2;
 			return new m.Matrix2D({xx: 2 * a2 / n2 - 1, xy: xy, yx: xy, yy: 2 * b2 / n2 - 1}); // gfx/matrix.Matrix2D
 		},
-		project: function(a, b){
+		project: function (a, b) {
 			// summary:
 			//		forms an orthogonal projection matrix
 			// description:
@@ -207,7 +208,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a y coordinate value
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length == 1){
+			if (arguments.length === 1) {
 				b = a.y;
 				a = a.x;
 			}
@@ -217,7 +218,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 		},
 
 		// ensure matrix 2D conformance
-		normalize: function(matrix){
+		normalize: function (matrix) {
 			// summary:
 			//		converts an object to a matrix, if necessary
 			// description:
@@ -231,43 +232,47 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 
 		// common operations
 
-		isIdentity: function(matrix){
+		isIdentity: function (matrix) {
 			// summary:
 			//		returns whether the specified matrix is the identity.
 			// matrix: gfx/matrix.Matrix2D
 			//		a 2D matrix object to be tested
 			// returns: Boolean
-			return matrix.xx == 1 && matrix.xy == 0 && matrix.yx == 0 && matrix.yy == 1 && matrix.dx == 0 && matrix.dy == 0; // Boolean
+			return matrix.xx === 1 && matrix.xy === 0 && matrix.yx === 0 && matrix.yy === 1 && matrix.dx === 0 &&
+				matrix.dy === 0; // Boolean
 		},
-		clone: function(matrix){
+		clone: function (matrix) {
 			// summary:
 			//		creates a copy of a 2D matrix
 			// matrix: gfx/matrix.Matrix2D
 			//		a 2D matrix-like object to be cloned
 			// returns: gfx/matrix.Matrix2D
 			var obj = new m.Matrix2D();
-			for(var i in matrix){
-				if(typeof(matrix[i]) == "number" && typeof(obj[i]) == "number" && obj[i] != matrix[i]) obj[i] = matrix[i];
+			for (var i in matrix) {
+				if (typeof(matrix[i]) === "number" && typeof(obj[i]) === "number" && obj[i] !== matrix[i]) {
+					obj[i] = matrix[i];
+				}
 			}
 			return obj; // gfx/matrix.Matrix2D
 		},
-		invert: function(matrix){
+		invert: function (matrix) {
 			// summary:
 			//		inverts a 2D matrix
 			// matrix: gfx/matrix.Matrix2D
 			//		a 2D matrix-like object to be inverted
 			// returns: gfx/matrix.Matrix2D
-			var M = m.normalize(matrix),
-				D = M.xx * M.yy - M.xy * M.yx;
-				M = new m.Matrix2D({
-					xx: M.yy/D, xy: -M.xy/D,
-					yx: -M.yx/D, yy: M.xx/D,
-					dx: (M.xy * M.dy - M.yy * M.dx) / D,
-					dy: (M.yx * M.dx - M.xx * M.dy) / D
-				});
+			var M = m.normalize(matrix), D = M.xx * M.yy - M.xy * M.yx;
+			M = new m.Matrix2D({
+				xx: M.yy / D,
+				xy: -M.xy / D,
+				yx: -M.yx / D,
+				yy: M.xx / D,
+				dx: (M.xy * M.dy - M.yy * M.dx) / D,
+				dy: (M.yx * M.dx - M.xx * M.dy) / D
+			});
 			return M; // gfx/matrix.Matrix2D
 		},
-		_multiplyPoint: function(matrix, x, y){
+		_multiplyPoint: function (matrix, x, y) {
 			// summary:
 			//		applies a matrix to a point
 			// matrix: gfx/matrix.Matrix2D
@@ -277,9 +282,9 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// y: Number
 			//		a y coordinate of a point
 			// returns: gfx.Point
-			return {x: matrix.xx * x + matrix.xy * y + matrix.dx, y: matrix.yx * x + matrix.yy * y + matrix.dy}; // gfx.Point
+			return {x: matrix.xx * x + matrix.xy * y + matrix.dx, y: matrix.yx * x + matrix.yy * y + matrix.dy};
 		},
-		multiplyPoint: function(matrix, /* Number||Point */ a, /* Number? */ b){
+		multiplyPoint: function (matrix, /* Number||Point */ a, /* Number? */ b) {
 			// summary:
 			//		applies a matrix to a point
 			// matrix: gfx/matrix.Matrix2D
@@ -290,12 +295,12 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			//		a y coordinate of a point
 			// returns: gfx.Point
 			var M = m.normalize(matrix);
-			if(typeof a == "number" && typeof b == "number"){
+			if (typeof a === "number" && typeof b === "number") {
 				return m._multiplyPoint(M, a, b); // gfx.Point
 			}
 			return m._multiplyPoint(M, a.x, a.y); // gfx.Point
 		},
-		multiplyRectangle: function(matrix, /*Rectangle*/ rect){
+		multiplyRectangle: function (matrix, /*Rectangle*/ rect) {
 			// summary:
 			//		Applies a matrix to a rectangle.
 			// description:
@@ -308,25 +313,23 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			//		the rectangle to transform.
 			// returns: gfx.Rectangle
 			var M = m.normalize(matrix);
-			rect = rect || {x:0, y:0, width:0, height:0}; 
-			if(m.isIdentity(M))
-				return {x: rect.x, y: rect.y, width: rect.width, height: rect.height}; // dojo/gfx.Rectangle
-			var p0 = m.multiplyPoint(M, rect.x, rect.y),
-				p1 = m.multiplyPoint(M, rect.x, rect.y + rect.height),
-				p2 = m.multiplyPoint(M, rect.x + rect.width, rect.y),
-				p3 = m.multiplyPoint(M, rect.x + rect.width, rect.y + rect.height),
-				minx = Math.min(p0.x, p1.x, p2.x, p3.x),
-				miny = Math.min(p0.y, p1.y, p2.y, p3.y),
-				maxx = Math.max(p0.x, p1.x, p2.x, p3.x),
-				maxy = Math.max(p0.y, p1.y, p2.y, p3.y);
-			return{ // dojo/gfx.Rectangle
+			rect = rect || {x: 0, y: 0, width: 0, height: 0};
+			if (m.isIdentity(M)) {
+				return {x: rect.x, y: rect.y, width: rect.width, height: rect.height};
+			} // dojo/gfx.Rectangle
+			var p0 = m.multiplyPoint(M, rect.x, rect.y), p1 = m.multiplyPoint(M, rect.x,
+				rect.y + rect.height), p2 = m.multiplyPoint(M, rect.x + rect.width, rect.y), p3 = m.multiplyPoint(M,
+				rect.x + rect.width, rect.y + rect.height), minx = Math.min(p0.x, p1.x, p2.x,
+				p3.x), miny = Math.min(p0.y, p1.y, p2.y, p3.y), maxx = Math.max(p0.x, p1.x, p2.x,
+				p3.x), maxy = Math.max(p0.y, p1.y, p2.y, p3.y);
+			return { // dojo/gfx.Rectangle
 				x: minx,
 				y: miny,
 				width: maxx - minx,
 				height: maxy - miny
 			};
 		},
-		multiply: function(matrix){
+		multiply: function (matrix) {
 			// summary:
 			//		combines matrices by multiplying them sequentially in the given order
 			// matrix: gfx/matrix.Matrix2D
@@ -334,7 +337,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			//		all subsequent arguments are matrix-like objects too
 			var M = m.normalize(matrix);
 			// combine matrices
-			for(var i = 1; i < arguments.length; ++i){
+			for (var i = 1; i < arguments.length; ++i) {
 				var l = M, r = m.normalize(arguments[i]);
 				M = new m.Matrix2D();
 				M.xx = l.xx * r.xx + l.xy * r.yx;
@@ -349,7 +352,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 
 		// high level operations
 
-		_sandwich: function(matrix, x, y){
+		_sandwich: function (matrix, x, y) {
 			// summary:
 			//		applies a matrix at a central point
 			// matrix: gfx/matrix.Matrix2D
@@ -360,7 +363,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			//		a y component of the central point
 			return m.multiply(m.translate(x, y), matrix, m.translate(-x, -y)); // gfx/matrix.Matrix2D
 		},
-		scaleAt: function(a, b, c, d){
+		scaleAt: function (a, b, c, d) {
 			// summary:
 			//		scales a picture using a specified point as a center of scaling
 			// description:
@@ -374,19 +377,19 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// d: Number
 			//		a y component of a central point
 			// returns: gfx/matrix.Matrix2D
-			switch(arguments.length){
-				case 4:
-					// a and b are scale factor components, c and d are components of a point
-					return m._sandwich(m.scale(a, b), c, d); // gfx/matrix.Matrix2D
-				case 3:
-					if(typeof c == "number"){
-						return m._sandwich(m.scale(a), b, c); // gfx/matrix.Matrix2D
-					}
-					return m._sandwich(m.scale(a, b), c.x, c.y); // gfx/matrix.Matrix2D
+			switch (arguments.length) {
+			case 4:
+				// a and b are scale factor components, c and d are components of a point
+				return m._sandwich(m.scale(a, b), c, d); // gfx/matrix.Matrix2D
+			case 3:
+				if (typeof c === "number") {
+					return m._sandwich(m.scale(a), b, c); // gfx/matrix.Matrix2D
+				}
+				return m._sandwich(m.scale(a, b), c.x, c.y); // gfx/matrix.Matrix2D
 			}
 			return m._sandwich(m.scale(a), b.x, b.y); // gfx/matrix.Matrix2D
 		},
-		rotateAt: function(angle, a, b){
+		rotateAt: function (angle, a, b) {
 			// summary:
 			//		rotates a picture using a specified point as a center of rotation
 			// description:
@@ -398,12 +401,12 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a y component of a central point
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length > 2){
+			if (arguments.length > 2) {
 				return m._sandwich(m.rotate(angle), a, b); // gfx/matrix.Matrix2D
 			}
 			return m._sandwich(m.rotate(angle), a.x, a.y); // gfx/matrix.Matrix2D
 		},
-		rotategAt: function(degree, a, b){
+		rotategAt: function (degree, a, b) {
 			// summary:
 			//		rotates a picture using a specified point as a center of rotation
 			// description:
@@ -415,12 +418,12 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a y component of a central point
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length > 2){
+			if (arguments.length > 2) {
 				return m._sandwich(m.rotateg(degree), a, b); // gfx/matrix.Matrix2D
 			}
 			return m._sandwich(m.rotateg(degree), a.x, a.y); // gfx/matrix.Matrix2D
 		},
-		skewXAt: function(angle, a, b){
+		skewXAt: function (angle, a, b) {
 			// summary:
 			//		skews a picture along the x axis using a specified point as a center of skewing
 			// description:
@@ -432,12 +435,12 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a y component of a central point
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length > 2){
+			if (arguments.length > 2) {
 				return m._sandwich(m.skewX(angle), a, b); // gfx/matrix.Matrix2D
 			}
 			return m._sandwich(m.skewX(angle), a.x, a.y); // gfx/matrix.Matrix2D
 		},
-		skewXgAt: function(degree, a, b){
+		skewXgAt: function (degree, a, b) {
 			// summary:
 			//		skews a picture along the x axis using a specified point as a center of skewing
 			// description:
@@ -449,12 +452,12 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a y component of a central point
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length > 2){
+			if (arguments.length > 2) {
 				return m._sandwich(m.skewXg(degree), a, b); // gfx/matrix.Matrix2D
 			}
 			return m._sandwich(m.skewXg(degree), a.x, a.y); // gfx/matrix.Matrix2D
 		},
-		skewYAt: function(angle, a, b){
+		skewYAt: function (angle, a, b) {
 			// summary:
 			//		skews a picture along the y axis using a specified point as a center of skewing
 			// description:
@@ -466,12 +469,12 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a y component of a central point
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length > 2){
+			if (arguments.length > 2) {
 				return m._sandwich(m.skewY(angle), a, b); // gfx/matrix.Matrix2D
 			}
 			return m._sandwich(m.skewY(angle), a.x, a.y); // gfx/matrix.Matrix2D
 		},
-		skewYgAt: function(/* Number */ degree, /* Number||Point */ a, /* Number? */ b){
+		skewYgAt: function (/* Number */ degree, /* Number||Point */ a, /* Number? */ b) {
 			// summary:
 			//		skews a picture along the y axis using a specified point as a center of skewing
 			// description:
@@ -483,7 +486,7 @@ define(["dcl/dcl", "./_base","dojo/_base/lang"],
 			// b: Number?
 			//		a y component of a central point
 			// returns: gfx/matrix.Matrix2D
-			if(arguments.length > 2){
+			if (arguments.length > 2) {
 				return m._sandwich(m.skewYg(degree), a, b); // gfx/matrix.Matrix2D
 			}
 			return m._sandwich(m.skewYg(degree), a.x, a.y); // gfx/matrix.Matrix2D

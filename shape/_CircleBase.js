@@ -1,8 +1,6 @@
 define([
-	"../_base",
-	"dcl/dcl",
-	"./_ShapeBase"
-], function(g, dcl, Shape){
+	"../_base", "dcl/dcl", "./_ShapeBase"
+], function (g, dcl, Shape) {
 	var defaultShape = {
 		// summary:
 		//		An object defining the default Circle prototype.
@@ -26,10 +24,10 @@ define([
 		// summary:
 		//		a generic circle
 		shape: defaultShape,
-		getBoundingBox: function(){
+		getBoundingBox: function () {
 			// summary:
 			//		returns the bounding box
-			if(!this.bbox){
+			if (!this.bbox) {
 				var shape = this.shape;
 				this.bbox = {x: shape.cx - shape.r, y: shape.cy - shape.r,
 					width: 2 * shape.r, height: 2 * shape.r};

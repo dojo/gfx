@@ -1,9 +1,11 @@
 define([
-	"gfx/matrix"
-], function(m){
-	var eq = function(t, a, b){ t.t(2 * Math.abs(a - b) / ((a < 1 && b < 1) ? 1 : a + b) < 1e-6); };
-	tests.register("gfx.tests.matrix", [
-		function IdentityTest(t){
+	"doh/runner", "gfx/matrix"
+], function (doh, m) {
+	var eq = function (t, a, b) {
+		t.t(2 * Math.abs(a - b) / ((a < 1 && b < 1) ? 1 : a + b) < 1e-6);
+	};
+	doh.register("gfx.tests.matrix", [
+		function IdentityTest(t) {
 			var a = new m.Matrix2D();
 			eq(t, a.xx, 1);
 			eq(t, a.yy, 1);
@@ -11,8 +13,7 @@ define([
 			eq(t, a.yx, 0);
 			eq(t, a.dx, 0);
 			eq(t, a.dy, 0);
-		},
-		function Rot30gTest(t){
+		}, function Rot30gTest(t) {
 			var a = m.rotateg(30);
 			eq(t, a.xx, a.yy);
 			eq(t, a.xy, -a.yx);
@@ -21,8 +22,7 @@ define([
 			eq(t, a.yx, 0.5);
 			t.t(a.xy < 0);
 			t.t(a.yx > 0);
-		},
-		function Rot45gTest(t){
+		}, function Rot45gTest(t) {
 			var a = m.rotateg(45);
 			eq(t, a.xx, a.yy);
 			eq(t, a.xy, -a.yx);
@@ -30,8 +30,7 @@ define([
 			eq(t, a.dy, 0);
 			eq(t, a.xx, a.yx);
 			eq(t, a.yy, -a.xy);
-		},
-		function Rot90gTest(t){
+		}, function Rot90gTest(t) {
 			var a = m.rotateg(90);
 			eq(t, a.xx, a.yy);
 			eq(t, a.xy, -a.yx);
@@ -39,8 +38,7 @@ define([
 			eq(t, a.dy, 0);
 			eq(t, a.xx, 0);
 			eq(t, a.yx, 1);
-		},
-		function CombineIdentitiesTest(t){
+		}, function CombineIdentitiesTest(t) {
 			var a = m.normalize([new m.Matrix2D(), new m.Matrix2D(), new m.Matrix2D()]);
 			eq(t, a.xx, 1);
 			eq(t, a.yy, 1);
@@ -48,8 +46,7 @@ define([
 			eq(t, a.yx, 0);
 			eq(t, a.dx, 0);
 			eq(t, a.dy, 0);
-		},
-		function CombineExclusiveTest(t){
+		}, function CombineExclusiveTest(t) {
 			var a = m.normalize([m.rotateg(30), m.rotateg(-30)]);
 			eq(t, a.xx, 1);
 			eq(t, a.yy, 1);
@@ -57,8 +54,7 @@ define([
 			eq(t, a.yx, 0);
 			eq(t, a.dx, 0);
 			eq(t, a.dy, 0);
-		},
-		function CombineInvertedTest(t){
+		}, function CombineInvertedTest(t) {
 			var a = m.normalize([m.rotateg(30), m.invert(m.rotateg(30))]);
 			eq(t, a.xx, 1);
 			eq(t, a.yy, 1);
@@ -66,8 +62,7 @@ define([
 			eq(t, a.yx, 0);
 			eq(t, a.dx, 0);
 			eq(t, a.dy, 0);
-		},
-		function Rot90gAtTest(t){
+		}, function Rot90gAtTest(t) {
 			var a = m.rotategAt(90, 10, 10);
 			eq(t, a.xx, a.yy);
 			eq(t, a.xy, -a.yx);
@@ -75,23 +70,19 @@ define([
 			eq(t, a.dy, 0);
 			eq(t, a.xx, 0);
 			eq(t, a.yx, 1);
-		},
-		function MultPointTest1(t){
+		}, function MultPointTest1(t) {
 			var b = m.multiplyPoint(m.rotategAt(90, 10, 10), 10, 10);
 			eq(t, b.x, 10);
 			eq(t, b.y, 10);
-		},
-		function MultPointTest2(t){
+		}, function MultPointTest2(t) {
 			var b = m.multiplyPoint(m.rotategAt(90, 10, 10), {x: 10, y: 5});
 			eq(t, b.x, 15);
 			eq(t, b.y, 10);
-		},
-		function MultPointTest3(t){
+		}, function MultPointTest3(t) {
 			var b = m.multiplyPoint(m.rotategAt(90, 10, 10), 10, 15);
 			eq(t, b.x, 5);
 			eq(t, b.y, 10);
-		},
-		function ScaleTest1(t){
+		}, function ScaleTest1(t) {
 			var a = m.normalize([m.scale(2, 1), m.invert(m.rotateg(45))]);
 			eq(t, a.xx, 2 * a.yy);
 			eq(t, a.xy, -2 * a.yx);
@@ -99,8 +90,7 @@ define([
 			eq(t, a.dy, 0);
 			eq(t, a.xx, a.xy);
 			eq(t, a.yy, -a.yx);
-		},
-		function ScaleTest2(t){
+		}, function ScaleTest2(t) {
 			var a = m.normalize([m.scale(1, 2), m.invert(m.rotateg(45))]);
 			eq(t, 2 * a.xx, a.yy);
 			eq(t, 2 * a.xy, -a.yx);
@@ -108,8 +98,7 @@ define([
 			eq(t, a.dy, 0);
 			eq(t, a.xx, a.xy);
 			eq(t, a.yy, -a.yx);
-		},
-		function ScaleTest3(t){
+		}, function ScaleTest3(t) {
 			var a = m.normalize([m.rotateg(45), m.scale(2, 1)]);
 			eq(t, a.xx, 2 * a.yy);
 			eq(t, a.yx, -2 * a.xy);
@@ -117,8 +106,7 @@ define([
 			eq(t, a.dy, 0);
 			eq(t, a.xx, a.yx);
 			eq(t, a.yy, -a.xy);
-		},
-		function ScaleTest4(t){
+		}, function ScaleTest4(t) {
 			var a = m.normalize([m.rotateg(45), m.scale(1, 2)]);
 			eq(t, 2 * a.xx, a.yy);
 			eq(t, 2 * a.yx, -a.xy);
@@ -126,8 +114,7 @@ define([
 			eq(t, a.dy, 0);
 			eq(t, a.xx, a.yx);
 			eq(t, a.yy, -a.xy);
-		},
-		function ScaleTest5(t){
+		}, function ScaleTest5(t) {
 			var a = m.normalize([m.rotategAt(45, 100, 100), m.scale(2)]);
 			eq(t, a.xx, a.yy);
 			eq(t, a.xy, -a.yx);
@@ -170,8 +157,7 @@ define([
 			eq(t, a.xy, d.xy);
 			eq(t, a.yx, d.yx);
 			eq(t, a.yy, d.yy);
-		},
-		function ScaleTest6(t){
+		}, function ScaleTest6(t) {
 			var a = m.normalize(6);
 			eq(t, a.xx, 6);
 			eq(t, a.yy, 6);
@@ -179,8 +165,7 @@ define([
 			eq(t, a.yx, 0);
 			eq(t, a.dx, 0);
 			eq(t, a.dy, 0);
-		},
-		function ScaleTest7(t){
+		}, function ScaleTest7(t) {
 			var a = m.normalize([2, m.scale(2, 1)]);
 			eq(t, a.xx, 4);
 			eq(t, a.yy, 2);
@@ -188,8 +173,7 @@ define([
 			eq(t, a.yx, 0);
 			eq(t, a.dx, 0);
 			eq(t, a.dy, 0);
-		},
-		function TranslateTest(t){
+		}, function TranslateTest(t) {
 			var a = m.normalize({dx: 100, dy: 200});
 			eq(t, a.xx, 1);
 			eq(t, a.yy, 1);
@@ -197,41 +181,33 @@ define([
 			eq(t, a.yx, 0);
 			eq(t, a.dx, 100);
 			eq(t, a.dy, 200);
-		},
-		function ReflectTest1(t){
+		}, function ReflectTest1(t) {
 			var b = m.multiplyPoint(m.reflect(1, 1), 1, 0);
 			eq(t, b.x, 0);
 			eq(t, b.y, 1);
-		},
-		function ReflectTest2(t){
+		}, function ReflectTest2(t) {
 			var b = m.multiplyPoint(m.reflect(1, 1), 0, 1);
 			eq(t, b.x, 1);
 			eq(t, b.y, 0);
-		},
-		function ProjectTest1(t){
+		}, function ProjectTest1(t) {
 			var b = m.multiplyPoint(m.project(1, 1), 1, 0);
 			eq(t, b.x, 0.5);
 			eq(t, b.y, 0.5);
-		},
-		function ProjectTest2(t){
+		}, function ProjectTest2(t) {
 			var b = m.multiplyPoint(m.project(1, 1), 0, 1);
 			eq(t, b.x, 0.5);
 			eq(t, b.y, 0.5);
-		},
-		function IsIdentityTest(t){
+		}, function IsIdentityTest() {
 			var a = new m.Matrix2D();
-			tests.assertTrue(m.isIdentity(a));
-			a.xy=1;
-			tests.assertFalse(m.isIdentity(a));
-		},
-		function MultiplyRectangle(t){
-			var a = new m.Matrix2D(), 
-				r = {x:0,y:0,width:3,height:2},
-				res;
+			doh.assertTrue(m.isIdentity(a));
+			a.xy = 1;
+			doh.assertFalse(m.isIdentity(a));
+		}, function MultiplyRectangle(t) {
+			var a = new m.Matrix2D(), r = {x: 0, y: 0, width: 3, height: 2}, res;
 			// multiply by identity -> same rect
 			res = m.multiplyRectangle(a, r);
-			tests.assertTrue(res.x == r.x && res.y == r.y && res.width == r.width && res.height == r.height);			
-			res = m.multiplyRectangle(m.scale(2,2), r);
+			doh.assertTrue(res.x === r.x && res.y === r.y && res.width === r.width && res.height === r.height);
+			res = m.multiplyRectangle(m.scale(2, 2), r);
 			eq(t, res.x, 0);
 			eq(t, res.y, 0);
 			eq(t, res.width, 6);
@@ -241,19 +217,19 @@ define([
 				tr = m.multiplyPoint(a, 3, 0), // top right
 				br = m.multiplyPoint(a, 3, 2), // bottom right
 				bl = m.multiplyPoint(a, 0, 2), // bottom left
-				exp = {x : tl.x, y:tr.y, width: br.x, height: bl.y - tr.y}; // expected
+				exp = {x: tl.x, y: tr.y, width: br.x, height: bl.y - tr.y}; // expected
 			res = m.multiplyRectangle(a, r);
 			eq(t, res.x, exp.x);
 			eq(t, res.y, exp.y);
 			eq(t, res.width, exp.width);
 			eq(t, res.height, exp.height);
 			// matrices array
-			res = m.multiplyRectangle([m.translate(10,10), m.scale(2,2)], r);
+			res = m.multiplyRectangle([m.translate(10, 10), m.scale(2, 2)], r);
 			eq(t, res.x, 10);
 			eq(t, res.y, 10);
 			eq(t, res.width, 6);
 			eq(t, res.height, 4);
 		}
-		
+
 	]);
 });

@@ -1,19 +1,12 @@
 define([
-	"dcl/dcl",
-	"dojo/dom",
-	"../_base",
-	"./_base",
-	"../shape/_SurfaceBase",
-	"./Container",
-	"./Creator",
-	"dojo/has",
+	"dcl/dcl", "dojo/dom", "../_base", "./_base", "../shape/_SurfaceBase", "./Container", "./Creator", "dojo/has",
 	"dojo/has!dojo-bidi?./bidi/Surface"
-], function(dcl, dom, g, svg, SurfaceBase, Container, Creator, has, BidiSurface){
+], function (dcl, dom, g, svg, SurfaceBase, Container, Creator, has, BidiSurface) {
 	var Surface = dcl([SurfaceBase, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (SVG)
 
-		constructor: function(parentNode, width, height){
+		constructor: function (parentNode, width, height) {
 			// summary:
 			//		creates a surface (SVG)
 			// parentNode: Node
@@ -25,10 +18,10 @@ define([
 
 			this.rawNode = svg._createElementNS(svg.xmlns.svg, "svg");
 			this.rawNode.setAttribute("overflow", "hidden");
-			if(width){
+			if (width) {
 				this.rawNode.setAttribute("width", width);
 			}
-			if(height){
+			if (height) {
 				this.rawNode.setAttribute("height", height);
 			}
 
@@ -42,23 +35,23 @@ define([
 			g._fixMsTouchAction(this);
 		},
 
-		destroy: dcl.superCall(function(sup){
-			return function(){
+		destroy: dcl.superCall(function (sup) {
+			return function () {
 				// no need to call svg.Container.clear to remove the children raw
 				// nodes since the surface raw node will be removed. So, only dispose at gfx level
 				this.clear(true);
 				this.defNode = null;	// release the external reference
 				sup.apply(this, arguments);
-			}
+			};
 		}),
-		setDimensions: function(width, height){
+		setDimensions: function (width, height) {
 			// summary:
 			//		sets the width and height of the rawNode
 			// width: String
 			//		width of surface, e.g., "100px"
 			// height: String
 			//		height of surface, e.g., "100px"
-			if(!this.rawNode){
+			if (!this.rawNode) {
 				return this;
 			}
 			this.rawNode.setAttribute("width", width);
@@ -67,23 +60,24 @@ define([
 			// http://bugs.dojotoolkit.org/ticket/16100
 			// (https://code.google.com/p/chromium/issues/detail?id=162628)
 			var uagent = navigator.userAgent;
-			var hasSvgSetAttributeBug = (function(){
+			var hasSvgSetAttributeBug = (function () {
 				var matches = /WebKit\/(\d*)/.exec(uagent);
-				return matches ? matches[1] : 0
+				return matches ? matches[1] : 0;
 			})() > 534;
-			if(hasSvgSetAttributeBug){
+			if (hasSvgSetAttributeBug) {
 				this.rawNode.style.width = width;
 				this.rawNode.style.height = height;
 			}
 			return this;	// self
 		},
-		getDimensions: function(){
+		getDimensions: function () {
 			// summary:
 			//		returns an object with properties "width" and "height"
 			return this.rawNode ? {
 				width: g.normalizedLength(this.rawNode.getAttribute("width")),
-				height: g.normalizedLength(this.rawNode.getAttribute("height"))} : null; // Object
+				height: g.normalizedLength(this.rawNode.getAttribute("height"))
+			} : null; // Object
 		}
 	});
-	return has("dojo-bidi")?dcl([Surface, BidiSurface], {}) : Surface;
+	return has("dojo-bidi") ? dcl([Surface, BidiSurface], {}) : Surface;
 });

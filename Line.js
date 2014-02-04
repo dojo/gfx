@@ -1,3 +1,3 @@
-define(["./_RendererChooser!Line"], function(Line){
+define(["./_RendererChooser!Line"], function (Line) {
 	return Line;
 });

@@ -1,135 +1,120 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Animate rectangles</title>
-	<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js"></script>-->
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
-	<script type="text/javascript" charset="utf-8">
-		require([
-			"dojo/_base/lang",
-			"dojo/_base/fx",
-			"dojo/ready",
-			"dojo/dom",
-			"dojo/dom-attr",
-			"dojo/dom-construct",
-			"dojo/on",
-			"dojo/aspect",
-			"dojo/query",
-			"dojo/NodeList-dom",
-			"dojo/fx",
-			"dojo/fx/easing",
-			"gfx/gfx"
-		], function(lang, baseFx, ready, dom, domAttr, domConstruct, on, aspect, query, NLdom, dojoFx, fxEasing, gfx){
-			var WIDTH = 600, HEIGHT = 400,
-					BAR_GAP = 20, BAR_WIDTH = 76,
-					BAR_FILL = "red", BAR_STROKE = "black",
-					CHAIN_DURATION = 250, COMBINE_DURATION = 1000;
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Animate rectangles</title>
+    <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js"></script>-->
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
+    <script type="text/javascript" charset="utf-8">
+        require([
+            "dojo/_base/lang", "dojo/_base/fx", "dojo/ready", "dojo/dom", "dojo/dom-attr", "dojo/dom-construct",
+            "dojo/on", "dojo/aspect", "dojo/query", "dojo/NodeList-dom", "dojo/fx", "dojo/fx/easing", "gfx/gfx"
+        ], function (lang, baseFx, ready, dom, domAttr, domConstruct, on, aspect, query, NLdom, dojoFx, fxEasing, gfx) {
+            var WIDTH = 600, HEIGHT = 400, BAR_GAP = 20, BAR_WIDTH = 76, BAR_FILL = "red", BAR_STROKE = "black", CHAIN_DURATION = 250, COMBINE_DURATION = 1000;
 
-			var rects = [];
+            var rects = [];
 
-			var enable = function(enabled){
-				// enable/disable controls on the page
-				query("input, select, button, textarea").attr("disabled", !enabled);
-			};
+            var enable = function (enabled) {
+                // enable/disable controls on the page
+                query("input, select, button, textarea").attr("disabled", !enabled);
+            };
 
-			var empty = {};
-			var populateSelect = function(module, select){
-				for(var name in module){
-					if(name in empty){
-						continue;
-					}
-					var fun = module[name];
-					if(lang.isFunction(fun)){
-						domConstruct.create("option", {
-							value:name,
-							selected:name == "backOut",
-							innerHTML:name
-						}, select);
-					}
-				}
-			};
+            var empty = {};
+            var populateSelect = function (module, select) {
+                for (var name in module) {
+                    if (name in empty) {
+                        continue;
+                    }
+                    var fun = module[name];
+                    if (lang.isFunction(fun)) {
+                        domConstruct.create("option", {
+                            value: name,
+                            selected: name === "backOut",
+                            innerHTML: name
+                        }, select);
+                    }
+                }
+            };
 
-			var animate = function(){
-				// disable controls
-				enable(false);
+            var animate = function () {
+                // disable controls
+                enable(false);
 
-				// get old heights
-				var oldHeights = rects.map(function(rect){
-					return rect.shape.height;
-				});
+                // get old heights
+                var oldHeights = rects.map(function (rect) {
+                    return rect.shape.height;
+                });
 
-				// generate new heights
-				var newHeights = rects.map(function(){
-					return 1 + Math.random() * (HEIGHT - 1);
-				});
+                // generate new heights
+                var newHeights = rects.map(function () {
+                    return 1 + Math.random() * (HEIGHT - 1);
+                });
 
-				// get parameters
-				var duration = dom.byId("chain").checked ? CHAIN_DURATION : COMBINE_DURATION,
-						easing = fxEasing[(dom.byId("easing").value)];
+                // get parameters
+                var duration = dom.byId("chain").checked ? CHAIN_DURATION :
+                        COMBINE_DURATION, easing = fxEasing[(dom.byId("easing").value)];
 
-				// create animations between heights
-				var animations = rects.map(function(rect, i){
-					// create animation
-					var anim = new baseFx.Animation({
-						duration:duration,
-						easing:easing,
-						curve:[oldHeights[i], newHeights[i]]
-					});
-					// update the rectangle on every tick
-					aspect.after(anim, "onAnimate", function(height){
-						var shape = rect.shape;
-						shape.y = HEIGHT - height;
-						shape.height = height;
-						rect.shape = shape;
-					}, true);
-					return anim;
-				});
-				// combine all animations
-				var masterAnimation = dom.byId("chain").checked ?
-						dojoFx.chain(animations) : dojoFx.combine(animations);
-				// enable controls when they are done
-				aspect.after(masterAnimation, "onEnd", function(){
-					enable(true);
-				});
-				// start the animation
-				masterAnimation.play();
-			}
+                // create animations between heights
+                var animations = rects.map(function (rect, i) {
+                    // create animation
+                    var anim = new baseFx.Animation({
+                        duration: duration,
+                        easing: easing,
+                        curve: [oldHeights[i], newHeights[i]]
+                    });
+                    // update the rectangle on every tick
+                    aspect.after(anim, "onAnimate", function (height) {
+                        var shape = rect.shape;
+                        shape.y = HEIGHT - height;
+                        shape.height = height;
+                        rect.shape = shape;
+                    }, true);
+                    return anim;
+                });
+                // combine all animations
+                var masterAnimation = dom.byId("chain").checked ? dojoFx.chain(animations) : dojoFx.combine(animations);
+                // enable controls when they are done
+                aspect.after(masterAnimation, "onEnd", function () {
+                    enable(true);
+                });
+                // start the animation
+                masterAnimation.play();
+            }
 
-			var init = function(surface){
-				// create rectangles
-				for(var w = BAR_GAP; w < WIDTH - BAR_WIDTH; w += BAR_WIDTH + BAR_GAP){
+            var init = function (surface) {
+                // create rectangles
+                for (var w = BAR_GAP; w < WIDTH - BAR_WIDTH; w += BAR_WIDTH + BAR_GAP) {
                     var rect = surface.createRect({
-                        x:w, y:HEIGHT, width:BAR_WIDTH, height:1
+                        x: w, y: HEIGHT, width: BAR_WIDTH, height: 1
                     });
                     rect.fill = BAR_FILL;
                     rect.stroke = BAR_STROKE;
-					rects.push(rect);
-				}
+                    rects.push(rect);
+                }
 
-				// prepare and enable controls
-				populateSelect(fxEasing, "easing");
-				domAttr.set("chain", "checked", false);
-				on(dom.byId("animate"), "click", animate);
-				enable(true);
-			};
+                // prepare and enable controls
+                populateSelect(fxEasing, "easing");
+                domAttr.set("chain", "checked", false);
+                on(dom.byId("animate"), "click", animate);
+                enable(true);
+            };
 
-			function createSurface(){
-				var surface = gfx.createSurface(dom.byId("surface"), 600, 400);
-				surface.whenLoaded(init);
-			};
+            function createSurface() {
+                var surface = gfx.createSurface(dom.byId("surface"), 600, 400);
+                surface.whenLoaded(init);
+            };
 
-			ready(createSurface);
-		});
-	</script>
+            ready(createSurface);
+        });
+    </script>
 </head>
 <body>
 <p>
-	<button id="animate" disabled="disabled">Animate!</button>
-	&nbsp;
-	<label>Easing:&nbsp;<select id="easing" disabled="disabled"></select></label>&nbsp;
-	<label><input id="chain" type="checkbox" disabled="disabled">&nbsp;Chain (otherwise Combine)</label>
+    <button id="animate" disabled="disabled">Animate!</button>
+    &nbsp;
+    <label>Easing:&nbsp;<select id="easing" disabled="disabled"></select></label>&nbsp;
+    <label><input id="chain" type="checkbox" disabled="disabled">&nbsp;Chain (otherwise Combine)</label>
 </p>
 <div id="surface" style="width: 600px; height: 400px; border:1px solid #000;"></div>
 </body>

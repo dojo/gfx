@@ -1,4 +1,4 @@
-define(["dcl/dcl", "../../_bidi"], function(dcl, bidi){
+define(["dcl/dcl", "../../_bidi"], function (dcl, bidi) {
 
 	return dcl(null, {
 		// summary:
@@ -14,7 +14,7 @@ define(["dcl/dcl", "../../_bidi"], function(dcl, bidi){
 		//		3. "auto" - base direction is contextual (defined by first strong character).
 		textDir: "",
 
-		formatText: function (/*String*/ text, /*String*/ textDir){
+		formatText: function (/*String*/ text, /*String*/ textDir) {
 			// summary:
 			//		Applies the right transform on text, according to renderer.
 			// text:
@@ -42,10 +42,10 @@ define(["dcl/dcl", "../../_bidi"], function(dcl, bidi){
 			//		- Safari [5.0.3],
 			//		- Opera [11.01].
 
-			if(textDir && text && text.length > 1){
+			if (textDir && text && text.length > 1) {
 				var targetDir = textDir;
 
-				if(targetDir == "auto"){
+				if (targetDir === "auto") {
 					//is auto by default
 					targetDir = bidi.bidiEngine.checkContextual(text);
 				}
@@ -55,19 +55,19 @@ define(["dcl/dcl", "../../_bidi"], function(dcl, bidi){
 			return text;
 		},
 
-		makeBidiText: function(text, targetDir){
+		makeBidiText: function (text /*=====, targetDir =====*/) {
 			// summary:
 			//		Builds a bidi string from an original string by adding the correct bidi markers.
 			//		This may be renderer-dependent so this method should be redefined by renderers.
 			return text;
 		},
 
-		bidiPreprocess: function(newShape){
+		bidiPreprocess: function (newShape) {
 			return newShape;
 		},
 
-		_setParent: dcl.superCall(function(sup){
-			return function(parent){
+		_setParent: dcl.superCall(function (sup) {
+			return function (parent) {
 				sup.apply(this, arguments);
 				this.shape = bidi.textDirPreprocess.call(parent, this._get("shape"));
 			};

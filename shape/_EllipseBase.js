@@ -1,8 +1,6 @@
 define([
-	"../_base",
-	"dcl/dcl",
-	"./_ShapeBase"
-], function(g, dcl, Shape){
+	"../_base", "dcl/dcl", "./_ShapeBase"
+], function (g, dcl, Shape) {
 	var defaultShape = {
 		// summary:
 		//		Defines the default Ellipse prototype.
@@ -31,10 +29,10 @@ define([
 		// summary:
 		//		a generic ellipse
 		shape: defaultShape,
-		getBoundingBox: function(){
+		getBoundingBox: function () {
 			// summary:
 			//		returns the bounding box
-			if(!this.bbox){
+			if (!this.bbox) {
 				var shape = this.shape;
 				this.bbox = {x: shape.cx - shape.rx, y: shape.cy - shape.ry,
 					width: 2 * shape.rx, height: 2 * shape.ry};

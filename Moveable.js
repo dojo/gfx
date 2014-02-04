@@ -1,26 +1,27 @@
-define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch",
-	"dojo/dom-class","dojo/_base/window","./Mover"],
-  function(lang, dcl,event,topic,touch,domClass,win,Mover){
+define([
+	"dojo/_base/lang", "dcl/dcl", "dojo/_base/event", "dojo/topic", "dojo/touch", "dojo/dom-class", "dojo/_base/window",
+	"./Mover"
+], function (lang, dcl, event, topic, touch, domClass, win, Mover) {
 
 	/*=====
-	var __MoveableCtorArgs = dcl(null, {
-		// summary:
-		//		The arguments used for gfx/Moveable constructor.
+	 var __MoveableCtorArgs = dcl(null, {
+	 // summary:
+	 //		The arguments used for gfx/Moveable constructor.
 
-	    declaredClass:"gfx.__MoveableCtorArgs",
+	 declaredClass:"gfx.__MoveableCtorArgs",
 
-		// delay: Number
-		//		delay move by this number of pixels
-		delay:0,
+	 // delay: Number
+	 //		delay move by this number of pixels
+	 delay:0,
 
-		// mover: Object
-		//		a constructor of custom Mover
-		mover:Mover
-	});
-	=====*/
+	 // mover: Object
+	 //		a constructor of custom Mover
+	 mover:Mover
+	 });
+	 =====*/
 
 	return dcl(null, {
-		constructor: function(shape, params){
+		constructor: function (shape, params) {
 			// summary:
 			//		an object, which makes a shape moveable
 			// shape: gfx.Shape
@@ -40,47 +41,47 @@ define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch"
 		},
 
 		// methods
-		destroy: function(){
+		destroy: function () {
 			// summary:
 			//		stops watching for possible move, deletes all references, so the object can be garbage-collected
-			this.events.forEach(function(handle){
+			this.events.forEach(function (handle) {
 				handle.remove();
 			});
 			this.events = this.shape = null;
 		},
 
 		// mouse event processors
-		onMouseDown: function(e){
+		onMouseDown: function (e) {
 			// summary:
 			//		event processor for onmousedown, creates a Mover for the shape
 			// e: Event
 			//		mouse event
-			if(this.delay){
-				this.events.push(
-					this.shape.on(touch.move, lang.hitch(this, "onMouseMove")),
+			if (this.delay) {
+				this.events.push(this.shape.on(touch.move, lang.hitch(this, "onMouseMove")),
 					this.shape.on(touch.release, lang.hitch(this, "onMouseUp")));
 				this._lastX = e.clientX;
 				this._lastY = e.clientY;
-			}else{
+			} else {
+				/* jshint nonew:false */
 				new this.mover(this.shape, e, this);
 			}
 			event.stop(e);
 		},
-		onMouseMove: function(e){
+		onMouseMove: function (e) {
 			// summary:
 			//		event processor for onmousemove, used only for delayed drags
 			// e: Event
 			//		mouse event
-			var clientX = e.clientX,
-				clientY = e.clientY;
+			var clientX = e.clientX, clientY = e.clientY;
 
-			if(Math.abs(clientX - this._lastX) > this.delay || Math.abs(clientY - this._lastY) > this.delay){
+			if (Math.abs(clientX - this._lastX) > this.delay || Math.abs(clientY - this._lastY) > this.delay) {
 				this.onMouseUp(e);
+				/* jshint nonew:false */
 				new this.mover(this.shape, e, this);
 			}
 			event.stop(e);
 		},
-		onMouseUp: function(e){
+		onMouseUp: function (/*===== e =====*/) {
 			// summary:
 			//		event processor for onmouseup, used only for delayed delayed drags
 			// e: Event
@@ -89,7 +90,7 @@ define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch"
 		},
 
 		// local events
-		onMoveStart: function(/* gfx/Mover */ mover){
+		onMoveStart: function (/* gfx/Mover */ mover) {
 			// summary:
 			//		called before every move operation
 			// mover:
@@ -97,7 +98,7 @@ define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch"
 			topic.publish("/gfx/move/start", mover);
 			domClass.add(win.body(), "dojoMove");
 		},
-		onMoveStop: function(/* gfx/Mover */ mover){
+		onMoveStop: function (/* gfx/Mover */ mover) {
 			// summary:
 			//		called after every move operation
 			// mover:
@@ -105,7 +106,7 @@ define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch"
 			topic.publish("/gfx/move/stop", mover);
 			domClass.remove(win.body(), "dojoMove");
 		},
-		onFirstMove: function(/* gfx/Mover */ mover){
+		onFirstMove: function (/* gfx/Mover *//*===== mover =====*/) {
 			// summary:
 			//		called during the very first move notification,
 			//		can be used to initialize coordinates, can be overwritten.
@@ -114,7 +115,7 @@ define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch"
 
 			// default implementation does nothing
 		},
-		onMove: function(/* gfx/Mover */ mover, /* Object */ shift){
+		onMove: function (/* gfx/Mover */ mover, /* Object */ shift) {
 			// summary:
 			//		called during every move notification,
 			//		should actually move the node, can be overwritten.
@@ -126,7 +127,7 @@ define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch"
 			this.shape.applyLeftTransform(shift);
 			this.onMoved(mover, shift);
 		},
-		onMoving: function(/* gfx/Mover */ mover, /* Object */ shift){
+		onMoving: function (/* gfx/Mover */ /*===== mover, =====*/ /* Object */ /*===== shift =====*/) {
 			// summary:
 			//		called before every incremental move,
 			//		can be overwritten.
@@ -137,7 +138,7 @@ define(["dojo/_base/lang","dcl/dcl","dojo/_base/event","dojo/topic","dojo/touch"
 
 			// default implementation does nothing
 		},
-		onMoved: function(/* gfx/Mover */ mover, /* Object */ shift){
+		onMoved: function (/* gfx/Mover */ /*===== mover,  =====*/ /* Object */ /*===== shift =====*/) {
 			// summary:
 			//		called after every incremental move,
 			//		can be overwritten.

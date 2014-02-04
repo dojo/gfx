@@ -1,3 +1,3 @@
-define(["./_RendererChooser!Polyline"], function(Polyline){
+define(["./_RendererChooser!Polyline"], function (Polyline) {
 	return Polyline;
 });

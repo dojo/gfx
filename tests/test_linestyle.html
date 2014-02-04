@@ -1,42 +1,43 @@
 ﻿<html>
 <head>
-	<title>Dojo Unified 2D Graphics</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dijit/tests/css/dijitTests.css";
-	</style>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1"></script>
-	<script type="text/javascript">
-		require([
-			"dojo/ready",
-			"gfx/gfx"
-		], function(ready, gfx){
+    <title>Dojo Unified 2D Graphics</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+        @import "../../dojo/resources/dojo.css";
+        @import "../../dijit/tests/css/dijitTests.css";
+    </style>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="isDebug: true, async:1"></script>
+    <script type="text/javascript">
+        require([
+            "dojo/ready", "gfx/gfx"
+        ], function (ready, gfx) {
 
-			createSurface = function(){
-				var surface = gfx.createSurface("test", 500, 500);
-				surface.whenLoaded(makeShapes);
-			};
+            createSurface = function () {
+                var surface = gfx.createSurface("test", 500, 500);
+                surface.whenLoaded(makeShapes);
+            };
 
-			makeShapes = function(surface){
-				var styles = ["none", "Solid", "ShortDash", "ShortDot", "ShortDashDot", "ShortDashDotDot",
-					"Dot", "Dash", "LongDash", "DashDot", "LongDashDot", "LongDashDotDot"];
-				var font = "normal normal normal 10pt Arial";	// CSS font style
-				var y_offset = gfx.normalizedLength("4pt");
-				for(var i = 0; i < styles.length; ++i){
-					var y = 20 + i * 20;
-                    var text = surface.createText({x:140, y:y + y_offset, text:styles[i], align:"end"});
+            makeShapes = function (surface) {
+                var styles = [
+                    "none", "Solid", "ShortDash", "ShortDot", "ShortDashDot", "ShortDashDotDot", "Dot", "Dash",
+                    "LongDash", "DashDot", "LongDashDot", "LongDashDotDot"
+                ];
+                var font = "normal normal normal 10pt Arial";	// CSS font style
+                var y_offset = gfx.normalizedLength("4pt");
+                for (var i = 0; i < styles.length; ++i) {
+                    var y = 20 + i * 20;
+                    var text = surface.createText({x: 140, y: y + y_offset, text: styles[i], align: "end"});
                     text.font = font;
                     text.fill = "black";
-					var line = surface.createLine({x1:150, y1:y, x2:490, y2:y});
-                    line.stroke = {style:styles[i], width:3, cap:"round"};
-				}
-			};
+                    var line = surface.createLine({x1: 150, y1: y, x2: 490, y2: y});
+                    line.stroke = {style: styles[i], width: 3, cap: "round"};
+                }
+            };
 
-			ready(createSurface);
-		});
-	</script>
+            ready(createSurface);
+        });
+    </script>
 </head>
 <body>
 <h1>gfx: Line style test</h1>

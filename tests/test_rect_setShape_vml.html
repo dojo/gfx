@@ -1,37 +1,36 @@
 <html>
 <head>
-	<title>Test rect with mixed width/height percentage/px values</title>
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dijit/tests/css/dijitTests.css";
-	</style>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1"></script>
-	<!--<script type="text/javascript" src="../svg.js"></script>-->
-	<script type="text/javascript">
-		require([
-			"dojo/ready",
-			"gfx/gfx"
-		], function(ready, gfx){
-			createSurface = function(){
-				var surface = gfx.createSurface("test", 800, 600);
-				surface.whenLoaded(makeShapes);
-			};
+    <title>Test rect with mixed width/height percentage/px values</title>
+    <style type="text/css">
+        @import "../../dojo/resources/dojo.css";
+        @import "../../dijit/tests/css/dijitTests.css";
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="isDebug: true, async:1"></script>
+    <!--<script type="text/javascript" src="../svg.js"></script>-->
+    <script type="text/javascript">
+        require([
+            "dojo/ready", "gfx/gfx"
+        ], function (ready, gfx) {
+            createSurface = function () {
+                var surface = gfx.createSurface("test", 800, 600);
+                surface.whenLoaded(makeShapes);
+            };
 
-			makeShapes = function(surface){
+            makeShapes = function (surface) {
                 var rect;
-				rect = surface.createRect({x:10, y:10, width:"100%", height:100});
+                rect = surface.createRect({x: 10, y: 10, width: "100%", height: 100});
                 rect.fill = "red";
                 rect.stroke = "black";
-				rect = surface.createRect({x:10, y:130, width:100, height:"100%"});
+                rect = surface.createRect({x: 10, y: 130, width: 100, height: "100%"});
                 rect.fill = "red";
                 rect.stroke = "black";
-			};
+            };
 
-			ready(createSurface);
-		});
-	</script>
+            ready(createSurface);
+        });
+    </script>
 </head>
 <body>
 <h1>[12558] Test rect with mixed width/height percentage/px values</h1>

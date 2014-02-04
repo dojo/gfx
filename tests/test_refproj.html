@@ -1,128 +1,122 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>Test Reflection and Projection matrices</title>
-	<style>
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dijit/themes/tundra/tundra.css";
-	</style>
-	<script src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, parseOnLoad: true, async:1"></script>
-	<script>
-		require([
-			"dojo/ready",
-			"dojo/parser",
-			"dojo/on",
-			"dojo/dom",
-			"dojo/dom-geometry",
-			"dijit/registry",
-			"gfx/gfx",
-			"dojo/colors",
-			"dijit/form/HorizontalSlider",
-			"dijit/form/HorizontalRule",
-			"dijit/form/HorizontalRuleLabels"
-		], function(ready, parser, on, dom, domGeometry, registry, gfx){
-			var W = 500, H = 500, MARKER_SIZE = 5;
+    <title>Test Reflection and Projection matrices</title>
+    <style>
+        @import "../../dojo/resources/dojo.css";
+        @import "../../dijit/themes/tundra/tundra.css";
+    </style>
+    <script src="../../dojo/dojo.js"
+            data-dojo-config="isDebug: true, parseOnLoad: true, async:1"></script>
+    <script>
+        require([
+            "dojo/ready", "dojo/parser", "dojo/on", "dojo/dom", "dojo/dom-geometry", "dijit/registry", "gfx/gfx",
+            "dojo/colors", "dijit/form/HorizontalSlider", "dijit/form/HorizontalRule", "dijit/form/HorizontalRuleLabels"
+        ], function (ready, parser, on, dom, domGeometry, registry, gfx) {
+            var W = 500, H = 500, MARKER_SIZE = 5;
 
-			function makeGrid(group, size, step, stroke){
-				var g = group.createGroup();
-				stroke = stroke || {color:[0, 0, 0, 0.1], width:1};
-				for(var i = step; i < size; i += step){
-					g.createLine({x1:0, y1:i, x2:size, y2:i}).stroke = stroke;
-					g.createLine({x1:i, y1:0, x2:i, y2:size}).stroke = stroke;
-				}
-				g.createRect({x:0, y:0, width:size - 1, height:size - 1}).stroke = "black";
-				return g;
-			}
+            function makeGrid(group, size, step, stroke) {
+                var g = group.createGroup();
+                stroke = stroke || {color: [0, 0, 0, 0.1], width: 1};
+                for (var i = step; i < size; i += step) {
+                    g.createLine({x1: 0, y1: i, x2: size, y2: i}).stroke = stroke;
+                    g.createLine({x1: i, y1: 0, x2: i, y2: size}).stroke = stroke;
+                }
+                g.createRect({x: 0, y: 0, width: size - 1, height: size - 1}).stroke = "black";
+                return g;
+            }
 
-			var surface, shape, line = {x1:0, y1:0, x2:W, y2:H},
-					rm, pm, pt, rpt, ppt, point, rpoint, ppoint, rline, pline;
+            var surface, shape, line = {x1: 0, y1: 0, x2: W, y2: H}, rm, pm, pt, rpt, ppt, point, rpoint, ppoint, rline, pline;
 
-			function updatePoints(){
-				// get all transforms
-				rm = gfx.matrix.reflect(line.x2, line.y2);
-				pm = gfx.matrix.project(line.x2, line.y2);
+            function updatePoints() {
+                // get all transforms
+                rm = gfx.matrix.reflect(line.x2, line.y2);
+                pm = gfx.matrix.project(line.x2, line.y2);
 
-				// update points and lines
-				if(point){
-					rpt = gfx.matrix.multiplyPoint(rm, pt);
-					ppt = gfx.matrix.multiplyPoint(pm, pt);
-					point.shape = {cx:pt.x, cy:pt.y, r:MARKER_SIZE};
-					rpoint.shape = {cx:rpt.x, cy:rpt.y, r:MARKER_SIZE};
-					ppoint.shape = {cx:ppt.x, cy:ppt.y, r:MARKER_SIZE};
-					rline.shape = {x1:pt.x, y1:pt.y, x2:rpt.x, y2:rpt.y};
-					pline.shape = {x1:pt.x, y1:pt.y, x2:ppt.x, y2:ppt.y};
-				}
-			}
+                // update points and lines
+                if (point) {
+                    rpt = gfx.matrix.multiplyPoint(rm, pt);
+                    ppt = gfx.matrix.multiplyPoint(pm, pt);
+                    point.shape = {cx: pt.x, cy: pt.y, r: MARKER_SIZE};
+                    rpoint.shape = {cx: rpt.x, cy: rpt.y, r: MARKER_SIZE};
+                    ppoint.shape = {cx: ppt.x, cy: ppt.y, r: MARKER_SIZE};
+                    rline.shape = {x1: pt.x, y1: pt.y, x2: rpt.x, y2: rpt.y};
+                    pline.shape = {x1: pt.x, y1: pt.y, x2: ppt.x, y2: ppt.y};
+                }
+            }
 
-			function shiftVector(value){
-				// update the line
-				if(value < 0){
-					line.y2 = H;
-					line.x2 = W + (W / 100) * value;
-				}else{
-					line.x2 = W;
-					line.y2 = H - (H / 100) * value;
-				}
-				shape.shape = line;
-				updatePoints();
-			}
+            function shiftVector(value) {
+                // update the line
+                if (value < 0) {
+                    line.y2 = H;
+                    line.x2 = W + (W / 100) * value;
+                } else {
+                    line.x2 = W;
+                    line.y2 = H - (H / 100) * value;
+                }
+                shape.shape = line;
+                updatePoints();
+            }
 
-			function setPoint(e){
-				var bbox = domGeometry.position("surf", true);
-				pt = {x:e.pageX - bbox.x, y:e.pageY - bbox.y};
-				if(!point){
-					point = surface.createCircle({cx:0, cy:0, r:MARKER_SIZE});
-							point.stroke = "black"; point.fill = "yellow";
-					rpoint = surface.createCircle({cx:0, cy:0, r:MARKER_SIZE});
-                    rpoint.stroke = "black"; rpoint.fill = "red";
-					ppoint = surface.createCircle({cx:0, cy:0, r:MARKER_SIZE});
-                    ppoint.stroke = "black"; ppoint.fill = "green";
-					rline = surface.createLine({x1:0, y1:0, x2:0, y2:0});
+            function setPoint(e) {
+                var bbox = domGeometry.position("surf", true);
+                pt = {x: e.pageX - bbox.x, y: e.pageY - bbox.y};
+                if (!point) {
+                    point = surface.createCircle({cx: 0, cy: 0, r: MARKER_SIZE});
+                    point.stroke = "black";
+                    point.fill = "yellow";
+                    rpoint = surface.createCircle({cx: 0, cy: 0, r: MARKER_SIZE});
+                    rpoint.stroke = "black";
+                    rpoint.fill = "red";
+                    ppoint = surface.createCircle({cx: 0, cy: 0, r: MARKER_SIZE});
+                    ppoint.stroke = "black";
+                    ppoint.fill = "green";
+                    rline = surface.createLine({x1: 0, y1: 0, x2: 0, y2: 0});
                     rline.stroke = "red";
-					pline = surface.createLine({x1:0, y1:0, x2:0, y2:0});
-                    pline.stroke = {color:"green", style:"dash"};
-				}
-				updatePoints();
-			}
+                    pline = surface.createLine({x1: 0, y1: 0, x2: 0, y2: 0});
+                    pline.stroke = {color: "green", style: "dash"};
+                }
+                updatePoints();
+            }
 
-			run = function(surface){
-				makeGrid(surface, W, 50);
-				shape = surface.createLine(line); shape.stroke = "black";
-				on(registry.byId("shifter"), "change", shiftVector);
-				on(dom.byId("surf"), "click", setPoint);
-				shiftVector(0);
-			};
+            run = function (surface) {
+                makeGrid(surface, W, 50);
+                shape = surface.createLine(line);
+                shape.stroke = "black";
+                on(registry.byId("shifter"), "change", shiftVector);
+                on(dom.byId("surf"), "click", setPoint);
+                shiftVector(0);
+            };
 
-			createSurface = function(){
-				surface = gfx.createSurface("surf", W, H);
-				surface.whenLoaded(run);
-			};
+            createSurface = function () {
+                surface = gfx.createSurface("surf", W, H);
+                surface.whenLoaded(run);
+            };
 
-			ready(createSurface);
-		});
-	</script>
+            ready(createSurface);
+        });
+    </script>
 </head>
 <body class="tundra">
 <h1>Test Reflection and Projection matrices</h1>
 
 <div id="shifter" data-dojo-type="dijit/form/HorizontalSlider"
-	 data-dojo-props="value:0, minimum:-100, maximum:100, value:0, discreteValues:21, showButtons:false, intermediateChanges:true"
-	 style="width: 500px;">
-	<div data-dojo-type="dijit/form/HorizontalRule"
-		 data-dojo-props="container:'topDecoration', count:21"
-		 style="height: 5px;"></div>
-	<div data-dojo-type="dijit/form/HorizontalRule"
-		 data-dojo-props="container:'bottomDecoration', count:5"
-		 style="height: 5px;"></div>
-	<div data-dojo-type="dijit/form/HorizontalRuleLabels"
-		 data-dojo-props="container:'bottomDecoration', labels:[-100,-50,0,50,100]"
-		 style="height: 1.2em; font-size: 75%; color: gray;"></div>
+     data-dojo-props="value:0, minimum:-100, maximum:100, value:0, discreteValues:21, showButtons:false, intermediateChanges:true"
+     style="width: 500px;">
+    <div data-dojo-type="dijit/form/HorizontalRule"
+         data-dojo-props="container:'topDecoration', count:21"
+         style="height: 5px;"></div>
+    <div data-dojo-type="dijit/form/HorizontalRule"
+         data-dojo-props="container:'bottomDecoration', count:5"
+         style="height: 5px;"></div>
+    <div data-dojo-type="dijit/form/HorizontalRuleLabels"
+         data-dojo-props="container:'bottomDecoration', labels:[-100,-50,0,50,100]"
+         style="height: 1.2em; font-size: 75%; color: gray;"></div>
 </div>
 <div id="surf"></div>
 <p>Legend: <span style="background: yellow;">yellow</span> is your point, <span style="color: red;">red</span> is a
-	reflected point,
-	<span style="color: green;">green</span> is a projected point.</p>
+    reflected point,
+    <span style="color: green;">green</span> is a projected point.</p>
 
 <p>Click anywhere on the surface to set a point and see its reflection and projection.</p>
 </body>

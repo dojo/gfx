@@ -1,8 +1,6 @@
 define([
-	"dcl/dcl",
-	"./Shape",
-	"../shape/_LineBase"
-], function(dcl, SvgShape, LineBase){
+	"dcl/dcl", "./Shape", "../shape/_LineBase"
+], function (dcl, SvgShape, LineBase) {
 	var Line = dcl([SvgShape, LineBase], {
 		// summary:
 		//		a line shape (SVG)

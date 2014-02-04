@@ -1,72 +1,67 @@
 ﻿<html>
 <head>
-	<title>Pi calculation</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dijit/tests/css/dijitTests.css";
-	</style>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
-	<script type="text/javascript">
-		require([
-			"dojo/_base/lang",
-			"dojo/ready",
-			"dojo/on",
-			"dojo/dom",
-			"gfx/gfx"
-		], function(lang, ready, on, dom, gfx){
+    <title>Pi calculation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+        @import "../../dojo/resources/dojo.css";
+        @import "../../dijit/tests/css/dijitTests.css";
+    </style>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
+    <script type="text/javascript">
+        require([
+            "dojo/_base/lang", "dojo/ready", "dojo/on", "dojo/dom", "gfx/gfx"
+        ], function (lang, ready, on, dom, gfx) {
 
-			var iterations = 0, inCounter = 0, totalCounter = 0,
-					interval, surface;
+            var iterations = 0, inCounter = 0, totalCounter = 0, interval, surface;
 
-			var compute = function(){
-				var x = Math.random();
-				var y = Math.random();
-				var pointX = Math.round(x * 300);
-				var pointY = Math.round(y * 300);
+            var compute = function () {
+                var x = Math.random();
+                var y = Math.random();
+                var pointX = Math.round(x * 300);
+                var pointY = Math.round(y * 300);
 
-				var pointColor = "red";
-				if(x * x + y * y < 1){
-					inCounter++;
-					pointColor = "green";
-				}
+                var pointColor = "red";
+                if (x * x + y * y < 1) {
+                    inCounter++;
+                    pointColor = "green";
+                }
 
-				var circle = surface.createCircle({cx:pointX, cy:pointY, r:3});
-				circle.fill = pointColor;
-                circle.stroke = {color:pointColor, width:2};
+                var circle = surface.createCircle({cx: pointX, cy: pointY, r: 3});
+                circle.fill = pointColor;
+                circle.stroke = {color: pointColor, width: 2};
 
-				totalCounter++;
+                totalCounter++;
 
-				if(totalCounter % 100 == 0 || totalCounter == iterations){
-					var PI = parseFloat(inCounter / totalCounter) * 4;
-					var error = (PI - Math.PI) / Math.PI * 100;	// in %
-					dom.byId("result").innerHTML = PI + " (error = " + error.toFixed(2) +
-							"%) after " + totalCounter + " points";
-				}
+                if (totalCounter % 100 === 0 || totalCounter === iterations) {
+                    var PI = parseFloat(inCounter / totalCounter) * 4;
+                    var error = (PI - Math.PI) / Math.PI * 100;	// in %
+                    dom.byId("result").innerHTML =
+                            PI + " (error = " + error.toFixed(2) + "%) after " + totalCounter + " points";
+                }
 
-				if(totalCounter == iterations){
-					clearInterval(interval);
-					dom.byId("startButton").disabled = false;
-				}
-			};
+                if (totalCounter === iterations) {
+                    clearInterval(interval);
+                    dom.byId("startButton").disabled = false;
+                }
+            };
 
-			var go = function(){
-				dom.byId("startButton").disabled = true;
-				dom.byId("result").innerHTML = "&nbsp;";
-				inCounter = totalCounter = 0;
-				iterations = parseInt(0 + parseInt(dom.byId("iterations").value), 10);
-				interval = setInterval(compute, 20);
-			};
+            var go = function () {
+                dom.byId("startButton").disabled = true;
+                dom.byId("result").innerHTML = "&nbsp;";
+                inCounter = totalCounter = 0;
+                iterations = parseInt(0 + parseInt(dom.byId("iterations").value), 10);
+                interval = setInterval(compute, 20);
+            };
 
-			var init = function(){
-				surface = gfx.createSurface("test", 300, 300);
-				on(dom.byId("startButton"), "click", lang.hitch(this, go));
-			};
+            var init = function () {
+                surface = gfx.createSurface("test", 300, 300);
+                on(dom.byId("startButton"), "click", lang.hitch(this, go));
+            };
 
-			ready(init);
-		});
-	</script>
+            ready(init);
+        });
+    </script>
 </head>
 <body>
 <h1>PI demo</h1>
@@ -74,8 +69,8 @@
 <p>Visualization of calculating PI using the Monte Carlo method.</p>
 
 <p>
-	<label>Iterations:</label> <input type="text" name="iterations" value="500" id="iterations"/>
-	<input type="button" name="start" value="start" id="startButton"/>
+    <label>Iterations:</label> <input type="text" name="iterations" value="500" id="iterations"/>
+    <input type="button" name="start" value="start" id="startButton"/>
 </p>
 
 <p><span style="color:green">Green</span>: x^2 + y^2 &lt;= 1, <span style="color:red">Red</span>: x^2 + y^2 &gt; 1</p>

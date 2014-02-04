@@ -2,245 +2,216 @@
 <head>
 <title>Testing textpath</title>
 <style type="text/css">
-	@import "../../../../dojo/resources/dojo.css";
-	@import "../../../../dijit/tests/css/dijitTests.css";
+    @import "../../../../dojo/resources/dojo.css";
+    @import "../../../../dijit/tests/css/dijitTests.css";
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <script type="text/javascript" src="../../../../dojo/dojo.js"
         data-dojo-config="isDebug: true, async:1, has:{'dojo-bidi':1, 'gfx-renderer':'canvas'}"></script>
 <script type="text/javascript">
-require([
-	"doh/runner",
-	"dojo/ready",
-	"gfx/gfx",
-	"gfx/matrix"
-], function(doh, ready, gfx, m){
+    require([
+        "doh/runner", "dojo/ready", "gfx/gfx", "gfx/matrix"
+    ], function (doh, ready, gfx, m) {
 
-	var CPD = 30, tp1, tp2, tp3, tp4, tp5, tp6, t1, t2, t3, t4, t5, t6;
-	var g1 = null, g2 = null, g3, g4;
+        var CPD = 30, tp1, tp2, tp3, tp4, tp5, tp6, t1, t2, t3, t4, t5, t6;
+        var g1 = null, g2 = null, g3, g4;
 
-	var surfaceLTR = null, surfaceRTL = null, surfaceAUTO = null;
+        var surfaceLTR = null, surfaceRTL = null, surfaceAUTO = null;
 
-	var placeAnchor = function(surface, x, y){
-		surface.createLine({x1:x - 2, y1:y, x2:x + 2, y2:y});
-		surface.createLine({x1:x, y1:y - 2, x2:x, y2:y + 2});
-	};
-	var makeText = function(surface, text, font, fill, stroke){
-		var t = surface.createText(text);
-		if(font)   t.font = font;
-		if(fill)   t.fill = fill;
-		if(stroke) t.stroke = stroke;
-		placeAnchor(surface, text.x, text.y);
-		return t;
-	};
+        var placeAnchor = function (surface, x, y) {
+            surface.createLine({x1: x - 2, y1: y, x2: x + 2, y2: y});
+            surface.createLine({x1: x, y1: y - 2, x2: x, y2: y + 2});
+        };
+        var makeText = function (surface, text, font, fill, stroke) {
+            var t = surface.createText(text);
+            if (font) {
+                t.font = font;
+            }
+            if (fill) {
+                t.fill = fill;
+            }
+            if (stroke) {
+                t.stroke = stroke;
+            }
+            placeAnchor(surface, text.x, text.y);
+            return t;
+        };
 
-	makeShapes = function(){
-		surfaceLTR = gfx.createSurface("testLTR", 500, 170, "ltr");
-		console.debug("surfaceLTR created");
-		var p = surfaceLTR.createPath({})
-						.moveTo(0, 15)
-						.setAbsoluteMode(false)
-						.curveTo(CPD, 0, 0, 0, 50, 0);
+        makeShapes = function () {
+            surfaceLTR = gfx.createSurface("testLTR", 500, 170, "ltr");
+            console.debug("surfaceLTR created");
+            var p = surfaceLTR.createPath({}).moveTo(0, 15).setAbsoluteMode(false).curveTo(CPD, 0, 0, 0, 50, 0);
 
-		console.debug("p created");
-		tp1 = surfaceLTR.createTextPath({
-			text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align:"start"
-		})
-				.moveTo(0, 15)
-				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 0, 0, 100, 0);
-				tp1.font = {family:"times", size:"12pt"};
-				tp1.fill = "blue";
+            console.debug("p created");
+            tp1 = surfaceLTR.createTextPath({
+                text: "\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align: "start"
+            }).moveTo(0, 15).setAbsoluteMode(false).curveTo(CPD, 0, 0, 0, 100, 0);
+            tp1.font = {family: "times", size: "12pt"};
+            tp1.fill = "blue";
 
-		console.debug("tp1 created");
-		tp2 = surfaceLTR.createTextPath({
-			text:"Beginning \u05e1\u05d5\u05e3.", align:"start"
+            console.debug("tp1 created");
+            tp2 = surfaceLTR.createTextPath({
+                text: "Beginning \u05e1\u05d5\u05e3.", align: "start"
 
-		})
-				.moveTo(0, 50)
-				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 0, 0, 100, 0);
-				tp2.font = {family:"times", size:"12pt"};
-				tp2.fill = "blue";
+            }).moveTo(0, 50).setAbsoluteMode(false).curveTo(CPD, 0, 0, 0, 100, 0);
+            tp2.font = {family: "times", size: "12pt"};
+            tp2.fill = "blue";
 
-		console.debug("tp2 created");
-		g1 = surfaceLTR.createGroup();
-		g1.textDir = "rtl";
-		//		surfaceLTR.textDir = "ltr";
-		t1 = makeText(g1, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
-				{family:"Times", size:"18pt"}, "black", "blue");
-				t1.transform = m.rotategAt(0, 250, 150);
+            console.debug("tp2 created");
+            g1 = surfaceLTR.createGroup();
+            g1.textDir = "rtl";
+            //		surfaceLTR.textDir = "ltr";
+            t1 = makeText(g1, {id: "t1", x: 0, y: 100, text: "1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
+                    {family: "Times", size: "18pt"}, "black", "blue");
+            t1.transform = m.rotategAt(0, 250, 150);
 
-		t2 = makeText(surfaceLTR, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
-				{family:"Times", size:"18pt"}, "black", "blue");
-				t2.transform = m.rotategAt(0, 250, 100);
+            t2 = makeText(surfaceLTR, {x: 0, y: 140, text: "1.) Beginning \u05e1\u05d5\u05e3!"},
+                    {family: "Times", size: "18pt"}, "black", "blue");
+            t2.transform = m.rotategAt(0, 250, 100);
 
-		surfaceRTL = gfx.createSurface("testRTL", 500, 170);
-		console.debug("surfaceRTL created");
-		var p2 = surfaceRTL.createPath({})
-						.moveTo(0, 15)
-						.setAbsoluteMode(false)
-						.curveTo(CPD, 0, 0, 0, 100, 0);
+            surfaceRTL = gfx.createSurface("testRTL", 500, 170);
+            console.debug("surfaceRTL created");
+            var p2 = surfaceRTL.createPath({}).moveTo(0, 15).setAbsoluteMode(false).curveTo(CPD, 0, 0, 0, 100, 0);
 
-		console.debug("p2 created");
-		tp3 = surfaceRTL.createTextPath({
-			text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align:"start"
-			//, rotated: true
-		})
-				.moveTo(0, 15)
-				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
-				tp3.font = {family:"times", size:"12pt"};
-				tp3.fill = "red";
+            console.debug("p2 created");
+            tp3 = surfaceRTL.createTextPath({
+                text: "\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align: "start"
+                //, rotated: true
+            }).moveTo(0, 15).setAbsoluteMode(false).curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+            tp3.font = {family: "times", size: "12pt"};
+            tp3.fill = "red";
 
-		g2 = surfaceRTL.createGroup();
-		g2.add(tp3);
-		g2.textDir = "ltr";
+            g2 = surfaceRTL.createGroup();
+            g2.add(tp3);
+            g2.textDir = "ltr";
 
-		g3 = g2.createGroup("rtl");
+            g3 = g2.createGroup("rtl");
 
-		g4 = surfaceRTL.createGroup("auto");
-		console.debug("tp3 created");
-		tp4 = surfaceRTL.createTextPath({
-			text:"Beginning \u05e1\u05d5\u05e3.", align:"start"
+            g4 = surfaceRTL.createGroup("auto");
+            console.debug("tp3 created");
+            tp4 = surfaceRTL.createTextPath({
+                text: "Beginning \u05e1\u05d5\u05e3.", align: "start"
 
-			//, rotated: true
-		})
-			//.setShape(p.shape)
-				.moveTo(0, 50)
-				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
-				tp4.font = {family:"times", size:"12pt"};
-				tp4.fill = "red";
+                //, rotated: true
+            })//.setShape(p.shape)
+                    .moveTo(0, 50).setAbsoluteMode(false).curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+            tp4.font = {family: "times", size: "12pt"};
+            tp4.fill = "red";
 
-		console.debug("tp4 created");
+            console.debug("tp4 created");
 
-		t3 = makeText(g3, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
-				{family:"Times", size:"18pt"}, "black", "red");
-				 t3.transform = m.rotategAt(0, 250, 150);
+            t3 = makeText(g3, {id: "t1", x: 0, y: 100, text: "1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
+                    {family: "Times", size: "18pt"}, "black", "red");
+            t3.transform = m.rotategAt(0, 250, 150);
 
-		t4 = makeText(surfaceRTL, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
-				{family:"Times", size:"18pt"}, "black", "red");
-				 t4.transform = m.rotategAt(0, 250, 100);
+            t4 = makeText(surfaceRTL, {x: 0, y: 140, text: "1.) Beginning \u05e1\u05d5\u05e3!"},
+                    {family: "Times", size: "18pt"}, "black", "red");
+            t4.transform = m.rotategAt(0, 250, 100);
 
-		surfaceAUTO = gfx.createSurface("testAUTO", 500, 170, "auto");
-		console.debug("surfaceAUTO created");
-		var p3 = surfaceAUTO.createPath({})
-						.moveTo(0, 15)
-						.setAbsoluteMode(false)
-						.curveTo(CPD, 0, 0, 0, 100, 0);
+            surfaceAUTO = gfx.createSurface("testAUTO", 500, 170, "auto");
+            console.debug("surfaceAUTO created");
+            var p3 = surfaceAUTO.createPath({}).moveTo(0, 15).setAbsoluteMode(false).curveTo(CPD, 0, 0, 0, 100, 0);
 
-		console.debug("p3 created");
+            console.debug("p3 created");
 
-		tp5 = surfaceAUTO.createTextPath({
-			text:"\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align:"start"
+            tp5 = surfaceAUTO.createTextPath({
+                text: "\u05d4\u05ea\u05d7\u05dc\u05d4 end. ", align: "start"
 
-			//, rotated: true
-		})
-			//.setShape(p.shape)
-				.moveTo(0, 15)
-				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+                //, rotated: true
+            })//.setShape(p.shape)
+                    .moveTo(0, 15).setAbsoluteMode(false).curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
 
-				tp5.font = {family:"times", size:"12pt"};
-				tp5.fill = "red";
+            tp5.font = {family: "times", size: "12pt"};
+            tp5.fill = "red";
 
-		console.debug("tp5 created");
-		tp6 = surfaceAUTO.createTextPath({
-			text:"Beginning \u05e1\u05d5\u05e3.", align:"start"
+            console.debug("tp5 created");
+            tp6 = surfaceAUTO.createTextPath({
+                text: "Beginning \u05e1\u05d5\u05e3.", align: "start"
 
-			//, rotated: true
-		})
-			//.setShape(p.shape)
-				.moveTo(0, 50)
-				.setAbsoluteMode(false)
-				.curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
-				tp6.font = {family:"times", size:"12pt"};
-				tp6.fill = "blue";
+                //, rotated: true
+            })//.setShape(p.shape)
+                    .moveTo(0, 50).setAbsoluteMode(false).curveTo(CPD, 0, 100 - CPD, 0, 100, 0);
+            tp6.font = {family: "times", size: "12pt"};
+            tp6.fill = "blue";
 
-		console.debug("tp6 created");
+            console.debug("tp6 created");
 
-		t5 = makeText(surfaceAUTO, {id:"t1", x:0, y:100, text:"1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
-				{family:"Times", size:"18pt"}, "black", "red");
-				 t5.transform = m.rotategAt(0, 250, 150);
+            t5 = makeText(surfaceAUTO, {id: "t1", x: 0, y: 100, text: "1.) \u05d4\u05ea\u05d7\u05dc\u05d4 end!"},
+                    {family: "Times", size: "18pt"}, "black", "red");
+            t5.transform = m.rotategAt(0, 250, 150);
 
-		t6 = makeText(surfaceAUTO, {x:0, y:140, text:"1.) Beginning \u05e1\u05d5\u05e3!"},
-				{family:"Times", size:"18pt"}, "black", "blue");
-				 t6.transform = m.rotategAt(0, 250, 100);
+            t6 = makeText(surfaceAUTO, {x: 0, y: 140, text: "1.) Beginning \u05e1\u05d5\u05e3!"},
+                    {family: "Times", size: "18pt"}, "black", "blue");
+            t6.transform = m.rotategAt(0, 250, 100);
 
-	};
+        };
 
 
-	ready(function(){
-		makeShapes();
+        ready(function () {
+            makeShapes();
 
 
-		doh.register("Test inheritance", [
-			function surfaces_TextDir(){
-				doh.is("ltr", surfaceLTR.textDir, "surfaceLTR.textDir");
-				doh.is("rtl", surfaceRTL.textDir, "surfaceRTL.textDir");
-				doh.is("auto", surfaceAUTO.textDir, "surfaceAUTO.textDir");
-			},
-			function groups_TextDir(){
-				doh.is("rtl", g1.textDir, "g1.textDir");
-				doh.is("ltr", g2.textDir, "g2.textDir");
-				doh.is("rtl", g3.textDir, "g3.textDir");
-				doh.is("auto", g4.textDir, "g4.textDir");
-			},
-			function gfxText_TextDir(){
-				doh.is("rtl", t1.textDir, "t1.textDir");
-				doh.is("ltr", t2.textDir, "t2.textDir");
-				doh.is("rtl", t3.textDir, "t3.textDir");
-				doh.is("rtl", t4.textDir, "t4.textDir");
-				doh.is("auto", t5.textDir, "t5.textDir");
-				doh.is("auto", t6.textDir, "t6h.textDir");
-			},
-			function gfxTextPath_TextDir(){
-				doh.is("ltr", tp1.textDir, "tp1.textDir");
-				doh.is("ltr", tp2.textDir, "tp2.textDir");
-				doh.is("ltr", tp3.textDir, "tp3.textDir");
-				doh.is("rtl", tp4.textDir, "tp4.textDir");
-				doh.is("auto", tp5.textDir, "tp5.textDir");
-				doh.is("auto", tp6.textDir, "tp6.textDir");
-			},
-			function changeSurfaceRTLextDir(){
-				surfaceRTL.textDir = "ltr";
+            doh.register("Test inheritance", [
+                function surfaces_TextDir() {
+                    doh.is("ltr", surfaceLTR.textDir, "surfaceLTR.textDir");
+                    doh.is("rtl", surfaceRTL.textDir, "surfaceRTL.textDir");
+                    doh.is("auto", surfaceAUTO.textDir, "surfaceAUTO.textDir");
+                }, function groups_TextDir() {
+                    doh.is("rtl", g1.textDir, "g1.textDir");
+                    doh.is("ltr", g2.textDir, "g2.textDir");
+                    doh.is("rtl", g3.textDir, "g3.textDir");
+                    doh.is("auto", g4.textDir, "g4.textDir");
+                }, function gfxText_TextDir() {
+                    doh.is("rtl", t1.textDir, "t1.textDir");
+                    doh.is("ltr", t2.textDir, "t2.textDir");
+                    doh.is("rtl", t3.textDir, "t3.textDir");
+                    doh.is("rtl", t4.textDir, "t4.textDir");
+                    doh.is("auto", t5.textDir, "t5.textDir");
+                    doh.is("auto", t6.textDir, "t6h.textDir");
+                }, function gfxTextPath_TextDir() {
+                    doh.is("ltr", tp1.textDir, "tp1.textDir");
+                    doh.is("ltr", tp2.textDir, "tp2.textDir");
+                    doh.is("ltr", tp3.textDir, "tp3.textDir");
+                    doh.is("rtl", tp4.textDir, "tp4.textDir");
+                    doh.is("auto", tp5.textDir, "tp5.textDir");
+                    doh.is("auto", tp6.textDir, "tp6.textDir");
+                }, function changeSurfaceRTLextDir() {
+                    surfaceRTL.textDir = "ltr";
 
-				doh.is("ltr", surfaceRTL.textDir, "surfaceRTL.textDir");
+                    doh.is("ltr", surfaceRTL.textDir, "surfaceRTL.textDir");
 
-				doh.is("ltr", g2.textDir, "g2.textDir");
-				doh.is("ltr", g3.textDir, "g3.textDir");
-				doh.is("ltr", g4.textDir, "g4.textDir");
+                    doh.is("ltr", g2.textDir, "g2.textDir");
+                    doh.is("ltr", g3.textDir, "g3.textDir");
+                    doh.is("ltr", g4.textDir, "g4.textDir");
 
 
-				doh.is("ltr", t3.textDir, "t3.textDir");
-				doh.is("ltr", t4.textDir, "t4.textDir");
+                    doh.is("ltr", t3.textDir, "t3.textDir");
+                    doh.is("ltr", t4.textDir, "t4.textDir");
 
-				doh.is("ltr", tp3.textDir, "tp3.textDir");
-				doh.is("ltr", tp4.textDir, "tp4.textDir");
-			},
-			function changeGroupTextDir(){
+                    doh.is("ltr", tp3.textDir, "tp3.textDir");
+                    doh.is("ltr", tp4.textDir, "tp4.textDir");
+                }, function changeGroupTextDir() {
 
-				g3.add(tp5);
-				g3.add(t2);
+                    g3.add(tp5);
+                    g3.add(t2);
 
-				g2.textDir = "rtl";
+                    g2.textDir = "rtl";
 
-				doh.is("rtl", g2.textDir, "g2.textDir");
-				// son of g2
-				doh.is("rtl", g3.textDir, "g3.textDir");
+                    doh.is("rtl", g2.textDir, "g2.textDir");
+                    // son of g2
+                    doh.is("rtl", g3.textDir, "g3.textDir");
 
-				doh.is("rtl", t2.textDir, "t2.textDir");
-				doh.is("rtl", t3.textDir, "t3.textDir");
+                    doh.is("rtl", t2.textDir, "t2.textDir");
+                    doh.is("rtl", t3.textDir, "t3.textDir");
 
-				doh.is("rtl", tp5.textDir, "tp3.textDir");
-			}
-		]);
+                    doh.is("rtl", tp5.textDir, "tp3.textDir");
+                }
+            ]);
 
-		doh.run();
+            doh.run();
 
-	});
-});
+        });
+    });
 </script>
 </head>
 <body>

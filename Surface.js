@@ -1,3 +1,3 @@
-define(["./_RendererChooser!Surface"], function(Surface){
+define(["./_RendererChooser!Surface"], function (Surface) {
 	return Surface;
 });

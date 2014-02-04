@@ -1,8 +1,8 @@
 define([
 	"dcl/dcl"
-], function(dcl){
+], function (dcl) {
 	return dcl(null, {
-		_setFont: function(){
+		_setFont: function () {
 			// summary:
 			//		sets a font object (SVG)
 			var f = this.font;

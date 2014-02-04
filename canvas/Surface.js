@@ -1,19 +1,11 @@
 define([
-	"dojo/_base/lang",
-	"dcl/dcl",
-	"dojo/dom",
-	"dojo/dom-geometry",
-	"../_base",
-	"../shape/_SurfaceBase",
-	"./Container",
-	"./Creator",
-	"dojo/has",
-	"dojo/has!dojo-bidi?./bidi/Surface"
-], function(lang, dcl, dom, domGeom, g, SurfaceBase, Container, Creator, has, BidiSurface){
+	"dojo/_base/lang", "dcl/dcl", "dojo/dom", "dojo/dom-geometry", "../_base", "../shape/_SurfaceBase", "./Container",
+	"./Creator", "dojo/has", "dojo/has!dojo-bidi?./bidi/Surface"
+], function (lang, dcl, dom, domGeom, g, SurfaceBase, Container, Creator, has, BidiSurface) {
 	var Surface = dcl([SurfaceBase, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (Canvas)
-		constructor: function(parentNode, width, height){
+		constructor: function (parentNode, width, height) {
 			// summary:
 			//		creates a surface (Canvas)
 			// parentNode: Node
@@ -23,20 +15,19 @@ define([
 			// height: String
 			//		height of surface, e.g., "100px"
 
-			if(!width && !height){
+			if (!width && !height) {
 				var pos = domGeom.position(parentNode);
 				width = width || pos.w;
 				height = height || pos.h;
 			}
-			if(typeof width == "number"){
+			if (typeof width === "number") {
 				width = width + "px";
 			}
-			if(typeof height == "number"){
+			if (typeof height === "number") {
 				height = height + "px";
 			}
 
-			var p = dom.byId(parentNode),
-				c = p.ownerDocument.createElement("canvas");
+			var p = dom.byId(parentNode), c = p.ownerDocument.createElement("canvas");
 
 			c.width = g.normalizedLength(width);	// in pixels
 			c.height = g.normalizedLength(height);	// in pixels
@@ -50,7 +41,7 @@ define([
 			this.makeDirty();
 		},
 
-		setDimensions: function(width, height){
+		setDimensions: function (width, height) {
 			// summary:
 			//		sets the width and height of the rawNode
 			// width: String
@@ -59,40 +50,43 @@ define([
 			//		height of surface, e.g., "100px"
 			this.width = g.normalizedLength(width);	// in pixels
 			this.height = g.normalizedLength(height);	// in pixels
-			if(!this.rawNode) return this;
+			if (!this.rawNode) {
+				return this;
+			}
 			var dirty = false;
-			if(this.rawNode.width != this.width){
+			if (this.rawNode.width !== this.width) {
 				this.rawNode.width = this.width;
 				dirty = true;
 			}
-			if(this.rawNode.height != this.height){
+			if (this.rawNode.height !== this.height) {
 				this.rawNode.height = this.height;
 				dirty = true;
 			}
-			if(dirty)
+			if (dirty) {
 				this.makeDirty();
+			}
 			return this;	// self
 		},
-		getDimensions: function(){
+		getDimensions: function () {
 			// summary:
 			//		returns an object with properties "width" and "height"
 			return this.rawNode ? {width: this.rawNode.width, height: this.rawNode.height} : null;	// Object
 		},
-		_render: function(force){
+		_render: function (force) {
 			// summary:
 			//		render the all shapes
-			if(!this.rawNode || (!force && this.pendingImageCount)){
+			if (!this.rawNode || (!force && this.pendingImageCount)) {
 				return;
 			}
 			var ctx = this.rawNode.getContext("2d");
 			ctx.clearRect(0, 0, this.rawNode.width, this.rawNode.height);
 			this.render(ctx);
-			if("pendingRender" in this){
+			if ("pendingRender" in this) {
 				clearTimeout(this.pendingRender);
 				delete this.pendingRender;
 			}
 		},
-		render: function(ctx){
+		render: function (ctx) {
 			// summary:
 			//		Renders the gfx scene.
 			// description:
@@ -103,19 +97,19 @@ define([
 			// ctx: CanvasRenderingContext2D
 			//		The surface Canvas rendering context.
 			ctx.save();
-			for(var i = 0; i < this.children.length; ++i){
+			for (var i = 0; i < this.children.length; ++i) {
 				this.children[i]._render(ctx);
 			}
 			ctx.restore();
 		},
-		makeDirty: function(){
+		makeDirty: function () {
 			// summary:
 			//		internal method, which is called when we may need to redraw
-			if(!this.pendingImagesCount && !("pendingRender" in this) && !this._batch){
+			if (!this.pendingImagesCount && !("pendingRender" in this) && !this._batch) {
 				this.pendingRender = setTimeout(lang.hitch(this, this._render), 0);
 			}
 		},
-		downloadImage: function(img, url){
+		downloadImage: function (img, url) {
 			// summary:
 			//		internal method, which starts an image download and renders, when it is ready
 			// img: Image
@@ -123,7 +117,7 @@ define([
 			// url: String
 			//		the url of the image
 			var handler = lang.hitch(this, this.onImageLoad);
-			if(!this.pendingImageCount++ && "pendingRender" in this){
+			if (this.pendingImageCount++ === 0 && "pendingRender" in this) {
 				clearTimeout(this.pendingRender);
 				delete this.pendingRender;
 			}
@@ -132,13 +126,13 @@ define([
 			img.onabort = handler;
 			img.src = url;
 		},
-		onImageLoad: function(){
-			if(!--this.pendingImageCount){
+		onImageLoad: function () {
+			if (!--this.pendingImageCount) {
 				this.onImagesLoaded();
 				this._render();
 			}
 		},
-		onImagesLoaded: function(){
+		onImagesLoaded: function () {
 			// summary:
 			//		An extension point called when all pending images downloads have been completed.
 			// description:
@@ -148,15 +142,15 @@ define([
 		},
 
 		// events are not implemented
-		getEventSource: function(){
+		getEventSource: function () {
 			return null;
 		},
-		connect: function(){
+		connect: function () {
 		},
-		disconnect: function(){
+		disconnect: function () {
 		},
-		on: function(){
+		on: function () {
 		}
 	});
-	return has("dojo-bidi")?dcl([Surface, BidiSurface], {}) : Surface;
+	return has("dojo-bidi") ? dcl([Surface, BidiSurface], {}) : Surface;
 });

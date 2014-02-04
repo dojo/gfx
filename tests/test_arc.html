@@ -1,60 +1,47 @@
 ﻿<html>
 <head>
-	<title>Testing arc</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		@import "../../dojo/resources/dojo.css";
-		@import "../../dijit/tests/css/dijitTests.css";
-	</style>
-	<script type="text/javascript" src="../../dojo/dojo.js"
-			data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
-	<script type="text/javascript">
-		require([
-			"dojo/ready",
-			"gfx/gfx",
-			"gfx/shape",
-			"gfx/path",
-			"gfx/arc",
-			"gfx/matrix"
-		], function(ready, gfx, shape, path, arc, m){
-			createSurface = function(){
-				var surface = gfx.createSurface("test", 500, 500);
-				surface.whenLoaded(makeShapes);
-			};
+    <title>Testing arc</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+        @import "../../dojo/resources/dojo.css";
+        @import "../../dijit/tests/css/dijitTests.css";
+    </style>
+    <script type="text/javascript" src="../../dojo/dojo.js"
+            data-dojo-config="isDebug: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
+    <script type="text/javascript">
+        require([
+            "dojo/ready", "gfx/gfx", "gfx/shape", "gfx/path", "gfx/arc", "gfx/matrix"
+        ], function (ready, gfx, shape, path, arc, m) {
+            createSurface = function () {
+                var surface = gfx.createSurface("test", 500, 500);
+                surface.whenLoaded(makeShapes);
+            };
 
-			makeShapes = function(surface){
-				var g1 = surface.createGroup();
-				var g2 = g1.createGroup();
+            makeShapes = function (surface) {
+                var g1 = surface.createGroup();
+                var g2 = g1.createGroup();
 
-				var rx = 100, ry = 60, xRotg = -30;
-				var startPoint = m.multiplyPoint(m.rotateg(xRotg), {x:-rx, y:0  });
-				var endPoint = m.multiplyPoint(m.rotateg(xRotg), {x:0, y:-ry});
+                var rx = 100, ry = 60, xRotg = -30;
+                var startPoint = m.multiplyPoint(m.rotateg(xRotg), {x: -rx, y: 0  });
+                var endPoint = m.multiplyPoint(m.rotateg(xRotg), {x: 0, y: -ry});
 
-				var re1 = g1.createPath()
-								.moveTo(startPoint)
-								.arcTo(rx, ry, xRotg, true, false, endPoint);
-				re1.stroke = {color:"red", width:3};
-				var ge1 = g1.createPath()
-								.moveTo(re1.getLastPosition())
-								.arcTo(rx, ry, xRotg, false, false, startPoint);
-				ge1.stroke = {color:"black"};
-				var re2 = g2.createPath()
-								.moveTo(startPoint)
-								.arcTo(rx, ry, xRotg, false, true, endPoint);
-				re2.stroke = {color:"green", width:3};
-				var ge2 = g2.createPath()
-								.moveTo(re2.getLastPosition())
-								.arcTo(rx, ry, xRotg, true, true, startPoint);
-				ge2.stroke = {color:"black"}
+                var re1 = g1.createPath().moveTo(startPoint).arcTo(rx, ry, xRotg, true, false, endPoint);
+                re1.stroke = {color: "red", width: 3};
+                var ge1 = g1.createPath().moveTo(re1.getLastPosition()).arcTo(rx, ry, xRotg, false, false, startPoint);
+                ge1.stroke = {color: "black"};
+                var re2 = g2.createPath().moveTo(startPoint).arcTo(rx, ry, xRotg, false, true, endPoint);
+                re2.stroke = {color: "green", width: 3};
+                var ge2 = g2.createPath().moveTo(re2.getLastPosition()).arcTo(rx, ry, xRotg, true, true, startPoint);
+                ge2.stroke = {color: "black"}
 
-				g1.transform = {dx:200, dy:200};
-				g2.transform = {dx:10, dy:10};
-			};
+                g1.transform = {dx: 200, dy: 200};
+                g2.transform = {dx: 10, dy: 10};
+            };
 
-			ready(createSurface);
-		});
+            ready(createSurface);
+        });
 
-	</script>
+    </script>
 </head>
 <body>
 <h1>Testing arc</h1>

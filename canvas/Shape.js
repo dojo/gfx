@@ -1,12 +1,6 @@
 define([
-	"require",
-	"dojo/_base/lang",
-	"dcl/dcl",
-	"../_base",
-	"./_base",
-	"../shape/_ShapeBase",
-	"../decompose"
-], function(require, lang, dcl, g, canvas, ShapeBase){
+	"require", "dojo/_base/lang", "dcl/dcl", "../_base", "./_base", "../shape/_ShapeBase", "../decompose"
+], function (require, lang, dcl, g, canvas, ShapeBase) {
 	var pattrnbuffer = null;
 
 	var hasNativeDash = canvas.hasNativeDash;
@@ -27,45 +21,45 @@ define([
 
 	var Rect, Ellipse, Polyline, Path;
 
-	var makeClip = function(clipType, geometry){
-		switch(clipType){
-			case "ellipse":
-				Ellipse = Ellipse || require("./Ellipse");
-				return {
-					canvasEllipse: Ellipse.makeEllipse({shape: geometry}),
-					render: function(ctx){
-						return Ellipse.prototype._renderShape.call(this, ctx);
-					}
-				};
-			case "rect":
-				Rect = Rect || require("./Rect");
-				return {
-					shape: lang.delegate(geometry, {r: 0}),
-					render: function(ctx){
-						return Rect.prototype._renderShape.call(this, ctx);
-					}
-				};
-			case "path":
-				Path = Path || require("./Path");
-				return {
-					canvasPath: makeClipPath(geometry),
-					render: function(ctx){
-						this.canvasPath._renderShape(ctx);
-					}
-				};
-			case "polyline":
-				Polyline = Polyline || require("./Polyline");
-				return {
-					canvasPolyline: geometry.points,
-					render: function(ctx){
-						return Polyline.prototype._renderShape.call(this, ctx);
-					}
-				};
+	var makeClip = function (clipType, geometry) {
+		switch (clipType) {
+		case "ellipse":
+			Ellipse = Ellipse || require("./Ellipse");
+			return {
+				canvasEllipse: Ellipse.makeEllipse({shape: geometry}),
+				render: function (ctx) {
+					return Ellipse.prototype._renderShape.call(this, ctx);
+				}
+			};
+		case "rect":
+			Rect = Rect || require("./Rect");
+			return {
+				shape: lang.delegate(geometry, {r: 0}),
+				render: function (ctx) {
+					return Rect.prototype._renderShape.call(this, ctx);
+				}
+			};
+		case "path":
+			Path = Path || require("./Path");
+			return {
+				canvasPath: makeClipPath(geometry),
+				render: function (ctx) {
+					this.canvasPath._renderShape(ctx);
+				}
+			};
+		case "polyline":
+			Polyline = Polyline || require("./Polyline");
+			return {
+				canvasPolyline: geometry.points,
+				render: function (ctx) {
+					return Polyline.prototype._renderShape.call(this, ctx);
+				}
+			};
 		}
 		return null;
 	};
 
-	var makeClipPath = function(geo){
+	var makeClipPath = function (geo) {
 		var p = new Path();
 		p.canvasPath = [];
 		p._setPath(geo.d);
@@ -74,117 +68,116 @@ define([
 
 	return dcl([ShapeBase], {
 
-		_setShapeAttr: dcl.superCall(function(sup){
-			return function(shape){
-				if(this.parent){
+		_setShapeAttr: dcl.superCall(function (sup) {
+			return function (/*===== shape =====*/) {
+				if (this.parent) {
 					this.parent._makeDirty();
 				}
 				return sup.apply(this, arguments);
-			}
+			};
 		}),
 
-		_setTransformAttr: dcl.superCall(function(sup){
-			return function(matrix){
-				if(this.parent){
+		_setTransformAttr: dcl.superCall(function (sup) {
+			return function (/*===== matrix =====*/) {
+				if (this.parent) {
 					this.parent._makeDirty();
 				}
 				sup.apply(this, arguments);
 				// prepare Canvas-specific structures
-				if(this.transform){
+				if (this.transform) {
 					this.canvasTransform = g.decompose(this.transform);
-				}else{
+				} else {
 					delete this.canvasTransform;
 				}
-			}
+			};
 		}),
 
-		_setFillAttr: dcl.superCall(function(sup){
-			return function(fill){
-				if(this.parent){
+		_setFillAttr: dcl.superCall(function (sup) {
+			return function (/*===== fill =====*/) {
+				if (this.parent) {
 					this.parent._makeDirty();
 				}
 				sup.apply(this, arguments);
 				// prepare Canvas-specific structures
 				var fs = this.fill, f;
-				if(fs){
-					if(typeof(fs) == "object" && "type" in fs){
+				if (fs) {
+					if (typeof(fs) === "object" && "type" in fs) {
 						var ctx = this.surface.rawNode.getContext("2d");
 						//noinspection FallthroughInSwitchStatementJS
-						switch(fs.type){
-							case "linear":
-							case "radial":
-								f = fs.type == "linear" ?
-									ctx.createLinearGradient(fs.x1, fs.y1, fs.x2, fs.y2) :
-									ctx.createRadialGradient(fs.cx, fs.cy, 0, fs.cx, fs.cy, fs.r);
-								fs.colors.forEach(function(step){
-									f.addColorStop(step.offset, g.normalizeColor(step.color).toString());
-								});
-								break;
-							case "pattern":
-								if(!pattrnbuffer){
-									pattrnbuffer = document.createElement("canvas");
-								}
-								// no need to scale the image since the canvas.createPattern uses
-								// the original image data and not the scaled ones (see spec.)
-								// the scaling needs to be done at rendering time in a context buffer
-								var img = new Image();
-								this.surface.downloadImage(img, fs.src);
-								this.canvasFillImage = img;
+						switch (fs.type) {
+						case "linear":
+						case "radial":
+							f = fs.type === "linear" ? ctx.createLinearGradient(fs.x1, fs.y1, fs.x2, fs.y2) :
+								ctx.createRadialGradient(fs.cx, fs.cy, 0, fs.cx, fs.cy, fs.r);
+							fs.colors.forEach(function (step) {
+								f.addColorStop(step.offset, g.normalizeColor(step.color).toString());
+							});
+							break;
+						case "pattern":
+							if (!pattrnbuffer) {
+								pattrnbuffer = document.createElement("canvas");
+							}
+							// no need to scale the image since the canvas.createPattern uses
+							// the original image data and not the scaled ones (see spec.)
+							// the scaling needs to be done at rendering time in a context buffer
+							var img = new Image();
+							this.surface.downloadImage(img, fs.src);
+							this.canvasFillImage = img;
 						}
-					}else{
+					} else {
 						// Set fill color using CSS RGBA func style
 						f = fs.toString();
 					}
 					this.canvasFill = f;
-				}else{
+				} else {
 					delete this.canvasFill;
 				}
 				return this;
-			}
+			};
 		}),
 
-		_setStrokeAttr: dcl.superCall(function(sup){
-			return function(stroke){
-				if(this.parent){
+		_setStrokeAttr: dcl.superCall(function (sup) {
+			return function (/*===== stroke =====*/) {
+				if (this.parent) {
 					this.parent._makeDirty();
 				}
 				sup.apply(this, arguments);
 				var st = this.stroke;
-				if(st){
+				if (st) {
 					var da = this.stroke.style.toLowerCase();
-					if(da in dasharray){
+					if (da in dasharray) {
 						da = dasharray[da];
 					}
-					if(da instanceof Array){
+					if (da instanceof Array) {
 						da = da.slice();
 						this.canvasDash = da;
 						var i;
-						for(i = 0; i < da.length; ++i){
+						for (i = 0; i < da.length; ++i) {
 							da[i] *= st.width;
 						}
-						if(st.cap != "butt"){
-							for(i = 0; i < da.length; i += 2){
+						if (st.cap !== "butt") {
+							for (i = 0; i < da.length; i += 2) {
 								da[i] -= st.width;
-								if(da[i] < 1){
+								if (da[i] < 1) {
 									da[i] = 1;
 								}
 							}
-							for(i = 1; i < da.length; i += 2){
+							for (i = 1; i < da.length; i += 2) {
 								da[i] += st.width;
 							}
 						}
-					}else{
+					} else {
 						delete this.canvasDash;
 					}
-				}else{
+				} else {
 					delete this.canvasDash;
 				}
 				this._needsDash = !hasNativeDash && !!this.canvasDash;
 				return this;
-			}
+			};
 		}),
 
-		_render: function(/* Object */ ctx){
+		_render: function (/* Object */ ctx) {
 			// summary:
 			//		render the shape
 			ctx.save();
@@ -195,14 +188,14 @@ define([
 			this._renderStroke(ctx, true);
 			ctx.restore();
 		},
-		_renderClip: function(ctx){
-			if(this.canvasClip){
+		_renderClip: function (ctx) {
+			if (this.canvasClip) {
 				this.canvasClip.render(ctx);
 				ctx.clip();
 			}
 		},
-		_renderTransform: function(/* Object */ ctx){
-			if("canvasTransform" in this){
+		_renderTransform: function (/* Object */ ctx) {
+			if ("canvasTransform" in this) {
 				var t = this.canvasTransform;
 				ctx.translate(t.dx, t.dy);
 				ctx.rotate(t.angle2);
@@ -213,21 +206,18 @@ define([
 				// ctx.transform(t.xx, t.yx, t.xy, t.yy, t.dx, t.dy);
 			}
 		},
-		_renderShape: function(/* Object */ ctx){
+		_renderShape: function (/* Object */ /*===== ctx =====*/) {
 			// nothing
 		},
-		_renderFill: function(/* Object */ ctx, /* Boolean */ apply){
-			if("canvasFill" in this){
+		_renderFill: function (/* Object */ ctx, /* Boolean */ apply) {
+			if ("canvasFill" in this) {
 				var fs = this.fill;
-				if("canvasFillImage" in this){
-					var w = fs.width, h = fs.height,
-						iw = this.canvasFillImage.width, ih = this.canvasFillImage.height,
+				if ("canvasFillImage" in this) {
 					// let's match the svg default behavior wrt. aspect ratio: xMidYMid meet
-						sx = w == iw ? 1 : w / iw,
-						sy = h == ih ? 1 : h / ih,
-						s = Math.min(sx, sy), //meet->math.min , slice->math.max
-						dx = (w - s * iw) / 2,
-						dy = (h - s * ih) / 2;
+					//meet->math.min , slice->math.max
+					var w = fs.width, h = fs.height, iw = this.canvasFillImage.width, ih = this.canvasFillImage.height,
+						sx = w === iw ? 1 : w / iw, sy = h === ih ? 1 : h / ih, s = Math.min(sx, sy),
+						dx = (w - s * iw) / 2, dy = (h - s * ih) / 2;
 					// the buffer used to scaled the image
 					pattrnbuffer.width = w;
 					pattrnbuffer.height = h;
@@ -238,76 +228,75 @@ define([
 					delete this.canvasFillImage;
 				}
 				ctx.fillStyle = this.canvasFill;
-				if(apply){
+				if (apply) {
 					// offset the pattern
-					if(fs.type === "pattern" && (fs.x !== 0 || fs.y !== 0)){
+					if (fs.type === "pattern" && (fs.x !== 0 || fs.y !== 0)) {
 						ctx.translate(fs.x, fs.y);
 					}
 					ctx.fill();
 				}
-			}else{
+			} else {
 				ctx.fillStyle = "rgba(0,0,0,0.0)";
 			}
 		},
-		_renderStroke: function(/* Object */ ctx, /* Boolean */ apply){
+		_renderStroke: function (/* Object */ ctx, /* Boolean */ apply) {
 			var s = this.stroke;
-			if(s){
+			if (s) {
 				ctx.strokeStyle = s.color.toString();
 				ctx.lineWidth = s.width;
 				ctx.lineCap = s.cap;
-				if(typeof s.join == "number"){
+				if (typeof s.join === "number") {
 					ctx.lineJoin = "miter";
 					ctx.miterLimit = s.join;
-				}else{
+				} else {
 					ctx.lineJoin = s.join;
 				}
-				if(this.canvasDash){
-					if(hasNativeDash){
+				if (this.canvasDash) {
+					if (hasNativeDash) {
 						ctx.setLineDash(this.canvasDash);
-						if(apply){
+						if (apply) {
 							ctx.stroke();
 						}
-					}else{
+					} else {
 						this._renderDashedStroke(ctx, apply);
 					}
-				}else{
-					if(apply){
+				} else {
+					if (apply) {
 						ctx.stroke();
 					}
 				}
-			}else if(!apply){
+			} else if (!apply) {
 				ctx.strokeStyle = "rgba(0,0,0,0.0)";
 			}
 		},
-		_renderDashedStroke: function(ctx, apply){
+		_renderDashedStroke: function (/*===== ctx, apply =====*/) {
 		},
 
 		// events are not implemented
-		getEventSource: function(){
+		getEventSource: function () {
 			return null;
 		},
-		on: function(){
+		on: function () {
 		},
-		connect: function(){
+		connect: function () {
 		},
-		disconnect: function(){
+		disconnect: function () {
 		},
 
 		canvasClip: null,
-		_setClipAttr: dcl.superCall(function(sup){
-			return function(/*Object*/clip){
+		_setClipAttr: dcl.superCall(function (sup) {
+			return function (/*Object*/clip) {
 				sup.apply(this, arguments);
 				var clipType = clip ? "width" in clip ? "rect" :
-					"cx" in clip ? "ellipse" :
-						"points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
-				if(clip && !clipType){
+					"cx" in clip ? "ellipse" : "points" in clip ? "polyline" : "d" in clip ? "path" : null : null;
+				if (clip && !clipType) {
 					return;
 				}
 				this.canvasClip = clip ? makeClip(clipType, clip) : null;
-				if(this.parent){
+				if (this.parent) {
 					this.parent._makeDirty();
 				}
-			}
+			};
 		})
 	});
 });

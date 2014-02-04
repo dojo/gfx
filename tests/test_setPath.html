@@ -14,15 +14,14 @@
             data-dojo-config="isDebug: true, async:1"></script>
     <script type="text/javascript">
         require([
-            "dojo/ready",
-            "gfx/gfx"
-        ], function(ready, gfx){
-            createSurface = function(){
+            "dojo/ready", "gfx/gfx"
+        ], function (ready, gfx) {
+            createSurface = function () {
                 var surface = gfx.createSurface("test", 500, 400);
                 surface.whenLoaded(makeShapes);
             };
 
-            makeShapes = function(surface){
+            makeShapes = function (surface) {
                 // relative path with cubic beziers
                 var path;
                 path = surface.createPath("m100 100 100 0 0 100c0 50-50 50-100 0s-50-100 0-100z");

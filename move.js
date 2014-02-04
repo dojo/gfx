@@ -1,2 +1,3 @@
-define(["./Mover", "./Moveable"],
-  function(){ return {}; });
+define(["./Mover", "./Moveable"], function () {
+	return {};
+});

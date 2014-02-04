@@ -1,10 +1,6 @@
 define([
-	"../_base",
-	"dcl/dcl",
-	"./_ShapeBase",
-	"dojo/has",
-	"dojo/has!dojo-bidi?./bidi/_Text"
-], function(g, dcl, Shape, has, BidiText){
+	"../_base", "dcl/dcl", "./_ShapeBase", "dojo/has", "dojo/has!dojo-bidi?./bidi/_Text"
+], function (g, dcl, Shape, has, BidiText) {
 	var defaultShape = {
 		// summary:
 		//		Defines the default Text prototype.
@@ -50,24 +46,24 @@ define([
 		//		A font object (see gfx.defaultFont) or a font string
 		font: null,
 
-		_setFontAttr: function(newFont){
+		_setFontAttr: function (newFont) {
 			// summary:
 			//		sets a font for text
 			// newFont: Object
 			//		a font object (see gfx.defaultFont) or a font string
-			this._set("font", typeof newFont == "string" ? g.splitFontString(newFont) :
-				g.makeParameters(g.defaultFont, newFont));
+			this._set("font",
+				typeof newFont === "string" ? g.splitFontString(newFont) : g.makeParameters(g.defaultFont, newFont));
 			this._setFont();
 		},
-		getBoundingBox: function(){
+		getBoundingBox: function () {
 			var bbox = null, s = this._get("shape");
-			if(s.text){
+			if (s.text) {
 				bbox = g._computeTextBoundingBox(this);
 			}
 			return bbox;
 		}
 	});
-	if(has("dojo-bidi")){
+	if (has("dojo-bidi")) {
 		Text = dcl([Text, BidiText], {});
 		defaultShape.textDir = "";
 	}

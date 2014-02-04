@@ -9,16 +9,9 @@
 
     <script type="text/javascript">
         require([
-            "dojo/_base/declare",
-            "dojo/ready",
-            "dojo/dom-geometry",
-            "dojo/dom-style",
-            "dojo/query",
-            "dijit/layout/ContentPane",
-            "dijit/_TemplatedMixin",
-            "gfx/gfx",
-            "dojo/dnd/TimedMoveable"
-        ], function(declare, ready, domGeometry, domStyle, query, ContentPane, Templated, gfx, TimedMoveable){
+            "dojo/_base/declare", "dojo/ready", "dojo/dom-geometry", "dojo/dom-style", "dojo/query",
+            "dijit/layout/ContentPane", "dijit/_TemplatedMixin", "gfx/gfx", "dojo/dnd/TimedMoveable"
+        ], function (declare, ready, domGeometry, domStyle, query, ContentPane, Templated, gfx, TimedMoveable) {
 
             declare("my.RoundedContentPane", [ContentPane, Templated], {
                 // radius: Integer
@@ -33,32 +26,30 @@
                 handle: ".handle",
 
                 // template:
-                templateString: '<div><div style="position:relative;">' +
-                        '<div dojoAttachPoint="surfaceNode"></div>' +
-                        '<div dojoAttachPoint="containerNode"></div>' +
-                        '</div></div>',
+                templateString: '<div><div style="position:relative;">' + '<div data-dojo-attach-point="surfaceNode"></div>' +
+                        '<div data-dojo-attach-point="containerNode"></div>' + '</div></div>',
 
-                startup: function(){
+                startup: function () {
 
-                        this.inherited(arguments);
+                    this.inherited(arguments);
 
-                        this._initSurface();
-                        domStyle.set(this.surfaceNode, {
-                            position: "absolute",
-                            top: 0,
-                            left: 0
+                    this._initSurface();
+                    domStyle.set(this.surfaceNode, {
+                        position: "absolute",
+                        top: 0,
+                        left: 0
+                    });
+
+                    if (this.moveable) {
+                        this._mover = new TimedMoveable(this.domNode, {
+                            handle: query(this.handle, this.domNode)[0] || this.containerNode,
+                            timeout: 69
                         });
+                    }
 
-                        if(this.moveable){
-                            this._mover = new TimedMoveable(this.domNode, {
-                                handle: query(this.handle, this.domNode)[0] || this.containerNode,
-                                timeout: 69
-                            });
-                        }
+                },
 
-                    },
-
-                _initSurface: function(){
+                _initSurface: function () {
 
                     var s = domGeometry.getMarginBox(this.domNode);
                     var stroke = 2;
@@ -76,9 +67,9 @@
 
                 },
 
-                resize: function(size){
+                resize: function (size) {
 
-                    if(!this.surface){
+                    if (!this.surface) {
                         this._initSurfce();
                     }
 
@@ -256,8 +247,8 @@
 </div>
 
 
-<div radius="45" style="width:400px; height:200px;"
-     data-dojo-type="my.RoundedContentPane" data-dojo-props="moveable:true, handle:'.myHandle'">
+<div style="width:400px; height:200px;"
+     data-dojo-type="my.RoundedContentPane" data-dojo-props="moveable:true, handle:'.myHandle', radius:45">
     <h4 class="myHandle" style="cursor:move; margin-top:0; border:1px solid #666">Moveable Handle</h4>
     LOREM, ipsum, dollllllllllor:
 </div>

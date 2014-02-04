@@ -1,20 +1,14 @@
 define([
-	"dcl/dcl",
-	"dojo/_base/sniff",
-	"../_base",
-	"./_base",
-	"./Shape",
-	"../shape/_TextBase",
-	"./Font",
+	"dcl/dcl", "dojo/_base/sniff", "../_base", "./_base", "./Shape", "../shape/_TextBase", "./Font",
 	"dojo/has!dojo-bidi?./bidi/Text"
-], function(dcl, has, g, svg, SvgShape, TextBase, Font, SvgBidiText){
-	var android = has("android"),
-		textRenderingFix = has("chrome") || (android && android >= 4) ? "auto" : "optimizeLegibility";// #16099, #16461
+], function (dcl, has, g, svg, SvgShape, TextBase, Font, SvgBidiText) {
+	var android = has("android"), textRenderingFix = has("chrome") || (android && android >= 4) ? "auto" :
+		"optimizeLegibility";// #16099, #16461
 
 	var Text = dcl([SvgShape, TextBase, Font], {
 		// summary:
 		//		an anchored text (SVG)
-		_setShapeAttr: function(newShape){
+		_setShapeAttr: function (newShape) {
 			// summary:
 			//		sets a text shape object (SVG)
 			// newShape: Object
@@ -31,19 +25,17 @@ define([
 			r.setAttribute("text-rendering", textRenderingFix);
 
 			// update the text content
-			if(r.firstChild){
+			if (r.firstChild) {
 				r.firstChild.nodeValue = s.text;
-			}else{
+			} else {
 				r.appendChild(svg._createTextNode(s.text));
 			}
 			return this;	// self
 		},
-		getTextWidth: function(){
+		getTextWidth: function () {
 			// summary:
 			//		get the text width in pixels
-			var rawNode = this.rawNode,
-				oldParent = rawNode.parentNode,
-				_measurementNode = rawNode.cloneNode(true);
+			var rawNode = this.rawNode, oldParent = rawNode.parentNode, _measurementNode = rawNode.cloneNode(true);
 			_measurementNode.style.visibility = "hidden";
 
 			// solution to the "orphan issue" in FF
@@ -51,22 +43,22 @@ define([
 			oldParent.appendChild(_measurementNode);
 
 			// solution to the "orphan issue" in Opera
-			// (nodeValue == "" hangs firefox)
-			if(_text != ""){
-				while(!_width){
-					_width = parseInt(_measurementNode.getBBox().width);
+			// (nodeValue === "" hangs firefox)
+			if (_text !== "") {
+				while (!_width) {
+					_width = parseInt(_measurementNode.getBBox().width, 10);
 				}
 			}
 			oldParent.removeChild(_measurementNode);
 			return _width;
 		},
-		getBoundingBox: function(){
+		getBoundingBox: function () {
 			var s = this.shape, bbox = null;
-			if(s.text){
+			if (s.text) {
 				// try/catch the FF native getBBox error.
-				try{
+				try {
 					bbox = this.rawNode.getBBox();
-				}catch(e){
+				} catch (e) {
 					// under FF when the node is orphan (all other browsers return a 0ed bbox.
 					bbox = {x: 0, y: 0, width: 0, height: 0};
 				}
@@ -74,9 +66,10 @@ define([
 			return bbox;
 		}
 	});
-	if(has("dojo-bidi")){
+	if (has("dojo-bidi")) {
 		Text = dcl([Text, SvgBidiText], {});
-	};
+	}
+
 	Text.nodeType = "text";
 	return Text;
 });

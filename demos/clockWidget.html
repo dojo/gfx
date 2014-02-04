@@ -11,30 +11,20 @@
         data-dojo-config="parseOnLoad:true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
 <script type="text/javascript">
 require([
-    "dojo/_base/lang",
-    "dcl/dcl",
-    "dojo/_base/event",
-    "dojo/_base/window",
-    "dojo/ready",
-    "dojo/dom-geometry",
-    "dojo/dom-style",
-    "dijit/_Widget",
-    "dijit/_Templated",
-    "gfx/gfx",
-    "dojo/date/locale",
-     "dcl/inherited"
-], function(lang, dcl, event, win, ready, domGeometry, domStyle, Widget, Templated, gfx, dlocale){
+    "dojo/_base/lang", "dcl/dcl", "dojo/_base/event", "dojo/_base/window", "dojo/ready", "dojo/dom-geometry",
+    "dojo/dom-style", "dijit/_Widget", "dijit/_Templated", "gfx/gfx", "dojo/date/locale", "dcl/inherited"
+], function (lang, dcl, event, win, ready, domGeometry, domStyle, Widget, Templated, gfx, dlocale) {
     var Clock = dcl(Widget, {
         time: "",
 
         img: "images/clock_face_black.jpg",
 
-        postCreate: dcl.superCall(function(sup){
-            return function(){
+        postCreate: dcl.superCall(function (sup) {
+            return function () {
                 sup.apply(this, arguments);
-                if(!this.time){
+                if (!this.time) {
                     this.current_time = new Date();
-                }else{
+                } else {
                     this.current_time = this.time;
                 }
                 dcl.mix(this, {
@@ -63,7 +53,7 @@ require([
             }
         }),
 
-        _setSize: function(){
+        _setSize: function () {
 
             this.container_position = domGeometry.position(this.domNode, true);
             this.mb = domGeometry.getMarginBox(this.domNode);
@@ -74,7 +64,7 @@ require([
 
         },
 
-        _init: function(){
+        _init: function () {
 
             this.surface = gfx.createSurface(this.domNode, this.mb.w, this.mb.h);
             this.group = this.surface.createGroup();
@@ -123,26 +113,26 @@ require([
             this.hour_shadow.fill = [0, 0, 0, 0.1];
 
             this.hour_hand = this.group.createPolyline(hour_hand_points);
-            this.hour_hand.stroke = {color:"black", width:2};
+            this.hour_hand.stroke = {color: "black", width: 2};
             this.hour_hand.fill = "#889";
 
             this.minute_shadow = this.group.createPolyline(minute_hand_points);
             this.minute_shadow.fill = [0, 0, 0, 0.1];
 
             this.minute_hand = this.group.createPolyline(minute_hand_points);
-            this.minute_hand.stroke = {color:"black", width:2};
+            this.minute_hand.stroke = {color: "black", width: 2};
             this.minute_hand.fill = "#ccd";
 
             this.second_shadow = this.group.createPolyline(second_hand_points);
             this.second_shadow.fill = [0, 0, 0, 0.1];
 
             this.second_hand = this.group.createPolyline(second_hand_points)
-            this.second_hand.stroke = {color:"#800", width:2};
+            this.second_hand.stroke = {color: "#800", width: 2};
             this.second_hand.fill = "#d00";
 
-            var circle = this.group.createCircle({r:1});
+            var circle = this.group.createCircle({r: 1});
             circle.fill = "black";
-            circle.transform = {dx:this.center.x, dy:this.center.y};
+            circle.transform = {dx: this.center.x, dy: this.center.y};
 
             // start the clock
             this.resetTime();
@@ -150,96 +140,106 @@ require([
             window.setInterval(lang.hitch(this, "advanceTime"), 1000);
         },
 
-        placeHand: function(shape, angle, shift){
+        placeHand: function (shape, angle, shift) {
             var move = {dx: this.center.x + (shift ? shift.dx : 0), dy: this.center.y + (shift ? shift.dy : 0)};
             shape.transform = [move, gfx.matrix.rotateg(angle)];
             return shape;
         },
 
-        placeHourHand: function(h, m, s){
+        placeHourHand: function (h, m, s) {
             var angle = 30 * (h % 12 + m / 60 + s / 3600);
             this.placeHand(this.hour_hand, angle);
             this.placeHand(this.hour_shadow, angle, this.hour_shadow_shift);
         },
 
-        placeMinuteHand: function(m, s){
+        placeMinuteHand: function (m, s) {
             var angle = 6 * (m + s / 60);
             this.placeHand(this.minute_hand, angle);
             this.placeHand(this.minute_shadow, angle, this.minute_shadow_shift);
         },
 
-        placeSecondHand: function(s){
+        placeSecondHand: function (s) {
             var angle = 6 * s;
             this.placeHand(this.second_hand, angle);
             this.placeHand(this.second_shadow, angle, this.second_shadow_shift);
         },
 
-        reflectTime: function(time, hold_second_hand, hold_minute_hand, hold_hour_hand){
-            if(!time){
+        reflectTime: function (time, hold_second_hand, hold_minute_hand, hold_hour_hand) {
+            if (!time) {
                 time = this.current_time;
             }
             var h = time.getHours();
             var m = time.getMinutes();
             var s = time.getSeconds();
 
-            if(!hold_hour_hand) this.placeHourHand(h, m, s);
-            if(!hold_minute_hand) this.placeMinuteHand(m, s);
-            if(!hold_second_hand) this.placeSecondHand(s);
+            if (!hold_hour_hand) {
+                this.placeHourHand(h, m, s);
+            }
+            if (!hold_minute_hand) {
+                this.placeMinuteHand(m, s);
+            }
+            if (!hold_second_hand) {
+                this.placeSecondHand(s);
+            }
 
-            this.text_time = dlocale.format(
-                    time, {selector: "time", timePattern: "h:mm:ss a"}
-            );
+            this.text_time = dlocale.format(time, {selector: "time", timePattern: "h:mm:ss a"});
         },
 
-        resetTime: function(){
+        resetTime: function () {
             this.current_time = new Date();
             this.reflectTime();
         },
 
-        tick: function(){
+        tick: function () {
             this.current_time.setSeconds(this.current_time.getSeconds() + 1);
             this.reflectTime();
         },
 
-        advanceTime: function(){
-            if(!this.selected_hand){
+        advanceTime: function () {
+            if (!this.selected_hand) {
                 this.tick();
             }
         },
 
-        normalizeAngle: function(angle){
-            if(angle > Math.PI){
+        normalizeAngle: function (angle) {
+            if (angle > Math.PI) {
                 angle -= 2 * Math.PI;
-            }else if(angle < -Math.PI){
+            } else if (angle < -Math.PI) {
                 angle += 2 * Math.PI;
             }
             return angle;
         },
 
-        calculateAngle: function(x, y, handAngle){
-            try{
+        calculateAngle: function (x, y, handAngle) {
+            try {
                 return this.normalizeAngle(Math.atan2(y - this.center.y, x - this.center.x) - handAngle);
-            }catch(e){ /* supress */
+            } catch (e) { /* supress */
             }
             return 0;
         },
 
-        getSecondAngle: function(time){
-            if(!time) time = this.current_time;
+        getSecondAngle: function (time) {
+            if (!time) {
+                time = this.current_time;
+            }
             return (6 * time.getSeconds() - 90) / 180 * Math.PI;
         },
 
-        getMinuteAngle: function(time){
-            if(!time) time = this.current_time;
+        getMinuteAngle: function (time) {
+            if (!time) {
+                time = this.current_time;
+            }
             return (6 * (time.getMinutes() + time.getSeconds() / 60) - 90) / 180 * Math.PI;
         },
 
-        getHourAngle: function(time){
-            if(!time) time = this.current_time;
+        getHourAngle: function (time) {
+            if (!time) {
+                time = this.current_time;
+            }
             return (30 * (time.getHours() + (time.getMinutes() + time.getSeconds() / 60) / 60) - 90) / 180 * Math.PI;
         },
 
-        resize: function(size){
+        resize: function (size) {
             this.surface.setDimensions(size.w, size.h);
             this.group.transform = gfx.matrix.scale(size.w / this.mb.w, size.h / this.mb.h);
             this._setSize();
@@ -248,8 +248,8 @@ require([
     });
 
     var InteractiveClock = dcl(Clock, {
-        _init: dcl.superCall(function(sup){
-            return function(){
+        _init: dcl.superCall(function (sup) {
+            return function () {
                 sup.apply(this, arguments);
                 // attach events
                 this.diff_time = new Date();
@@ -261,56 +261,50 @@ require([
             }
         }),
 
-        onMouseDown: function(evt){
+        onMouseDown: function (evt) {
             this.selected_hand = evt.target;
             this.diff_time.setTime(this.current_time.getTime());
             event.stop(evt);
         },
 
-        onMouseMove: function(evt){
-            if(!this.selected_hand) return;
-            if(evt.target == this.second_hand.getEventSource() ||
-                    evt.target == this.minute_hand.getEventSource() ||
-                    evt.target == this.hour_hand.getEventSource()){
+        onMouseMove: function (evt) {
+            if (!this.selected_hand) {
+                return;
+            }
+            if (evt.target === this.second_hand.getEventSource() || evt.target === this.minute_hand.getEventSource() ||
+                    evt.target === this.hour_hand.getEventSource()) {
                 event.stop(evt);
                 return;
             }
-            if(gfx.equalSources(this.selected_hand, this.second_hand.getEventSource())){
-                var angle = this.calculateAngle(
-                        evt.clientX - this.container_position.x,
-                        evt.clientY - this.container_position.y,
-                        this.normalizeAngle(this.getSecondAngle())
-                );
+            if (gfx.equalSources(this.selected_hand, this.second_hand.getEventSource())) {
+                var angle = this.calculateAngle(evt.clientX - this.container_position.x,
+                        evt.clientY - this.container_position.y, this.normalizeAngle(this.getSecondAngle()));
                 var diff = Math.round(angle / Math.PI * 180 / 6); // in whole seconds
                 this.current_time.setSeconds(this.current_time.getSeconds() + Math.round(diff));
                 this.reflectTime();
-            }else if(gfx.equalSources(this.selected_hand, this.minute_hand.getEventSource())){
-                var angle = this.calculateAngle(
-                        evt.clientX - this.container_position.x,
+            } else if (gfx.equalSources(this.selected_hand, this.minute_hand.getEventSource())) {
+                var angle = this.calculateAngle(evt.clientX - this.container_position.x,
                         evt.clientY - this.container_position.y,
-                        this.normalizeAngle(this.getMinuteAngle(this.diff_time))
-                );
+                        this.normalizeAngle(this.getMinuteAngle(this.diff_time)));
                 var diff = Math.round(angle / Math.PI * 180 / 6 * 60); // in whole seconds
                 this.diff_time.setTime(this.diff_time.getTime() + 1000 * diff);
                 this.reflectTime(this.diff_time, true);
 
-            }else if(gfx.equalSources(this.selected_hand, this.hour_hand.getEventSource())){
-                var angle = this.calculateAngle(
-                        evt.clientX - this.container_position.x,
+            } else if (gfx.equalSources(this.selected_hand, this.hour_hand.getEventSource())) {
+                var angle = this.calculateAngle(evt.clientX - this.container_position.x,
                         evt.clientY - this.container_position.y,
-                        this.normalizeAngle(this.getHourAngle(this.diff_time))
-                );
+                        this.normalizeAngle(this.getHourAngle(this.diff_time)));
                 var diff = Math.round(angle / Math.PI * 180 / 30 * 60 * 60); // in whole seconds
                 this.diff_time.setTime(this.diff_time.getTime() + 1000 * diff);
                 this.reflectTime(this.diff_time, true, true);
-            }else{
+            } else {
                 return;
             }
             event.stop(evt);
         },
 
-        onMouseUp: function(evt){
-            if(this.selected_hand && !gfx.equalSources(this.selected_hand, this.second_hand.getEventSource())){
+        onMouseUp: function (evt) {
+            if (this.selected_hand && !gfx.equalSources(this.selected_hand, this.second_hand.getEventSource())) {
                 this.current_time.setTime(this.diff_time.getTime());
                 this.reflectTime();
             }
@@ -319,9 +313,9 @@ require([
         }
     });
 
-    win.global.demo = { Clock : Clock, InteractiveClock : InteractiveClock };
+    win.global.demo = { Clock: Clock, InteractiveClock: InteractiveClock };
 
-    ready(function(){
+    ready(function () {
         var n = win.doc.createElement('div');
         win.body().appendChild(n);
         domStyle.set(n, {
@@ -332,11 +326,6 @@ require([
     });
 });
 </script>
-<style type="text/css">
-    .movable {
-        cursor: hand;
-    }
-</style>
 </head>
 <body>
 <h1>gfx: interactive analog clock</h1>
@@ -354,7 +343,7 @@ require([
     </script>
 </button>
 
-<hr noshade size="0"/>
+<hr/>
 
 <div class="dijitInline" data-dojo-type="demo.Clock" id="gfx_holder" style="width: 300px; height: 300px;"></div>
 <div class="dijitInline" data-dojo-type="demo.InteractiveClock"
@@ -363,7 +352,7 @@ require([
 <div class="dijitInline" id="one" data-dojo-type="demo.Clock" style="width: 150px; height: 150px;"></div>
 <div class="dijitInline" data-dojo-type="demo.Clock" style="width: 75px; height: 75px;"></div>
 
-<hr noshade size="0"/>
+<hr/>
 
 
 </body>

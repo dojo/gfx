@@ -7,25 +7,22 @@
         @import "../../dijit/tests/css/dijitTests.css";
 
         td.cell {
-            padding: 1em 1em 0em 0em;
+            padding: 1em 1em 0 0;
+            text-align: left;
+            vertical-align: top;
         }
     </style>
     <script type="text/javascript" src="../../dojo/dojo.js"
             data-dojo-config="async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
     <script type="text/javascript">
         require([
-            "dojo/ready",
-            "dojo/dom",
-            "dojo/json",
-            "gfx/gfx",
-            "gfx/matrix",
-            "gfx/utils"
-        ], function(ready, dom, json, gfx, matrix, gfxUtils){
+            "dojo/ready", "dojo/dom", "dojo/json", "gfx/gfx", "gfx/matrix", "gfx/utils"
+        ], function (ready, dom, json, gfx, matrix, gfxUtils) {
             surface = null;
             grid_size = 500;
             grid_step = 50;
 
-            init = function(){
+            init = function () {
                 // initialize graphics
                 var container = dom.byId("gfx");
                 surface = gfx.createSurface(container, 500, 500);
@@ -33,16 +30,16 @@
 
                 // make a grid
                 var grid = surface.createGroup();
-                for(var i = 0; i <= grid_size; i += grid_step){
+                for (var i = 0; i <= grid_size; i += grid_step) {
                     grid.createLine({x1: 0, x2: grid_size, y1: i, y2: i}).stroke = "black";
                     grid.createLine({y1: 0, y2: grid_size, x1: i, x2: i}).stroke = "black";
                 }
 
                 // make a checkerboard
                 var board = surface.createGroup(), gs2 = grid_step * 2;
-                for(var i = 0; i < grid_size; i += grid_step){
-                    for(var j = 0; j < grid_size; j += grid_step){
-                        if(i % gs2 == j % gs2){
+                for (var i = 0; i < grid_size; i += grid_step) {
+                    for (var j = 0; j < grid_size; j += grid_step) {
+                        if (i % gs2 === j % gs2) {
                             board.createRect({x: i, y: j, width: grid_step, height: grid_step}).fill = [255, 0, 0, 0.1];
                         }
                     }
@@ -72,12 +69,8 @@
                 r4.fill = "blue";
                 r4.transform = [matrix.rotategAt(-30, 350, 250), { dx: 300, dy: 200 }];
 
-                var p1 = g1.createShape({type: "path"})
-                        .moveTo(300, 100)
-                        .lineTo(400, 200)
-                        .lineTo(400, 300)
-                        .lineTo(300, 400)
-                        .curveTo(400, 300, 400, 200, 300, 100);
+                var p1 = g1.createShape({type: "path"}).moveTo(300, 100).lineTo(400, 200).lineTo(400, 300).lineTo(300,
+                        400).curveTo(400, 300, 400, 200, 300, 100);
                 p1.stroke = {};
                 p1.transform = {};
 
@@ -85,13 +78,8 @@
                 p2.stroke = {color: "red", width: 2};
                 p2.transform = {dx: 100};
 
-                var p3 = g1.createShape({type: "path"})
-                        .moveTo(300, 100)
-                        .setAbsoluteMode(false)
-                        .lineTo(100, 100)
-                        .lineTo(0, 100)
-                        .lineTo(-100, 100)
-                        .curveTo(100, -100, 100, -200, 0, -300);
+                var p3 = g1.createShape({type: "path"}).moveTo(300, 100).setAbsoluteMode(false).lineTo(100,
+                        100).lineTo(0, 100).lineTo(-100, 100).curveTo(100, -100, 100, -200, 0, -300);
                 p3.stroke = {color: "blue", width: 2};
                 p3.transform = matrix.rotategAt(180, 250, 250);
 
@@ -102,10 +90,10 @@
                 dump();
             };
 
-            dump = function(){
+            dump = function () {
                 var objects = gfxUtils.serialize(surface);
                 // name top-level objects
-                for(var i = 0; i < objects.length; ++i){
+                for (var i = 0; i < objects.length; ++i) {
                     objects[i].name = "shape" + i;
                 }
                 // format and show
@@ -122,13 +110,13 @@
 <p>This is a helper file, which serves as a template to generate static pictures.</p>
 <table>
     <tr>
-        <td align="left" valign="top" class="cell">
+        <td class="cell">
             <div id="gfx" style="width: 500px; height: 500px; border: solid 1px black;">
             </div>
         </td>
     </tr>
 </table>
-<p><textarea id="io" cols="80" rows="10" wrap="off"></textarea></p>
+<p><textarea id="io" cols="80" rows="10" wrap="soft"></textarea></p>
 
 <p>
     <button onclick="dump()">Dump!</button>

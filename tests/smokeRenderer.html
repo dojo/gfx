@@ -1,22 +1,24 @@
 <html>
 <head>
-	<script type="text/javascript">
-		var dojoConfig= {
-			async:!!location.search,
-            packages:[{name:'gfx',location:'../gfx'}]
-		};
-	</script>
-	<script type="text/javascript" src="../../dojo/dojo.js"></script>
-	<script type="text/javascript">
-		require(["gfx/gfx", "dojo/domReady!"], function(gfx){
-			console.log(gfx);
-		});
+    <script type="text/javascript">
+        var dojoConfig = {
+            async: !!location.search,
+            packages: [
+                {name: 'gfx', location: '../gfx'}
+            ]
+        };
+    </script>
+    <script type="text/javascript" src="../../dojo/dojo.js"></script>
+    <script type="text/javascript">
+        require(["gfx/gfx", "dojo/domReady!"], function (gfx) {
+            console.log(gfx);
+        });
 
-		require(["dojo", "dojo/domReady!"], function(dojo){
-			dojo.byId("status").innerHTML= "OK";
-		});
-	</script>
+        require(["dojo", "dojo/domReady!"], function (dojo) {
+            dojo.byId("status").innerHTML = "OK";
+        });
+    </script>
 </head>
 <body>
-	<div id="status">loading</div>
+<div id="status">loading</div>
 </body>
