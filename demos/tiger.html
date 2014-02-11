@@ -11,8 +11,8 @@
         data-dojo-config="parseOnLoad: true, async:1, packages:[{name:'gfx',location:'../gfx'}]"></script>
 <script type="text/javascript">
 require([
-    "dojo/ready", "dojo/parser", "dojo/on", "dojo/dom", "dojo/colors", "dijit/registry", "gfx/gfx", "gfx/matrix"
-], function (ready, parser, on, dom, Color, registry, gfx, m) {
+    "dojo/ready", "dojo/parser", "dojo/on", "dojo/dom", "dijit/registry", "gfx/gfx", "gfx/matrix"
+], function (ready, parser, on, dom, registry, gfx, m) {
 
     var rotation = 0, scaling = 1;
     var surface, g, m = gfx.matrix;

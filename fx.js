@@ -1,6 +1,7 @@
-define(
-	["dojo/_base/lang", "./_base", "./matrix", "dojo/_base/Color", "dojo/_base/fx", "dojo/_base/connect", "dojo/sniff"],
-	function (lang, g, m, Color, fx, Hub, has) {
+define([
+	"dojo/_base/lang", "./_base", "./matrix", "dcolor/Color", "dcolor/utils", "dojo/_base/fx", "dojo/_base/connect",
+	"dojo/sniff"
+], function (lang, g, m, Color, colorUtils, fx, Hub, has) {
 		var fxg = g.fx = {};
 
 		// Generic interpolators. Should they be moved to dojox.fx?
@@ -31,7 +32,7 @@ define(
 		}
 
 		InterpolColor.prototype.getValue = function (r) {
-			return Color.blendColors(this.start, this.end, r, this.temp);
+			return colorUtils.blendColors(this.start, this.end, r, this.temp);
 		};
 
 		function InterpolValues(values) {

@@ -490,7 +490,7 @@ define(["dcl/dcl", "./_base", "dojo/_base/lang"], function (dcl, g, lang) {
 				return m._sandwich(m.skewYg(degree), a, b); // gfx/matrix.Matrix2D
 			}
 			return m._sandwich(m.skewYg(degree), a.x, a.y); // gfx/matrix.Matrix2D
-		}
+		},
 
 		//TODO: rect-to-rect mapping, scale-to-fit (isotropic and anisotropic versions)
 

@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff", "dojo/on", "dojo/dom-construct", "./_EventsProcessing",
-	"./_ContainerBase", "./_CreatorBase", "dui/Stateful"
+	"./_ContainerBase", "./_CreatorBase", "delite/Stateful"
 ], function (lang, dcl, has, on, domConstruct, EventsProcessing, Container, Creator, Stateful) {
 	return dcl([Stateful, EventsProcessing, Container, Creator], {
 		// summary:

@@ -1,6 +1,6 @@
 define([
-	"../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff", "dojo/_base/Color", "../matrix",
-	"./_EventsProcessing", "dui/Stateful"
+	"../_base", "dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff", "dcolor/Color", "../matrix",
+	"./_EventsProcessing", "delite/Stateful"
 ], function (g, lang, dcl, has, Color, matrixLib, EventsProcessing, Stateful) {
 
 	var registry;
@@ -243,7 +243,7 @@ define([
 			//		(see gfx.defaultLinearGradient,
 			//		gfx.defaultRadialGradient,
 			//		gfx.defaultPattern,
-			//		or dojo/_base/Color)
+			//		or dcolor/Color)
 
 			// COULD BE RE-IMPLEMENTED BY THE RENDERER!
 			if (!fill) {

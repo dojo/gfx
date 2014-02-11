@@ -110,7 +110,7 @@ define([
 							f = fs.type === "linear" ? ctx.createLinearGradient(fs.x1, fs.y1, fs.x2, fs.y2) :
 								ctx.createRadialGradient(fs.cx, fs.cy, 0, fs.cx, fs.cy, fs.r);
 							fs.colors.forEach(function (step) {
-								f.addColorStop(step.offset, g.normalizeColor(step.color).toString());
+								f.addColorStop(step.offset, g.normalizeColor(step.color).toRgbaString(true));
 							});
 							break;
 						case "pattern":
@@ -126,7 +126,7 @@ define([
 						}
 					} else {
 						// Set fill color using CSS RGBA func style
-						f = fs.toString();
+						f = fs.toRgbaString(true);
 					}
 					this.canvasFill = f;
 				} else {
@@ -242,7 +242,7 @@ define([
 		_renderStroke: function (/* Object */ ctx, /* Boolean */ apply) {
 			var s = this.stroke;
 			if (s) {
-				ctx.strokeStyle = s.color.toString();
+				ctx.strokeStyle = s.color.toRgbaString(true);
 				ctx.lineWidth = s.width;
 				ctx.lineCap = s.cap;
 				if (typeof s.join === "number") {

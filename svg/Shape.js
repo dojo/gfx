@@ -1,5 +1,5 @@
 define([
-	"dojo/_base/lang", "dojo/dom", "dcl/dcl", "dojo/sniff", "dojo/dom-geometry", "dojo/dom-attr", "dojo/_base/Color",
+	"dojo/_base/lang", "dojo/dom", "dcl/dcl", "dojo/sniff", "dojo/dom-geometry", "dojo/dom-attr", "dcolor/Color",
 	"../_base", "./_base", "../shape/_ShapeBase", "./Surface"
 ], function (lang, dom, dcl, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface) {
 
@@ -45,7 +45,7 @@ define([
 			//		(see gfx.defaultLinearGradient,
 			//		gfx.defaultRadialGradient,
 			//		gfx.defaultPattern,
-			//		or dojo/_base/Color)
+			//		or dcolor/Color)
 
 			if (!fill) {
 				// don't fill
@@ -85,7 +85,7 @@ define([
 			// color object
 			f = g.normalizeColor(fill);
 			this._set("fill", f);
-			this.rawNode.setAttribute("fill", f.toCss());
+			this.rawNode.setAttribute("fill", f.toRgbaString());
 			this.rawNode.setAttribute("fill-opacity", f.a);
 			this.rawNode.setAttribute("fill-rule", "evenodd");
 			return this;	// self
@@ -116,7 +116,7 @@ define([
 			this._set("stroke", s);
 			// generate attributes
 			if (s) {
-				rn.setAttribute("stroke", s.color.toCss());
+				rn.setAttribute("stroke", s.color.toRgbaString());
 				rn.setAttribute("stroke-opacity", s.color.a);
 				rn.setAttribute("stroke-width", s.width);
 				rn.setAttribute("stroke-linecap", s.cap);
@@ -208,7 +208,7 @@ define([
 					var c = f.colors[i], t = svg._createElementNS(svgns, "stop"), cc = c.color =
 						g.normalizeColor(c.color);
 					t.setAttribute("offset", c.offset.toFixed(8));
-					t.setAttribute("stop-color", cc.toCss());
+					t.setAttribute("stop-color", cc.toRgbaString());
 					t.setAttribute("stop-opacity", cc.a);
 					fill.appendChild(t);
 				}
