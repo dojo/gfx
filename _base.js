@@ -105,12 +105,13 @@ define([
 	var measuringNode = null, empty = {};
 	g._getTextBox = function (/*String*/ text, /*Object*/ style, /*String?*/ className) {
 		var m, s, al = arguments.length;
-		var i;
+		var i, box;
 		if (!measuringNode) {
 			measuringNode = domConstruct.create("div", {style: {
 				position: "absolute",
 				top: "-10000px",
-				left: "0"
+				left: "0",
+				visibility: "hidden"
 			}}, win.body());
 		}
 		m = measuringNode;
@@ -139,11 +140,13 @@ define([
 
 		if (m.getBoundingClientRect) {
 			var bcr = m.getBoundingClientRect();
-			return {l: bcr.left, t: bcr.top, w: bcr.width || (bcr.right - bcr.left), h: bcr.height ||
+			box = {l: bcr.left, t: bcr.top, w: bcr.width || (bcr.right - bcr.left), h: bcr.height ||
 				(bcr.bottom - bcr.top)};
 		} else {
-			return domGeom.getMarginBox(m);
+			box = domGeom.getMarginBox(m);
 		}
+		m.innerHTML = "";
+		return box;
 	};
 
 	g._computeTextLocation =
