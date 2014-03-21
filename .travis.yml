@@ -1,3 +1,4 @@
+# Travis CI configuration for GFX
 env:
   global:
     - secure: "YxASKR++ZmuJw2MSgClQ6mQINeghfO5R9FddcopUexdO3KIYv9uqcJICFsaWEBGDtLxJLkFHqOwX0asWxEUUIHDvl4r1ktg+FVPnZsrPcoA8zgosfFC6b7bQkv3RXnTMhfIvLIsr/e6fEadThUTcD38EYWtfFAeFY6EsvQH1M/E="
