@@ -3,12 +3,10 @@ define([
 ], function (win, bezierUtils) {
 
 	//noinspection JSUnresolvedVariable
-	if (win.global.CanvasRenderingContext2D) {
-		var ctx2d = win.doc.createElement("canvas").getContext("2d");
-		//noinspection JSUnresolvedVariable
-		var hasNativeDash = typeof ctx2d.setLineDash === "function";
-		var hasFillText = typeof ctx2d.fillText === "function";
-	}
+	var ctx2d = win.doc.createElement("canvas").getContext("2d");
+	//noinspection JSUnresolvedVariable
+	var hasNativeDash = typeof ctx2d.setLineDash === "function";
+	var hasFillText = typeof ctx2d.fillText === "function";
 
 	function splitToDashedBezier(/*Number[]*/points, /*Number[]*/dashArray, /*Number[]*/newPoints, /*Object*/
 		prevResidue) {

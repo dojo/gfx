@@ -1,7 +1,7 @@
 define([
-	"dojo/_base/kernel", "dojo/_base/lang", "./_base", "dojo/_base/html", "dojo/_base/window", "dojo/_base/json",
-	"dojo/_base/Deferred", "dojo/_base/sniff", "require", "dojo/_base/config", "dcl/dcl"
-], function (kernel, lang, g, html, win, jsonLib, Deferred, has, require, config, dcl) {
+	"dojo/_base/kernel", "dojo/_base/lang", "./_base", "dojo/_base/window", "dojo/_base/json", "dojo/_base/Deferred",
+	"dojo/_base/sniff", "require", "dojo/_base/config", "dcl/dcl"
+], function (kernel, lang, g, win, jsonLib, Deferred, has, require, config, dcl) {
 	var gu = g.utils = {};
 
 	var classesRequired, Surface, Group;
@@ -190,8 +190,8 @@ define([
 						gu._gfxSvgProxy.document.body.appendChild(node);
 						//Set the node scaling.
 						win.withDoc(gu._gfxSvgProxy.document, function () {
-							html.style(node, "width", width);
-							html.style(node, "height", height);
+							node.style.width = width + "px";
+							node.style.height = height + "px";
 						}, this);
 
 						var proxyGfx = gu._gfxSvgProxy.require("gfx/gfx"); // will throw exception if not loaded
@@ -254,13 +254,11 @@ define([
 			if (!gu._initSvgSerializerDeferred) {
 				gu._initSvgSerializerDeferred = new Deferred();
 				var f = win.doc.createElement("iframe");
-				html.style(f, {
-					display: "none",
-					position: "absolute",
-					width: "1em",
-					height: "1em",
-					top: "-10000px"
-				});
+				f.style.display = "none";
+				f.style.position = "absolute";
+				f.style.width = "1em";
+				f.style.height = "1em";
+				f.style.top = "-10000px";
 				if (has("ie")) {
 					f.onreadystatechange = function () {
 						if (f.contentWindow.document.readyState === "complete") {

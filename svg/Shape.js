@@ -1,7 +1,7 @@
 define([
-	"dojo/_base/lang", "dojo/dom", "dcl/dcl", "dojo/sniff", "dojo/dom-geometry", "dojo/dom-attr", "dcolor/Color",
-	"../_base", "./_base", "../shape/_ShapeBase", "./Surface"
-], function (lang, dom, dcl, has, domGeom, domAttr, Color, g, svg, ShapeBase, SvgSurface) {
+	"dojo/_base/lang", "dojo/dom", "dcl/dcl", "dojo/sniff", "dojo/dom-geometry", "dcolor/Color", "../_base", "./_base",
+	"../shape/_ShapeBase", "./Surface"
+], function (lang, dom, dcl, has, domGeom, Color, g, svg, ShapeBase, SvgSurface) {
 
 	var clipCount = 0;
 
@@ -150,7 +150,6 @@ define([
 					da = da.join(",");
 				}
 				rn.setAttribute("stroke-dasharray", da);
-				rn.setAttribute("dojoGfxStrokeStyle", s.style);
 			}
 			return this;	// self
 		},
@@ -320,7 +319,7 @@ define([
 					clip = lang.clone(clip);
 					clip.points = clip.points.join(",");
 				}
-				var clipNode, clipShape, clipPathProp = domAttr.get(this.rawNode, "clip-path");
+				var clipNode, clipShape, clipPathProp = this.rawNode.getAttribute("clip-path");
 				if (clipPathProp) {
 					clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
 					if (clipNode) { // may be null if not in the DOM anymore
@@ -340,9 +339,11 @@ define([
 						clipShape = svg._createElementNS(svg.xmlns.svg, clipType);
 						clipNode.appendChild(clipShape);
 						this.rawNode.parentNode.insertBefore(clipNode, this.rawNode);
-						domAttr.set(clipNode, "id", clipId);
+						clipNode.setAttribute("id", clipId);
 					}
-					domAttr.set(clipShape, clip);
+					for (var p in clip) {
+						clipShape.setAttribute(p, clip[p]);
+					}
 				} else {
 					//remove clip-path
 					this.rawNode.removeAttribute("clip-path");
@@ -353,7 +354,7 @@ define([
 			};
 		}),
 		_removeClipNode: function () {
-			var clipNode, clipPathProp = domAttr.get(this.rawNode, "clip-path");
+			var clipNode, clipPathProp = this.rawNode.getAttribute("clip-path");
 			if (clipPathProp) {
 				clipNode = dom.byId(clipPathProp.match(/gfx_clip[\d]+/)[0]);
 				if (clipNode) {
