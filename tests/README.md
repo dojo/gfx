@@ -23,7 +23,7 @@ Navigate to:
 http://localhost/<root>/gfx/node_modules/intern/client.html?config=tests/client
 ```
 
-(where `&lt;root&gt;` stands for the root directory where gfx is deployed on your local web server)
+(where `<root>` stands for the root directory where gfx is deployed on your local web server)
 
 Note that this won't run the functional tests.
 
