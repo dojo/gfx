@@ -164,6 +164,7 @@ define([
 				args.easing = fx._defaultEasing;
 			}
 			var anim = new fx.Animation(args), shape = args.shape, stroke;
+			/* jshint maxcomplexity:13 */
 			Hub.connect(anim, "beforeBegin", anim, function () {
 				stroke = shape.stroke;
 				var prop = args.color, values = {}, start, end;
@@ -196,6 +197,7 @@ define([
 				}
 				this.curve = new InterpolObject(values, stroke);
 			});
+			/* jshint maxcomplexity:10 */
 			Hub.connect(anim, "onAnimate", shape, function (args) {
 				shape.stroke = args;
 			});

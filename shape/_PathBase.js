@@ -130,7 +130,7 @@ define([
 			//		updates the bounding box of path with new segment
 			// segment: Object
 			//		a segment
-			/* jshint maxcomplexity:33 */
+			/* jshint maxcomplexity:34 */
 			var n = segment.args, l = n.length, i;
 			// update internal variables: bbox, absolute, last
 			switch (segment.action) {
@@ -230,7 +230,7 @@ define([
 			if (typeof this.shape.path === "string") {
 				this.shape.path += path.join("");
 			} else {
-				for (i = 0 , l = path.length; i < l; ++i) {
+				for (i = 0, l = path.length; i < l; ++i) {
 					this.shape.path.push(path[i]);
 				}
 			}

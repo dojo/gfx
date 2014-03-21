@@ -16,7 +16,7 @@ define([
 		}
 		// SVG/strict elements don't support innerHTML/canHaveChildren, and OBJECT/APPLET elements in quirks node
 		// have canHaveChildren=false
-		for (var c; c = node.lastChild;) { // intentional assignment
+		for (var c; (c = node.lastChild) != null;) { // intentional assignment
 			_destroy(c, node); // destroy is better than removeChild so TABLE subelements are removed in proper order
 		}
 	}

@@ -52,7 +52,7 @@ define([
 			// object: gfx/shape.Surface|gfx/shape.Shape
 			//		The container to serialize.
 
-			/* jshint maxcomplexity:11 */
+			/* jshint maxcomplexity:12 */
 
 			ensureClassesRequired();
 

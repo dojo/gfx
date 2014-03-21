@@ -33,7 +33,7 @@ define(["dcl/dcl", "./_base", "./matrix"], function (dcl, g, m) {
 	function eigenvalueDecomposition(matrix) {
 		// matrix: gfx/matrix.Matrix2D
 		//		a 2D matrix-like object
-		/* jshint maxcomplexity:12 */
+		/* jshint maxcomplexity:13 */
 		var M = m.normalize(matrix), b = -M.xx - M.yy, c = M.xx * M.yy - M.xy * M.yx, d = Math.sqrt(b * b -
 			4 * c), l1 = -(b + (b < 0 ? -d : d)) / 2, l2 = c / l1, vx1 = M.xy / (l1 - M.xx), vy1 = 1, vx2 = M.xy /
 			(l2 - M.xx), vy2 = 1;

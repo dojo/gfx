@@ -97,8 +97,7 @@ define([
 			// stroke: Object
 			//		a stroke object (see gfx.defaultStroke)
 
-			/* jshint maxcomplexity:12 */
-
+			/* jshint maxcomplexity:14 */
 			var rn = this.rawNode;
 			if (!stroke) {
 				// don't stroke
@@ -309,6 +308,7 @@ define([
 				//		This method overrides the gfx/shape/Shape._setClipAttr() method.
 				// clip: Object
 				//		an object that defines the clipping geometry, or null to remove clip.
+				/* jshint maxcomplexity:14 */
 				sup.apply(this, arguments);
 				var clipType = clip ? "width" in clip ? "rect" :
 					"cx" in clip ? "ellipse" : "points" in clip ? "polyline" : "d" in clip ? "path" : null : null;

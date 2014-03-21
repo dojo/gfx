@@ -1,6 +1,6 @@
 ﻿define([
 	"intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/gfx", "gfx/svg"
-], function (registerSuite, assert, tu, gfx, svg) {
+], function (registerSuite, assert, tu) {
 	var surface;
 	registerSuite({
 		name: "Text on path (SVG only)",

@@ -1,0 +1,14 @@
+env:
+  global:
+    - secure: "YxASKR++ZmuJw2MSgClQ6mQINeghfO5R9FddcopUexdO3KIYv9uqcJICFsaWEBGDtLxJLkFHqOwX0asWxEUUIHDvl4r1ktg+FVPnZsrPcoA8zgosfFC6b7bQkv3RXnTMhfIvLIsr/e6fEadThUTcD38EYWtfFAeFY6EsvQH1M/E="
+    - secure: "T/vdF+Z0B8b17A2LiJaL/h80U1+ath37iIpzkwZDDouKyIGFOF68LFexcxpMjS9TyWJU2AKcxdW4mGLFTEPqUwO0Bwh4tvvXqVynY9kcvcNgXvPFel9MtjO1NXTMniq6gx6not2aG7IsO1ur2AAIWLXQHN18dzyJBN0jQNQRRsg="
+language: node_js
+node_js: 0.10
+install:
+   - npm -g install jshint
+   - npm -g install bower
+   - npm install
+   - bower install
+script:
+  - jshint .
+  - node node_modules/intern/runner.js config=tests/intern

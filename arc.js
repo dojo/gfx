@@ -36,6 +36,7 @@ define(["./_base", "dojo/_base/lang", "./matrix"], function (g, lang, m) {
 		//		an object with properties of an arc around a unit circle from 0 to pi/4
 		curvePI4: curvePI4,
 
+		/* jshint maxcomplexity:12 */
 		arcAsBezier: function (last, rx, ry, xRotg, large, sweep, x, y) {
 			// summary:
 			//		calculates an arc as a series of Bezier curves
