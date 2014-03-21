@@ -1,15 +1,12 @@
-// Test file to run GFX tests from a browser
-// Run using http://localhost/gfx/node_modules/intern/client.html?config=tests/client
-define(["./intern"], function (intern) {
-	var config = {
-		loader: {
-			baseUrl: "../../.."
-		}
-	};
+// Test file to run infrastructure tests from a browser
+// Run using http://localhost/delite/node_modules/intern/client.html?config=tests/client
 
-	for (var key in intern) {
-		config[key] = intern[key];
-	}
+define({
+	loader: {
+		// location of all the packages, relative to client.html
+		baseUrl: "../../.."
+	},
 
-	return config;
+	// Non-functional test suites
+	suites: [ "gfx/tests/unit/all" ]
 });
