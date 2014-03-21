@@ -1324,7 +1324,7 @@ require([
         // wire a pre render callback to draw a text.
         aspect.before(surface, "render", function (context) {
             context.save();
-            context.fill = "black";
+            context.fillStyle = "black";
             context.font = "italic 30px sans-serif";
             context.textBaseline = "top";
             context.fillText("Canvas pixel-based manipulation with gfx", 0, 0);

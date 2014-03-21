@@ -1,4 +1,4 @@
-define(["dojo/has", "./shape"], function (has, shapeLib) {
+define(["dojo/has"], function (has) {
 
 	has.add("gfxRegistry", 1);
 
@@ -9,7 +9,7 @@ define(["dojo/has", "./shape"], function (has, shapeLib) {
 	// a simple set impl to map shape<->id
 	var hash = {};
 
-	registry.register = shapeLib.register = function (/*gfx/shape.Shape*/s) {
+	registry.register = function (/*gfx/shape.Shape*/s) {
 		// summary:
 		//		Register the specified shape into the graphics registry.
 		// s: gfx/shape.Shape
@@ -26,7 +26,7 @@ define(["dojo/has", "./shape"], function (has, shapeLib) {
 		return uid;
 	};
 
-	registry.byId = shapeLib.byId = function (/*String*/id) {
+	registry.byId = function (/*String*/id) {
 		// summary:
 		//		Returns the shape that matches the specified id.
 		// id: String
@@ -35,7 +35,7 @@ define(["dojo/has", "./shape"], function (has, shapeLib) {
 		return hash[id]; //gfx/shape.Shape
 	};
 
-	registry.dispose = shapeLib.dispose = function (/*gfx/shape.Shape*/s, /*Boolean?*/recurse) {
+	registry.dispose = function (/*gfx/shape.Shape*/s, /*Boolean?*/recurse) {
 		// summary:
 		//		Removes the specified shape from the registry.
 		// s: gfx/shape.Shape

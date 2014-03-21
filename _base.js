@@ -1,7 +1,7 @@
 define([
 	"dcl/dcl", "dojo/_base/kernel", "dojo/_base/lang", "dcolor/Color", "dojo/_base/sniff", "dojo/_base/config",
-	"dojo/_base/window", "dojo/dom", "dojo/dom-construct", "dojo/dom-geometry"
-], function (dcl, kernel, lang, Color, has, config, win, dom, domConstruct, domGeom) {
+	"dojo/_base/window"
+], function (dcl, kernel, lang, Color, has, config, win) {
 	// module:
 	//		gfx
 	// summary:
@@ -39,6 +39,16 @@ define([
 
 	// candidate for dojox.html.metrics (dynamic font resize handler is not implemented here)
 
+	var createDiv = function (style) {
+		var div = win.doc.createElement("div");
+		var s = div.style;
+		for (var p in style) {
+			s[p] = style[p];
+		}
+		win.body().appendChild(div);
+		return div;
+	};
+
 	//		derived from Morris John's emResized measurer
 	g._getFontMeasurements = function () {
 		// summary:
@@ -67,7 +77,7 @@ define([
 		}
 
 		//		set up the measuring node.
-		var div = domConstruct.create("div", {style: {
+		var div = createDiv({
 			position: "absolute",
 			left: "0",
 			top: "-100px",
@@ -79,7 +89,7 @@ define([
 			outline: "none",
 			lineHeight: "1",
 			overflow: "hidden"
-		}}, win.body());
+		});
 
 		//		do the measurements.
 		for (p in heights) {
@@ -107,12 +117,12 @@ define([
 		var m, s, al = arguments.length;
 		var i, box;
 		if (!measuringNode) {
-			measuringNode = domConstruct.create("div", {style: {
+			measuringNode = createDiv({
 				position: "absolute",
 				top: "-10000px",
 				left: "0",
 				visibility: "hidden"
-			}}, win.body());
+			});
 		}
 		m = measuringNode;
 		// reset styles
@@ -138,13 +148,9 @@ define([
 		// take a measure
 		m.innerHTML = text;
 
-		if (m.getBoundingClientRect) {
-			var bcr = m.getBoundingClientRect();
-			box = {l: bcr.left, t: bcr.top, w: bcr.width || (bcr.right - bcr.left), h: bcr.height ||
-				(bcr.bottom - bcr.top)};
-		} else {
-			box = domGeom.getMarginBox(m);
-		}
+		var bcr = m.getBoundingClientRect();
+		box =
+		{l: bcr.left, t: bcr.top, w: bcr.width || (bcr.right - bcr.left), h: bcr.height || (bcr.bottom - bcr.top)};
 		m.innerHTML = "";
 		return box;
 	};
@@ -202,7 +208,7 @@ define([
 		var id;
 		do {
 			id = kernel._scopeName + "xUnique" + (++uniqueId);
-		} while (dom.byId(id));
+		} while (win.doc.getElementById(id));
 		return id;
 	};
 

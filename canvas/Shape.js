@@ -102,7 +102,7 @@ define([
 				var fs = this.fill, f;
 				if (fs) {
 					if (typeof(fs) === "object" && "type" in fs) {
-						var ctx = this.surface.rawNode.getContext("2d");
+						var ctx = this.surface._getContext(this.surface.rawNode);
 						//noinspection FallthroughInSwitchStatementJS
 						switch (fs.type) {
 						case "linear":
@@ -216,12 +216,12 @@ define([
 					// let's match the svg default behavior wrt. aspect ratio: xMidYMid meet
 					//meet->math.min , slice->math.max
 					var w = fs.width, h = fs.height, iw = this.canvasFillImage.width, ih = this.canvasFillImage.height,
-						sx = w === iw ? 1 : w / iw, sy = h === ih ? 1 : h / ih, s = Math.min(sx, sy),
-						dx = (w - s * iw) / 2, dy = (h - s * ih) / 2;
+						sx = w === iw ? 1 : w / iw, sy = h === ih ? 1 : h / ih,
+						s = Math.min(sx, sy), dx = (w - s * iw) / 2, dy = (h - s * ih) / 2;
 					// the buffer used to scaled the image
 					pattrnbuffer.width = w;
 					pattrnbuffer.height = h;
-					var copyctx = pattrnbuffer.getContext("2d");
+					var copyctx = this.surface._getContext(pattrnbuffer);
 					copyctx.clearRect(0, 0, w, h);
 					copyctx.drawImage(this.canvasFillImage, 0, 0, iw, ih, dx, dy, s * iw, s * ih);
 					this.canvasFill = ctx.createPattern(pattrnbuffer, "repeat");

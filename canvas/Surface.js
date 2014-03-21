@@ -41,6 +41,13 @@ define([
 			this.makeDirty();
 		},
 
+		destroy: dcl.superCall(function (sup) {
+			return function () {
+				this.clear(true);
+				sup.apply(this, arguments);
+			};
+		}),
+
 		setDimensions: function (width, height) {
 			// summary:
 			//		sets the width and height of the rawNode
@@ -78,13 +85,16 @@ define([
 			if (!this.rawNode || (!force && this.pendingImageCount)) {
 				return;
 			}
-			var ctx = this.rawNode.getContext("2d");
+			var ctx = this._getContext(this.rawNode);
 			ctx.clearRect(0, 0, this.rawNode.width, this.rawNode.height);
 			this.render(ctx);
 			if ("pendingRender" in this) {
 				clearTimeout(this.pendingRender);
 				delete this.pendingRender;
 			}
+		},
+		_getContext: function (canvas) {
+			return canvas.getContext("2d");
 		},
 		render: function (ctx) {
 			// summary:
