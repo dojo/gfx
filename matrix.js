@@ -1,7 +1,6 @@
 define(["dcl/dcl", "./_base", "dojo/_base/lang"], function (dcl, g, lang) {
 	var m = g.matrix = {};
 
-	// candidates for dojox.math:
 	var _degToRadCache = {};
 	m._degToRad = function (degree) {
 		return _degToRadCache[degree] || (_degToRadCache[degree] = (Math.PI * degree / 180));

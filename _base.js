@@ -9,7 +9,6 @@ define([
 
 	var g = {};
 
-	// candidates for dojox.style (work on SVG nodes)
 	g._hasClass = function (/*DomNode*/node, /*String*/classStr) {
 		// summary:
 		//		Returns whether or not the specified classes are a portion of the
@@ -36,8 +35,6 @@ define([
 			node.setAttribute("className", cls.replace(new RegExp("(^|\\s+)" + classStr + "(\\s+|$)"), "$1$2"));
 		}
 	};
-
-	// candidate for dojox.html.metrics (dynamic font resize handler is not implemented here)
 
 	var createDiv = function (style) {
 		var div = win.doc.createElement("div");
@@ -109,8 +106,6 @@ define([
 		}
 		return fontMeasurements;
 	};
-
-	// candidate for dojox.html.metrics
 
 	var measuringNode = null, empty = {};
 	g._getTextBox = function (/*String*/ text, /*Object*/ style, /*String?*/ className) {

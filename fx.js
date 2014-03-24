@@ -4,8 +4,6 @@ define([
 ], function (lang, g, m, Color, colorUtils, fx, Hub, has) {
 		var fxg = g.fx = {};
 
-		// Generic interpolators. Should they be moved to dojox.fx?
-
 		function InterpolNumber(start, end) {
 			this.start = start;
 			this.end = end;

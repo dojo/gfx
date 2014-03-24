@@ -1,4 +1,4 @@
-define(["dojo/_base/lang", "../dojox/string/BidiEngine"], function (lang, BidiEngine) {
+define(["dojo/_base/lang", "dbidi/string/TextLayoutEngine"], function (lang, BidiEngine) {
 
 	function validateTextDir(textDir) {
 		var validValues = ["ltr", "rtl", "auto"];

@@ -290,7 +290,7 @@ define([
 
 		_innerXML: function (/*Node*/node) {
 			// summary:
-			//		Implementation of MS's innerXML function, borrowed from dojox.xml.parser.
+			//		Implementation of MS's innerXML function.
 			// node:
 			//		The node from which to generate the XML text representation.
 			// tags:
