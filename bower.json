@@ -1,9 +1,19 @@
 {
 	"name": "gfx",
 	"version": "0.1.0-dev",
-	"license": "BSD",
 	"dependencies": {
 		"dojo": ">=1.9.1",
-		"dcl": "1.1.x"
-	}
+		"dojox": ">=1.9.1",
+		"requirejs": "2.1.x",
+		"dcl": "1.1.x",
+		"delite": "~0.1.0",
+		"dcolor": "~0.1.0"
+	},
+	"ignore": [
+		".jshintrc",
+		".gitattributes",
+		".travis.yml",
+		"tests",
+		"CONTRIBUTING.md"
+	]
 }
