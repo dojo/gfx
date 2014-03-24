@@ -6,8 +6,8 @@
 		"dojox": ">=1.9.1",
 		"requirejs": "2.1.x",
 		"dcl": "1.1.x",
-		"delite": "~0.1.0",
-		"dcolor": "~0.1.0"
+		"delite": "0.1.x",
+		"dcolor": "0.1.x"
 	},
 	"ignore": [
 		".jshintrc",
