@@ -1,6 +1,10 @@
 {
 	"name": "gfx",
 	"version": "0.1.0-dev",
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/ibm-js/gfx.git"
+	},
 	"licenses": [
 		{
 			"type": "BSD",
