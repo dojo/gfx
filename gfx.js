@@ -1,4 +1,4 @@
-define(["./_base", "dojo/has!gfx-no-compat?:./compat"], function (gfx) {
+define(["./_base", "./compat"], function (gfx) {
 	// module:
 	//		gfx
 	// summary:
