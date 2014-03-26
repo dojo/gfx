@@ -36,7 +36,7 @@ define({
 		host: "localhost",
 		port: 4444
 	},
-/*
+/* test travis with dojo loader
 	useLoader: {
 		"host-node": "requirejs",
 		"host-browser": "../../../requirejs/require.js"
