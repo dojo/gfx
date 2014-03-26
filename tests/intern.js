@@ -36,12 +36,12 @@ define({
 		host: "localhost",
 		port: 4444
 	},
-
+/*
 	useLoader: {
 		"host-node": "requirejs",
 		"host-browser": "../../../requirejs/require.js"
 	},
-
+*/
 	loader: {
 		baseUrl: ".."
 	},
