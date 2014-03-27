@@ -28,7 +28,7 @@ define({
 	],
 
 	// Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
-	maxConcurrency: 1,
+	maxConcurrency: 3,
 
 	// Whether or not to start Sauce Connect before running tests
 	useSauceConnect: true,
