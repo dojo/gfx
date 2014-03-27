@@ -12,4 +12,5 @@ install:
    - bower install
 script:
   - jshint .
-  - node node_modules/intern/runner.js config=tests/intern
+  - cd ..
+  - node gfx/node_modules/intern/runner.js config=gfx/tests/intern.travis

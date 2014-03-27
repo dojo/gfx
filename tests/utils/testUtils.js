@@ -197,7 +197,7 @@ define(["intern!object", "intern/chai!assert", "gfx/svg", "gfx/canvas", "./canva
 			},
 
 			compareWithImages: function (test, surface, expected, timeout) {
-				var d = test.async(timeout);
+				var d = test.async(timeout || 60000);
 				if (tu.renderer === "canvas" && surface.pendingImageCount > 0) {
 					var t = setInterval(function () {
 						if (surface.pendingImageCount === 0) {
