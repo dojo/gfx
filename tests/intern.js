@@ -15,12 +15,16 @@ define({
 		{ browserName: "internet explorer", version: "10", platform: "Windows 8" },
 		{ browserName: "internet explorer", version: "9", platform: "Windows 7" },
 		{ browserName: "firefox", version: "25", platform: "Windows 7" },
-		{ browserName: "chrome", version: "", platform: "Windows 7" },
-		{ browserName: "safari", version: "6", platform: "OS X 10.8" },
+		{ browserName: "chrome", version: "", platform: "Windows 7" }
+		/*
+		 , { browserName: "iphone", platform: "OS X 10.8", version: "6.1",
+		 "device-orientation": "portrait", "selenium-version": "" },
+		 { browserName: "safari", version: "6", platform: "OS X 10.8" },
 
-		// Mobile
-		{ browserName: "iphone", platform: "OS X 10.9", version: "7"}
-		// , { browserName: "android", platform: "Android" }		not currently working
+		 // Mobile
+		 { browserName: "iphone", platform: "OS X 10.9", version: "7"}
+		 //, { browserName: "android", platform: "Android" }		not currently working
+		 */
 	],
 
 	// Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
@@ -47,7 +51,7 @@ define({
 	},
 
 	// Non-functional test suite(s) to run in each browser
-	suites: [ "gfx/tests/unit/all" ],
+	suites: ["gfx/tests/unit/all"],
 
 	// Functional test suite(s) to run in each browser once non-functional tests are completed
 	//functionalSuites: [ "gfx/tests/functional/all" ],
