@@ -11,20 +11,16 @@ define({
 	// OnDemand. Options that will be permutated are browserName, version, platform, and platformVersion; any other
 	// capabilities options specified for an environment will be copied as-is
 	environments: [
+		// desktop:
 		{ browserName: "internet explorer", version: "11", platform: "Windows 8.1" },
 		{ browserName: "internet explorer", version: "10", platform: "Windows 8" },
 		{ browserName: "internet explorer", version: "9", platform: "Windows 7" },
 		{ browserName: "firefox", version: "25", platform: "Windows 7" },
-		{ browserName: "chrome", version: "", platform: "Windows 7" }
-		/*
-		 , { browserName: "iphone", platform: "OS X 10.8", version: "6.1",
-		 "device-orientation": "portrait", "selenium-version": "" },
-		 { browserName: "safari", version: "6", platform: "OS X 10.8" },
-
-		 // Mobile
-		 { browserName: "iphone", platform: "OS X 10.9", version: "7"}
-		 //, { browserName: "android", platform: "Android" }		not currently working
-		 */
+		{ browserName: "chrome", version: "33", platform: "Windows 7" },
+		{ browserName: "safari", version: "7", platform: "OS X 10.9" },
+		// mobile:
+		{ browserName: "iphone", version: "7", platform: "OS X 10.9" }
+		//, { browserName: "android", platform: "Android" }		not currently working
 	],
 
 	// Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
