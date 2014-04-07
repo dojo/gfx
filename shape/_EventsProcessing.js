@@ -35,9 +35,9 @@ define([
 			}; // Function
 		}
 		return !scope ? function (e) {
-			return fixFunction(e, gfxElement) ? method.apply(scope, arguments) : undefined;
+			return (!fixFunction || fixFunction(e, gfxElement)) ? method.apply(scope, arguments) : undefined;
 		} : function (e) {
-			return fixFunction(e, gfxElement) ? method.apply(scope, arguments || []) : undefined;
+			return (!fixFunction || fixFunction(e, gfxElement)) ? method.apply(scope, arguments || []) : undefined;
 		}; // Function
 	};
 	return dcl(null, {
