@@ -6,20 +6,21 @@
     <script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="async:1"></script>
     <script type="text/javascript">
 
-        function windowsVersion() {
-            return navigator.userAgent.match(/Windows NT (\d\.\d)/) && parseFloat(RegExp.$1);
-        }
-
         var gfxTest = {
             events: [],
             checkEvents: function (expectedEvents) {
-                if (windowsVersion() >= 6.2) {
-                    return "OK (mouse tests skipped on Windows 8)";
+                if ((navigator.userAgent.match(/Windows NT (\d\.\d)/) && parseFloat(RegExp.$1)) >= 6.2) {
+                    // skip all events on Windows 8
+                    return "OK";
                 }
                 var events = gfxTest.events;
                 gfxTest.events = [];
                 for (var i = 0; i < expectedEvents.length; i++) {
                     var ee = expectedEvents[i];
+                    if(/(move|up)/.test(ee) && /iPhone/.test(navigator.userAgent)){
+                        // skip move and up events on iPhone...
+                        continue;
+                    }
                     var j = events.indexOf(ee);
                     if (j < 0) {
                         return "event " + ee + " not found, events received: " + events.join(" - ");
@@ -30,8 +31,8 @@
         };
 
         require([
-            "gfx/gfx", "dojo/touch", "dojo/dom", "dojo/on", "dojo/sniff", "dojo/ready"
-        ], function (gfx, touch, dom, on, has, ready) {
+            "gfx/gfx", "dpointer/events", "dojo/dom", "dojo/on", "dojo/sniff", "dojo/ready"
+        ], function (gfx, pointerEvents, dom, on, has, ready) {
 
             function log(msg) {
                 var elt = document.createTextNode(msg);
@@ -42,7 +43,7 @@
 
             function wireEvents(shape, events) {
                 events.forEach(function (evt) {
-                    var event = touch[evt];
+                    var event = "pointer" + evt;
                     if (!event) {
                         return;
                     }
@@ -68,12 +69,12 @@
                 rect3.fill = 'green';
                 rect3.id = rect3.rawNode.id = 'rect3';
 
-                wireEvents(rect1, ["press", "release", "move", "over", "out"]);
+                wireEvents(rect1, ["down", "up", "move", "over", "out"]);
                 wireEvents(rect2, ["move", "over", "out"]);
                 wireEvents(rect3, ["over", "out"]);
                 wireEvents(rect3, ["over", "out"]);
-                wireEvents(g, ["press", "out"]);
-                wireEvents(surface, ["press", "move"]);
+                wireEvents(g, ["down", "out"]);
+                wireEvents(surface, ["down", "move"]);
             }
 
             function buildScenes() {
@@ -101,12 +102,6 @@
 </head>
 <body>
 <h1>Test bubbling with SVG.</h1>
-
-<p>This page shows two SVG-based gfx surfaces: the surface on the left connects its shapes to input events via the
-    dojo/touch API.
-    The surface on the right connects its shapes using native input event types (e.g. 'touchstart' or 'mousedown'
-    depending
-    on the device).</p>
 
 <div id="surfaceDiv" class="drawing"></div>
 <div id="log" style="width: 500px; height: 100px;overflow:scroll;"></div>

@@ -1,5 +1,5 @@
-define(["dojo/_base/lang", "dcl/dcl", "dojo/on", "dojo/touch", "dojo/_base/event"],
-	function (lang, dcl, on, touch, event) {
+define(["dojo/_base/lang", "dcl/dcl", "dojo/on", "dojo/_base/event", "dpointer/events"],
+	function (lang, dcl, on, event) {
 		return dcl(null, {
 			constructor: function (shape, e, host) {
 				// summary:
@@ -16,10 +16,10 @@ define(["dojo/_base/lang", "dcl/dcl", "dojo/on", "dojo/touch", "dojo/_base/event
 				this.shape = shape;
 				this.lastX = e.clientX;
 				this.lastY = e.clientY;
-				var h = this.host = host, d = document, firstEvent = on(d, touch.move, lang.hitch(this, "onFirstMove"));
+				var h = this.host = host, d = document, firstEvent = on(d, "pointermove", lang.hitch(this, "onFirstMove"));
 				this.events = [
-					on(d, touch.move, lang.hitch(this, "onMouseMove")),
-					on(d, touch.release, lang.hitch(this, "destroy")), // cancel text selection and text dragging
+					on(d, "pointermove", lang.hitch(this, "onMouseMove")),
+					on(d, "pointerup", lang.hitch(this, "destroy")), // cancel text selection and text dragging
 					on(d, "dragstart", lang.hitch(event, "stop")), on(d, "selectstart", lang.hitch(event, "stop")),
 					firstEvent
 				];

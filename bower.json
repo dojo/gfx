@@ -8,7 +8,8 @@
 		"dcl": "1.1.x",
 		"delite": "0.1.x",
 		"dcolor": "0.1.x",
-		"dbidi": "0.1.x"
+		"dbidi": "0.1.x",
+		"dpointer": "0.1.x"
 	},
 	"ignore": [
 		".jshintrc",

@@ -1,4 +1,5 @@
 // Listing of all the gfx functional tests
 define([
-	"./bubbling"
+	"./bubbling",
+	"./moveable"
 ]);

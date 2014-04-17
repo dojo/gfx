@@ -32,7 +32,7 @@ define([
 			this._parent = dom.byId(parentNode);
 			this._parent.appendChild(this.rawNode);
 
-			g._fixMsTouchAction(this);
+			g._fixTouchAction(this);
 		},
 
 		destroy: dcl.superCall(function (sup) {

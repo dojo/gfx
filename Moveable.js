@@ -1,7 +1,7 @@
 define([
-	"dojo/_base/lang", "dcl/dcl", "dojo/_base/event", "dojo/topic", "dojo/touch", "dojo/dom-class", "dojo/_base/window",
+	"dojo/_base/lang", "dcl/dcl", "dojo/_base/event", "dojo/topic", "dojo/dom-class", "dojo/_base/window",
 	"./Mover"
-], function (lang, dcl, event, topic, touch, domClass, win, Mover) {
+], function (lang, dcl, event, topic, domClass, win, Mover) {
 
 	/*=====
 	 var __MoveableCtorArgs = dcl(null, {
@@ -33,7 +33,7 @@ define([
 			this.delay = (params && params.delay > 0) ? params.delay : 0;
 			this.mover = (params && params.mover) ? params.mover : Mover;
 			this.events = [
-				this.shape.on(touch.press, lang.hitch(this, "onMouseDown"))
+				this.shape.on("pointerdown", lang.hitch(this, "onMouseDown"))
 				// cancel text selection and text dragging
 				//, dojo.connect(this.handle, "ondragstart",   dojo, "stopEvent")
 				//, dojo.connect(this.handle, "onselectstart", dojo, "stopEvent")
@@ -57,8 +57,8 @@ define([
 			// e: Event
 			//		mouse event
 			if (this.delay) {
-				this.events.push(this.shape.on(touch.move, lang.hitch(this, "onMouseMove")),
-					this.shape.on(touch.release, lang.hitch(this, "onMouseUp")));
+				this.events.push(this.shape.on("pointermove", lang.hitch(this, "onMouseMove")),
+					this.shape.on("pointerup", lang.hitch(this, "onMouseUp")));
 				this._lastX = e.clientX;
 				this._lastY = e.clientY;
 			} else {

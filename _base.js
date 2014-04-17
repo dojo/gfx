@@ -207,12 +207,12 @@ define([
 		return id;
 	};
 
-	// IE10
+	// Set touch-action attr for dpointer:
 
-	g._fixMsTouchAction = function (/*gfx/shape.Surface*/surface) {
+	g._fixTouchAction = function (/*gfx/shape.Surface*/surface) {
 		var r = surface.rawNode;
-		if (typeof r.style.msTouchAction !== "undefined") {
-			r.style.msTouchAction = "none";
+		if (r.getAttribute("touch-action") === "") {
+			r.setAttribute("touch-action", "none");
 		}
 	};
 

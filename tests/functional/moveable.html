@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <title>GFX Move Interaction Test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="async:1"></script>
+    <script type="text/javascript">
+
+        var gfxTest = {};
+
+        require([
+            "dojo/ready", "gfx/gfx", "gfx/Moveable", "dpointer/events"
+        ], function (ready, gfx, Moveable, pointerEvents) {
+
+            function makeShapes() {
+                var surface = gfxTest.surface = gfx.createSurface("surfaceDiv", 300, 400);
+                var circle = gfxTest.circle = surface.createCircle({cx:50, cy:50, r:50});
+                circle.fill = "red";
+                circle.stroke = "black"
+                circle.rawNode.id = "circle";
+                new Moveable(circle);
+            }
+
+            ready(function () {
+                makeShapes();
+                gfxTest.ready = true;
+            });
+        });
+
+    </script>
+    <style>
+        .drawing {
+            width: 300px;
+            height: 400px;
+            display: inline-block;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+<h1>Test move interactions.</h1>
+
+<div id="surfaceDiv" class="drawing"></div>
+</body>
+</html>
