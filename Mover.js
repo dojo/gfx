@@ -16,7 +16,9 @@ define(["dojo/_base/lang", "dcl/dcl", "dojo/on", "dojo/_base/event", "dpointer/e
 				this.shape = shape;
 				this.lastX = e.clientX;
 				this.lastY = e.clientY;
-				var h = this.host = host, d = document, firstEvent = on(d, "pointermove", lang.hitch(this, "onFirstMove"));
+				var h = this.host = host,
+					d = document,
+					firstEvent = on(d, "pointermove", lang.hitch(this, "onFirstMove"));
 				this.events = [
 					on(d, "pointermove", lang.hitch(this, "onMouseMove")),
 					on(d, "pointerup", lang.hitch(this, "destroy")), // cancel text selection and text dragging

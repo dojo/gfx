@@ -8,7 +8,6 @@
 			p = p.wait(300);
 			p = p.execute("return gfxTest.checkEvents(" + JSON.stringify(expected) + ");").then(function (status) {
 				var m = "[" + e + "] " + "click " + id + ": " + status;
-				console.log(m);
 				assert(/^OK/.test(status), m);
 			});
 			p = p.end();
