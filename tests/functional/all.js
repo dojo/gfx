@@ -1,6 +1,6 @@
 // Listing of all the gfx functional tests
 define([
 	"./bubbling_touch",
-	"./bubbling_dpointer",
+	//"./bubbling_dpointer",
 	"./moveable"
 ]);
