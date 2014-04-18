@@ -8,7 +8,7 @@
 			p = p.wait(300);
 			p = p.execute("return gfxTest.checkEvents(" + JSON.stringify(expected) + ");").then(function (status) {
 				var m = "[" + e + "] " + "click " + id + ": " + status;
-				//console.log(m);
+				console.log(m);
 				assert(/^OK/.test(status), m);
 			});
 			p = p.end();
@@ -23,29 +23,33 @@
 				this.timeout = TIMEOUT;
 				var r = this.remote;
 				var e = this.remote.environmentType;
-				e = e.browserName + " " + e.version + " " + e.platform;
-				var p = r.get(require.toUrl("./bubbling.html")).waitForCondition("gfxTest.ready", TIMEOUT);
+				e = e.browserName + " " + e.version + " " + e.platform + " " + e.platformVersion;
+				var p = r.get(require.toUrl("./bubbling_touch.html")).waitForCondition("gfxTest.ready", TIMEOUT);
 				p = checkEvents(e, p, "rect1", [
+					"over rect1 rect1",
 					"move rect1 rect1",
 					"move surface rect1",
-					"down rect1 rect1",
-					"down g rect1",
-					"down surface rect1",
-					"up rect1 rect1"
+					"press rect1 rect1",
+					"press g rect1",
+					"press surface rect1",
+					"release rect1 rect1"
 				]);
 				p = checkEvents(e, p, "rect2", [
+					"over rect2 rect2",
 					"move rect2 rect2",
 					"move surface rect2",
-					"down g rect2",
-					"down surface rect2"
+					"press g rect2",
+					"press surface rect2"
 				]);
 				p = checkEvents(e, p, "rect3", [
+					"over rect3 rect3",
+					"over rect3 rect3",
 					"move surface null",
-					"down g rect3",
-					"down surface rect3"
+					"press g rect3",
+					"press surface rect3"
 				]);
 				p = checkEvents(e, p, "surface", [
-					"down surface null"
+					"press surface null"
 				]);
 				return p;
 			}

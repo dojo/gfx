@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+    <title>GFX Event Bubbling Test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="text/javascript" src="../../../dojo/dojo.js" data-dojo-config="async:1"></script>
+    <script type="text/javascript">
+
+        function windowsVersion() {
+            return navigator.userAgent.match(/Windows N\.T (\d\.\d)/) && parseFloat(RegExp.$1);
+        }
+
+        var gfxTest = {
+            events: [],
+            checkEvents: function (expectedEvents) {
+                if (windowsVersion() >= 6.2) {
+                    return "OK (mouse tests skipped on Windows 8)";
+                }
+                var events = gfxTest.events;
+                gfxTest.events = [];
+                for (var i = 0; i < expectedEvents.length; i++) {
+                    var ee = expectedEvents[i];
+                    var j = events.indexOf(ee);
+                    if (j < 0) {
+                        return "event " + ee + " not found, events received: " + events.join(" - ");
+                    }
+                }
+                return "OK";
+            }
+        };
+
+        require([
+            "gfx/gfx", "dojo/touch", "dojo/dom", "dojo/on", "dojo/sniff", "dojo/ready"
+        ], function (gfx, touch, dom, on, has, ready) {
+
+            function log(msg) {
+                var elt = document.createTextNode(msg);
+                var div = dom.byId('log');
+                div.appendChild(elt);
+                div.appendChild(document.createElement('br'));
+            }
+
+            function wireEvents(shape, events) {
+                events.forEach(function (evt) {
+                    var event = touch[evt];
+                    if (!event) {
+                        return;
+                    }
+                    shape.on(event, function (e) {
+                        e.preventDefault();
+                        var ev = evt + " " + shape.id + " " + (e.gfxTarget ? e.gfxTarget.id : "null");
+                        gfxTest.events.push(ev);
+                        log('"' + ev + '",');
+                    });
+                });
+            }
+
+            function makeShapes(surface) {
+                var g = gfxTest.g = surface.createGroup();
+                g.id = g.rawNode.id = "g";
+                var rect1 = gfxTest.rect1 = g.createRect({x: 50, y: 10, width: 180, height: 170});
+                rect1.fill = 'red';
+                rect1.id = rect1.rawNode.id = 'rect1';
+                var rect2 = gfxTest.rect2 = g.createRect({x: 10, y: 150, width: 110, height: 175});
+                rect2.fill = 'blue';
+                rect2.id = rect2.rawNode.id = 'rect2';
+                var rect3 = gfxTest.rect3 = g.createRect({x: 50, y: 360, width: 50, height: 50});
+                rect3.fill = 'green';
+                rect3.id = rect3.rawNode.id = 'rect3';
+
+                wireEvents(rect1, ["press", "release", "move", "over", "out"]);
+                wireEvents(rect2, ["move", "over", "out"]);
+                wireEvents(rect3, ["over", "out"]);
+                wireEvents(rect3, ["over", "out"]);
+                wireEvents(g, ["press", "out"]);
+                wireEvents(surface, ["press", "move"]);
+            }
+
+            function buildScenes() {
+                var surface = gfxTest.surface = gfx.createSurface("surfaceDiv", 300, 400);
+                surface.id = surface.rawNode.id = "surface";
+                makeShapes(surface);
+                log("renderer:" + gfx.renderer);
+            }
+
+            ready(function () {
+                buildScenes();
+                gfxTest.ready = true;
+            });
+        });
+
+    </script>
+    <style>
+        .drawing {
+            width: 300px;
+            height: 400px;
+            display: inline-block;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+<h1>Test bubbling with SVG.</h1>
+
+<p>This page shows two SVG-based gfx surfaces: the surface on the left connects its shapes to input events via the
+    dojo/touch API.
+    The surface on the right connects its shapes using native input event types (e.g. 'touchstart' or 'mousedown'
+    depending
+    on the device).</p>
+
+<div id="surfaceDiv" class="drawing"></div>
+<div id="log" style="width: 500px; height: 100px;overflow:scroll;"></div>
+</body>
+</html>
