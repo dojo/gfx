@@ -28,6 +28,7 @@
 	registerSuite({
 		name: "SVG filters",
 		setup: function () {
+			tu.addTitle(this.name);
 			surface = tu.createSurface(800, 900);
 		},
 		teardown: function () {

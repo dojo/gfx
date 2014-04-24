@@ -1,11 +1,15 @@
 define([
-	"intern!object", "intern/chai!assert", "gfx/matrix"
-], function (registerSuite, assert, m) {
+	"intern!object", "intern/chai!assert", "gfx/matrix", "../utils/testUtils"
+], function (registerSuite, assert, m, tu) {
 	var eq = function (a, b) {
 		assert.isTrue(2 * Math.abs(a - b) / ((a < 1 && b < 1) ? 1 : a + b) < 1e-6);
 	};
+	tu.addTitle("GFX matrix functions");
 	registerSuite({
 		name: "gfx.tests.matrix",
+		teardown: function () {
+			tu.checkEmpty();
+		},
 		"Identity": function () {
 			var a = new m.Matrix2D();
 			eq(a.xx, 1);

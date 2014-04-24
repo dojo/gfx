@@ -5,13 +5,14 @@
 	registerSuite({
 		name: "SVG rendering options",
 		setup: function () {
+			tu.addTitle(this.name);
 			surface = tu.createSurface(700, 500, "svg");
 		},
 		teardown: function () {
 			tu.destroySurface(surface);
 		},
 		afterEach: function () {
-			surface.clear();
+			surface = tu.clear(surface);
 		},
 		"shape-rendering": function () {
 			["auto", "optimizeSpeed", "crispEdges", "geometricPrecision"].forEach(function (opt, idx) {

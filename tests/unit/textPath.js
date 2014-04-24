@@ -5,6 +5,7 @@
 	registerSuite({
 		name: "Text on path (SVG only)",
 		setup: function () {
+			tu.addTitle(this.name);
 			surface = tu.createSurface(500, 500, "svg");
 		},
 		teardown: function () {

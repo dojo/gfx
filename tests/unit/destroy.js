@@ -2,15 +2,16 @@
 	"intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/registry", "gfx/gfx"
 ], function (registerSuite, assert, tu, registry) {
 
-	var test, surface;
+	var surface;
 
 	var createSurface = function () {
-		surface = tu.createSurface(test, 500, 500);
+		surface = tu.createSurface(500, 500);
 	};
 
 	var cleanUp = function () {
 		if (surface) {
 			var id = surface.children[0].getUID();
+			var test = surface._parent;
 			surface.destroy();
 			surface = null;
 			var t = test.innerHTML;

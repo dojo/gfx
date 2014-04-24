@@ -141,6 +141,9 @@
 			p = surface._parent;
 		},
 		teardown: function () {
+			while (p.parentNode !== document.body) {
+				p = p.parentNode;
+			}
 			document.body.removeChild(p);
 		},
 		"canvas": function () {

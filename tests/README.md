@@ -17,7 +17,7 @@ on https://saucelabs.com/appium/tutorial/3.
 
 ## Running the unit tests in a browser
 
-Navigate to:
+To run all unit tests in a browser, navigate to:
 
 ```
 http://localhost/<root>/gfx/node_modules/intern/client.html?config=tests/client
@@ -25,8 +25,24 @@ http://localhost/<root>/gfx/node_modules/intern/client.html?config=tests/client
 
 (where `<root>` stands for the root directory where gfx is deployed on your local web server)
 
+You will not see the graphic output of the tests (if any), or you will see it very briefly as the page is cleared
+after each test. See the next section to run unit tests as samples, with graphic output.
+
 Note that this won't run the functional tests.
 
+
+## Running a single unit test in a browser to see the graphic output
+
+You can run a single unit test in a browser and see its graphic output. For this, navigate to:
+
+```
+http://localhost/<root>/gfx/node_modules/intern/client.html?config=tests/single&test=<test-name>
+```
+
+(where `<root>` stands for the root directory where gfx is deployed on your local web server, and `<test-name>` is the
+name of a unit test, for example `shapes`).
+
+The `gfx/tests/index.html` page contains links to run any unit test as a sample.
 
 ## Running the unit and functional tests in Sauce Labs
 

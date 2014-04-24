@@ -5,8 +5,13 @@ define([
 
 	var surface;
 
+	tu.addTitle("GFX batch modifications");
+
 	registerSuite({
 		name: "Batching operations [SVG]",
+		teardown: function () {
+			tu.checkEmpty();
+		},
 		beforeEach: function () {
 			var dn = document.createElement("div");
 			document.body.appendChild(dn);

@@ -7,6 +7,7 @@
 	registerSuite({
 		name: "Percent sizes (SVG only)",
 		setup: function () {
+			tu.addTitle(this.name);
 			surface = tu.createSurface(800, 600);
 		},
 		teardown: function () {

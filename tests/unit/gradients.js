@@ -13,7 +13,7 @@
 			tu.destroySurface(surface);
 		},
 		afterEach: function () {
-			surface.clear();
+			surface = tu.clear(surface);
 		},
 		"gradients with alpha": function () {
 

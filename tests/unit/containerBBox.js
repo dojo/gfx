@@ -22,7 +22,8 @@
 			g = surface.createGroup();
 		},
 		afterEach: function () {
-			surface.clear();
+			g.removeShape();
+			surface = tu.clear(surface);
 		},
 		"Default state": function () {
 			// surface

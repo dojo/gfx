@@ -2,61 +2,23 @@
 	"intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/gfx", "gfx/matrix", "dcolor/Color"
 ], function (registerSuite, assert, tu, gfx, matrix, Color) {
 
-	var gTestContainer = null;
-
-	var rect = { x: 0, y: 0, width: 100, height: 100 };
+	var surface, rect = { x: 0, y: 0, width: 100, height: 100 };
 
 	var s; // shape var used all around
 
-	function createTestSurface(testName) {
-
-		var width = 300, height = 300;
-
-		// Create a DOM node for the surface
-		var testRow = document.createElement("tr");
-		var testCell = document.createElement("td");
-		testCell.style.border = "1px solid black";
-		testCell.style.textAlign = "left";
-		testCell.style.verticalAlign = "top;";
-		var testHolder = document.createElement("div");
-		testHolder.id = testName + "_holder";
-		testHolder.style.width = width;
-		testHolder.style.height = height;
-
-		testCell.appendChild(testHolder);
-		testRow.appendChild(testCell);
-		gTestContainer.appendChild(testRow);
-
-		var descRow = document.createElement("tr");
-		var desc = document.createElement("td");
-		desc.style.textAlign = "left";
-		desc.style.verticalAlign = "top;";
-		desc.innerHTML = testName;
-		descRow.appendChild(desc);
-		gTestContainer.appendChild(descRow);
-
-		return tu.createSurface(testHolder, width, height);
+	function createTestSurface(suffix, testName) {
+		return tu.createSurface(300, 300, tu.renderer, suffix, testName);
 	}
 
 	var getSuite = function (suffix, create) {
 		var name = "All shapes, using " + suffix;
 		return {
 			name: name,
-			setup: function () {
-				var title = this.title = document.createElement("h1");
-				title.innerText = name + " (" + tu.renderer + ")";
-				document.body.appendChild(title);
-				var table = this.table = document.createElement("table");
-				document.body.appendChild(table);
-				gTestContainer = document.createElement("tbody");
-				table.appendChild(gTestContainer);
-			},
-			teardown: function () {
-				document.body.removeChild(this.title);
-				document.body.removeChild(this.table);
+			afterEach: function() {
+				tu.destroySurface(surface);
 			},
 			"rect": function () {
-				var surface = createTestSurface("rect");
+				surface = createTestSurface(suffix, "rect");
 				var redRect = create(surface, "Rect", rect);
 				redRect.fill = [255, 0, 0, 0.5];
 				redRect.stroke = {color: "blue", width: 10, join: "round" };
@@ -73,7 +35,7 @@
 				/* jshint maxlen:120, quotmark:double */
 			},
 			"straightRect": function () {
-				var surface = createTestSurface("straightRect");
+				surface = createTestSurface(suffix, "straightRect");
 				var blueRect = create(surface, "Rect", rect);
 				blueRect.fill = [0, 255, 0, 0.5];
 				blueRect.transform = { dx: 100, dy: 100 };
@@ -88,7 +50,7 @@
 				/* jshint maxlen:120, quotmark:double */
 			},
 			"rotatedRect": function () {
-				var surface = createTestSurface("rotatedRect");
+				surface = createTestSurface(suffix, "rotatedRect");
 				// anonymous 30 degree CCW rotated green rectangle
 				var rect = create(surface, "Rect", {r: 20});
 				rect.fill = [0, 0, 255, 0.5];
@@ -102,7 +64,7 @@
 				/* jshint maxlen:120, quotmark:double */
 			},
 			"skewRect": function () {
-				var surface = createTestSurface("skewRect");
+				surface = createTestSurface(suffix, "skewRect");
 				// anonymous red rectangle
 				s = create(surface, "Rect", rect);
 				s.fill = new Color([255, 0, 0, 0.5]);
@@ -126,7 +88,7 @@
 				/* jshint maxlen:120, quotmark:double */
 			},
 			"matrixRect": function () {
-				var surface = createTestSurface("matrixRect");
+				surface = createTestSurface(suffix, "matrixRect");
 				var group = create(surface, "Group");
 
 				s = create(group, "Rect", rect);
@@ -184,7 +146,7 @@
 			},
 			// test circle
 			"circle": function () {
-				var surface = createTestSurface("circle");
+				surface = createTestSurface(suffix, "circle");
 				var circle = { cx: 130, cy: 130, r: 50 };
 				s = create(surface, "Circle", circle);
 				s.fill = [0, 255, 0, 0.5];
@@ -198,7 +160,7 @@
 			},
 			// test line
 			"line": function () {
-				var surface = createTestSurface("line");
+				surface = createTestSurface(suffix, "line");
 				var line = { x1: 20, y1: 20, x2: 100, y2: 120 };
 				s = create(surface, "Line", line);
 				s.fill = [255, 0, 0, 0.5];
@@ -213,7 +175,7 @@
 			},
 			// test ellipse
 			"ellipse": function () {
-				var surface = createTestSurface("ellipse");
+				surface = createTestSurface(suffix, "ellipse");
 				var ellipse = { cx: 50, cy: 80, rx: 50, ry: 80 };
 				s = create(surface, "Ellipse", ellipse);
 				s.fill = [0, 255, 255, 0.5];
@@ -227,7 +189,7 @@
 			},
 			// test polyline
 			"polyline": function () {
-				var surface = createTestSurface("polyline");
+				surface = createTestSurface(suffix, "polyline");
 				var points = [
 					{x: 10, y: 20},
 					{x: 40, y: 70},
@@ -247,7 +209,7 @@
 			},
 			// test polygon
 			"polygon": function () {
-				var surface = createTestSurface("polygon");
+				surface = createTestSurface(suffix, "polygon");
 				var points2 = [
 					{x: 100, y: 0},
 					{x: 200, y: 40},
@@ -267,7 +229,7 @@
 			},
 			// test path: lineTo, moveTo, closePath
 			"lineTo": function () {
-				var surface = createTestSurface("lineTo");
+				surface = createTestSurface(suffix, "lineTo");
 				s = create(surface, "Path").moveTo(10, 20).lineTo(80, 150).setAbsoluteMode(false).lineTo(40,
 						0).setAbsoluteMode(true).lineTo(180, 100).setAbsoluteMode(false).lineTo(0, -30).lineTo(-30,
 						-50).closePath();
@@ -283,7 +245,7 @@
 				/* jshint maxlen:120, quotmark:double */
 			},
 			"setPath": function () {
-				var surface = createTestSurface("setPath");
+				surface = createTestSurface(suffix, "setPath");
 				s = create(surface, "Path").moveTo(10, 20).lineTo(80, 150).setAbsoluteMode(false).lineTo(40,
 						0).setAbsoluteMode(true).lineTo(180, 100).setAbsoluteMode(false).lineTo(0, -30).lineTo(-30,
 						-50).curveTo(10, -80, -150, -10, -90, -10).closePath();
@@ -306,7 +268,7 @@
 				/* jshint maxlen:120, quotmark:double */
 			}, // test arcTo
 			"arcTo": function () {
-				var surface = createTestSurface("arcTo");
+				surface = createTestSurface(suffix, "arcTo");
 				var m = matrix;
 				var g1 = create(surface, "Group");
 				var g2 = create(g1, "Group");
@@ -338,7 +300,7 @@
 			},
 			// test path: curveTo, smoothCurveTo
 			"curveTo": function () {
-				var surface = createTestSurface("curveTo");
+				surface = createTestSurface(suffix, "curveTo");
 				s = create(surface, "Path").moveTo(10, 20).curveTo(50, 50, 50, 100, 150, 100).smoothCurveTo(300, 300,
 					200, 200);
 				s.stroke = { color: "green", width: 1 };
@@ -354,7 +316,7 @@
 			},
 			// test path: curveTo, smoothCurveTo with relative.
 			"curveTo2": function () {
-				var surface = createTestSurface("curveTo2");
+				surface = createTestSurface(suffix, "curveTo2");
 				s = create(surface, "Path").moveTo(10, 20).curveTo(50, 50, 50, 100, 150,
 						100).setAbsoluteMode(false).smoothCurveTo(150, 200, 50,
 						100).setAbsoluteMode(true).smoothCurveTo(50, 100, 10, 230);
@@ -371,7 +333,7 @@
 			},
 			// test path: curveTo, smoothCurveTo with relative.
 			"qCurveTo": function () {
-				var surface = createTestSurface("qCurveTo");
+				surface = createTestSurface(suffix, "qCurveTo");
 				s = create(surface, "Path").moveTo(10, 15).qCurveTo(50, 50, 100, 100).qSmoothCurveTo(150, 20);
 				s.stroke = { color: "green", width: 1 };
 				s.fill = null;
@@ -385,7 +347,7 @@
 				/* jshint maxlen:120, quotmark:double */
 			},
 			"qCurveTo2": function () {
-				var surface = createTestSurface("qCurveTo2");
+				surface = createTestSurface(suffix, "qCurveTo2");
 				s = create(surface, "Path").moveTo(10, 20).qCurveTo(50, 50, 100,
 						100).setAbsoluteMode(false).qSmoothCurveTo(50, -80).setAbsoluteMode(true).qSmoothCurveTo(200,
 						80);
@@ -402,7 +364,7 @@
 			},
 			// test defines, linearGradient
 			"linearGradient": function () {
-				var surface = createTestSurface("linearGradient");
+				surface = createTestSurface(suffix, "linearGradient");
 				// this is an example to split the linearGradient from _setFillAttr:
 				var lg = {
 					type: "linear",
@@ -426,7 +388,7 @@
 				/* jshint maxlen:120, quotmark:double */
 			},
 			"radialGradient": function () {
-				var surface = createTestSurface("radialGradient");
+				surface = createTestSurface(suffix, "radialGradient");
 				// this is a total inline implementation compared with previous one.
 				var rg = {
 					type: "radial",

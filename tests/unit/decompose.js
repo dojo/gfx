@@ -1,6 +1,6 @@
 define([
-	"intern!object", "intern/chai!assert", "gfx/decompose", "gfx/matrix"
-], function (registerSuite, assert, decompose, m) {
+	"intern!object", "intern/chai!assert", "gfx/decompose", "gfx/matrix", "../utils/testUtils"
+], function (registerSuite, assert, decompose, m, tu) {
 	var eq = function (a, b) {
 		assert.isTrue(2 * Math.abs(a - b) / ((a < 1 && b < 1) ? 1 : a + b) < 1e-6);
 	};
@@ -24,8 +24,12 @@ define([
 		var A = m.normalize(a);
 		eqM(A, reconstruct(A));
 	};
+	tu.addTitle("GFX matrix decomposition");
 	registerSuite({
 		name: "gfx.tests.decompose",
+		teardown: function () {
+			tu.checkEmpty();
+		},
 		"Identity": function () {
 			compare(m.identity);
 		},

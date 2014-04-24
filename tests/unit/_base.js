@@ -2,7 +2,7 @@
 	"intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/gfx"
 ], function (registerSuite, assert, tu, gfx) {
 	var surface, t;
-	registerSuite({
+	tu.registerSuite({
 		name: "GFX base",
 		setup: function () {
 			surface = tu.createSurface(300, 300);

@@ -181,18 +181,16 @@
 	tu.registerSuite({
 		name: "Image scaling",
 		setup: function () {
-			var dn = document.createElement("div");
+			surface = tu.createSurface(800, 600);
+			var dn = surface._parent;
 			dn.style.backgroundColor = "red";
-			document.body.appendChild(dn);
-			surface = tu.createSurface(dn, 800, 600);
 
-			dn = document.createElement("div");
+			surface2 = tu.createSurface(600, 600);
+			dn = surface2._parent;
 			dn.style.overflow = "auto";
 			dn.style.backgroundColor = "red";
 			dn.style.width = "602px";
 			dn.style.height = "602px";
-			document.body.appendChild(dn);
-			surface2 = tu.createSurface(dn, 600, 600);
 
 			image = surface.createImage({width: 150, height: 100, src: url});
 			image2 = surface2.createImage({width: 150, height: 100, src: url});

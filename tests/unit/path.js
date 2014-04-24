@@ -16,7 +16,7 @@
 			document.body.removeChild(legend);
 		},
 		afterEach: function () {
-			surface.clear();
+			surface = tu.clear(surface);
 		},
 		"relative path with cubic beziers": function () {
 			legend.innerHTML = "relative path with cubic beziers";
