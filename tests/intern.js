@@ -12,8 +12,10 @@ define({
 	// capabilities options specified for an environment will be copied as-is
 	environments: [
 		// desktop:
-		{ browserName: "internet explorer", version: "11", platform: "Windows 8.1", requireWindowFocus: "true", name: "gfx" },
-		{ browserName: "internet explorer", version: "10", platform: "Windows 8", requireWindowFocus: "true", name: "gfx" },
+		{ browserName: "internet explorer", version: "11", platform: "Windows 8.1", requireWindowFocus: "true",
+			name: "gfx" },
+		{ browserName: "internet explorer", version: "10", platform: "Windows 8", requireWindowFocus: "true",
+			name: "gfx" },
 		{ browserName: "internet explorer", version: "11", platform: "Windows 7", name: "gfx" },
 		{ browserName: "internet explorer", version: "10", platform: "Windows 7", name: "gfx" },
 		{ browserName: "internet explorer", version: "9", platform: "Windows 7", name: "gfx" },

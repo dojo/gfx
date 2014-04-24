@@ -1,6 +1,6 @@
 define([
-	"intern!object", "intern/chai!assert", "gfx/svg", "gfx/canvas", "./canvasRecorder", "gfx/canvas/_base"
-], function (registerSuite, assert, svg, canvas, canvasRecorder, canvasBase) {
+	"intern", "intern!object", "intern/chai!assert", "gfx/svg", "gfx/canvas", "./canvasRecorder", "gfx/canvas/_base"
+], function (intern, registerSuite, assert, svg, canvas, canvasRecorder, canvasBase) {
 
 	// summary:
 	//		GFX test utilities to facilitate testing GFX with Intern.
@@ -113,7 +113,7 @@ define([
 
 	var surfaceRow, surfaceCols = {};
 
-	var visual = typeof window !== "undefined" && window.__gfxVisualTest;
+	var visual = intern.config.gfxVisualTest;
 
 	var surfacesOnScreen = [];
 
