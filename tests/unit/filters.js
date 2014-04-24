@@ -1,5 +1,5 @@
 ﻿define([
-	"intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/gfx", "gfx/matrix", "gfx/filters", "gfx/svgext"
+	"intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/gfx", "gfx/matrix", "gfx/svg/filters"
 ], function (registerSuite, assert, tu, gfx, matrix, filters) {
 	var surface;
 
@@ -13,7 +13,7 @@
 		text.fill = "white";
 		text.font = {family: "verdana", size: 45};
 		if (filter) {
-			g.setFilter(filter);
+			g.filter = filter;
 		}
 		text = topg.createText({x: 100, y: 140, text: title, align: "middle"});
 		text.fill = "black";
@@ -98,7 +98,7 @@
 			++count;
 			makeShape(customFilter, "none", [
 				matrix.translate((count % 6) * 132, Math.floor(count / 6) * 90), matrix.scale(0.65, 0.65)
-			]).children[0].setFilter(null);
+			]).children[0].filter = null;
 
 			/* jshint maxlen:1000000, quotmark:single */
 			tu.compare(surface, {

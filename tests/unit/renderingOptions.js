@@ -1,5 +1,5 @@
 ﻿define([
-	"require", "intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/gfx", "gfx/matrix", "gfx/svgext"
+	"require", "intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/gfx", "gfx/matrix"
 ], function (require, registerSuite, assert, tu, gfx, matrix) {
 	var surface, parent, g, s;
 	registerSuite({

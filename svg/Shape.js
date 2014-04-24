@@ -382,6 +382,72 @@ define([
 				}
 			}
 			return true;
+		},
+
+		addRenderingOption: function (/*String*/option, /*String*/value) {
+			// summary:
+			//		Adds the specified SVG rendering option on this shape.
+			// option: String
+			//		The name of the rendering option to add to this shape, as specified by the
+			//		SVG specification (http://www.w3.org/TR/SVG/painting.html#RenderingProperties)
+			// value: String
+			//		the option value.
+			this.rawNode.setAttribute(option, value);
+			return this; // self
+		},
+
+		// filter: Object
+		//		An SVG filter to apply to this shape. See gfx/svg/filters.
+		filter: null,
+
+		_setFilterAttr: function (/*gfx/svg/__FilterArgs*/filter) {
+			// summary:
+			//		Sets the specified SVG Filter on this shape.
+			// filter: gfx/svg/__FilterArgs
+			//		An object that defines the filter properties. Note that in order to make the creation of such
+			//		filter easier, the gfx/filters module defines both a simple API to easily create filter objects
+			//		and also a set of predefined filters like drop shadows, blurs, textures effects (among others).
+			// example:
+			//		Sets a drop shadow filter:
+			//	|	var filter = {
+			//	|		"id": "fastSmallDropShadow",
+			//	|		"x": "-10%",
+			//	|		"y": "-10%",
+			//	|		"width": "125%",
+			//	|		"height": "125%",
+			//	|		"primitives": [{
+			//	|			"tag": "feColorMatrix",
+			//	|			"in": "SourceAlpha",
+			//	|			"type": "matrix",
+			//	|			"result": "grey",
+			//	| "values": "0.2125,0.7154,0.0721,0,0,0.2125,0.7154,0.0721,0,0,0.2125,0.7154,0.0721,0,0,0,0,0,0.7,0"
+			//	|		},{
+			//	|			"tag": "feOffset",
+			//	|			"dx": 3,
+			//	|			"dy": 3,
+			//	|			"result": "offsetBlur"
+			//	|		},{
+			//	|			"tag": "feMerge",
+			//	|			"in": "offsetBlur",
+			//	|			"in2": "SourceGraphic"
+			//	|		}]
+			//	|	};
+			//	|	var shape = surface.createRect().setFilter(filter);
+			//
+			// example:
+			//		Sets a predefined filter from the gfx/filters module:
+			//	|	require(["gfx/filters",...], function(filters){
+			//	|		...
+			//	|		var filter = filters.textures.paper({"id":"myFilter","x":0,"y":0,"width":100,"height":100});
+			//	|		var shape = surface.createRect().filter = filter;
+
+			this._set("filter", filter);
+			if (filter) {
+				filter._apply(this);
+			} else {
+				this.rawNode.removeAttribute("filter");
+			}
+			return this;
 		}
 	});
 });

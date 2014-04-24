@@ -1,78 +1,220 @@
 define([
-	"dcl/dcl", "dojo/_base/lang"
-], function (dcl, lang) {
+	"dcl/dcl", "dojo/_base/lang", "dojo/dom", "../_base", "./_base"
+], function (dcl, lang, dom, g, svg) {
+
+	var filters = {
+		// summary:
+		//		A module that defines a minimal API to create SVG filter definition objects to be used with the
+		//		gfx/svg/Shape.filter property, as well as a set of predefined filters.
+		// description:
+		//		The module defines the following API:
+		//		- filters.createFilter(config, primitives) : Creates a filter object from the specified config and the
+		//		given filter primitives.
+		//		- a set of methods to create SVG filter primitives, based on the same
+		//		naming as the specification (e.g. filters.feGaussianBlur() ). A filter primitive method has the
+		//		following signature (taking feGaussianBlur as an example):
+		//			filters.feGaussianBlur(properties, children?)
+		//			filters.feGaussianBlur(children)
+		//		The "properties" parameter must define the primitive attributes as defined by the specification.
+		//		The "children" array parameter is an array of child filter primitives.
+		//		In addition to this API, the module provides the following predefined filters:
+		//		- filters.convolutions.boxBlur3,
+		//		- filters.convolutions.boxBlur5,
+		//		- filters.convolutions.verticalEdges,
+		//		- filters.convolutions.horizontalEdges,
+		//		- filters.convolutions.allEdges3,
+		//		- filters.convolutions.edgeEnhance,
+		//		- filters.shadows.fastSmallDropShadow,
+		//		- filters.shadows.fastDropShadow,
+		//		- filters.shadows.fastDropShadowLight,
+		//		- filters.shadows.dropShadow,
+		//		- filters.shadows.dropShadowLight,
+		//		- filters.shadows.smallDropShadow,
+		//		- filters.shadows.smallDropShadowLight,
+		//		- filters.blurs.blur1,
+		//		- filters.blurs.blur2,
+		//		- filters.blurs.blur4,
+		//		- filters.blurs.blur8,
+		//		- filters.blurs.glow,
+		//		- filters.colors.negate,
+		//		- filters.colors.sepia,
+		//		- filters.colors.grayscale,
+		//		- filters.colors.showRed,
+		//		- filters.colors.showGreen,
+		//		- filters.colors.showBlue,
+		//		- filters.colors.hueRotate60,
+		//		- filters.colors.hueRotate120,
+		//		- filters.colors.hueRotate180,
+		//		- filters.colors.hueRotate270,
+		//		- filters.miscs.thinEmbossDropShadow,
+		//		- filters.miscs.embossDropShadow,
+		//		- filters.miscs.largeEmbossDropShadow,
+		//		- filters.miscs.thinEmbossDropShadowLight,
+		//		- filters.miscs.embossDropShadowLight,
+		//		- filters.miscs.largeEmbossDropShadowLight,
+		//		- filters.miscs.fuzzy,
+		//		- filters.miscs.veryFuzzy,
+		//		- filters.miscs.melting,
+		//		- filters.miscs.impressionist,
+		//		- filters.miscs.holes,
+		//		- filters.miscs.holesComplement,
+		//		- filters.reliefs.bumpIn,
+		//		- filters.reliefs.bumpOut,
+		//		- filters.reliefs.thinEmboss,
+		//		- filters.reliefs.emboss,
+		//		- filters.reliefs.largeEmboss,
+		//		- filters.textures.paper,
+		//		- filters.textures.swirl,
+		//		- filters.textures.swirl2,
+		//		- filters.textures.gold
+		//		Note: the gfx/tests/unit/filters.js test shows the rendering of all the predefined filters.
+	}, defaultFilterBBox = {x: "0%", y: "0%", width: "100%", height: "100%"}, lib = {};
 
 	/*=====
-	 return {
+	 dcl(null, {
 	 // summary:
-	 //		A module that defines a minimal API to create SVG filter definition objects to be used with the
-	 //		gfx/svgext/Shape.setFilter() API, as well as a set of predefined filters.
+	 //		Represents an SVG filter primitive.
 	 // description:
-	 //		The module defines the following API:
-	 //		- filters.createFilter(config, primitives) : Creates a filter object from the specified config and the
-	 //		given filter primitives.
-	 //		- a set of methods to create the corresponding SVG filter primitives, based on the same
-	 //		naming as the specification (e.g. filters.feGaussianBlur() ). A filter primitive method follows the
-	 //		following signature (taking feGaussianBlur as an example):
-	 //			filters.feGaussianBlur(properties, children?)
-	 //			filters.feGaussianBlur(children)
-	 //		The "properties" parameter must define the primitive attributes as defined by the specification.
-	 //		The "children" array parameter is an array of child filter primitives.
-	 //		In addition to this API, the module provides the following predefined filters:
-	 //		- filters.convolutions.boxBlur3,
-	 //		- filters.convolutions.boxBlur5,
-	 //		- filters.convolutions.verticalEdges,
-	 //		- filters.convolutions.horizontalEdges,
-	 //		- filters.convolutions.allEdges3,
-	 //		- filters.convolutions.edgeEnhance,
-	 //		- filters.shadows.fastSmallDropShadow,
-	 //		- filters.shadows.fastDropShadow,
-	 //		- filters.shadows.fastDropShadowLight,
-	 //		- filters.shadows.dropShadow,
-	 //		- filters.shadows.dropShadowLight,
-	 //		- filters.shadows.smallDropShadow,
-	 //		- filters.shadows.smallDropShadowLight,
-	 //		- filters.blurs.blur1,
-	 //		- filters.blurs.blur2,
-	 //		- filters.blurs.blur4,
-	 //		- filters.blurs.blur8,
-	 //		- filters.blurs.glow,
-	 //		- filters.colors.negate,
-	 //		- filters.colors.sepia,
-	 //		- filters.colors.grayscale,
-	 //		- filters.colors.showRed,
-	 //		- filters.colors.showGreen,
-	 //		- filters.colors.showBlue,
-	 //		- filters.colors.hueRotate60,
-	 //		- filters.colors.hueRotate120,
-	 //		- filters.colors.hueRotate180,
-	 //		- filters.colors.hueRotate270,
-	 //		- filters.miscs.thinEmbossDropShadow,
-	 //		- filters.miscs.embossDropShadow,
-	 //		- filters.miscs.largeEmbossDropShadow,
-	 //		- filters.miscs.thinEmbossDropShadowLight,
-	 //		- filters.miscs.embossDropShadowLight,
-	 //		- filters.miscs.largeEmbossDropShadowLight,
-	 //		- filters.miscs.fuzzy,
-	 //		- filters.miscs.veryFuzzy,
-	 //		- filters.miscs.melting,
-	 //		- filters.miscs.impressionist,
-	 //		- filters.miscs.holes,
-	 //		- filters.miscs.holesComplement,
-	 //		- filters.reliefs.bumpIn,
-	 //		- filters.reliefs.bumpOut,
-	 //		- filters.reliefs.thinEmboss,
-	 //		- filters.reliefs.emboss,
-	 //		- filters.reliefs.largeEmboss,
-	 //		- filters.textures.paper,
-	 //		- filters.textures.swirl,
-	 //		- filters.textures.swirl2,
-	 //		- filters.textures.gold
-	 //		Note: the gfx/tests/test_filter.html test shows the rendering of all the predefined filters.
-	 }
+	 //		In addition to the following properties, a FilterPrimitiveArgs should define the properties specific to
+	 //		this primitive, as defined by the SVG spec.
+	 // example:
+	 //		Define a simple feGaussianBlur primitive:
+	 //	|	var blurPrimitive = {
+	 //	|		"tag": "feGaussianBlur",
+	 //	|		"in": "SourceAlpha",
+	 //	|		"stdDeviation":"4",
+	 //	|		"result":"blur"
+	 //	|	};
+	 //
+	 // example:
+	 //		Define a feSpecularLighting primitive with one fePointLight child
+	 //	|	var lighting = {
+	 //	|		"tag": "feSpecularLighting",
+	 //	|		"in":"blur",
+	 //	|		"surfaceScale":5,
+	 //	|		"specularConstant":.75,
+	 //	|		"specularExponent":20,
+	 //	|		"lighting-color":"#bbbbbb",
+	 //	|		"result":"specOut"
+	 //	|		"children": [
+	 //	|			"tag": "fePointLight"
+	 //	|			"x":-5000,
+	 //	|			"y":-10000,
+	 //	|			"z":20000
+	 //	|		]
+	 //	|	};
+
+	 declaredClass: "gfx/svg/__FilterPrimitiveArgs",
+
+	 // tag: String?
+	 //		The type of the primitive, as specified by the SVG spec (http://www.w3.org/TR/SVG/filters.html)
+	 tag: null,
+
+	 // children: gfx/svg/__FilterPrimitiveArgs[]?
+	 //		An array of child primitives, if any.
+	 children: null
+	 });
 	 =====*/
 
-	var filters = {}, defaultFilterBBox = {x: "0%", y: "0%", width: "100%", height: "100%"}, lib = {};
+
+	/*=====
+	 dcl(null, {
+	 // summary:
+	 //		The filter arguments passed to the gfx/svg/Shape.setFilter method.
+	 // description:
+	 //		An object defining the properties of a SVG Filter.
+	 // example:
+	 //		Define a drop shadow filter:
+	 //	|	var filter = {
+	 //	|		"id": "fastSmallDropShadow",
+	 //	|		"x": "-10%",
+	 //	|		"y": "-10%",
+	 //	|		"width": "125%",
+	 //	|		"height": "125%",
+	 //	|		"primitives": [{
+	 //	|			"tag": "feColorMatrix",
+	 //	|			"in": "SourceAlpha",
+	 //	|			"type": "matrix",
+	 //	|			"result": "grey",
+	 //	|		"values": "0.2125,0.7154,0.0721,0,0,0.2125,0.7154,0.0721,0,0,0.2125,0.7154,0.0721,0,0,0,0,0,0.7,0"
+	 //	|		},{
+	 //	|			"tag": "feOffset",
+	 //	|			"dx": 3,
+	 //	|			"dy": 3,
+	 //	|			"result": "offsetBlur"
+	 //	|		},{
+	 //	|			"tag": "feMerge",
+	 //	|			"children":[{
+	 //	|				"tag": "feMergeNode",
+	 //	|				"in": "offsetBlur"
+	 //	|			},{
+	 //	|				"tag": "feMergeNode",
+	 //	|				"in": "SourceGraphic"
+	 //	|			}]
+	 //	|		}]
+	 //	|	};
+
+	 declaredClass: "gfx/svg/__FilterArgs",
+
+	 // id: String?
+	 //		The filter identifier. If none is provided, a generated id will be used.
+	 id: null,
+
+	 // filterUnits: String?
+	 //		The coordinate system of the filter. Default is "userSpaceOnUse".
+	 filterUnits: "userSpaceOnUse",
+
+	 // primitives: gfx/svg/__FilterPrimitiveArgs[]
+	 //		An array of filter primitives that define this filter.
+	 primitives: []
+	 });
+	 =====*/
+
+	var toIgnore = {
+		primitives: null,
+		tag: null,
+		children: null
+	};
+
+	function buildFilterPrimitivesDOM(primitive, parentNode) {
+		var node = parentNode.ownerDocument.createElementNS(svg.xmlns.svg, primitive.tag);
+		parentNode.appendChild(node);
+		for (var p in primitive) {
+			if (!(p in toIgnore)) {
+				node.setAttribute(p, primitive[p]);
+			}
+		}
+		if (primitive.children) {
+			primitive.children.forEach(function (f) {
+				buildFilterPrimitivesDOM(f, node);
+			});
+		}
+		return node;
+	}
+
+	function apply(shape)
+	{
+		this.id = this.id || g._getUniqueId();
+		var filterNode = dom.byId(this.id);
+		if (!filterNode) {
+			filterNode = shape.rawNode.ownerDocument.createElementNS(svg.xmlns.svg, "filter");
+			filterNode.setAttribute("filterUnits", "userSpaceOnUse");
+			for (var p in this) {
+				if (!(p in toIgnore)) {
+					filterNode.setAttribute(p, this[p]);
+				}
+			}
+			this.primitives.forEach(function (p) {
+				buildFilterPrimitivesDOM(p, filterNode);
+			});
+			var surface = shape._getParentSurface();
+			if (surface) {
+				var defs = surface.defNode;
+				defs.appendChild(filterNode);
+			}
+		}
+		shape.rawNode.setAttribute("filter", "url(#" + this.id + ")");
+	}
 
 	//
 	// A minimal facade API to create primitives
@@ -105,6 +247,8 @@ define([
 		if (primitives) {
 			Array.prototype.push.apply(filter.primitives, primitives);
 		}
+		// export apply method so all filter-related in here
+		filter._apply = apply;
 		return filter;
 		/*Object*/
 	};

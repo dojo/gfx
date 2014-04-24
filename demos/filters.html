@@ -13,8 +13,8 @@
 
 require([
     "dojo/ready", "dojo/_base/window", "dojo/dom", "dojo/on", "dijit/form/Select", "dcolor/Color", "gfx/gfx",
-    "gfx/matrix", "gfx/svgext", "gfx/filters"
-], function (ready, win, dom, on, Select, Color, gfx, matrix, svgext, filters) {
+    "gfx/matrix", "gfx/svg/filters"
+], function (ready, win, dom, on, Select, Color, gfx, matrix, filters) {
 
     var initial_matrix = matrix.translate(80, 15), lion;
 
@@ -406,7 +406,7 @@ require([
         }).placeAt("label", "after");
 
         select.on("change", function () {
-            var f, old = lion.getFilter(), v = this.get("value");
+            var f, old = lion.filter, v = this.get("value");
             if (old) {
                 var filterNode = dom.byId(old.id);
                 filterNode.parentNode.removeChild(filterNode);
@@ -415,7 +415,7 @@ require([
                 v = v.split(".");
                 f = filters[v[0]][v[1]];
             }
-            lion.setFilter(f ? f() : null);
+            lion.filter = f ? f() : null;
         });
     }
 
