@@ -24,8 +24,6 @@
 	tu.registerSuite({
 		name: "Surface.destroy",
 		setup: function () {
-			test = document.createElement("div");
-			document.body.appendChild(test);
 			createSurface();
 		},
 		teardown: function () {

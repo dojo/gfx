@@ -113,7 +113,7 @@ define([
 
 	var surfaceRow, surfaceCols = {};
 
-	var visual = typeof __gfxVisualTest !== "undefined" && __gfxVisualTest;
+	var visual = typeof window !== "undefined" && window.__gfxVisualTest;
 
 	var surfacesOnScreen = [];
 
@@ -230,8 +230,8 @@ define([
 		var empty = true;
 		surfacesOnScreen.forEach(function (s) {
 			if (s.children.length) {
-				s.children.forEach(function(child){
-					if(!("children" in child) || child.children.length){
+				s.children.forEach(function (child) {
+					if (!("children" in child) || child.children.length) {
 						empty = false;
 					}
 				});
@@ -239,7 +239,8 @@ define([
 		});
 		if (empty) {
 			if (!emptyMessage) {
-				var p = emptyMessage = document.createElement("p");
+				var p = document.createElement("p");
+				emptyMessage = p;
 				p.innerHTML =
 					"This test does not display anything so interesting, check browser console (F12) for messages.";
 				p.style.fontFamily = "arial";
@@ -250,6 +251,7 @@ define([
 			}
 		} else if (emptyMessage) {
 			titleHeading.removeChild(emptyMessage);
+			emptyMessage = null;
 		}
 	}
 
