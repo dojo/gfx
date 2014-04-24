@@ -12,16 +12,16 @@ define({
 	// capabilities options specified for an environment will be copied as-is
 	environments: [
 		// desktop:
-		{ browserName: "internet explorer", version: "11", platform: "Windows 8.1", requireWindowFocus: "true" },
-		{ browserName: "internet explorer", version: "10", platform: "Windows 8", requireWindowFocus: "true" },
-		{ browserName: "internet explorer", version: "11", platform: "Windows 7" },
-		{ browserName: "internet explorer", version: "10", platform: "Windows 7" },
-		{ browserName: "internet explorer", version: "9", platform: "Windows 7" },
-		{ browserName: "firefox", version: "25", platform: "Windows 7" },
-		{ browserName: "chrome", version: "33", platform: "Windows 7" },
-		{ browserName: "safari", version: "7", platform: "OS X 10.9" },
+		{ browserName: "internet explorer", version: "11", platform: "Windows 8.1", requireWindowFocus: "true", name: "gfx" },
+		{ browserName: "internet explorer", version: "10", platform: "Windows 8", requireWindowFocus: "true", name: "gfx" },
+		{ browserName: "internet explorer", version: "11", platform: "Windows 7", name: "gfx" },
+		{ browserName: "internet explorer", version: "10", platform: "Windows 7", name: "gfx" },
+		{ browserName: "internet explorer", version: "9", platform: "Windows 7", name: "gfx" },
+		{ browserName: "firefox", version: "25", platform: "Windows 7", name: "gfx" },
+		{ browserName: "chrome", version: "33", platform: "Windows 7", name: "gfx" },
+		{ browserName: "safari", version: "7", platform: "OS X 10.9", name: "gfx" },
 		// mobile:
-		{ browserName: "iphone", version: "7", platform: "OS X 10.9" }
+		{ browserName: "iphone", version: "7", platform: "OS X 10.9", name: "gfx" }
 		//, { browserName: "android", platform: "Android" }		not currently working
 	],
 
@@ -52,7 +52,7 @@ define({
 	suites: ["gfx/tests/unit/all"],
 
 	// Functional test suite(s) to run in each browser once non-functional tests are completed
-	functionalSuites: [ "gfx/tests/functional/all" ],
+	functionalSuites: ["gfx/tests/functional/all"],
 
 	// A regular expression matching URLs to files that should not be included in code coverage analysis
 	excludeInstrumentation: /^(requirejs|dcl|dojo|dcolor|delite|gfx\/tests)/
