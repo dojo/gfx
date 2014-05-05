@@ -33,5 +33,6 @@ define([
 	"./switchTo",
 	"./text",
 	"./textPath",
-	"./transform"
+	"./transform",
+	"./svgMask"
 ]);

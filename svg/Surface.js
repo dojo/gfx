@@ -1,7 +1,10 @@
 define([
-	"dcl/dcl", "dojo/dom", "../_base", "./_base", "../shape/_SurfaceBase", "./Container", "./Creator", "dojo/has",
-	"dojo/has!dojo-bidi?./bidi/Surface"
-], function (dcl, dom, g, svg, SurfaceBase, Container, Creator, has, BidiSurface) {
+	"require", "dcl/dcl", "dojo/dom", "../_base", "./_base", "../shape/_SurfaceBase", "./Container", "./Creator",
+	"dojo/has", "dojo/has!dojo-bidi?./bidi/Surface"
+], function (require, dcl, dom, g, svg, SurfaceBase, Container, Creator, has, BidiSurface) {
+
+	var cc = {};
+
 	var Surface = dcl([SurfaceBase, Container, Creator], {
 		// summary:
 		//		a surface object to be used for drawings (SVG)
@@ -77,7 +80,46 @@ define([
 				width: g.normalizedLength(this.rawNode.getAttribute("width")),
 				height: g.normalizedLength(this.rawNode.getAttribute("height"))
 			} : null; // Object
-		}
+		},
+
+		// SVG masks handling
+
+		createMask: dcl.superCall(function (sup) {
+			return function (arg) {
+				// summary:
+				//		creates an SVG mask shape
+				var n = "./Mask";
+				return this.createObject(cc[n] || (cc[n] = require(n)), arg);
+			};
+		}),
+		createShape: dcl.superCall(function (sup) {
+			return function (shape) {
+				if (shape.type === "mask") {
+					return this.createMask(shape);
+				}
+				return sup.apply(this, arguments);
+			};
+		}),
+		add: dcl.superCall(function (sup) {
+			return function (shape) {
+				if (shape.shape.type === "mask") {
+					this.defNode.appendChild(shape.rawNode);
+					shape.parent = this;
+				} else {
+					sup.apply(this, arguments);
+				}
+			};
+		}),
+		remove: dcl.superCall(function (sup) {
+			return function (shape) {
+				if (shape.shape.type === "mask" && this.defNode === shape.rawNode.parentNode) {
+					this.defNode.removeChild(shape.rawNode);
+					shape.parent = null;
+				} else {
+					sup.apply(this, arguments);
+				}
+			};
+		}),
 	});
 	return has("dojo-bidi") ? dcl([Surface, BidiSurface], {}) : Surface;
 });
