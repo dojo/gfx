@@ -84,14 +84,12 @@ define([
 
 		// SVG masks handling
 
-		createMask: dcl.superCall(function (sup) {
-			return function (arg) {
-				// summary:
-				//		creates an SVG mask shape
-				var n = "./Mask";
-				return this.createObject(cc[n] || (cc[n] = require(n)), arg);
-			};
-		}),
+		createMask: function (arg) {
+			// summary:
+			//		creates an SVG mask shape
+			var n = "./Mask";
+			return this.createObject(cc[n] || (cc[n] = require(n)), arg);
+		},
 		createShape: dcl.superCall(function (sup) {
 			return function (shape) {
 				if (shape.type === "mask") {

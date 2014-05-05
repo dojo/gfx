@@ -1,6 +1,6 @@
 ﻿define([
 	"require", "intern!object", "intern/chai!assert", "../utils/testUtils", "gfx/gfx", "gfx/svg/Mask"
-], function (require, registerSuite, assert, tu, gfx) {
+], function (require, registerSuite, assert, tu) {
 	var surface;
 
 	registerSuite({
