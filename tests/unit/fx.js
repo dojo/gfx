@@ -8,7 +8,7 @@
 	var duration = 1000;
 
 	function testAnim(testSuite, anim, testFunction) {
-		var d = testSuite.async(anim.duration * 10);
+		var d = testSuite.async(anim.duration * 30);
 		advise.after(anim, "onAnimate", function () {
 			try {
 				testFunction(anim.easing(anim._percent));
