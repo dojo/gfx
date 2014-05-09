@@ -782,7 +782,7 @@ define([
 		//		a constant regular expression used to split a SVG path into primitive components
 		// tags:
 		//		private
-		pathSvgRegExp: /([A-Za-z])|(\d+(\.\d+)?)|(\.\d+)|(-\d+(\.\d+)?)|(-\.\d+)/g,
+		pathSvgRegExp: /([A-DF-Za-df-z])|([-+]?\d*[.]?\d+(?:[eE][-+]?\d+)?)/g,
 
 		equalSources: function (a, b) {
 			// summary:

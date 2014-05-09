@@ -34,7 +34,7 @@
 		},
 		"absolute path with cubic bezier": function () {
 			legend.innerHTML = "absolute path with cubic bezier";
-			path = surface.createPath("M100 100 200 100 200 200C200 250 150 250 100 200S50 100 100 100z");
+			path = surface.createPath("M100 100 200 100 200 200C200 250 150 250 1E2 200S50 1E2 1E2 100z");
 			path.stroke = {color: "black", style: "longdash", width: 3};
 			path.fill = "#f80";
 			path.transform = {dx: -50, dy: -50};
@@ -62,7 +62,7 @@
 		},
 		"relative path with quadratic beziers": function () {
 			legend.innerHTML = "relative path with quadratic beziers";
-			path = surface.createPath("m100 100 100 0 0 100q0 50-75-25t-25-75z");
+			path = surface.createPath("m100 1E2 1E2 0 0 100q0 50-75-25t-25-75z");
 			path.stroke = {color: "black", style: "longdash", width: 3};
 			path.fill = "green";
 			path.transform = {dx: -50, dy: -50};
@@ -76,7 +76,7 @@
 		},
 		"absolute path with quadratic bezier": function () {
 			legend.innerHTML = "absolute path with quadratic bezier";
-			path = surface.createPath("M100 100 200 100 200 200Q200 250 125 175T100 100z");
+			path = surface.createPath("M100 1E2 200 1E2 200 200Q200 250 125 175T100 100z");
 			path.stroke = {color: "black", style: "longdash", width: 3};
 			path.fill = "blue";
 			path.transform = {dx: -50, dy: -50};
@@ -90,7 +90,7 @@
 		},
 		"relative path with horizontal and vertical lines, and quadratic beziers": function () {
 			legend.innerHTML = "relative path with horizontal and vertical lines, and quadratic beziers";
-			path = surface.createPath("m100 100h100v100q0 50-75-25t-25-75z");
+			path = surface.createPath("m100 100h100v1E2q0 50-75-25t-25-75z");
 			path.stroke = {color: "black", style: "longdash", width: 3};
 			path.fill = "#f0f";
 			path.transform = {dx: -50, dy: -50};
