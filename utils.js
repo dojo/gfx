@@ -1,7 +1,7 @@
 define([
-	"dojo/_base/kernel", "dojo/_base/lang", "./_base", "dojo/_base/window", "dojo/_base/json", "dojo/_base/Deferred",
+	"dojo/_base/kernel", "dojo/_base/lang", "./_base", "dojo/_base/window", "dojo/Deferred",
 	"dojo/_base/sniff", "require", "dojo/_base/config", "dcl/dcl"
-], function (kernel, lang, g, win, jsonLib, Deferred, has, require, config, dcl) {
+], function (kernel, lang, g, win, Deferred, has, require, config, dcl) {
 	var gu = g.utils = {};
 
 	var classesRequired, Surface, Group;
@@ -102,7 +102,7 @@ define([
 			//		Indicates whether the output string should be formatted.
 			// returns: String
 
-			return jsonLib.toJson(gu.serialize(object), prettyPrint);	// String
+			return JSON.stringify(gu.serialize(object), prettyPrint?"\t":null);	// String
 		},
 
 		deserialize: function (parent, object) {
@@ -143,7 +143,7 @@ define([
 			// json: String
 			//		The shapes to deserialize.
 
-			return gu.deserialize(parent, jsonLib.fromJson(json));	// Array|gfx/shape.Shape
+			return gu.deserialize(parent, JSON.parse(json));	// Array|gfx/shape.Shape
 		},
 
 		toSvg: function (/*gfx/shape.Surface*/surface) {
@@ -168,9 +168,9 @@ define([
 				//If we're already in SVG mode, this is easy and quick.
 				try {
 					var svg = gu._cleanSvg(gu._innerXML(surface.rawNode));
-					deferred.callback(svg);
+					deferred.resolve(svg);
 				} catch (e) {
-					deferred.errback(e);
+					deferred.reject(e);
 				}
 			} else {
 				//Okay, now we have to get creative with hidden iframes and the like to
@@ -210,19 +210,19 @@ define([
 								surface.clear();
 								surface.destroy();
 								gu._gfxSvgProxy.document.body.removeChild(node);
-								deferred.callback(svg);
+								deferred.resolve(svg);
 							} catch (e) {
-								deferred.errback(e);
+								deferred.reject(e);
 							}
 						};
 						ts.whenLoaded(null, draw);
 					} catch (ex) {
-						deferred.errback(ex);
+						deferred.reject(ex);
 					}
 				};
 				//See if we can call it directly or pass it to the deferred to be
 				//called on initialization.
-				if (gu._initSvgSerializerDeferred.fired > 0) {
+				if (gu._initSvgSerializerDeferred.isRejected() > 0) {
 					serializer();
 				} else {
 					gu._initSvgSerializerDeferred.addCallback(serializer);
@@ -242,7 +242,7 @@ define([
 			//		Internal function to call when the serializer init completed.
 			// tags:
 			//		private
-			gu._initSvgSerializerDeferred.callback(true);
+			gu._initSvgSerializerDeferred.resolve(true);
 		},
 
 		_initSvgSerializer: function () {
