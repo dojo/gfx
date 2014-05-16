@@ -1,6 +1,6 @@
 define([
-	"dojo/_base/kernel", "dojo/_base/lang", "./_base", "dojo/_base/window", "dojo/Deferred",
-	"dojo/_base/sniff", "require", "dojo/_base/config", "dcl/dcl"
+	"dojo/_base/kernel", "dojo/_base/lang", "./_base", "dojo/_base/window", "dojo/Deferred", "dojo/_base/sniff",
+	"require", "dojo/_base/config", "dcl/dcl"
 ], function (kernel, lang, g, win, Deferred, has, require, config, dcl) {
 	var gu = g.utils = {};
 
@@ -102,7 +102,7 @@ define([
 			//		Indicates whether the output string should be formatted.
 			// returns: String
 
-			return JSON.stringify(gu.serialize(object), prettyPrint?"\t":null);	// String
+			return JSON.stringify(gu.serialize(object), prettyPrint ? "\t" : null);	// String
 		},
 
 		deserialize: function (parent, object) {

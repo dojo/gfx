@@ -6,10 +6,9 @@ env:
 language: node_js
 node_js: 0.10
 install:
-   - npm -g install jshint
-   - npm -g install bower
+   - npm install -g grunt-cli
+   - npm install -g bower
    - npm install
    - bower install
 script:
-  - jshint .
-  - node node_modules/intern/runner.js config=tests/intern
+  - grunt jshint test:remote

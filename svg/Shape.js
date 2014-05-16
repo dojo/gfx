@@ -454,17 +454,17 @@ define([
 		//		An SVG mask to apply to this shape. See gfx/svg/Mask.
 		mask: null,
 
-		_setMaskAttr: function(/*gfx/svg/Mask*/mask){
+		_setMaskAttr: function (/*gfx/svg/Mask*/mask) {
 			// summary:
 			//		Sets a mask object (SVG)
 			// mask:
 			//		The mask object
 
 			var rawNode = this.rawNode;
-			if(mask){
-				rawNode.setAttribute("mask", "url(#"+mask.shape.id+")");
+			if (mask) {
+				rawNode.setAttribute("mask", "url(#" + mask.shape.id + ")");
 				this._set("mask", mask);
-			}else{
+			} else {
 				rawNode.removeAttribute("mask");
 				this._set("mask", null);
 			}
