@@ -1,6 +1,6 @@
 define([
 	"dojo/_base/lang", "dcl/dcl", "dojo/_base/sniff", "dojo/on", "./_EventsProcessing", "./_ContainerBase",
-	"./_CreatorBase", "delite/Stateful"
+	"./_CreatorBase", "decor/Stateful"
 ], function (lang, dcl, has, on, EventsProcessing, Container, Creator, Stateful) {
 
 	function _empty(/*DomNode*/ node) {
