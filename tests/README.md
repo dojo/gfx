@@ -81,7 +81,3 @@ Currently only the reporters are provided as optional flags
    * lcovhtml
    * console
 
-
-
-
-
