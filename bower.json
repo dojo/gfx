@@ -6,9 +6,9 @@
 		"dijit": ">=1.9.1",
 		"requirejs": "2.1.x",
 		"dcl": "1.1.x",
-		"decor": "0.2.0-beta",
+		"decor": "0.2.0-dev",
 		"dcolor": "0.1.x",
-		"dbidi": "0.1.1-beta",
+		"dbidi": "0.1.x",
 		"dpointer": "0.1.x"
 	},
 	"ignore": [
