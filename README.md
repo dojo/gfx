@@ -1,4 +1,4 @@
-GFX  [![Build Status](https://travis-ci.org/ibm-js/gfx.svg?branch=master)](https://travis-ci.org/ibm-js/gfx)
+GFX  [![Build Status](https://travis-ci.org/dojo/gfx.svg?branch=master)](https://travis-ci.org/dojo/gfx)
 ===
 
 This repository contains a prototype implementation of GFX based on Dojo 2.0.
